@@ -1,0 +1,8 @@
+mw_api_client
+wikitextparser
+requests
+
+praw
+fuzzywuzzy
+python-Levenshtein
+html_sanitizer

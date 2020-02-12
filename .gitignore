@@ -1,0 +1,8 @@
+archived/*
+mv.cache
+skyjedi/*
+.env/*
+.vscode/*
+*.swp
+__pycache__/*
+passwords.py
