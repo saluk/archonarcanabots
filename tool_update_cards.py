@@ -4,6 +4,7 @@ import carddb
 import wikibase
 from card_model_1 import CardPage
 
+
 NO_SAVE = 0
 SAVE_SANDBOX = 1
 SAVE_FULL = 2
@@ -60,67 +61,16 @@ def create_card_page(wp, card, load_existing=True, update_mode=NO_SAVE,
     return True
 
 
-def to_cargo_table(d):
-    text = "{{%s\n" % d["cargoname"]
-    for key in d:
-        if key == "cargoname":
-            continue
-        text += "|%s=%s\n" % (key, d[key])
-    text += "}}"
-    return text
-
-
-def create_card_page_cargo(wp, card, update_reason=""):
-    latest = carddb.get_latest_from_card(card)
-    page = wp.page("CardData:" + latest["card_title"])
-    print(card)
-    print(page)
-    cardtable = {
-        "cargoname": "CardData",
-        "Name": latest["card_title"] or crash,
-        "Image": latest["front_image"] or crash,
-        "Artist": "",
-        "Text": latest["card_text"] or "",
-        "Keywords": " • ".join(latest["keywords"]),
-        "FlavorText": latest["flavor_text"] or "",
-        "Power": latest["power"] or "",
-        "Armor": latest["armor"] or "",
-        "Amber": latest["amber"] or "",
-        "Type": latest["card_type"] or crash,
-        "House": latest["house"] or "",
-        "Traits": latest["traits"] or "",
-        "Rarity": latest["rarity"] or crash
-    }
-    text = to_cargo_table(cardtable)
-    for (set_name, set_num, card_num) in carddb.get_sets(card):
-        text += "\n"+to_cargo_table({
-            "cargoname": "SetData",
-            "SetName": set_name,
-            "SetNumber": set_num,
-            "CardNumber": card_num
-        })
-    """ot = page.read().replace("\u202f", " ")
-    if text != ot:
-        #print(ot)
-        #print(text)
-        import difflib
-        print("DIFF")
-        for l in difflib.unified_diff([ot], [text]):
-            print(repr(l))
-        print("Changing", latest["card_title"])
-        cont = input("Continue?:")
-        if cont != "yes":
-            crash"""
-    if "nochange" in page.edit(text, update_reason).get("edit", {"nochange": ""}):
-        return None
-    return text
-
-
 def update_card_page_cargo(wp, card, update_reason=""):
     latest = carddb.get_latest_from_card(card)
     page = wp.page("CardData:" + latest["card_title"])
     ct = wikibase.CargoTable()
-    ct.read_from_text(page.read())
+    ot = ""
+    try:
+        ot = page.read()
+        ct.read_from_text(page.read())
+    except Exception:
+        pass
     cardtable = {
         "Name": latest["card_title"] or crash,
         "Image": latest["front_image"] or crash,
@@ -145,7 +95,6 @@ def update_card_page_cargo(wp, card, update_reason=""):
         }
         ct.update_or_create("SetData", set_name, settable)
     text = ct.output_text()
-    ot = page.read().replace("\u202f", " ")
     if text != ot:
         print("TEXT CHANGE:")
         #print(ot)
