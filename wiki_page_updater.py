@@ -18,4 +18,10 @@ if __name__ == "__main__":
     else:
         if sys.argv[1] == "import_cards2":
             search = sys.argv[2] if len(sys.argv) == 3 else None
-            tool_update_cards.update_cards_v2(wp, search)
+            tool_update_cards.update_cards_v2(wp, search, "importing card data", "carddb")
+        if sys.argv[1] == "import_artist":
+            search = sys.argv[2] if len(sys.argv) == 3 else None
+            tool_update_cards.update_cards_v2(wp, search, "pulling artist", "artist")
+        if sys.argv[1] == "cargo_to_card":
+            search = sys.argv[2] if len(sys.argv) == 3 else None
+            tool_update_cards.update_cards_v2(wp, search, "put card query on card", "cargo_to_card")

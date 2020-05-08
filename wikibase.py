@@ -108,13 +108,11 @@ class CargoTable:
 
     def output_text(self):
         def write_item(item):
-            print("write:", item)
             t = "{{%s\n" % item["type"]
             del item["type"]
             for k in item:
                 t += "|%s=%s\n" % (k, item[k])
             t += "}}"
-            print("return t", t)
             return t
         t = ""
         for datatype in self.data_types:

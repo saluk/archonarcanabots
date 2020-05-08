@@ -5,7 +5,6 @@ import carddb
 
 
 class CardSection(Section):
-
     def add_set(self, setname, setnum):
         if "sets" not in self.data:
             self.data["sets"] = {}
@@ -52,7 +51,6 @@ class CardSection(Section):
         key = key.lower().strip().replace(" ", "_")
         if key.startswith("sets"):
             key = "sets"
-        print("PROCESS", key, val)
         if key == "sets":
             for setd in val.split(","):
                 num_in_paren = re.compile(r".*\((.+)\)")
@@ -72,7 +70,6 @@ class CardSection(Section):
     def process_artist(self, cell):
         if "artist" in self.data:
             return
-        print("PROCESSING ARTIST")
         self.data["artist"] = cell.strip()
         self.data["table_original"].append(("artist", cell))
 
@@ -97,7 +94,6 @@ class CardSection(Section):
         self.data["header"] = None
         self.data["table_original"] = []
         self.process_table(wikitable.search(rest).group(0))
-        print(self.data)
         return ""
 
     def link_category(self, text):
@@ -259,3 +255,63 @@ class CardPage(object):
             self.sections[0].data[field] = value1
         else:
             self.sections[0].add_stat(field, value1)
+
+    def build_from_card(self, card):
+        self.edit_card_field("card_title", card["card_title"])
+        self.edit_card_field("card_text", card["card_text"])
+        self.edit_card_field("traits", card["traits"])
+        for exp in card["sets"]:
+            self.edit_card_field("sets", exp[0], exp[1])
+        self.edit_card_field("armor", card["armor"])
+        self.edit_card_field("power", card["power"])
+        self.edit_card_field("amber", card["amber"])
+        self.edit_card_field("house", card["house"])
+        self.edit_card_field("type", card["card_type"])
+        self.edit_card_field("rarity", card["rarity"])
+        self.edit_card_field("image", card["front_image"])
+
+
+class CardQuerySection(Section):
+    def output(self):
+        return "{{Card Query}}\n"
+
+
+def pull_artist(card, ct, wp):
+    card = carddb.get_latest_from_card(card)
+    old_page = wp.page(card["card_title"])
+    card_page = CardPage()
+    card_page.from_text(old_page.read())
+    artist = card_page.sections[0].data["artist"]
+    artist = re.sub(r"artist\:", "", artist, flags=re.IGNORECASE)
+    wikilinks = wtp.parse(artist).wikilinks
+    if wikilinks:
+        artist = wikilinks[0].target
+    artist = artist.strip()
+    ct.update_or_create("CardData", card["card_title"], {
+        "Artist": artist
+    })
+
+
+def replace_old_card_text(card_title, ot):
+    card_page = CardPage()
+    card_page.from_text(ot)
+    card_page.sections[0] = CardQuerySection("")
+    for i, section in enumerate(card_page.sections[:]):
+        if section.name:
+            if section.name.replace("=","").lower().strip() not in [
+                "faq",
+                "unofficial faq",
+                "commentary",
+                "references"
+            ]:
+                del card_page.sections[i]
+    text = card_page.output()
+    text = text.replace("{{SEO}}", "")
+    return text
+
+
+if __name__=="__main__":
+    import connections
+    wp = connections.get_wiki()
+    # ct = wikibase.CargoTable()
+    replace_old_card_text("Bait and Switch", wp)

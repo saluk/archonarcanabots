@@ -228,9 +228,38 @@ def get_latest(card_title, fuzzy=False):
     return card
 
 
+def get_cargo(card, ct):
+    latest = get_latest_from_card(card)
+    cardtable = {
+        "Name": latest["card_title"] or crash,
+        "Image": latest["front_image"] or crash,
+        "Artist": "",
+        "Text": latest["card_text"] or "",
+        "Keywords": " • ".join(latest["keywords"]),
+        "FlavorText": latest["flavor_text"] or "",
+        "Power": latest["power"] or "",
+        "Armor": latest["armor"] or "",
+        "Amber": latest["amber"] or "",
+        "Type": latest["card_type"] or crash,
+        "House": latest["house"] or "",
+        "Traits": latest["traits"] or "",
+        "Rarity": latest["rarity"] or crash
+    }
+    ct.update_or_create("CardData", latest["card_title"], cardtable)
+    for (set_name, set_num, card_num) in get_sets(card):
+        settable = {
+            "SetName": set_name,
+            "SetNumber": set_num,
+            "CardNumber": card_num
+        }
+        ct.update_or_create("SetData", set_name, settable)
+
+
 if __name__ == "__main__":
-    load_from_mv_files()
+    load_json()
+    print(len(cards))
+    #load_from_mv_files()
 else:
     load_json()
 
-assert(get_latest("A Fair Game")["expansion"] == 452), get_latest("A Fair Game")["expansion"]
+#assert(get_latest("A Fair Game")["expansion"] == 452), get_latest("A Fair Game")["expansion"]
