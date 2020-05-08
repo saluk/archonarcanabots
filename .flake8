@@ -1,0 +1,4 @@
+[flake8]
+#ignore = F405  #unimported from *
+#ignore = F403  #import *
+max-line-length = 120
