@@ -129,4 +129,6 @@ class CargoTable:
             self.data_types[datatype] = {}
         if key not in self.data_types[datatype]:
             self.data_types[datatype][key] = {}
+        if "type" not in data:
+            data["type"] = datatype
         self.data_types[datatype][key].update(data)
