@@ -42,9 +42,9 @@ Poison
 Skirmish
 Taunt""".split("\n")
 
+# TODO - as if it were yours, if you do, center of the battleline, preceding, instead and splash
 replacement_links = {
     "ward": "Ward",
-    "archive": "Archives",
     "enrage": "Enrage",
     "exalt": "Exalt",
     "pay": "Pay",
@@ -55,18 +55,50 @@ replacement_links = {
     "stun": "Stun",
     "splash": "Splash",
     "search": "Search",
-    "return": "Return",
     "repeat": "Repeat",
+    "repeats": "Repeat",
+    "preceding": "Preceding",
+    "preceding effect": "Preceding",
+    "repeat the preceding effect": "Preceding",
     "purge": "Purge",
+    "purged": "Purge",
     "graft": "Graft",
+    "grafted": "Graft",
     "heal": "Heal",
-    "flank": "Flank"
+    "flank": "Flank",
+    "sacrifice": "Sacrifice",
+    "put into play": "Put Into Play",
+    "invulnerable": "Invulnerable",
+    "pay": "Pay",
+    "as if it were yours": "as if it were yours",
+    "if you do": "if you do",
+    "Center of your Battleline": "Center of the Battleline",
+    "instead": "Replacement Effects",
+    "forge a key": "Timing_Chart#Forge_a_Key",
+    "current cost": "Cost",
+    "cost": "Cost",
+    "spent": "Forge",
+    "spend": "Forge",
+    "forging keys": "Forge",
+    "take control": "Control",
+    "control": "Control",
+    "enhance": "Enhance",
+    # TODO 
+    "for each": "For each"
 }
+for kw in keywords:
+    replacement_links[kw.lower()] = kw.capitalize()
+
+remove_links = [
+    "return",
+    "archive",
+    "archives"
+]
 
 
 def pull_keywords(text):
     found = []
-    words = text.replace("\r",". ").split(".")
+    words = text.replace("\r", ". ").split(".")
     for w in words:
         for kw in keywords:
             if w.lower().strip().startswith(kw.lower()):
@@ -104,17 +136,80 @@ def modify_card_text(text, card_title, flavor_text=False):
     return text
 
 
-def linking_keywords(text):
-    for kw in keywords:
-        text = re.sub("(^|[^[])"+kw+"([^]]|$)", r"\1[["+kw.capitalize()+r"]]\2", text)
-    # TODO - we may pull these somewhere else
-    """for glossary in replacement_links:
-        text = re.sub(
-            "(^|[^[])("+glossary+")([^]]|$)", r"\1[[%s|\2]]\3" % replacement_links[glossary],
-            text,
-            flags=re.IGNORECASE
-        )"""
+card_title_reg = []
+
+
+blacklist_card_names = [
+    "fear"
+]
+
+
+def link_card_titles(text, original_title):
+    if not card_title_reg:
+        card_titles = [x for x in get_card_titles() if not x.lower() in blacklist_card_names]
+        card_titles = "|".join(card_titles).replace("(", r"\(").replace(")", r"\)")
+        card_titles = re.sub('["””“]', ".", card_titles)
+        card_title_reg.append(
+            re.compile(r"(^|[^[a-z\-])("+card_titles+r")([^\]a-z]|$)", flags=re.IGNORECASE)
+        )
+    crazy_reg = card_title_reg[0]
+    text = re.sub(crazy_reg, r"\1[[\2]]\3", text, count=1)
+    text = re.sub(r"\[\[(%s)\]\]" % original_title, r"\1", text, flags=re.IGNORECASE)
     return text
+
+
+def get_unidentified_characters():
+    wp = connections.get_wiki()
+    unidentified = wp.page("Category:Unidentified")
+    return [p.title for p in unidentified.categorymembers()]
+
+
+def linking_keywords(text):
+    for kw in remove_links:
+        text = re.sub(r"\[\[[^]]*?\|{0,1}("+kw+r")\]\]", r"\1", text, flags=re.IGNORECASE)
+    for kw in sorted(replacement_links, key=lambda s: -len(s)):
+        debracket = re.split(r"(\[\[.*?\]\])", text)
+        rep = not debracket[0].startswith("[[")
+        for i in range(len(debracket)):
+            if rep:
+                debracket[i] = re.sub(
+                    r"(^|[^\|a-z])(%s)([^\|a-z]|$)" % kw, r"\1[[%s|\2]]\3" % replacement_links[kw],
+                    debracket[i],
+                    count=1,
+                    flags=re.IGNORECASE
+                )
+            rep = not rep
+        text = "".join(debracket)
+    return text
+
+
+t1 = "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> After a creature reaps, stun it."
+t2 = "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> After a creature reaps, stun it."
+t3 = "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> After a creature reaps, [[Stun|stun]] it."
+assert linking_keywords(t1) == t3, linking_keywords(t1)
+assert linking_keywords(t2) == t3, linking_keywords(t2)
+assert linking_keywords(t3) == t3, linking_keywords(t3)
+t4 = "[[Skirmish]]. (When you use this creature to fight, it is dealt no damage in [[return]].) <p> Fight: Draw a card. "
+t5 = "[[Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.) <p> Fight: Draw a card. "
+assert (linking_keywords(t4)) == t5, linking_keywords(t4)
+t6 = "'''Play:''' [[Return|Return]] an enemy creature to its owner’s hand."
+t7 = "'''Play:''' Return an enemy creature to its owner’s hand."
+assert (linking_keywords(t6)) == t7, linking_keywords(t6)
+t8 = "'''Action:''' Purge a creature in play. If you do, your opponent gains control of Spangler Box. If Spangler Box leaves play, return to play all cards purged by Spangler Box."
+t9 = "'''Action:''' [[Purge|Purge]] a creature in play. [[if you do|If you do]], your opponent gains [[Control|control]] of Spangler Box. If Spangler Box leaves play, return to play all cards [[Purge|purged]] by Spangler Box."
+assert (linking_keywords(t8)) == t9, linking_keywords(t8)
+t10 = "During your turn, if Captain Val Jericho is in the center of your battleline, you may play one card that is not of the active house."
+t11 = "During your turn, if Captain Val Jericho is in the [[Center of the Battleline|center of your battleline]], you may play one card that is not of the active house."
+assert (linking_keywords(t10)) == t11, linking_keywords(t10)
+t12 = "After an enemy creature is destroyed while fighting, put a glory counter on The Colosseum. <p> '''Omni:''' If there are 6 or more glory counters on The Colosseum, remove 6 and forge a key at current cost."
+t13 = "After an enemy creature is destroyed while fighting, put a glory counter on The Colosseum. <p> '''Omni:''' If there are 6 or more glory counters on The Colosseum, remove 6 and [[Timing_Chart#Forge_a_Key|forge a key]] at [[Cost|current cost]]."
+assert (linking_keywords(t12)) == t13, linking_keywords(t12)
+t14 = "'''Play:''' Discard the top card of your opponent’s deck and reveal their hand. You gain 1{{Aember}} for each card of the discarded card’s house revealed this way. Your opponent [[Repeat|repeat]]s the preceding effect on you."
+t15 = "'''Play:''' Discard the top card of your opponent’s deck and reveal their hand. You gain 1{{Aember}} for each card of the discarded card’s house revealed this way. Your opponent [[Repeat|repeat]]s the [[Preceding|preceding effect]] on you."
+assert (linking_keywords(t14)) == t15, linking_keywords(t14)
+t16 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it for each friendly creature. You may exalt a friendly creature to repeat the preceding effect."
+t17 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it for each friendly creature. You may [[Exalt|exalt]] a friendly creature to [[Preceding|repeat the preceding effect]]."
+assert (linking_keywords(t16)) == t17, linking_keywords(t16)
 
 
 def safe_name(name):
@@ -176,17 +271,8 @@ def fuzzyfind(name, threshold=80):
     return matches[-1][0]
 
 
-def link_card_titles(text, original_title, card_titles):
-    card_titles = "|".join([x for x in card_titles if x!=original_title]).replace("(", r"\(").replace(")", r"\)")
-    crazy_reg = r"(^|[^[])("+card_titles+r")([^]]|$)"
-    text = re.sub(crazy_reg, r"\1[[\2]]\3", text)
-    return text
-
-
-def get_unidentified_characters():
-    wp = connections.get_wiki()
-    unidentified = wp.page("Category:Unidentified")
-    return [p.title for p in unidentified.categorymembers()]
+def get_card_titles():
+    return list(cards.keys()) + get_unidentified_characters()
 
 
 def load_from_mv_files(only=None):
@@ -203,13 +289,12 @@ def load_from_mv_files(only=None):
                     print("DUPLICATE:", card["card_title"])
                 card_name_index[title] = card
                 add_card(card)
-    card_titles = list(cards.keys()) + get_unidentified_characters()
     for card_title in cards:
         if only and card_title != only:
             continue
         card = get_latest(card_title)
-        card["flavor_text"] = link_card_titles(card["flavor_text"], card_title, card_titles)
-        card["card_text"] = link_card_titles(card["card_text"], card_title, card_titles)
+        card["flavor_text"] = link_card_titles(card["flavor_text"], card_title)
+        card["card_text"] = link_card_titles(card["card_text"], card_title)
     with open("my_card_db.json", "w") as f:
         f.write(json.dumps(cards, indent=2, sort_keys=True))
     print("saved.")
@@ -257,7 +342,11 @@ def get_cargo(card, ct):
 
 if __name__ == "__main__":
     load_json()
-    print(len(cards))
+    print(link_card_titles("something Orb of Wonder", "Lesser Oxtet"))
+    print(link_card_titles("something Orb of Wonder and Lesser Oxtet.", "Lesser Oxtet"))
+    print(link_card_titles("controller", "something"))
+    print(link_card_titles("So, this nonlethal [[containment field]]; how lethal do you want it?", "Containment Field"))
+    print(link_card_titles("“When you have eliminated the imp-ossible, whatever remains, however imp-robable, must be the truth.” – Quixo the ”Adventurer”", "Not Quixo"))
     #load_from_mv_files()
 else:
     load_json()

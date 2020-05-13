@@ -65,14 +65,16 @@ def cargo_index(table_type):
 
 def cargo_sort(table_type, table):
     sort_function = {
-        "SetData": lambda row: int(row["SetNumber"])
+        "SetData": lambda row: int(row["SetNumber"]),
+        "ErrataData": lambda row: float(row["Version"] if row["Version"] else 0),
+        "AltArt": lambda row: (int(row["Year"]), row["File"])
     }.get(table_type, None)
     if sort_function:
         return sorted(table, key=sort_function)
-    key = cargo_index(table_type)
-    if key:
-        return sorted(table, key=lambda row: row[key])
-    return sorted(table)
+    defkey = cargo_index(table_type)
+    if defkey:
+        return sorted(table, key=lambda row: row[defkey])
+    raise Exception("No defined sort for table", table_type, table)
 
 
 class CargoTable:
@@ -117,6 +119,7 @@ class CargoTable:
         t = ""
         for datatype in self.data_types:
             typeset = self.data_types[datatype]
+            print(typeset)
             for value in cargo_sort(datatype, typeset.values()):
                 t += write_item(value)+"\n"
         t = t[:-1]
@@ -130,3 +133,9 @@ class CargoTable:
         if "type" not in data:
             data["type"] = datatype
         self.data_types[datatype][key].update(data)
+
+    def get_datas(self, datatype):
+        return [self.data_types[datatype][key] for key in self.data_types[datatype]]
+
+    def get_data(self, datatype):
+        return self.get_datas(datatype)[0]
