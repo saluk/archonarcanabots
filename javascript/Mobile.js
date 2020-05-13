@@ -5,6 +5,6 @@ $.when(
 )
 	.then(function() {
 		console.log("loaded external js");
-        init_dpl_search(10);
+        //init_dpl_search(10);
         init_cargo_search();
 });

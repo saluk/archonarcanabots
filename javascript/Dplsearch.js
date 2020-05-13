@@ -1,6 +1,6 @@
 /* Any JavaScript here will be loaded for all users on every page load. */
-var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star Alliance','Shadows','Untamed'];
-var sets = ['Call of the Archons', 'Age of Ascension', 'Worlds Collide', 'Mass Mutation'];
+var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance','Shadows','Untamed','Anomaly'];
+var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation'];
 var types = ['Creature', 'Artifact', 'Upgrade', 'Action'];
 var house_arg = 'DPL_arg1';
 var set_arg = 'DPL_arg2';
@@ -25,9 +25,10 @@ var house_images = {
 	'Mars': 'https://archonarcana.com/images/d/de/Mars.png',
 	'Sanctum': 'https://archonarcana.com/images/c/c7/Sanctum.png',
 	'Saurian': 'https://archonarcana.com/images/9/9e/Saurian_P.png',
-	'Star Alliance': 'https://archonarcana.com/images/7/7d/Star_Alliance.png',
+	'Star_Alliance': 'https://archonarcana.com/images/7/7d/Star_Alliance.png',
 	'Shadows': 'https://archonarcana.com/images/e/ee/Shadows.png',
-	'Untamed': 'https://archonarcana.com/images/b/bd/Untamed.png'
+	'Untamed': 'https://archonarcana.com/images/b/bd/Untamed.png',
+	'Anomaly': 'https://archonarcana.com/images/thumb/a/a1/Anomaly_icon.png/40px-Anomaly_icon.png'
 };
 
 var buildCategoryList = function(line_length, parent, categoryArray, searches, labelText, images) {
@@ -58,7 +59,7 @@ var buildCategoryList = function(line_length, parent, categoryArray, searches, l
 			var img = span.appendChild(document.createElement('img'));
 			img.setAttribute('src',house_images[category]);
 		} else {
-			span.appendChild(document.createTextNode(category));
+			span.appendChild(document.createTextNode(category.replace(/_/g, ' ')));
 		}
 		
 		parent.appendChild(input);
@@ -114,7 +115,7 @@ var buildSubmitButton = function(parent) {
 	submit.appendChild(document.createTextNode('search'));
 	//submit.setAttribute('onClick','doSearch()');
 	submit.addEventListener ("click", doSearch, false);
-	parent.appendChild(submit);
+	//parent.appendChild(submit);
 	parent.appendChild(document.createElement('br'));
 };
 
@@ -131,7 +132,9 @@ var buildViewCardsForm = function(line_length) {
 	buildCategoryList(line_length, form, sets, searches[set_arg], "Sets:", false);
     buildCategoryList(line_length, form, types, searches[type_arg], "Types:", false);
     $(form).append('<label for="cardname">Card Name: </label>');
-    $(form).append('<input name="cardname" value="'+parseQueryString('cardname')+'" />');
+	$(form).append('<input name="cardname" value="'+parseQueryString('cardname')+'" />');
+    $(form).append('<label for="cardtext">Card Text: </label>');
+    $(form).append('<input name="cardtext" value="'+parseQueryString('cardtext')+'" />');
 	buildSubmitButton(form);
 	document.getElementById('viewcards_form').appendChild(form);
 };

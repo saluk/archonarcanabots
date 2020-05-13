@@ -1,3 +1,7 @@
+var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance','Shadows','Untamed','Anomaly'];
+var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation'];
+var types = ['Creature', 'Artifact', 'Upgrade', 'Action'];
+
 var parseQueryString = function (argument) {
   console.log(window.location.href)
   var res = '[\\?&]' + argument + '=([^&#]*)'
@@ -20,6 +24,7 @@ var updateResults = function (resultsArray) {
     var card = resultsArray[i]
     var el = ''
     el += ' <a href="/' + card.title.Name + '">'
+    // el += '<img alt="452-101.png" src="/images/thumb/1/17/452-101.png/300px-452-101.png" decoding="async" srcset="/images/thumb/1/17/452-101.png/450px-452-101.png 1.5x, /images/1/17/452-101.png 2x" data-file-width="600" data-file-height="840" width="300" height="420">'
     el += '<img width=200 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
     el += '</a> '
     resultsTab.append(el)
@@ -32,7 +37,7 @@ var joined = function (pre, ar, post, logic) {
       return item
     })
     nar = nar.map(function (item) {
-      return pre + item + post
+      return pre + item.replace(/\_/g, '%20') + post
     })
     if (nar.length > 0) {
       return '(' + nar.join('%20' + logic + '%20') + ')'
@@ -42,6 +47,7 @@ var joined = function (pre, ar, post, logic) {
 }
 
 var CSearch = {
+  element: undefined,
   offset: 0,
   pageSize: 20,
   totalCount: 0,
@@ -49,22 +55,75 @@ var CSearch = {
   types: [],
   sets: [],
   names: [],
+  texts: [],
   loadingCards: false,
   loadingCount: false,
-  init: function (ihouses, isets, itypes, name, offset, pageSize) {
+  requestcount: 0,
+  init: function (ihouses, isets, itypes, name, itexts, offset, pageSize) {
     this.houses = ihouses.split('|')
     this.types = itypes.split('|')
     this.sets = isets.split('|')
     this.names = [name]
+    this.texts = itexts.split('|')
+    console.log(this.texts)
     this.offset = Number.parseInt(offset)
     this.pageSize = Number.parseInt(pageSize)
+    this.element = $('#cargo_results');
+    if(this.element.attr('data-houses')) {
+      this.houses = this.element.attr('data-houses').split('|')
+    }
+  },
+  initForm: function() {
+    var self=CSearch
+    var ihouses = []
+    houses.map(function(house) {
+      var box = $('#category_' + house)
+      if(box[0].checked) {
+        ihouses.push(house)
+      }
+    })
+    self.houses = ihouses;
+    var isets = []
+    sets.map(function(set) {
+      var box = $('#category_' + set)
+      if(box[0].checked) {
+        isets.push(set)
+      }
+    })
+    self.sets = isets;
+    var itypes = []
+    types.map(function(t) {
+      var box = $('#category_' + t)
+      if(box[0].checked) {
+        itypes.push(t)
+      }
+    })
+    self.types = itypes;
+    self.names = [$('[name=cardname]')[0].value]
+    self.texts = $('[name=cardtext]')[0].value.split('|')
+    self.offset = 0
+    self.newSearch()
+  },
+  newSearch: function() {
+    if(CSearch.loadingCount) CSearch.loadingCount.abort()
+    if(CSearch.loadingCards) CSearch.loadingCards.abort()
+    CSearch.requestcount ++
+    CSearch.element.empty()
+    CSearch.element.append("<span id='result_count'></span>")
+    CSearch.loadCount();
+    CSearch.load();
   },
   searchString: function (returnType) {
     var where = joined('', [joined('House=%22', this.houses, '%22', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
       joined('SetName=%22', this.sets, '%22', 'OR'),
-      joined('CardData.Name%20LIKE%20%22%25', this.names, '%25%22', 'OR')],
-    '', 'AND')
+      joined('CardData.Name%20LIKE%20%22%25', this.names, '%25%22', 'OR'),
+      joined('', [
+        joined('CardData.Text%20LIKE%20%22%25', this.texts, '%25%22', 'OR'),
+        joined('CardData.FlavorText%20LIKE%20%22%25', this.texts, '%25%22', 'OR')],
+        '', 'OR')
+      ],
+      '', 'AND')
     where = '&where=' + where
     var fields = ['Name', 'House', 'Type', 'Image'].join('%2C')
     fields = '&fields=' + fields
@@ -88,25 +147,26 @@ var CSearch = {
     return q
   },
   load: function() {
-    this.loadingCards = true;
-    var self = this;
-    $('#cargo_results').append('<div class="loader">Loading...</div>')
-    $.ajax(CSearch.searchString('data'),
+    this.element.append('<div class="loader">Loading...</div>')
+    var self = this
+    self.loadingCards = $.ajax(this.searchString('data'),
       {
         success: function (data, status, xhr) {
+          if(xhr.requestcount<self.requestcount) return
           console.log(data)
           updateResults(data.cargoquery)
           self.loadingCards = false
         }
       }
     )
+    self.loadingCards.requestcount = self.requestcount
   },
   loadCount: function() {
-    this.loadingCount = true;
-    var self = this;
-    $.ajax(CSearch.searchString('count'),
+    var self=this
+    self.loadingCount = $.ajax(CSearch.searchString('count'),
       {
         success: function (data, status, xhr) {
+          if(xhr.requestcount<self.requestcount) return
           self.totalCount = Number.parseInt(data.cargoquery[0].title['Name)'])
           console.log("totalcount = " + self.totalCount)
           self.loadingCount = false
@@ -115,6 +175,7 @@ var CSearch = {
         }
       }
     )
+    self.loadingCount.requestcount = self.requestcount
   },
   nextPage: function() {
     if(this.offset + this.pageSize >= this.totalCount){
@@ -135,27 +196,34 @@ var CSearch = {
   }
 }
 
-var cargoQuery = function (ihouses, isets, itypes, name, offset, limit) {
+var cargoQuery = function (ihouses, isets, itypes, name, itexts, offset, limit) {
   // Send cargo query
   if (!offset) {
     offset = 0
   }
-  CSearch.init(ihouses, isets, itypes, name, offset, limit)
-  var resultsTab = $('#cargo_results')
-  resultsTab.empty()
-  resultsTab.append("<span id='result_count'></span>")
-  CSearch.loadCount();
-  CSearch.load();
+  CSearch.init(ihouses, isets, itypes, name, itexts, offset, limit)
+  CSearch.newSearch();
   window.addEventListener("scroll", CSearch.listenScroll);
+  $('[type=checkbox][name=category]').map(function (i) {
+    $('[type=checkbox][name=category]')[i].addEventListener('change', CSearch.initForm)
+  })
+  $('[name=cardtext]').map(function (i) {
+    $('[name=cardtext]')[i].addEventListener('input', CSearch.initForm)
+  })
+  $('[name=cardname]').map(function (i) {
+    $('[name=cardname]')[i].addEventListener('input', CSearch.initForm)
+  })
 };
 
 var init_cargo_search = function () {
   console.log('initing cargo search')
+  init_dpl_search(10);
   if (document.getElementById('cargo_results')) {
     cargoQuery(parseQueryString('DPL_arg1'),
       parseQueryString('DPL_arg2'),
       parseQueryString('DPL_arg3'),
       parseQueryString('cardname'),
+      parseQueryString('cardtext'),
       parseQueryString('DPL_offset'),
       20)
   }
