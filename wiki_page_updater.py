@@ -3,7 +3,6 @@
 
 import sys
 import connections
-import tool_update_cards
 
 # TODO - add templates to appropriate pages
 # TODO - create artist pages that list their cards
@@ -17,11 +16,21 @@ if __name__ == "__main__":
         print("python wiki_page_updater import_cards2 TimeTraveller")
     else:
         if sys.argv[1] == "import_cards2":
+            import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None
             tool_update_cards.update_cards_v2(wp, search, "importing card data", "carddb")
         if sys.argv[1] == "import_artist":
+            import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None
             tool_update_cards.update_cards_v2(wp, search, "pulling artist", "artist")
         if sys.argv[1] == "cargo_to_card":
+            import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None
             tool_update_cards.update_cards_v2(wp, search, "put card query on card", "cargo_to_card")
+        if sys.argv[1] == "relink":
+            import tool_update_cards
+            search = sys.argv[2] if len(sys.argv) == 3 else None
+            tool_update_cards.update_cards_v2(wp, None, "relink card data", "relink", matching=search)
+        if sys.argv[1] == "javascript":
+            from javascript import upload
+            upload.upload()
