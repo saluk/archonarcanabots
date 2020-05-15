@@ -27,6 +27,9 @@ class EditField {
     return this.getElements()[0]
   }
   getElements() {
+    if(this.type === 'int') {
+      return [$('[name='+this.field+'_min')[0], $('[name='+this.field+'_max')[0]]
+    }
     return $('[name='+this.field+']')
   }
   addElement(form) {
@@ -37,6 +40,13 @@ class EditField {
     if (this.type === 'text') {
       $(form).append('<label for="' + this.field + '">' + this.label + ': </label>')
       $(form).append('<input name="' + this.field + '" value="' + parseQueryString(this.field) + '" />')
+    }
+    if (this.type === 'int') {
+      $(form).append([
+        '<label for="' + this.field + '">' + this.label + ': </label>',
+        '<input type="number" name="' + this.field + '_min" min="0" max="50" width="5">',
+        '<input type="number" name="' + this.field + '_max" min="0" max="50" width="5">'
+      ].join(''))
     }
     if (this.type === 'checkbox') {
       $(form).append('<span>' + this.label + ': </span>')
@@ -75,6 +85,12 @@ class EditField {
       }
       return [val]
     }
+    else if(this.type === 'int') {
+      return {
+        min: this.getElements()[0].value,
+        max: this.getElements()[1].value
+      }
+    }
     else if(this.type === 'checkbox') {
       var li = []
       var el = this.getElements()
@@ -101,20 +117,23 @@ class EditField {
       el.map(function(i) {
         el[i].addEventListener('change', event)
       })
+    } else if(this.type === 'int') {
+      this.getElements()[0].addEventListener('input', event)
+      this.getElements()[1].addEventListener('input', event)
     }
   }
 }
 
 var searchFields = [
-  new EditField('checkbox', 'houses', 'Houses', '', houses),
-  new EditField('br'),
-  new EditField('checkbox', 'sets', 'Sets', '', sets),
-  new EditField('br'),
-  new EditField('checkbox', 'types', 'Types', '', types),
-  new EditField('br'),
+  new EditField('checkbox', 'houses', 'Houses', '', houses), new EditField('br'),
+  new EditField('checkbox', 'sets', 'Sets', '', sets), new EditField('br'),
+  new EditField('checkbox', 'types', 'Types', '', types), new EditField('br'),
   new EditField('text', 'cardname', 'Card Name'),
   new EditField('text', 'cardtext', 'Card Text', '|'),
-  new EditField('text', 'flavortext', 'Flavor Text', '|')
+  new EditField('text', 'flavortext', 'Flavor Text', '|'), new EditField('br'),
+  new EditField('int', 'power', 'Power (min/max)'), new EditField('br'),
+  new EditField('int', 'amber', 'Aember (min/max)'), new EditField('br'),
+  new EditField('int', 'armor', 'Armor (min/max)'), new EditField('br')
 ]
 
 
@@ -145,6 +164,26 @@ var joined = function (pre, ar, post, logic) {
   return ''
 }
 
+var statQuery = function(statInput, field) {
+  if(statInput) {
+    if(statInput.min | statInput.max) {
+      var min = statInput.min
+      if (!min) {
+        min = 0
+      }
+      var max = statInput.max
+      if (!max) {
+        max = 5000
+      }
+      return joined('', [
+          'CardData.'+field+' >= ' + min,
+          'CardData.'+field+' <= ' + max
+        ], '%20', 'AND')
+    }
+  }
+  return ''
+}
+
 var CSearch = {
   element: undefined,
   offset: 0,
@@ -156,6 +195,9 @@ var CSearch = {
   cardname: [],
   cardtext: [],
   flavortext: [],
+  power: [],
+  amber: [],
+  armor: [],
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
@@ -182,13 +224,26 @@ var CSearch = {
     CSearch.load();
   },
   searchString: function (returnType) {
-    var where = joined('', [joined('House=%22', this.houses, '%22', 'OR'),
-      joined('Type=%22', this.types, '%22', 'OR'),
-      joined('SetName=%22', this.sets, '%22', 'OR'),
-      joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
-      joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
-      joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR')
-      ],
+    var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
+    joined('Type=%22', this.types, '%22', 'OR'),
+    joined('SetName=%22', this.sets, '%22', 'OR'),
+    joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
+    joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
+    joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR')
+    ]
+    var stat = statQuery(this.power, 'Power')
+    if(stat){
+      clauses.push(stat)
+    }
+    var stat = statQuery(this.amber, 'Amber')
+    if(stat){
+      clauses.push(stat)
+    }
+    var stat = statQuery(this.armor, 'Armor')
+    if(stat){
+      clauses.push(stat)
+    }
+    var where = joined('', clauses,
       '', 'AND')
     where = '&where=' + where
     var fieldstring = ['Name', 'House', 'Type', 'Image', 'Text'].join('%2C')
