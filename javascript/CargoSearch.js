@@ -1,6 +1,122 @@
-var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance','Shadows','Untamed','Anomaly'];
-var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation'];
-var types = ['Creature', 'Artifact', 'Upgrade', 'Action'];
+var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance','Shadows','Untamed','Anomaly']
+var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation']
+var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
+var check_images = {
+	'Brobnar': 'https://archonarcana.com/images/e/e0/Brobnar.png',
+	'Dis': 'https://archonarcana.com/images/e/e8/Dis.png',
+	'Logos': 'https://archonarcana.com/images/c/ce/Logos.png',
+	'Mars': 'https://archonarcana.com/images/d/de/Mars.png',
+	'Sanctum': 'https://archonarcana.com/images/c/c7/Sanctum.png',
+	'Saurian': 'https://archonarcana.com/images/9/9e/Saurian_P.png',
+	'Star_Alliance': 'https://archonarcana.com/images/7/7d/Star_Alliance.png',
+	'Shadows': 'https://archonarcana.com/images/e/ee/Shadows.png',
+	'Untamed': 'https://archonarcana.com/images/b/bd/Untamed.png',
+	'Anomaly': 'https://archonarcana.com/images/thumb/a/a1/Anomaly_icon.png/40px-Anomaly_icon.png'
+}
+
+class EditField {
+  constructor(type, field, label, split_on='', values=[]) {
+    this.type = type
+    this.field = field
+    this.label = label
+    this.split_on = split_on
+    this.values = values
+    return this
+  }
+  getElement() {
+    return this.getElements()[0]
+  }
+  getElements() {
+    return $('[name='+this.field+']')
+  }
+  addElement(form) {
+    var self=this
+    if (this.type === 'br') {
+      $(form).append('<br>')
+    }
+    if (this.type === 'text') {
+      $(form).append('<label for="' + this.field + '">' + this.label + ': </label>')
+      $(form).append('<input name="' + this.field + '" value="' + parseQueryString(this.field) + '" />')
+    }
+    if (this.type === 'checkbox') {
+      $(form).append('<span>' + this.label + ': </span>')
+      this.values.map(function(value) {
+        var img = check_images[value]
+        var txt = ''
+        // Input
+        txt += '<input type="checkbox" '
+        if(img){
+          txt += 'class="checkbox-house"'
+        }
+        if(parseQueryString(self.field).replace(/\+/g,' ').match(value)) {
+          xt += ' checked="true" '
+        }
+        txt += 'name="'+self.field+'" id="'+value+'" value="'+value+'">' 
+        // Label
+        txt += '<label class="checkbox-label" for="'+value+'"><span class="checkbox-custom">'
+        if(img){
+          txt += '<span class="checkbox-checkbox"></span>'
+          txt += '<img src="'+img+'">'
+        } else {
+          txt += value.replace(/\_/g, ' ')
+        }
+        txt += '</span></label>'
+        $(form).append(txt)
+      })
+    }
+  }
+  getData() {
+    console.log('getData')
+    console.log(this)
+    if(this.type === 'text') {
+      var val = this.getElement().value
+      if(this.split_on.length>0) {
+        return val.split(this.split_on)
+      }
+      return [val]
+    }
+    else if(this.type === 'checkbox') {
+      var li = []
+      var el = this.getElements()
+      el.map(function(i) {
+        if(el[i].checked) {
+          li.push(el[i].value)
+        }
+      })
+      return li
+    }
+    return undefined
+  }
+  assignData(ob) {
+    var d = this.getData()
+    if(d!==undefined) {
+      ob[this.field] = d
+    }
+  }
+  listener(event) {
+    if(this.type === 'text'){
+      this.getElement().addEventListener('input', event)
+    } else if(this.type === 'checkbox') {
+      var el = this.getElements()
+      el.map(function(i) {
+        el[i].addEventListener('change', event)
+      })
+    }
+  }
+}
+
+var searchFields = [
+  new EditField('checkbox', 'houses', 'Houses', '', houses),
+  new EditField('br'),
+  new EditField('checkbox', 'sets', 'Sets', '', sets),
+  new EditField('br'),
+  new EditField('checkbox', 'types', 'Types', '', types),
+  new EditField('br'),
+  new EditField('text', 'cardname', 'Card Name'),
+  new EditField('text', 'cardtext', 'Card Text', '|'),
+  new EditField('text', 'flavortext', 'Flavor Text', '|')
+]
+
 
 var parseQueryString = function (argument) {
   console.log(window.location.href)
@@ -11,23 +127,6 @@ var parseQueryString = function (argument) {
     return decodeURIComponent(found[1])
   } else {
     return ''
-  }
-}
-
-var updateResults = function (resultsArray) {
-  console.log(resultsArray)
-  // Delete results tab
-  var resultsTab = $('#cargo_results')
-  $('.loader').remove()
-  // For each card in query
-  for (var i in resultsArray) {
-    var card = resultsArray[i]
-    var el = ''
-    el += ' <a href="/' + card.title.Name + '">'
-    // el += '<img alt="452-101.png" src="/images/thumb/1/17/452-101.png/300px-452-101.png" decoding="async" srcset="/images/thumb/1/17/452-101.png/450px-452-101.png 1.5x, /images/1/17/452-101.png 2x" data-file-width="600" data-file-height="840" width="300" height="420">'
-    el += '<img width=200 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
-    el += '</a> '
-    resultsTab.append(el)
   }
 }
 
@@ -54,53 +153,22 @@ var CSearch = {
   houses: [],
   types: [],
   sets: [],
-  names: [],
-  texts: [],
+  cardname: [],
+  cardtext: [],
+  flavortext: [],
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
-  init: function (ihouses, isets, itypes, name, itexts, offset, pageSize) {
-    this.houses = ihouses.split('|')
-    this.types = itypes.split('|')
-    this.sets = isets.split('|')
-    this.names = [name]
-    this.texts = itexts.split('|')
-    console.log(this.texts)
+  init: function (offset, pageSize) {
     this.offset = Number.parseInt(offset)
     this.pageSize = Number.parseInt(pageSize)
     this.element = $('#cargo_results');
-    if(this.element.attr('data-houses')) {
-      this.houses = this.element.attr('data-houses').split('|')
-    }
   },
   initForm: function() {
     var self=CSearch
-    var ihouses = []
-    houses.map(function(house) {
-      var box = $('#category_' + house)
-      if(box[0].checked) {
-        ihouses.push(house)
-      }
+    searchFields.map(function(field) {
+      field.assignData(self)
     })
-    self.houses = ihouses;
-    var isets = []
-    sets.map(function(set) {
-      var box = $('#category_' + set)
-      if(box[0].checked) {
-        isets.push(set)
-      }
-    })
-    self.sets = isets;
-    var itypes = []
-    types.map(function(t) {
-      var box = $('#category_' + t)
-      if(box[0].checked) {
-        itypes.push(t)
-      }
-    })
-    self.types = itypes;
-    self.names = [$('[name=cardname]')[0].value]
-    self.texts = $('[name=cardtext]')[0].value.split('|')
     self.offset = 0
     self.newSearch()
   },
@@ -117,21 +185,19 @@ var CSearch = {
     var where = joined('', [joined('House=%22', this.houses, '%22', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
       joined('SetName=%22', this.sets, '%22', 'OR'),
-      joined('CardData.Name%20LIKE%20%22%25', this.names, '%25%22', 'OR'),
-      joined('', [
-        joined('CardData.Text%20LIKE%20%22%25', this.texts, '%25%22', 'OR'),
-        joined('CardData.FlavorText%20LIKE%20%22%25', this.texts, '%25%22', 'OR')],
-        '', 'OR')
+      joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
+      joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
+      joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR')
       ],
       '', 'AND')
     where = '&where=' + where
-    var fields = ['Name', 'House', 'Type', 'Image'].join('%2C')
-    fields = '&fields=' + fields
+    var fieldstring = ['Name', 'House', 'Type', 'Image', 'Text'].join('%2C')
+    var fields = '&fields=' + fieldstring
     // /api.php?action=cargoquery&format=json&limit=100&fields=Name%2C%20House%2C%20Type%2C%20Image%2C%20SetName&where=(House%3D%22Brobnar%22%20OR%20House%3D%22Logos%22)%20AND%20Type%3D%22Action%22%20AND%20SetName%3D%22Worlds%20Collide%22&join_on=SetData._pageName%3DCardData._pageName&offset=0
     var start = '/api.php?action=cargoquery&format=json'
     var tables = '&tables=CardData%2C%20SetData'
     var countFields = '&fields=COUNT(DISTINCT%20CardData.Name)'
-    var groupby = '&group_by=Name%2C%20House%2C%20Type%2C%20Image'
+    var groupby = '&group_by=' + fieldstring
     var joinon = '&join_on=SetData._pageName%3DCardData._pageName'
     console.log('pagesize' + this.pageSize)
     var limitq = '&limit=' + this.pageSize
@@ -146,6 +212,27 @@ var CSearch = {
     console.log('ajax:' + q)
     return q
   },
+  updateResults: function (resultsArray) {
+    var self = CSearch
+    console.log(resultsArray)
+    // Delete results tab
+    var resultsTab = $('#cargo_results')
+    $('.loader').remove()
+    // For each card in query
+    for (var i in resultsArray) {
+      var card = resultsArray[i]
+      var el = ''
+      el += ' <a href="/' + card.title.Name + '">'
+      var imgurl = '/Special:Redirect/file/' + card.title.Image
+      //el += '<img src="'+imgurl+'" decoding="async" srcset="'+imgurl+'&width=200 1.5x, '+imgurl+' 2x" data-file-width="600" data-file-height="840" width="200">'
+      el += '<img width=180 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
+      el += '</a> '
+      /*if(self.texts[0]){
+        el += card.title.Text
+      }*/
+      resultsTab.append(el)
+    }
+  },
   load: function() {
     this.element.append('<div class="loader">Loading...</div>')
     var self = this
@@ -154,7 +241,7 @@ var CSearch = {
         success: function (data, status, xhr) {
           if(xhr.requestcount<self.requestcount) return
           console.log(data)
-          updateResults(data.cargoquery)
+          self.updateResults(data.cargoquery)
           self.loadingCards = false
         }
       }
@@ -196,35 +283,34 @@ var CSearch = {
   }
 }
 
-var cargoQuery = function (ihouses, isets, itypes, name, itexts, offset, limit) {
+var buildCardSearchForm = function() {
+  $('#viewcards_form').append('<form method="GET" id="searchForm"></form>')
+  searchFields.map(function(field) {
+    field.addElement('#searchForm')
+  })
+  console.log('form built')
+}
+
+var cargoQuery = function (offset, limit) {
   // Send cargo query
   if (!offset) {
     offset = 0
   }
-  CSearch.init(ihouses, isets, itypes, name, itexts, offset, limit)
-  CSearch.newSearch();
+  buildCardSearchForm()
+  CSearch.init(offset, limit)
+  CSearch.initForm()
+  CSearch.newSearch()
   window.addEventListener("scroll", CSearch.listenScroll);
-  $('[type=checkbox][name=category]').map(function (i) {
-    $('[type=checkbox][name=category]')[i].addEventListener('change', CSearch.initForm)
-  })
-  $('[name=cardtext]').map(function (i) {
-    $('[name=cardtext]')[i].addEventListener('input', CSearch.initForm)
-  })
-  $('[name=cardname]').map(function (i) {
-    $('[name=cardname]')[i].addEventListener('input', CSearch.initForm)
+  searchFields.map(function(field) {
+    field.listener(CSearch.initForm)
   })
 };
 
 var init_cargo_search = function () {
   console.log('initing cargo search')
-  init_dpl_search(10);
   if (document.getElementById('cargo_results')) {
-    cargoQuery(parseQueryString('DPL_arg1'),
-      parseQueryString('DPL_arg2'),
-      parseQueryString('DPL_arg3'),
-      parseQueryString('cardname'),
-      parseQueryString('cardtext'),
+    cargoQuery(
       parseQueryString('DPL_offset'),
-      20)
+      50)
   }
 }
