@@ -21,7 +21,7 @@ for numerical_set in sorted(SETS.keys()):
 def nice_set_name(num):
     return {
         "452": "Worlds Collide",
-        "453": "Worlds Collide",  #Put the anomalies in the same set
+        "453": "Worlds Collide",  # Put the anomalies in the same set
         "341": "Call of the Archons",
         "435": "Age of Ascension"
     }[str(num)]
@@ -29,6 +29,7 @@ def nice_set_name(num):
 
 def sanitize_name(name):
     return sanitizer.sanitize(name.replace("[", "(").replace("]", ")"))
+
 
 # TODO pull this direct from the site
 keywords = """Alpha
@@ -83,11 +84,12 @@ replacement_links = {
     "take control": "Control",
     "control": "Control",
     "enhance": "Enhance",
-    # TODO 
     "for each": "For each"
+    # TODO - ready and fight
 }
 for kw in keywords:
     replacement_links[kw.lower()] = kw.capitalize()
+# TODO add linker for traits going to the category
 
 remove_links = [
     "return",
@@ -108,9 +110,9 @@ def pull_keywords(text):
 
 
 def modify_card_text(text, card_title, flavor_text=False):
-    #Clean up carriage returns
+    # Clean up carriage returns
     text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
-    #Clean up spaces
+    # Clean up spaces
     text = re.sub("\u202f", " ", text)
 
     # If there is an "A" at the begining of a sentance, replace it
@@ -205,10 +207,10 @@ t12 = "After an enemy creature is destroyed while fighting, put a glory counter 
 t13 = "After an enemy creature is destroyed while fighting, put a glory counter on The Colosseum. <p> '''Omni:''' If there are 6 or more glory counters on The Colosseum, remove 6 and [[Timing_Chart#Forge_a_Key|forge a key]] at [[Cost|current cost]]."
 assert (linking_keywords(t12)) == t13, linking_keywords(t12)
 t14 = "'''Play:''' Discard the top card of your opponent’s deck and reveal their hand. You gain 1{{Aember}} for each card of the discarded card’s house revealed this way. Your opponent [[Repeat|repeat]]s the preceding effect on you."
-t15 = "'''Play:''' Discard the top card of your opponent’s deck and reveal their hand. You gain 1{{Aember}} for each card of the discarded card’s house revealed this way. Your opponent [[Repeat|repeat]]s the [[Preceding|preceding effect]] on you."
+t15 = "'''Play:''' Discard the top card of your opponent’s deck and reveal their hand. You gain 1{{Aember}} [[For each|for each]] card of the discarded card’s house revealed this way. Your opponent [[Repeat|repeat]]s the [[Preceding|preceding effect]] on you."
 assert (linking_keywords(t14)) == t15, linking_keywords(t14)
 t16 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it for each friendly creature. You may exalt a friendly creature to repeat the preceding effect."
-t17 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it for each friendly creature. You may [[Exalt|exalt]] a friendly creature to [[Preceding|repeat the preceding effect]]."
+t17 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it [[For each|for each]] friendly creature. You may [[Exalt|exalt]] a friendly creature to [[Preceding|repeat the preceding effect]]."
 assert (linking_keywords(t16)) == t17, linking_keywords(t16)
 
 
@@ -340,6 +342,17 @@ def get_cargo(card, ct):
         ct.update_or_create("SetData", set_name, settable)
 
 
+def all_traits():
+    traits = set()
+    for card in cards:
+        ct = get_latest(card)["traits"]
+        if ct:
+            for tt in ct.split(" • "):
+                traits.add(tt)
+    return sorted(traits)
+
+
+
 if __name__ == "__main__":
     load_json()
     print(link_card_titles("something Orb of Wonder", "Lesser Oxtet"))
@@ -347,7 +360,9 @@ if __name__ == "__main__":
     print(link_card_titles("controller", "something"))
     print(link_card_titles("So, this nonlethal [[containment field]]; how lethal do you want it?", "Containment Field"))
     print(link_card_titles("“When you have eliminated the imp-ossible, whatever remains, however imp-robable, must be the truth.” – Quixo the ”Adventurer”", "Not Quixo"))
+    print(link_card_titles("'''Action:''' Fully [[Heal|heal]] an Ancient Bear. If there are no Ancient Bears in play, [[Search|search]] your deck and discard pile and put each Ancient Bear from them into your hand. [[if you do|If you do]], shuffle your discard pile into your deck.", "Not Quixo"))
     #load_from_mv_files()
+    print(repr(all_traits()))
 else:
     load_json()
 

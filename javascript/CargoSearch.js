@@ -1,6 +1,14 @@
 var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance','Shadows','Untamed','Anomaly']
 var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation']
 var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
+var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed']
+var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Beast', 'Cyborg', 'Demon', 'Dinosaur', 'Dragon', 'Elf', 
+              'Equation', 'Experiment', 'Faerie', 'Fungus', 'Giant', 'Goblin', 'Handuhan', 'Horseman', 'Human', 'Hunter', 
+              'Imp', 'Insect', 'Item', 'Jelly', 'Knight', 'Krxix', 'Law', 'Leader', 'Location', 'Martian', 'Merchant', 
+              'Monk', 'Mutant', 'Niffle', 'Philosopher', 'Pilot', 'Pirate', 'Politician', 'Power', 'Priest', 'Proximan', 
+              'Psion', 'Quest', 'Ranger', 'Rat', 'Redacted', 'Robot', 'Scientist', 'Shapeshifter', 'Shard', 'Soldier', 
+              'Specter', 'Spirit', 'Thief', 'Tree', 'Vehicle', 'Weapon', 'Witch', 'Wolf']
+
 var check_images = {
 	'Brobnar': 'https://archonarcana.com/images/e/e0/Brobnar.png',
 	'Dis': 'https://archonarcana.com/images/e/e8/Dis.png',
@@ -48,6 +56,15 @@ class EditField {
         '<input type="number" name="' + this.field + '_max" min="0" max="50" width="5">'
       ].join(''))
     }
+    if (this.type === 'select') {
+      var options = ['<select name="'+this.field+'">']
+      options.push('<option value="">All '+this.label+'</option>')
+      this.values.map(function(option) {
+        options.push('<option value="'+option+'">'+option+'</option>')
+      })
+      options.push('</select>')
+      $(form).append(options.join(''))
+    }
     if (this.type === 'checkbox') {
       $(form).append('<span>' + this.label + ': </span>')
       this.values.map(function(value) {
@@ -78,7 +95,7 @@ class EditField {
   getData() {
     console.log('getData')
     console.log(this)
-    if(this.type === 'text') {
+    if(this.type === 'text' || this.type === 'select') {
       var val = this.getElement().value
       if(this.split_on.length>0) {
         return val.split(this.split_on)
@@ -120,11 +137,14 @@ class EditField {
     } else if(this.type === 'int') {
       this.getElements()[0].addEventListener('input', event)
       this.getElements()[1].addEventListener('input', event)
+    } else if(this.type === 'select') {
+      this.getElement().addEventListener('change', event)
     }
   }
 }
 
 var searchFields = [
+  new EditField('text', 'cardnumber', 'Card Number'), new EditField('br'),
   new EditField('checkbox', 'houses', 'Houses', '', houses), new EditField('br'),
   new EditField('checkbox', 'sets', 'Sets', '', sets), new EditField('br'),
   new EditField('checkbox', 'types', 'Types', '', types), new EditField('br'),
@@ -133,7 +153,9 @@ var searchFields = [
   new EditField('text', 'flavortext', 'Flavor Text', '|'), new EditField('br'),
   new EditField('int', 'power', 'Power (min/max)'), new EditField('br'),
   new EditField('int', 'amber', 'Aember (min/max)'), new EditField('br'),
-  new EditField('int', 'armor', 'Armor (min/max)'), new EditField('br')
+  new EditField('int', 'armor', 'Armor (min/max)'), new EditField('br'),
+  new EditField('select', 'rarities', 'Rarities', '', rarities), new EditField('br'),
+  new EditField('select', 'traits', 'Traits', '', traits), new EditField('br'),
 ]
 
 
@@ -198,6 +220,9 @@ var CSearch = {
   power: [],
   amber: [],
   armor: [],
+  rarities: [],
+  traits: [],
+  cardnumber: [],
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
@@ -225,11 +250,14 @@ var CSearch = {
   },
   searchString: function (returnType) {
     var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
-    joined('Type=%22', this.types, '%22', 'OR'),
-    joined('SetName=%22', this.sets, '%22', 'OR'),
-    joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
-    joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
-    joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR')
+      joined('Type=%22', this.types, '%22', 'OR'),
+      joined('SetName=%22', this.sets, '%22', 'OR'),
+      joined('Rarity=%22', this.rarities, '%22', 'OR'),
+      joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
+      joined('CardData.Traits%20LIKE%20%22%25', this.traits, '%25%22', 'OR'),
+      joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
+      joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
+      joined('CardNumber=%22', this.cardnumber, '%22', 'OR')
     ]
     var stat = statQuery(this.power, 'Power')
     if(stat){
