@@ -24,14 +24,27 @@ var check_images = {
 	'Anomaly': 'https://archonarcana.com/images/thumb/a/a1/Anomaly_icon.png/40px-Anomaly_icon.png'
 }
 
+/*       <select id="traits" name="traits">
+        <option value="">&nbsp;</option>
+        <option value="beast">Beast</option>
+        <option value="robot">Robot</option>
+        <option value="redacted">Redacted</option>
+        <option value="tree">Tree</option>
+        <option value="Thief">Thief</option>
+      </select> */
 class EditField {
-  constructor(type, field, label, split_on='', values=[], checknumbers=false) {
+  constructor(type, field, props) {
     this.type = type
     this.field = field
-    this.label = label
-    this.split_on = split_on
-    this.values = values
-    this.checknumbers = checknumbers
+    this.label = ''
+    this.split_on = ''
+    this.values = []
+    this.checknumbers = false
+    this.divclass = ''
+    this.attach = ''
+    this.combo = false
+    Object.assign(this, props)
+    console.log(this)
     return this
   }
   getElement() {
@@ -43,8 +56,13 @@ class EditField {
     }
     return $('[name='+this.field+']')
   }
-  addElement(form) {
+  addElement() {
     var self=this
+    var form=self.attach
+    if(form === '') {
+      return
+    }
+    console.log('attach '+self.field)
     if (this.type === 'br') {
       $(form).append('<br>')
     }
@@ -61,18 +79,27 @@ class EditField {
     }
     if (this.type === 'select') {
       var options = ['<select name="'+this.field+'">']
+      if(this.combo) {
+        options[0] = '<select name="'+this.field+'" multiple>'
+      }
       options.push('<option value="">All '+this.label+'</option>')
       this.values.map(function(option) {
         options.push('<option value="'+option+'">'+option+'</option>')
       })
       options.push('</select>')
       $(form).append(options.join(''))
+      if(this.combo) {
+        this.choices = new Choices($('select[name="'+this.field+'"]')[0], {
+          removeItemButton: true
+        })
+      }
     }
     if (this.type === 'checkbox') {
-      $(form).append('<span>' + this.label + ': </span>')
+      //$(form).append('<span>' + this.label + ': </span>')
       this.values.map(function(value) {
         var img = check_images[value]
         var txt = ''
+        txt += '<div class="'+self.divclass+'">'
         // Input
         txt += '<input type="checkbox" '
         if(img){
@@ -86,11 +113,13 @@ class EditField {
         txt += '<label class="checkbox-label" for="'+value+'"><span class="checkbox-custom">'
         if(img){
           txt += '<span class="checkbox-checkbox"></span>'
-          txt += '<img src="'+img+'">'
+          txt += '<img src="'+img+'" class="houseIcon">'
         } else {
           txt += value.replace(/\_/g, ' ')
         }
-        txt += '</span></label>'
+        txt += '</span></label></div>'
+        console.log(txt)
+        console.log(form)
         $(form).append(txt)
       })
     }
@@ -98,12 +127,24 @@ class EditField {
   getData() {
     console.log('getData')
     console.log(this)
-    if(this.type === 'text' || this.type === 'select') {
+    if(this.type === 'text') {
       var val = this.getElement().value
       if(this.split_on.length>0) {
         return val.split(this.split_on)
       }
       return [val]
+    } else if(this.type === 'select') {
+      var vals = []
+      console.log(this.getElement())
+      console.log(this.getElement().selectedOptions)
+      if(!this.getElement().selectedOptions) {
+        return vals
+      }
+      var opts = this.getElement().selectedOptions
+      for(var i=0; i<opts.length; i++) {
+        vals.push(opts[i].value)
+      }
+      return vals
     }
     else if(this.type === 'int') {
       return {
@@ -156,18 +197,27 @@ class EditField {
 }
 
 var searchFields = [
-  new EditField('text', 'cardnumber', 'Card Number'), new EditField('br'),
-  new EditField('checkbox', 'houses', 'Houses', '', houses), new EditField('br'),
-  new EditField('checkbox', 'sets', 'Sets', '', sets), new EditField('br'),
-  new EditField('checkbox', 'types', 'Types', '', types), new EditField('br'),
+  new EditField('text', 'cardnumber', {'label':'Card Number'}), new EditField('br'),
+  new EditField('checkbox', 'houses', 
+    {'label':'Houses', 'values':houses, 'divclass':'house', 'attach':"div.house-entries"}), 
+    new EditField('br'),
+  new EditField('checkbox', 'sets', 
+    {'label':'Sets', 'values':sets, 'divclass':'set', 'attach':'div.set-entries'}), 
+    new EditField('br'),
+  new EditField('checkbox', 'types', 
+    {'label':'Types', 'values':types, 'divclass':'type', 'attach':'div.type-entries'}), 
+    new EditField('br'),
   new EditField('text', 'cardname', 'Card Name'),
   new EditField('text', 'cardtext', 'Card Text', '|'),
   new EditField('text', 'flavortext', 'Flavor Text', '|'), new EditField('br'),
   new EditField('int', 'power', 'Power (min/max)'), new EditField('br'),
   new EditField('int', 'amber', 'Aember', '', ambercounts), new EditField('br'),
   new EditField('int', 'armor', 'Armor', '', armorcounts), new EditField('br'),
-  new EditField('select', 'rarities', 'Rarities', '', rarities), new EditField('br'),
-  new EditField('select', 'traits', 'Traits', '', traits), new EditField('br'),
+  new EditField('select', 'rarities', 
+    {'label':'Rarities', 'values':rarities}), 
+  new EditField('br'),
+  new EditField('select', 'traits', 
+    {'label':'Traits', 'values':traits, 'combo':false, 'attach':'div.trait-entries'}), new EditField('br'),
 ]
 
 
@@ -270,7 +320,7 @@ var CSearch = {
   init: function (offset, pageSize) {
     this.offset = Number.parseInt(offset)
     this.pageSize = Number.parseInt(pageSize)
-    this.element = $('#cargo_results');
+    this.element = $('.card-gallery-images');
   },
   initForm: function() {
     var self=CSearch
@@ -285,7 +335,7 @@ var CSearch = {
     if(CSearch.loadingCards) CSearch.loadingCards.abort()
     CSearch.requestcount ++
     CSearch.element.empty()
-    CSearch.element.append("<span id='result_count'></span>")
+    //CSearch.element.append("<span id='result_count'></span>")
     CSearch.loadCount();
     CSearch.load();
   },
@@ -342,17 +392,18 @@ var CSearch = {
     var self = CSearch
     console.log(resultsArray)
     // Delete results tab
-    var resultsTab = $('#cargo_results')
+    var resultsTab = $('.card-gallery-images')
     $('.loader').remove()
     // For each card in query
     for (var i in resultsArray) {
       var card = resultsArray[i]
       var el = ''
+      el += '<div class="gallery-image">'
       el += ' <a href="/' + card.title.Name + '">'
       var imgurl = '/Special:Redirect/file/' + card.title.Image
       //el += '<img width=180 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
-      el += '<img width=180 height=252 src="'+unhashThumbImage(card.title.Image)+'" data-src="'+unhashImage(card.title.Image)+'">'
-      el += '</a> '
+      el += '<img src="'+unhashThumbImage(card.title.Image)+'" data-src="'+unhashImage(card.title.Image)+'">'
+      el += '</a></div>'
       /*if(self.texts[0]){
         el += card.title.Text
       }*/
@@ -390,7 +441,7 @@ var CSearch = {
           self.totalCount = Number.parseInt(data.cargoquery[0].title['Name)'])
           console.log("totalcount = " + self.totalCount)
           self.loadingCount = false
-          $('#result_count').append('<h2>totalCount ' + self.totalCount + '</h2>')
+          $('.cg-results').empty().append(self.totalCount + ' results')
           // buildCargoPages(offset, totalCount, limit)
         }
       }
@@ -417,9 +468,17 @@ var CSearch = {
 }
 
 var buildCardSearchForm = function() {
-  $('#viewcards_form').append('<form method="GET" id="searchForm"></form>')
+  //$('#viewcards_form').append('<form method="GET" id="searchForm"></form>')
   searchFields.map(function(field) {
-    field.addElement('#searchForm')
+    field.addElement()
+  })
+  $('.advanced-search')[0].addEventListener("click", function(evt) {
+    var on = $('.cg-advanced-menu')[0].style.display !== 'none'
+    if(on) {
+      $('.cg-advanced-menu')[0].style.display = 'none'
+    } else {
+      $('.cg-advanced-menu')[0].style.display = ''
+    }
   })
   console.log('form built')
 }
@@ -441,7 +500,7 @@ var cargoQuery = function (offset, limit) {
 
 var init_cargo_search = function () {
   console.log('initing cargo search')
-  if (document.getElementById('cargo_results')) {
+  if ($('.card-gallery-images')) {
     cargoQuery(
       parseQueryString('DPL_offset'),
       50)
