@@ -6,6 +6,5 @@ skyjedi/*
 *.swp
 __pycache__/*
 passwords.py
-my_card_db.json
 javascript/node_modules
 */__pycache__

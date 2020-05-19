@@ -89,7 +89,6 @@ replacement_links = {
 }
 for kw in keywords:
     replacement_links[kw.lower()] = kw.capitalize()
-# TODO add linker for traits going to the category
 
 remove_links = [
     "return",
@@ -98,7 +97,8 @@ remove_links = [
 ]
 
 
-def pull_keywords(text):
+def get_keywords_text(text):
+    """Return a list of keywords found on the card (ignore keyword values like the '2' in 'Assault 2')"""
     found = []
     words = text.replace("\r", ". ").split(".")
     for w in words:
@@ -109,13 +109,21 @@ def pull_keywords(text):
     return found
 
 
+def get_keywordvalue_text(text, kw):
+    """Returns the value of a specific keyword, like the '2' in 'Assault 2'"""
+    found = re.findall(r'%s *(\d+|x)' % kw, text, re.IGNORECASE)
+    if found:
+        return found[0]
+    return ""
+
+
 def modify_card_text(text, card_title, flavor_text=False):
     # Clean up carriage returns
     text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
     # Clean up spaces
     text = re.sub("\u202f", " ", text)
 
-    # If there is an "A" at the begining of a sentance, replace it
+    # If there is an "A" at the begining of a sentance, don't replace it
     # Po's Pixies has an aember symbol at the begining of a sentance
     if card_title not in ["Po’s Pixies", "Sack of Coins"]:
         text = re.sub(r"(^|: |\. |\r)A", r"\1$A$", text)
@@ -185,35 +193,6 @@ def linking_keywords(text):
     return text
 
 
-t1 = "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> After a creature reaps, stun it."
-t2 = "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> After a creature reaps, stun it."
-t3 = "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> After a creature reaps, [[Stun|stun]] it."
-assert linking_keywords(t1) == t3, linking_keywords(t1)
-assert linking_keywords(t2) == t3, linking_keywords(t2)
-assert linking_keywords(t3) == t3, linking_keywords(t3)
-t4 = "[[Skirmish]]. (When you use this creature to fight, it is dealt no damage in [[return]].) <p> Fight: Draw a card. "
-t5 = "[[Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.) <p> Fight: Draw a card. "
-assert (linking_keywords(t4)) == t5, linking_keywords(t4)
-t6 = "'''Play:''' [[Return|Return]] an enemy creature to its owner’s hand."
-t7 = "'''Play:''' Return an enemy creature to its owner’s hand."
-assert (linking_keywords(t6)) == t7, linking_keywords(t6)
-t8 = "'''Action:''' Purge a creature in play. If you do, your opponent gains control of Spangler Box. If Spangler Box leaves play, return to play all cards purged by Spangler Box."
-t9 = "'''Action:''' [[Purge|Purge]] a creature in play. [[if you do|If you do]], your opponent gains [[Control|control]] of Spangler Box. If Spangler Box leaves play, return to play all cards [[Purge|purged]] by Spangler Box."
-assert (linking_keywords(t8)) == t9, linking_keywords(t8)
-t10 = "During your turn, if Captain Val Jericho is in the center of your battleline, you may play one card that is not of the active house."
-t11 = "During your turn, if Captain Val Jericho is in the [[Center of the Battleline|center of your battleline]], you may play one card that is not of the active house."
-assert (linking_keywords(t10)) == t11, linking_keywords(t10)
-t12 = "After an enemy creature is destroyed while fighting, put a glory counter on The Colosseum. <p> '''Omni:''' If there are 6 or more glory counters on The Colosseum, remove 6 and forge a key at current cost."
-t13 = "After an enemy creature is destroyed while fighting, put a glory counter on The Colosseum. <p> '''Omni:''' If there are 6 or more glory counters on The Colosseum, remove 6 and [[Timing_Chart#Forge_a_Key|forge a key]] at [[Cost|current cost]]."
-assert (linking_keywords(t12)) == t13, linking_keywords(t12)
-t14 = "'''Play:''' Discard the top card of your opponent’s deck and reveal their hand. You gain 1{{Aember}} for each card of the discarded card’s house revealed this way. Your opponent [[Repeat|repeat]]s the preceding effect on you."
-t15 = "'''Play:''' Discard the top card of your opponent’s deck and reveal their hand. You gain 1{{Aember}} [[For each|for each]] card of the discarded card’s house revealed this way. Your opponent [[Repeat|repeat]]s the [[Preceding|preceding effect]] on you."
-assert (linking_keywords(t14)) == t15, linking_keywords(t14)
-t16 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it for each friendly creature. You may exalt a friendly creature to repeat the preceding effect."
-t17 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it [[For each|for each]] friendly creature. You may [[Exalt|exalt]] a friendly creature to [[Preceding|repeat the preceding effect]]."
-assert (linking_keywords(t16)) == t17, linking_keywords(t16)
-
-
 def safe_name(name):
     # if name == "Ortannu’s Binding" or name == "Nature’s Call":
     #    return name.replace("’", "'")
@@ -246,7 +225,18 @@ def add_card(card):
     title = sanitize_name(card["card_title"])
     title = safe_name(title)
     card["card_title"] = title
-    card["keywords"] = pull_keywords(card["card_text"])
+    card["keywords"] = get_keywords_text(card["card_text"])
+    card.update({"assault": "", "hazardous": "",
+                 "enhance_amber": "", "enhance_damage": "",
+                 "enhance_capture": "", "enhance_draw": ""})
+    card["power"] = card["power"] or ""
+    card["armor"] = card["armor"] or ""
+    card["amber"] = card["amber"] or 0
+    if card["card_type"] == "Creature":
+        card["assault"] = get_keywordvalue_text(card["card_text"], "assault") or 0
+        card["hazardous"] = get_keywordvalue_text(card["card_text"], "hazardous") or 0
+        card["power"] = card["power"] or 0
+        card["armor"] = card["armor"] or 0
     card["card_text"] = linking_keywords(modify_card_text(card["card_text"] or "", title))
     card["flavor_text"] = modify_card_text(card["flavor_text"] or "", title, flavor_text=True)
     card["front_image"] = image_number(card)
@@ -297,6 +287,7 @@ def load_from_mv_files(only=None):
         card = get_latest(card_title)
         card["flavor_text"] = link_card_titles(card["flavor_text"], card_title)
         card["card_text"] = link_card_titles(card["card_text"], card_title)
+        # TODO link traits
     with open("my_card_db.json", "w") as f:
         f.write(json.dumps(cards, indent=2, sort_keys=True))
     print("saved.")
@@ -315,18 +306,27 @@ def get_latest(card_title, fuzzy=False):
     return card
 
 
-def get_cargo(card, ct):
+def get_cargo(card, ct=None):
+    if not ct:
+        from wikibase import CargoTable
+        ct = CargoTable()
     latest = get_latest_from_card(card)
     cardtable = {
         "Name": latest["card_title"] or crash,
         "Image": latest["front_image"] or crash,
         "Artist": "",
-        "Text": latest["card_text"] or "",
+        "Text": latest["card_text"],
         "Keywords": " • ".join(latest["keywords"]),
         "FlavorText": latest["flavor_text"] or "",
         "Power": latest["power"] or "",
         "Armor": latest["armor"] or "",
         "Amber": latest["amber"] or "",
+        "Assault": latest["assault"] or "",
+        "Hazardous": latest["hazardous"] or "",
+        "EnhanceDamage": latest["enhance_damage"],
+        "EnhanceAmber": latest["enhance_amber"],
+        "EnhanceDraw": latest["enhance_draw"],
+        "EnhanceCapture": latest["enhance_capture"],
         "Type": latest["card_type"] or crash,
         "House": latest["house"] or "",
         "Traits": latest["traits"] or "",
@@ -352,18 +352,7 @@ def all_traits():
     return sorted(traits)
 
 
-
 if __name__ == "__main__":
-    load_json()
-    print(link_card_titles("something Orb of Wonder", "Lesser Oxtet"))
-    print(link_card_titles("something Orb of Wonder and Lesser Oxtet.", "Lesser Oxtet"))
-    print(link_card_titles("controller", "something"))
-    print(link_card_titles("So, this nonlethal [[containment field]]; how lethal do you want it?", "Containment Field"))
-    print(link_card_titles("“When you have eliminated the imp-ossible, whatever remains, however imp-robable, must be the truth.” – Quixo the ”Adventurer”", "Not Quixo"))
-    print(link_card_titles("'''Action:''' Fully [[Heal|heal]] an Ancient Bear. If there are no Ancient Bears in play, [[Search|search]] your deck and discard pile and put each Ancient Bear from them into your hand. [[if you do|If you do]], shuffle your discard pile into your deck.", "Not Quixo"))
-    #load_from_mv_files()
-    print(repr(all_traits()))
+    load_from_mv_files()
 else:
     load_json()
-
-#assert(get_latest("A Fair Game")["expansion"] == 452), get_latest("A Fair Game")["expansion"]
