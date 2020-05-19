@@ -8,6 +8,8 @@ var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Beast', 'Cyborg
               'Monk', 'Mutant', 'Niffle', 'Philosopher', 'Pilot', 'Pirate', 'Politician', 'Power', 'Priest', 'Proximan', 
               'Psion', 'Quest', 'Ranger', 'Rat', 'Redacted', 'Robot', 'Scientist', 'Shapeshifter', 'Shard', 'Soldier', 
               'Specter', 'Spirit', 'Thief', 'Tree', 'Vehicle', 'Weapon', 'Witch', 'Wolf']
+var ambercounts = ['0', '1', '2', '3', '4']
+var armorcounts = ['0', '1', '2', '3', '4', '5']
 
 var check_images = {
 	'Brobnar': 'https://archonarcana.com/images/e/e0/Brobnar.png',
@@ -23,12 +25,13 @@ var check_images = {
 }
 
 class EditField {
-  constructor(type, field, label, split_on='', values=[]) {
+  constructor(type, field, label, split_on='', values=[], checknumbers=false) {
     this.type = type
     this.field = field
     this.label = label
     this.split_on = split_on
     this.values = values
+    this.checknumbers = checknumbers
     return this
   }
   getElement() {
@@ -76,7 +79,7 @@ class EditField {
           txt += 'class="checkbox-house"'
         }
         if(parseQueryString(self.field).replace(/\+/g,' ').match(value)) {
-          xt += ' checked="true" '
+          txt += ' checked="true" '
         }
         txt += 'name="'+self.field+'" id="'+value+'" value="'+value+'">' 
         // Label
@@ -111,9 +114,18 @@ class EditField {
     else if(this.type === 'checkbox') {
       var li = []
       var el = this.getElements()
+      var self=this
       el.map(function(i) {
         if(el[i].checked) {
-          li.push(el[i].value)
+          var val = el[i].value
+          if(self.checknumbers) {
+            if(val==='0') {
+              li.push('')
+              li.push(val)
+            }
+          } else {
+            li.push(val)
+          }
         }
       })
       return li
@@ -152,8 +164,8 @@ var searchFields = [
   new EditField('text', 'cardtext', 'Card Text', '|'),
   new EditField('text', 'flavortext', 'Flavor Text', '|'), new EditField('br'),
   new EditField('int', 'power', 'Power (min/max)'), new EditField('br'),
-  new EditField('int', 'amber', 'Aember (min/max)'), new EditField('br'),
-  new EditField('int', 'armor', 'Armor (min/max)'), new EditField('br'),
+  new EditField('int', 'amber', 'Aember', '', ambercounts), new EditField('br'),
+  new EditField('int', 'armor', 'Armor', '', armorcounts), new EditField('br'),
   new EditField('select', 'rarities', 'Rarities', '', rarities), new EditField('br'),
   new EditField('select', 'traits', 'Traits', '', traits), new EditField('br'),
 ]
@@ -171,12 +183,20 @@ var parseQueryString = function (argument) {
   }
 }
 
-var joined = function (pre, ar, post, logic) {
+var joined = function (pre, ar, post, logic, evaltype='string') {
   if (ar.length > 0) {
     var nar = ar.filter(function (item) {
       return item
     })
     nar = nar.map(function (item) {
+      if(evaltype == 'number') {
+        if(item.search(/\+/)<0){
+          return pre + '=%22' + item + post
+        } else {
+          item = item.substring(0, item.search(/\+/))
+          return pre + '>%22' + item + post
+        }
+      }
       return pre + item.replace(/\_/g, '%20') + post
     })
     if (nar.length > 0) {
@@ -204,6 +224,27 @@ var statQuery = function(statInput, field) {
     }
   }
   return ''
+}
+
+var unhashImage = function(imgName) {
+  var hash = md5(imgName)
+  var firsthex = hash.substring(0,1)
+  var first2 = hash.substring(0,2)
+  return '/images/'+firsthex+'/'+first2+'/'+imgName
+}
+
+var unhashThumbImage = function(imgName) {
+  var hash = md5(imgName)
+  var firsthex = hash.substring(0,1)
+  var first2 = hash.substring(0,2)
+  return '/images/thumb/'+firsthex+'/'+first2+'/'+imgName+'/200px-'+imgName
+}
+
+var loadImage = function(image) {
+  image.setAttribute('src', image.getAttribute('data-src'))
+  image.onload = () => {
+    image.removeAttribute('data-src')
+  }
 }
 
 var CSearch = {
@@ -253,6 +294,8 @@ var CSearch = {
       joined('Type=%22', this.types, '%22', 'OR'),
       joined('SetName=%22', this.sets, '%22', 'OR'),
       joined('Rarity=%22', this.rarities, '%22', 'OR'),
+      joined('Amber=%22', this.amber, '%22', 'OR'),
+      joined('Armor', this.armor, '%22', 'OR', 'number'),
       joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
       joined('CardData.Traits%20LIKE%20%22%25', this.traits, '%25%22', 'OR'),
       joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
@@ -307,14 +350,21 @@ var CSearch = {
       var el = ''
       el += ' <a href="/' + card.title.Name + '">'
       var imgurl = '/Special:Redirect/file/' + card.title.Image
-      //el += '<img src="'+imgurl+'" decoding="async" srcset="'+imgurl+'&width=200 1.5x, '+imgurl+' 2x" data-file-width="600" data-file-height="840" width="200">'
-      el += '<img width=180 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
+      //el += '<img width=180 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
+      el += '<img width=180 height=252 src="'+unhashThumbImage(card.title.Image)+'" data-src="'+unhashImage(card.title.Image)+'">'
       el += '</a> '
       /*if(self.texts[0]){
         el += card.title.Text
       }*/
       resultsTab.append(el)
     }
+    var imgs = $('img[data-src]')
+    imgs.map(function(i) {
+      var self = imgs[i]
+      self.onload = () => {
+        loadImage(self)
+      }
+    })
   },
   load: function() {
     this.element.append('<div class="loader">Loading...</div>')
