@@ -1,7 +1,7 @@
 var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance','Shadows','Untamed','Anomaly']
 var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation']
 var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
-var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed']
+var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant']
 var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Beast', 'Cyborg', 'Demon', 'Dinosaur', 'Dragon', 'Elf', 
               'Equation', 'Experiment', 'Faerie', 'Fungus', 'Giant', 'Goblin', 'Handuhan', 'Horseman', 'Human', 'Hunter', 
               'Imp', 'Insect', 'Item', 'Jelly', 'Knight', 'Krxix', 'Law', 'Leader', 'Location', 'Martian', 'Merchant', 
@@ -80,18 +80,18 @@ class EditField {
     if (this.type === 'select') {
       var options = ['<select name="'+this.field+'">']
       if(this.combo) {
-        options[0] = '<select name="'+this.field+'" multiple>'
+        options[0] = '<select class="js-multiple" name="'+this.field+'" multiple>'
       }
-      options.push('<option value="">All '+this.label+'</option>')
+      if(!this.combo){
+        options.push('<option value="">All '+this.label+'</option>')
+      }
       this.values.map(function(option) {
         options.push('<option value="'+option+'">'+option+'</option>')
       })
       options.push('</select>')
       $(form).append(options.join(''))
       if(this.combo) {
-        this.choices = new Choices($('select[name="'+this.field+'"]')[0], {
-          removeItemButton: true
-        })
+        $('[name="'+this.field+'"]').select2()
       }
     }
     if (this.type === 'checkbox') {
@@ -191,6 +191,9 @@ class EditField {
       this.getElements()[0].addEventListener('input', event)
       this.getElements()[1].addEventListener('input', event)
     } else if(this.type === 'select') {
+      if(this.combo){
+        return $('select[name="'+this.field+'"]').select2().on('change', event)
+      }
       this.getElement().addEventListener('change', event)
     }
   }
@@ -214,10 +217,10 @@ var searchFields = [
   new EditField('int', 'amber', 'Aember', '', ambercounts), new EditField('br'),
   new EditField('int', 'armor', 'Armor', '', armorcounts), new EditField('br'),
   new EditField('select', 'rarities', 
-    {'label':'Rarities', 'values':rarities}), 
+    {'label':'Rarities', 'values':rarities, 'combo': true, 'attach':'div.rarity-entries'}), 
   new EditField('br'),
   new EditField('select', 'traits', 
-    {'label':'Traits', 'values':traits, 'combo':false, 'attach':'div.trait-entries'}), new EditField('br'),
+    {'label':'Traits', 'values':traits, 'combo':true, 'attach':'div.trait-entries'}), new EditField('br'),
 ]
 
 
@@ -475,9 +478,11 @@ var buildCardSearchForm = function() {
   $('.advanced-search')[0].addEventListener("click", function(evt) {
     var on = $('.cg-advanced-menu')[0].style.display !== 'none'
     if(on) {
-      $('.cg-advanced-menu')[0].style.display = 'none'
+      $('.cg-advanced-menu')[0].style = 'display:none;'
+      $('.advanced-search-icon')[0].style = ''
     } else {
-      $('.cg-advanced-menu')[0].style.display = ''
+      $('.cg-advanced-menu')[0].style = ''
+      $('.advanced-search-icon')[0].style = 'transform:rotate(180deg)'
     }
   })
   console.log('form built')
@@ -500,7 +505,7 @@ var cargoQuery = function (offset, limit) {
 
 var init_cargo_search = function () {
   console.log('initing cargo search')
-  if ($('.card-gallery-images')) {
+  if ($('.card-gallery-images').length>0) {
     cargoQuery(
       parseQueryString('DPL_offset'),
       50)
