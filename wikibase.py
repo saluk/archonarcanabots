@@ -65,7 +65,7 @@ def cargo_index(table_type):
 
 def cargo_sort(table_type, table):
     sort_function = {
-        "SetData": lambda row: int(row["SetNumber"]),
+        "SetData": lambda row: int(row["SetNumber"]) if row["SetNumber"] else 0,
         "ErrataData": lambda row: float(row["Version"] if row["Version"] else 0),
         "AltArt": lambda row: (int(row["Year"]), row["File"])
     }.get(table_type, None)
@@ -73,7 +73,7 @@ def cargo_sort(table_type, table):
         return sorted(table, key=sort_function)
     defkey = cargo_index(table_type)
     if defkey:
-        return sorted(table, key=lambda row: row[defkey])
+        return sorted(table, key=lambda row: row.get(defkey, ''))
     raise Exception("No defined sort for table", table_type, table)
 
 

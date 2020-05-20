@@ -28,7 +28,13 @@ def nice_set_name(num):
 
 
 def sanitize_name(name):
-    return sanitizer.sanitize(name.replace("[", "(").replace("]", ")"))
+    name = sanitizer.sanitize(name.replace("[", "(").replace("]", ")"))
+    quotes = ['“', '”']
+    while '"' in name:
+        next = quotes.pop(0)
+        name = name.replace('"', next, 1)
+        quotes.append(next)
+    return name
 
 
 # TODO pull this direct from the site
@@ -229,14 +235,16 @@ def add_card(card):
     card.update({"assault": "", "hazardous": "",
                  "enhance_amber": "", "enhance_damage": "",
                  "enhance_capture": "", "enhance_draw": ""})
-    card["power"] = card["power"] or ""
-    card["armor"] = card["armor"] or ""
-    card["amber"] = card["amber"] or 0
     if card["card_type"] == "Creature":
         card["assault"] = get_keywordvalue_text(card["card_text"], "assault") or 0
         card["hazardous"] = get_keywordvalue_text(card["card_text"], "hazardous") or 0
         card["power"] = card["power"] or 0
         card["armor"] = card["armor"] or 0
+    else:
+        if card["power"] and not int(card["power"]):
+            card["power"] = ""
+        if card["armor"] and not int(card["armor"]):
+            card["armor"] = ""
     card["card_text"] = linking_keywords(modify_card_text(card["card_text"] or "", title))
     card["flavor_text"] = modify_card_text(card["flavor_text"] or "", title, flavor_text=True)
     card["front_image"] = image_number(card)
@@ -306,32 +314,37 @@ def get_latest(card_title, fuzzy=False):
     return card
 
 
-def get_cargo(card, ct=None):
+def get_cargo(card, ct=None, restricted=[]):
     if not ct:
         from wikibase import CargoTable
         ct = CargoTable()
     latest = get_latest_from_card(card)
     cardtable = {
-        "Name": latest["card_title"] or crash,
-        "Image": latest["front_image"] or crash,
+        "Name": latest["card_title"],
+        "Image": latest["front_image"],
         "Artist": "",
         "Text": latest["card_text"],
         "Keywords": " • ".join(latest["keywords"]),
-        "FlavorText": latest["flavor_text"] or "",
-        "Power": latest["power"] or "",
-        "Armor": latest["armor"] or "",
-        "Amber": latest["amber"] or "",
-        "Assault": latest["assault"] or "",
-        "Hazardous": latest["hazardous"] or "",
+        "FlavorText": latest["flavor_text"],
+        "Power": latest["power"],
+        "Armor": latest["armor"],
+        "Amber": latest["amber"],
+        "Assault": latest["assault"],
+        "Hazardous": latest["hazardous"],
         "EnhanceDamage": latest["enhance_damage"],
         "EnhanceAmber": latest["enhance_amber"],
         "EnhanceDraw": latest["enhance_draw"],
         "EnhanceCapture": latest["enhance_capture"],
-        "Type": latest["card_type"] or crash,
-        "House": latest["house"] or "",
-        "Traits": latest["traits"] or "",
-        "Rarity": latest["rarity"] or crash
+        "Type": latest["card_type"],
+        "House": latest["house"],
+        "Traits": latest["traits"],
+        "Rarity": latest["rarity"]
     }
+    if restricted:
+        cardtable2 = {}
+        for key in restricted:
+            cardtable2[key] = cardtable[key]
+        cardtable = cardtable2
     ct.update_or_create("CardData", latest["card_title"], cardtable)
     for (set_name, set_num, card_num) in get_sets(card):
         settable = {

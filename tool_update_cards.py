@@ -37,7 +37,7 @@ def put_cargo_on_card_page(wp, card_title, update_reason="Put card query on card
     return update_page(card_title, page, text, update_reason, ot, pause)
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", pause=True):
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=False):
     latest = carddb.get_latest_from_card(card)
     page = wp.page("CardData:" + latest["card_title"])
     ct = wikibase.CargoTable()
@@ -48,7 +48,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
     except Exception:
         pass
     if data_to_update == "carddb":
-        carddb.get_cargo(card, ct)
+        carddb.get_cargo(card, ct, restricted)
     elif data_to_update == "artist":
         card_model_1.pull_artist(card, ct, wp)
     elif data_to_update == "relink":
@@ -70,6 +70,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
 def update_cards_v2(wp, search_name=None,
                     update_reason="phase 2 test",
                     data_to_update="carddb",
+                    restricted=[],
                     matching=None):
     changed = 0
     started = False
@@ -87,6 +88,7 @@ def update_cards_v2(wp, search_name=None,
             text = update_card_page_cargo(
                 wp, carddb.cards[card_name],
                 update_reason=update_reason,
+                restricted=restricted,
                 data_to_update=data_to_update)
         if text:
             print("changed:", text)

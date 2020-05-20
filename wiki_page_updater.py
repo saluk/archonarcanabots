@@ -17,8 +17,10 @@ if __name__ == "__main__":
     else:
         if sys.argv[1] == "import_cards2":
             import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) == 3 else None
-            tool_update_cards.update_cards_v2(wp, search, "importing card data", "carddb")
+            search = sys.argv[2] if len(sys.argv) >= 3 else None
+            restricted = sys.argv[3] if len(sys.argv) >= 4 else ""
+            tool_update_cards.update_cards_v2(wp, search, "importing card data (assault/hazardous)", 
+                                              "carddb", restricted.split("|"))
         if sys.argv[1] == "import_artist":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None
