@@ -29,11 +29,6 @@ def nice_set_name(num):
 
 def sanitize_name(name):
     name = sanitizer.sanitize(name.replace("[", "(").replace("]", ")"))
-    quotes = ['“', '”']
-    while '"' in name:
-        next = quotes.pop(0)
-        name = name.replace('"', next, 1)
-        quotes.append(next)
     return name
 
 

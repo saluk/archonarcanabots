@@ -1,0 +1,1 @@
+from mastervault import master_vault_lookup
