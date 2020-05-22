@@ -174,7 +174,10 @@ class EditField {
       ob[this.field] = d
     }
   }
-  listener(event) {
+  listener(callback, search) {
+    var event = function() {
+      callback(search)
+    }
     if(this.type === 'text'){
       this.getElement().addEventListener('input', event)
     } else if(this.type === 'checkbox') {
@@ -324,6 +327,15 @@ var CSearch = {
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
+  init: function (element, pageSize) {
+    var self=this
+    this.offset = 0
+    this.pageSize = Number.parseInt(pageSize)
+    this.element = element;
+    window.addEventListener("scroll", function() {
+      self.listenScroll()
+    })
+  },
   toUrl: function() {
     var elements = []
     var self = this
@@ -340,13 +352,7 @@ var CSearch = {
     }
     history.replaceState({}, document.title, '/Card_Gallery'+elements)
   },
-  init: function (offset, pageSize) {
-    this.offset = Number.parseInt(offset)
-    this.pageSize = Number.parseInt(pageSize)
-    this.element = $('.card-gallery-images');
-  },
-  initForm: function() {
-    var self=CSearch
+  initForm: function(self) {
     searchFields.map(function(field) {
       field.assignData(self)
     })
@@ -355,12 +361,13 @@ var CSearch = {
     self.newSearch()
   },
   newSearch: function() {
-    if(CSearch.loadingCount) CSearch.loadingCount.abort()
-    if(CSearch.loadingCards) CSearch.loadingCards.abort()
-    CSearch.requestcount ++
-    CSearch.element.empty()
-    CSearch.loadCount();
-    CSearch.load();
+    var self=this
+    if(self.loadingCount) self.loadingCount.abort()
+    if(self.loadingCards) self.loadingCards.abort()
+    self.requestcount ++
+    self.element.empty()
+    self.loadCount();
+    self.load();
   },
   searchString: function (returnType) {
     var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
@@ -398,7 +405,7 @@ var CSearch = {
     return q
   },
   updateResults: function (resultsArray) {
-    var self = CSearch
+    var self = this
     // Delete results tab
     var resultsTab = $('.card-gallery-images')
     $('.loader').remove()
@@ -441,7 +448,7 @@ var CSearch = {
   },
   loadCount: function() {
     var self=this
-    self.loadingCount = $.ajax(CSearch.searchString('count'),
+    self.loadingCount = $.ajax(self.searchString('count'),
       {
         success: function (data, status, xhr) {
           if(xhr.requestcount<self.requestcount) return
@@ -462,18 +469,19 @@ var CSearch = {
     this.load()
   },
   listenScroll: function() {
-    if(CSearch.loadingCards || CSearch.loadingCount){
+    var self=this
+    if(self.loadingCards || self.loadingCount){
       return false;
     }
     var height = document.documentElement.scrollHeight
     scrollOffset = document.documentElement.scrollTop + window.innerHeight;
     if (scrollOffset >= height) {
-      CSearch.nextPage()
+      self.nextPage()
     }
   }
 }
 
-var buildCardSearchForm = function() {
+var buildCardSearchForm = function(search) {
   //$('#viewcards_form').append('<form method="GET" id="searchForm"></form>')
   var triggerAdvanced = false;
   searchFields.map(function(field) {
@@ -495,29 +503,21 @@ var buildCardSearchForm = function() {
   if(triggerAdvanced) {
     $('.advanced-search')[0].click()
   }
+  searchFields.map(function(field) {
+    field.listener(search.initForm, search)
+  })
   console.log('form built')
 }
 
-var cargoQuery = function (offset, limit) {
-  // Send cargo query
-  if (!offset) {
-    offset = 0
-  }
-  buildCardSearchForm()
-  CSearch.init(offset, limit)
-  CSearch.initForm()
-  CSearch.newSearch()
-  window.addEventListener("scroll", CSearch.listenScroll);
-  searchFields.map(function(field) {
-    field.listener(CSearch.initForm)
-  })
+var cargoQuery = function (limit) {
+  buildCardSearchForm(CSearch)
+  CSearch.init($('.card-gallery-images'), limit)
+  CSearch.initForm(CSearch)
 };
 
 var init_cargo_search = function () {
   console.log('initing cargo search')
   if ($('.card-gallery-images').length>0) {
-    cargoQuery(
-      parseQueryString('DPL_offset'),
-      50)
+    cargoQuery(50)
   }
 }
