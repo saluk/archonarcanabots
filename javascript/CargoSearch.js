@@ -39,7 +39,6 @@ class EditField {
     this.basic = false
     this.triggerAdvanced = false
     Object.assign(this, props)
-    console.log(this)
     return this
   }
   getElement() {
@@ -61,7 +60,6 @@ class EditField {
     if(form === '') {
       return
     }
-    console.log('attach '+self.field)
     if (this.type === 'br') {
       $(form).append('<br>')
     }
@@ -121,15 +119,11 @@ class EditField {
           txt += value.replace(/\_/g, ' ')
         }
         txt += '</span></label></div>'
-        console.log(txt)
-        console.log(form)
         $(form).append(txt)
       })
     }
   }
   getData() {
-    console.log('getData')
-    console.log(this)
     if(this.type === 'text') {
       var val = this.getElement().value
       if(this.split_on.length>0) {
@@ -138,8 +132,6 @@ class EditField {
       return [val]
     } else if(this.type === 'select') {
       var vals = []
-      console.log(this.getElement())
-      console.log(this.getElement().selectedOptions)
       if(!this.getElement().selectedOptions) {
         return vals
       }
@@ -233,9 +225,7 @@ minmax(searchFields, 'power', 'div.power-entries', powercounts)
 
 
 var parseQueryString = function (argument) {
-  console.log(window.location.href)
   var res = '[\\?&]' + argument + '=([^&#]*)'
-  console.log(res)
   var found = new RegExp(res).exec(window.location.href)
   if (found) {
     return decodeURIComponent(found[1])
@@ -271,9 +261,6 @@ var statQuery = function(clauses, statInput, field) {
       if (!max||max.search(/\+/)>=0) {
         max = 5000
       }
-      console.log('min/max')
-      console.log(min)
-      console.log(max)
       clauses.push(
         joined('', [
           'CardData.'+field+' >= ' + min,
@@ -372,7 +359,6 @@ var CSearch = {
     if(CSearch.loadingCards) CSearch.loadingCards.abort()
     CSearch.requestcount ++
     CSearch.element.empty()
-    //CSearch.element.append("<span id='result_count'></span>")
     CSearch.loadCount();
     CSearch.load();
   },
@@ -401,22 +387,18 @@ var CSearch = {
     var countFields = '&fields=COUNT(DISTINCT%20CardData.Name)'
     var groupby = '&group_by=' + fieldstring
     var joinon = '&join_on=SetData._pageName%3DCardData._pageName'
-    console.log('pagesize' + this.pageSize)
     var limitq = '&limit=' + this.pageSize
     var offsetq = '&offset=' + this.offset
     var q
-    console.log('search string checking')
     if (returnType === 'data') {
       q = start + tables + fields + where + joinon + groupby + limitq + offsetq
     } else if (returnType === 'count') {
       q = start + tables + countFields + where + joinon
     }
-    console.log('ajax:' + q)
     return q
   },
   updateResults: function (resultsArray) {
     var self = CSearch
-    console.log(resultsArray)
     // Delete results tab
     var resultsTab = $('.card-gallery-images')
     $('.loader').remove()
@@ -450,7 +432,6 @@ var CSearch = {
       {
         success: function (data, status, xhr) {
           if(xhr.requestcount<self.requestcount) return
-          console.log(data)
           self.updateResults(data.cargoquery)
           self.loadingCards = false
         }
@@ -465,7 +446,6 @@ var CSearch = {
         success: function (data, status, xhr) {
           if(xhr.requestcount<self.requestcount) return
           self.totalCount = Number.parseInt(data.cargoquery[0].title['Name)'])
-          console.log("totalcount = " + self.totalCount)
           self.loadingCount = false
           $('.cg-results').empty().append(self.totalCount + ' results')
           // buildCargoPages(offset, totalCount, limit)
