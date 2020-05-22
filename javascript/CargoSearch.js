@@ -8,8 +8,9 @@ var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Beast', 'Cyborg
               'Monk', 'Mutant', 'Niffle', 'Philosopher', 'Pilot', 'Pirate', 'Politician', 'Power', 'Priest', 'Proximan', 
               'Psion', 'Quest', 'Ranger', 'Rat', 'Redacted', 'Robot', 'Scientist', 'Shapeshifter', 'Shard', 'Soldier', 
               'Specter', 'Spirit', 'Thief', 'Tree', 'Vehicle', 'Weapon', 'Witch', 'Wolf']
-var ambercounts = ['0', '1', '2', '3', '4']
-var armorcounts = ['0', '1', '2', '3', '4', '5']
+var ambercounts = ['0', '1', '2', '3', '4+']
+var armorcounts = ['0', '1', '2', '3', '4', '5+']
+var powercounts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
 
 var check_images = {
 	'Brobnar': 'https://archonarcana.com/images/e/e0/Brobnar.png',
@@ -24,14 +25,6 @@ var check_images = {
 	'Anomaly': 'https://archonarcana.com/images/thumb/a/a1/Anomaly_icon.png/40px-Anomaly_icon.png'
 }
 
-/*       <select id="traits" name="traits">
-        <option value="">&nbsp;</option>
-        <option value="beast">Beast</option>
-        <option value="robot">Robot</option>
-        <option value="redacted">Redacted</option>
-        <option value="tree">Tree</option>
-        <option value="Thief">Thief</option>
-      </select> */
 class EditField {
   constructor(type, field, props) {
     this.type = type
@@ -43,6 +36,8 @@ class EditField {
     this.divclass = ''
     this.attach = ''
     this.combo = false
+    this.basic = false
+    this.triggerAdvanced = false
     Object.assign(this, props)
     console.log(this)
     return this
@@ -59,6 +54,10 @@ class EditField {
   addElement() {
     var self=this
     var form=self.attach
+    var presetValue = parseQueryString(this.field)
+    if(presetValue && !this.basic){
+      this.triggerAdvanced = true
+    }
     if(form === '') {
       return
     }
@@ -67,26 +66,30 @@ class EditField {
       $(form).append('<br>')
     }
     if (this.type === 'text') {
-      $(form).append('<label for="' + this.field + '">' + this.label + ': </label>')
-      $(form).append('<input name="' + this.field + '" value="' + parseQueryString(this.field) + '" />')
-    }
-    if (this.type === 'int') {
-      $(form).append([
-        '<label for="' + this.field + '">' + this.label + ': </label>',
-        '<input type="number" name="' + this.field + '_min" min="0" max="50" width="5">',
-        '<input type="number" name="' + this.field + '_max" min="0" max="50" width="5">'
-      ].join(''))
+      if(this.label){
+        $(form).append('<label for="' + this.field + '">' + this.label + '</label>')
+      }
+      $(form).append('<input name="' + this.field + '" value="' + presetValue + '" />')
     }
     if (this.type === 'select') {
-      var options = ['<select name="'+this.field+'">']
+      var options = []
+      if(this.label) {
+        options.push('<label for="' + this.field + '">' + this.label + '</label>')
+      }
       if(this.combo) {
-        options[0] = '<select class="js-multiple" name="'+this.field+'" multiple>'
+        options.push('<select class="js-multiple" name="'+this.field+'" multiple>')
+      } else {
+        options.push('<select name="'+this.field+'">')
       }
       if(!this.combo){
-        options.push('<option value="">All '+this.label+'</option>')
+        options.push('<option value=""></option>')
       }
       this.values.map(function(option) {
-        options.push('<option value="'+option+'">'+option+'</option>')
+        var is_checked = ''
+        if (presetValue.match(option)) {
+          is_checked = ' selected="true"'
+        }
+        options.push('<option value="'+option+'"'+is_checked+'>'+option+'</option>')
       })
       options.push('</select>')
       $(form).append(options.join(''))
@@ -105,7 +108,7 @@ class EditField {
         if(img){
           txt += 'class="checkbox-house"'
         }
-        if(parseQueryString(self.field).replace(/\+/g,' ').match(value)) {
+        if(presetValue.replace(/\+/g,' ').match(value)) {
           txt += ' checked="true" '
         }
         txt += 'name="'+self.field+'" id="'+value+'" value="'+value+'">' 
@@ -199,29 +202,34 @@ class EditField {
   }
 }
 
+var minmax = function(array, field, attach, values) {
+  array.push(new EditField('select', field+'_min', {'label':'Min ','attach':attach, 'values':values}))
+  array.push(new EditField('select', field+'_max', {'label':'Max ','attach':attach, 'values':values}))
+}
+
 var searchFields = [
-  new EditField('text', 'cardnumber', {'label':'Card Number'}), new EditField('br'),
+  new EditField('text', 'cardnumber', {'attach':'div.card-number-entries'}),
   new EditField('checkbox', 'houses', 
-    {'label':'Houses', 'values':houses, 'divclass':'house', 'attach':"div.house-entries"}), 
-    new EditField('br'),
+    {'label':'Houses', 'basic':true, 
+     'values':houses, 'divclass':'house', 'attach':"div.house-entries"}), 
   new EditField('checkbox', 'sets', 
-    {'label':'Sets', 'values':sets, 'divclass':'set', 'attach':'div.set-entries'}), 
-    new EditField('br'),
+    {'label':'Sets', 'basic':true,
+     'values':sets, 'divclass':'set', 'attach':'div.set-entries'}), 
   new EditField('checkbox', 'types', 
-    {'label':'Types', 'values':types, 'divclass':'type', 'attach':'div.type-entries'}), 
-    new EditField('br'),
-  new EditField('text', 'cardname', 'Card Name'),
-  new EditField('text', 'cardtext', 'Card Text', '|'),
-  new EditField('text', 'flavortext', 'Flavor Text', '|'), new EditField('br'),
-  new EditField('int', 'power', 'Power (min/max)'), new EditField('br'),
-  new EditField('int', 'amber', 'Aember', '', ambercounts), new EditField('br'),
-  new EditField('int', 'armor', 'Armor', '', armorcounts), new EditField('br'),
+    {'label':'Types', 'basic':true,
+     'values':types, 'divclass':'type', 'attach':'div.type-entries'}), 
+  new EditField('text', 'cardname', {'attach':'div.card-name-entries', 'split_on': '|'}),
+  new EditField('text', 'cardtext', {'attach':'div.card-text-entries', 'split_on': '|'}),
+  new EditField('text', 'flavortext', {'attach':'div.flavor-text-entries', 'split_on': '|'}),
   new EditField('select', 'rarities', 
-    {'label':'Rarities', 'values':rarities, 'combo': true, 'attach':'div.rarity-entries'}), 
-  new EditField('br'),
+    {'values':rarities, 'basic':true,
+     'combo': true, 'attach':'div.rarity-entries'}), 
   new EditField('select', 'traits', 
-    {'label':'Traits', 'values':traits, 'combo':true, 'attach':'div.trait-entries'}), new EditField('br'),
+    {'values':traits, 'combo':true, 'attach':'div.trait-entries'}),
 ]
+minmax(searchFields, 'amber', 'div.aember-entries', ambercounts)
+minmax(searchFields, 'armor', 'div.armor-entries', armorcounts)
+minmax(searchFields, 'power', 'div.power-entries', powercounts)
 
 
 var parseQueryString = function (argument) {
@@ -236,21 +244,13 @@ var parseQueryString = function (argument) {
   }
 }
 
-var joined = function (pre, ar, post, logic, evaltype='string') {
+var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
   if (ar.length > 0) {
     var nar = ar.filter(function (item) {
       return item
     })
     nar = nar.map(function (item) {
-      if(evaltype == 'number') {
-        if(item.search(/\+/)<0){
-          return pre + '=%22' + item + post
-        } else {
-          item = item.substring(0, item.search(/\+/))
-          return pre + '>%22' + item + post
-        }
-      }
-      return pre + item.replace(/\_/g, '%20') + post
+      return pre + filter(item.replace(/\_/g, '%20')) + post
     })
     if (nar.length > 0) {
       return '(' + nar.join('%20' + logic + '%20') + ')'
@@ -259,24 +259,30 @@ var joined = function (pre, ar, post, logic, evaltype='string') {
   return ''
 }
 
-var statQuery = function(statInput, field) {
+var statQuery = function(clauses, statInput, field) {
   if(statInput) {
-    if(statInput.min | statInput.max) {
+    if(statInput.min.length>0 | statInput.max.length>0) {
       var min = statInput.min
+      min = min.replace('+', '')
       if (!min) {
         min = 0
       }
       var max = statInput.max
-      if (!max) {
+      if (!max||max.search(/\+/)>=0) {
         max = 5000
       }
-      return joined('', [
+      console.log('min/max')
+      console.log(min)
+      console.log(max)
+      clauses.push(
+        joined('', [
           'CardData.'+field+' >= ' + min,
           'CardData.'+field+' <= ' + max
         ], '%20', 'AND')
+      )
     }
   }
-  return ''
+  return
 }
 
 var unhashImage = function(imgName) {
@@ -300,6 +306,14 @@ var loadImage = function(image) {
   }
 }
 
+var padnum = function(number){
+  if(number.length>=3){
+    return number
+  }
+  var num_string = '000'+number
+  return num_string.substring(num_string.length-3,num_string.length)
+}
+
 var CSearch = {
   element: undefined,
   offset: 0,
@@ -311,15 +325,34 @@ var CSearch = {
   cardname: [],
   cardtext: [],
   flavortext: [],
-  power: [],
-  amber: [],
-  armor: [],
+  power_min: [""],
+  power_max: [""],
+  amber_min: [""],
+  amber_max: [""],
+  armor_min: [""],
+  armor_max: [""],
   rarities: [],
   traits: [],
   cardnumber: [],
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
+  toUrl: function() {
+    var elements = []
+    var self = this
+    searchFields.forEach(function (searchField) {
+      var val = self[searchField.field]
+      val = val.join('+')
+      if(val) {
+        elements.push(searchField.field+'='+val)
+      }
+    })
+    elements = elements.join('&')
+    if(elements){
+      elements = '?'+elements
+    }
+    history.replaceState({}, document.title, '/Card_Gallery'+elements)
+  },
   init: function (offset, pageSize) {
     this.offset = Number.parseInt(offset)
     this.pageSize = Number.parseInt(pageSize)
@@ -331,6 +364,7 @@ var CSearch = {
       field.assignData(self)
     })
     self.offset = 0
+    self.toUrl()
     self.newSearch()
   },
   newSearch: function() {
@@ -347,26 +381,15 @@ var CSearch = {
       joined('Type=%22', this.types, '%22', 'OR'),
       joined('SetName=%22', this.sets, '%22', 'OR'),
       joined('Rarity=%22', this.rarities, '%22', 'OR'),
-      joined('Amber=%22', this.amber, '%22', 'OR'),
-      joined('Armor', this.armor, '%22', 'OR', 'number'),
       joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
       joined('CardData.Traits%20LIKE%20%22%25', this.traits, '%25%22', 'OR'),
       joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
       joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
-      joined('CardNumber=%22', this.cardnumber, '%22', 'OR')
+      joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
     ]
-    var stat = statQuery(this.power, 'Power')
-    if(stat){
-      clauses.push(stat)
-    }
-    var stat = statQuery(this.amber, 'Amber')
-    if(stat){
-      clauses.push(stat)
-    }
-    var stat = statQuery(this.armor, 'Armor')
-    if(stat){
-      clauses.push(stat)
-    }
+    statQuery(clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
+    statQuery(clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
+    statQuery(clauses, {'min':this.armor_min[0], 'max':this.armor_max[0]}, 'Armor')
     var where = joined('', clauses,
       '', 'AND')
     where = '&where=' + where
@@ -472,8 +495,12 @@ var CSearch = {
 
 var buildCardSearchForm = function() {
   //$('#viewcards_form').append('<form method="GET" id="searchForm"></form>')
+  var triggerAdvanced = false;
   searchFields.map(function(field) {
     field.addElement()
+    if(field.triggerAdvanced){
+      triggerAdvanced = true
+    }
   })
   $('.advanced-search')[0].addEventListener("click", function(evt) {
     var on = $('.cg-advanced-menu')[0].style.display !== 'none'
@@ -485,6 +512,9 @@ var buildCardSearchForm = function() {
       $('.advanced-search-icon')[0].style = 'transform:rotate(180deg)'
     }
   })
+  if(triggerAdvanced) {
+    $('.advanced-search')[0].click()
+  }
   console.log('form built')
 }
 
