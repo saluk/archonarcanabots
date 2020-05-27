@@ -1,52 +1,145 @@
+import __updir__
+import passwords
+import random
 import json
 import os
+import sys
 import time
 import requests
-try:
-    import util
-except Exception:
-    import sys
-    from os import path
-    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-    import util
+import util
+import datamodel
+import threading
+import sqlalchemy
+
+def rget(*args, **kwargs):
+    print("    req", args, kwargs)
+    return requests.get(*args, **kwargs)
+
+def correlate_deck(deck, cards_by_key):
+    for card_key in deck["_links"]["cards"]:
+        card = cards_by_key[card_key]
+        card["deck_expansion"] = deck["expansion"]
+
+
+class RateLimitException(Exception):
+    pass
+
+
+def get_json(resp):
+    try:
+        j = resp.json()
+    except Exception:
+        raise
+    if j.get("code", None) == 429:
+        raise RateLimitException("Hit code 429")
+    return j
+
+
+def proxy_orbit():
+    proxy = rget("https://api.proxyorbit.com/v1/?twitter=true&ssl=true&token="+passwords.PROXY_ORBIT_KEY)
+    d = proxy.json()
+    if "ip" not in d:
+        return None
+    return str(d["ip"])+":"+str(d["port"])
+
+
+def proxy_rotator():
+    proxy = rget("http://falcon.proxyrotator.com:51337/?apiKey="+passwords.PROXY_ROTATOR_KEY)
+    d = proxy.json()
+    if "proxy" not in d:
+        return None
+    return d["proxy"]
+
+
+def proxy_spider():
+    proxy = rget("https://proxy-spider.com/api/proxies.json?api_key=%s&order=random&limit=1&page=1&supports=get&protocols=https&response_time=slow,medium,fast&type=anonymous,elite,transparent&country_code=null&test=0" % passwords.PROXY_SPIDER_KEY)
+    d = proxy.json()
+    if "data" not in d or "proxies" not in d["data"]:
+        return None
+    pd = d["data"]["proxies"][0]
+    return str(pd["ip"])+":"+str(pd["port"])
+
+
+def get_proxy_list():
+    proxy = rget("https://api.getproxylist.com/proxy")
+    d = proxy.json()
+    if "ip" not in d:
+        return None
+    return str(d["ip"])+":"+str(d["port"])
+
+def proxy_list1():
+    # from https://proxyscrape.com/premium?ref=topfpl
+    with open("proxy_list1.txt") as f:
+        urls = f.read().split("\n")
+        return random.choice(urls)
+    return None
+
+def sslproxy():
+    from fp.fp import FreeProxy
+    try:
+        return FreeProxy(rand=True).get()
+    except Exception:
+        return None
 
 
 class MasterVault(object):
     def __init__(self):
         self.last_call = None
-        self.call_wait = 10
         self.max_page = 24
-        self.cache = {}
-        if os.path.exists("mv.cache"):
-            with open("mv.cache") as f:
-                self.cache = json.loads(f.read())
+        self.scope = datamodel.UpdateScope()
+        self.thread_states = {}
 
-    def sleep(self):
-        if not self.last_call:
-            self.last_call = time.time()-self.call_wait
-        dt = time.time()-self.last_call
-        print(dt)
-        if dt < self.call_wait:
-            time.sleep(self.call_wait-dt)
-
-    def save_cache(self, key, value):
-        self.cache[key] = value
-        #with open("mv.cache", "w") as f:
-        #    f.write(json.dumps(self.cache))
+    def proxyget(self, *args, **kwargs):
+        lastexc = None
+        timeout=10
+        def good_proxy():
+            return self.scope.get_proxy()
+        methods = [(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
+        random.shuffle(methods)
+        for method, tries in methods:
+            proxy = {"method": method.__name__}
+            for i in range(tries):
+                url = method()
+                if not url:
+                    break
+                proxy['url'] = url
+                try:
+                    r = rget(proxies={'http':url, 'https':url}, 
+                                     timeout=timeout, *args, **kwargs)
+                    self.scope.add_proxy(url)
+                except Exception as exc:
+                    lastexc = exc
+                    self.scope.remove_proxy(url)
+                    print("error", kwargs['params']['page'], method.__name__)
+                    continue
+                try:
+                    return get_json(r), proxy
+                except Exception as exc:
+                    print("error", kwargs['params']['page'], method.__name__)
+                    lastexc = exc
+        for i in range(4):
+            try:
+                r = rget(timeout=timeout, *args, **kwargs)
+            except Exception as exc:
+                lastexc = exc
+                time.sleep(5)
+                print("error", kwargs['params']['page'], "raw1")
+                continue
+            try:
+                return get_json(r), {"method":"unproxied"}
+            except Exception as exc:
+                print("error", kwargs['params']['page'], "raw2")
+                lastexc = exc
+                time.sleep(5)
+                continue
+        print(lastexc)
+        raise Exception("Couldn't get valid response")
 
     def _call(self, endpoint, args):
         assert endpoint in ['decks']
         url = "https://www.keyforgegame.com/api/%s/" % endpoint
         key = url+";params:"+json.dumps(args, sort_keys=True)
-        if key not in self.cache:
-            self.sleep()
-            r = requests.get(url, params=args)
-            j = r.json()
-            self.last_call = time.time()
-            if j.get("code", None) == 429:
-                raise(Exception(j["message"]+";"+j["detail"]))
-            self.save_cache(key, j)
-        return self.cache[key]
+        return self.proxyget(url, params=args)
 
     def get_deck(self, deck_name):
         args = {
@@ -57,7 +150,7 @@ class MasterVault(object):
             "chains": "0,24",
             "ordering": "-date"
         }
-        dat = self._call("decks", args)
+        dat, proxy = self._call("decks", args)
         if "data" not in dat:
             raise Exception("No data found", deck_name)
         if len(dat["data"]) > 1:
@@ -69,41 +162,101 @@ class MasterVault(object):
             "url": "https://www.keyforgegame.com/deck-details/%(id)s" % {"id": deck_data["id"]}
         }
 
-    def get_decks_with_cards(self):
-        card_names = {}
-        decks = []
-        for page in range(1, 100):
-            args = {
-                "page": page,
-                "page_size": self.max_page,
-                "power_level": "0,11",
-                "chains": "0,24",
-                "ordering": "-date",
-                "links": "cards"
-            }
-            dat = self._call("decks", args)
-            decks.extend(dat["data"])
-            cards = dat["_linked"]["cards"]
-            for card in cards:
-                name = card["card_title"]
-                if name not in card_names:
-                    card_names[name] = {}
-                card_names[name][card["id"]] = card
-                if len(card_names[name]) > 1:
-                    print(card_names[name])
-            print(len(decks))
+    def get_decks_with_cards(self, direction, page):
+        args = {
+            "page": page,
+            "page_size": self.max_page,
+            "power_level": "0,11",
+            "chains": "0,24",
+            "ordering": direction+"date",
+            "links": "cards"
+        }
+        dat, proxy = self._call("decks", args)
+        if "data" not in dat:
+            return [], []
+        decks = dat["data"]
+        cards = dat["_linked"]["cards"]
+        cards_by_key = {}
+        for card in cards:
+            cards_by_key[card["id"]] = card
+        [correlate_deck(deck, cards_by_key) for deck in decks]
+        return decks, cards, proxy
 
-    def scrape_back(self):
+    def insert(self, decks, cards):
+        [self.scope.add_deck(
+                key = deck['id'],
+                name = deck['name'],
+                expansion = deck['expansion'],
+                data = deck
+            ) for deck in decks]
+        [self.scope.add_card(
+                key = card['id'],
+                name = card['card_title'],
+                deck_expansion = card['deck_expansion'],
+                data = card
+            ) for card in cards]
+        self.scope.commit()
+
+    def scrape_back(self, start_at=1, thread_index=0):
         """Start scraping decks from the oldest to the newest
         The first deck we hit that we don't know about starts the scrape proper
         After the proper scrape begins, if we hit a deck we know about, we've caught
         up to the front scraper and can stop.
         
         We can also save which page we left off on and resume the back scrape from there"""
+        self.thread_states[thread_index] = ""
+        while 1:
+            self.thread_states[thread_index] = "ok_open"
+            try:
+                page = self.scope.next_page_to_scrape(start_at)
+            except Exception:
+                self.scope.session_reset()
+                self.thread_states[thread_index] = "fail_start"
+                time.sleep(5)
+                continue
+            self.thread_states[thread_index] = "ok_scrape"
+            print("SCRAPE PAGE",page,"thread:",thread_index,"threads",repr(self.thread_states))
+            try:
+                decks, cards, proxy = self.get_decks_with_cards("", page)
+            except Exception:
+                self.thread_states[thread_index] = "fail_proxy"
+                time.sleep(15)
+                continue
+            if not decks:
+                # We're done scraping and can stop
+                self.thread_states[thread_index] = "ok_done"
+                return
+            try:
+                self.insert(decks, cards)
+                self.thread_states[thread_index] = "ok_inserted"
+            except Exception:
+                time.sleep(5)
+                self.thread_states[thread_index] = "fail_insert"
+                continue
+            time.sleep(1)
+            print("########### inserted",len(decks),"decks, and",len(cards),"cards from page",page,"via",proxy, len(threading.enumerate()))
+            self.scope.scraped_page(page=page, decks_scraped=len(decks), cards_scraped=len(cards))
+            self.thread_states[thread_index] = "ok_continue"
+        return True
 
-    def scrape_front(self):
+    def scrape_front(self, page):
         """Start scraping from the front. If we hit a deck we know about, we've
         caught up to our last scrape from the front and can stop"""
+        while 1:
+            #page = self.scope.next_page_to_scrape(start_at)
+            print("SCRAPE PAGE",page)
+            decks, cards, proxy = self.get_decks_with_cards("-", page)
+            if not decks:
+                # We're done scraping and can stop
+                return
+            try:
+                self.insert(decks, cards)
+            except sqlalchemy.exc.OperationalError:
+                continue
+            print("########### inserted",len(decks),"decks, and",len(cards),"cards from page",page,"via",proxy, len(threading.enumerate()))
+            #self.scope.scraped_page(page=page, decks_scraped=len(decks), cards_scraped=len(cards))
+            page += 1
+        return True
 
 
 mv = MasterVault()
@@ -120,4 +273,13 @@ def master_vault_lookup(deck_name):
 
 
 if __name__ == "__main__":
-    mv.get_decks_with_cards()
+    print(sys.argv)
+    starts = [int(x) for x in sys.argv[1:]]
+    threads = []
+    mv = MasterVault()
+    for start in starts:
+        def mv_thread():
+            mv.scrape_back(start, start)
+        t = threading.Thread(target=mv_thread)
+        threads.append(t)
+        t.start()
