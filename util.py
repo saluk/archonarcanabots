@@ -4,4 +4,5 @@ def dequote(t):
         next = quotes.pop(0)
         t = t.replace('"', next, 1)
         quotes.append(next)
+    t = t.replace("'","\u2019")
     return t

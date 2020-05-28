@@ -3,7 +3,9 @@ import time
 import carddb
 import wikibase
 import card_model_1
-
+import requests
+import os
+import shutil
 
 def update_page(title, page, text, reason, ot, pause=True):
     if text != ot and pause:
@@ -37,7 +39,17 @@ def put_cargo_on_card_page(wp, card_title, update_reason="Put card query on card
     return update_page(card_title, page, text, update_reason, ot, pause)
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=False):
+def put_cargo_on_new_card_page(wp, card_title, update_reason="Put card query on card page", pause=False):
+    page = wp.page(card_title)
+    try:
+        ot = page.read()
+        return
+    except Exception:
+        pass
+    return update_page(card_title, page, "{{Card Query}}", update_reason, "", pause)
+
+
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True):
     latest = carddb.get_latest_from_card(card)
     page = wp.page("CardData:" + latest["card_title"])
     ct = wikibase.CargoTable()
@@ -71,7 +83,8 @@ def update_cards_v2(wp, search_name=None,
                     update_reason="phase 2 test",
                     data_to_update="carddb",
                     restricted=[],
-                    matching=None):
+                    matching=None,
+                    upload_image=False):
     changed = 0
     started = False
     for i, card_name in enumerate(sorted(carddb.cards.keys())):
@@ -80,10 +93,26 @@ def update_cards_v2(wp, search_name=None,
         latest = carddb.get_latest(card_name)
         if matching and matching.lower() not in (latest["flavor_text"]+latest["card_text"]).lower():
             continue
+        if not latest["expansion"] == 479:
+            continue
         started = True
         print(i+1, card_name)
+        if upload_image:
+            rp = latest["image_number"]
+            lp = "images/"+rp
+            if not os.path.exists(lp):
+                print("download", latest["front_image"])
+                with open(lp, "wb") as f:
+                    r = requests.get(latest["front_image"], stream=True)
+                    print(r.status_code)
+                    r.raw.decode_content = True
+                    shutil.copyfileobj(r.raw, f)
+            with open(lp, "rb") as f:
+                print(wp.upload(f, latest["image_number"]))
         if data_to_update == "cargo_to_card":
             text = put_cargo_on_card_page(wp, card_name)
+        if data_to_update == "cargo_to_card2":
+            text = put_cargo_on_new_card_page(wp, card_name)
         else:
             text = update_card_page_cargo(
                 wp, carddb.cards[card_name],

@@ -88,6 +88,7 @@ class MasterVault(object):
         self.max_page = 24
         self.scope = datamodel.UpdateScope()
         self.thread_states = {}
+        self.mv_lock = threading.Lock()
 
     def proxyget(self, *args, **kwargs):
         lastexc = None
@@ -117,6 +118,7 @@ class MasterVault(object):
                 except Exception as exc:
                     print("error", kwargs['params']['page'], method.__name__)
                     lastexc = exc
+        self.mv_lock.acquire()
         for i in range(4):
             try:
                 r = rget(timeout=timeout, *args, **kwargs)
@@ -126,12 +128,15 @@ class MasterVault(object):
                 print("error", kwargs['params']['page'], "raw1")
                 continue
             try:
-                return get_json(r), {"method":"unproxied"}
+                j = get_json(r)
+                self.mv_lock.release()
+                return j, {"method":"unproxied"}
             except Exception as exc:
                 print("error", kwargs['params']['page'], "raw2")
                 lastexc = exc
                 time.sleep(5)
                 continue
+        self.mv_lock.release()
         print(lastexc)
         raise Exception("Couldn't get valid response")
 
@@ -239,7 +244,7 @@ class MasterVault(object):
             self.thread_states[thread_index] = "ok_continue"
         return True
 
-    def scrape_front(self, page):
+    def scrape_front(self, page, *args):
         """Start scraping from the front. If we hit a deck we know about, we've
         caught up to our last scrape from the front and can stop"""
         while 1:

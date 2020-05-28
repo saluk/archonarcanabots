@@ -268,7 +268,7 @@ class CardPage(object):
         self.edit_card_field("house", card["house"])
         self.edit_card_field("type", card["card_type"])
         self.edit_card_field("rarity", card["rarity"])
-        self.edit_card_field("image", card["front_image"])
+        self.edit_card_field("image", card["image_number"])
 
 
 class CardQuerySection(Section):

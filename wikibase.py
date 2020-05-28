@@ -113,7 +113,8 @@ class CargoTable:
             t = "{{%s\n" % item["type"]
             del item["type"]
             for k in item:
-                t += "|%s=%s\n" % (k, item[k])
+                v = item[k] if item[k]!=None else ""
+                t += "|%s=%s\n" % (k, v)
             t += "}}"
             return t
         t = ""
