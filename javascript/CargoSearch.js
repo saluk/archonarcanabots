@@ -283,6 +283,7 @@ var unhashImage = function(imgName) {
 }
 
 var unhashThumbImage = function(imgName) {
+  return 'https://archonarcana.com/thumb.php?f='+imgName+'&width=200'
   var hash = md5(imgName)
   var firsthex = hash.substring(0,1)
   var first2 = hash.substring(0,2)
