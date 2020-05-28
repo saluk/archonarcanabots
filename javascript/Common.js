@@ -2,6 +2,7 @@
 
 //syntax highlighter
 mw.loader.load('//www.mediawiki.org/w/index.php?title=MediaWiki:Gadget-DotsSyntaxHighlighter.js&action=raw&ctype=text/javascript');
+mw.loader.load('/index.php?title=MediaWiki:randomcard.js&action=raw&ctype=text/javascript')
 
 $.when(
     mw.loader.getScript('/index.php?title=MediaWiki:CargoSearch.js&action=raw&ctype=text/javascript'),

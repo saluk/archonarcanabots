@@ -17,12 +17,20 @@ var textbox = $('#wpTextbox1')
 if(textbox.length>0){
     var text = textbox[0].value
     text.split('\n').map(function(line){
-        var regtname = /\{\{(.*?)(\||$|\}\})/
+        var regtname = /\{\{\w(.\*?)(\||$|\}\})/
         var tname = line.match(regtname)
         if(tname){
           tname = tname[1]
           var link = '/Template:'+tname+'?action=edit'
-          $('#p-cactions .menu').append('<li id="ca-template-styles"><a href="'+link+'">Edit Template '+tname+'</a></li>')
+          $('#p-cactions .menu').append('<li id="ca-template-edit"><a href="'+link+'">Edit Template '+tname+'</a></li>')
+        }
+
+        var regtname = /\|template=(.*)/
+        var tname = line.match(regtname)
+        if(tname){
+          tname = tname[1]
+          var link = '/Template:'+tname+'?action=edit'
+          $('#p-cactions .menu').append('<li id="ca-template-edit"><a href="'+link+'">Edit Template '+tname+'</a></li>')
         }
     })
 }
