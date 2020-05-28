@@ -1,6 +1,5 @@
 archived/*
 mv.cache
-skyjedi/*
 .env/*
 .vscode/*
 *.swp
