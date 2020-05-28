@@ -7,3 +7,4 @@ __pycache__/*
 passwords.py
 javascript/node_modules
 */__pycache__
+images/*
