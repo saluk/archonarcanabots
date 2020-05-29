@@ -533,5 +533,6 @@ def all_traits():
 
 if __name__ == "__main__":
     load_from_mv_files()
+    print(all_traits())
 else:
     load_json()
