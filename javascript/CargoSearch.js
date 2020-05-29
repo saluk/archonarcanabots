@@ -2,12 +2,7 @@ var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance'
 var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation']
 var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
 var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant']
-var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Beast', 'Cyborg', 'Demon', 'Dinosaur', 'Dragon', 'Elf', 
-              'Equation', 'Experiment', 'Faerie', 'Fungus', 'Giant', 'Goblin', 'Handuhan', 'Horseman', 'Human', 'Hunter', 
-              'Imp', 'Insect', 'Item', 'Jelly', 'Knight', 'Krxix', 'Law', 'Leader', 'Location', 'Martian', 'Merchant', 
-              'Monk', 'Mutant', 'Niffle', 'Philosopher', 'Pilot', 'Pirate', 'Politician', 'Power', 'Priest', 'Proximan', 
-              'Psion', 'Quest', 'Ranger', 'Rat', 'Redacted', 'Robot', 'Scientist', 'Shapeshifter', 'Shard', 'Soldier', 
-              'Specter', 'Spirit', 'Thief', 'Tree', 'Vehicle', 'Weapon', 'Witch', 'Wolf']
+var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Assassin', 'Beast', 'Cat', 'Changeling', 'Cyborg', 'Demon', 'Dinosaur', 'Dragon', 'Egg', 'Elf', 'Equation', 'Experiment', 'Faerie', 'Fungus', 'Giant', 'Goblin', 'Handuhan', 'Horseman', 'Human', 'Hunter', 'Imp', 'Insect', 'Item', 'Jelly', 'Knight', 'Krxix', 'Law', 'Leader', 'Location', 'Martian', 'Merchant', 'Monk', 'Mutant', 'Niffle', 'Philosopher', 'Pilot', 'Pirate', 'Politician', 'Power', 'Priest', 'Proximan', 'Psion', 'Quest', 'Ranger', 'Rat', 'Robot', 'Scientist', 'Shapeshifter', 'Shard', 'Sin', 'Soldier', 'Specter', 'Spirit', 'Thief', 'Tree', 'Vehicle', 'Weapon', 'Witch', 'Wolf', '[Redacted]']
 var ambercounts = ['0', '1', '2', '3', '4+']
 var armorcounts = ['0', '1', '2', '3', '4', '5+']
 var powercounts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
@@ -126,6 +121,7 @@ class EditField {
   getData() {
     if(this.type === 'text') {
       var val = this.getElement().value
+      val = like_query(val)
       if(this.split_on.length>0) {
         return val.split(this.split_on)
       }
@@ -305,6 +301,10 @@ var padnum = function(number){
   return num_string.substring(num_string.length-3,num_string.length)
 }
 
+var like_query = function(s){
+  return s.replace('"', '%').replace("'", '%')
+}
+
 var CSearch = {
   element: undefined,
   offset: 0,
@@ -371,12 +371,19 @@ var CSearch = {
     self.load();
   },
   searchString: function (returnType) {
+    var traits = []
+    this.traits.forEach(function(trait) {
+      traits.push('=%22'+trait+'%22')
+      traits.push('%20LIKE%20%22%25+•+'+trait+'%22')
+      traits.push('%20LIKE%20%22'+trait+'+•+%25%22')
+      traits.push('%20LIKE%20%22%25+•+'+trait+'+•+%25%22')
+    })
     var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
       joined('SetName=%22', this.sets, '%22', 'OR'),
       joined('Rarity=%22', this.rarities, '%22', 'OR'),
       joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
-      joined('CardData.Traits%20LIKE%20%22%25', this.traits, '%25%22', 'OR'),
+      joined('CardData.Traits', traits, '', 'OR'),
       joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
       joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
       joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
