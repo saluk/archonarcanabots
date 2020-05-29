@@ -33,6 +33,7 @@ class EditField {
     this.combo = false
     this.basic = false
     this.triggerAdvanced = false
+    this.hidden = false
     Object.assign(this, props)
     return this
   }
@@ -59,10 +60,14 @@ class EditField {
       $(form).append('<br>')
     }
     if (this.type === 'text') {
-      if(this.label){
+      if(this.label && !this.hidden){
         $(form).append('<label for="' + this.field + '">' + this.label + '</label>')
       }
-      $(form).append('<input name="' + this.field + '" value="' + presetValue + '" />')
+      var h = ""
+      if(this.hidden){
+        h = ' type="hidden" '
+      }
+      $(form).append('<input name="' + this.field + '"'+h+' value="' + presetValue + '" />')
     }
     if (this.type === 'select') {
       var options = []
@@ -217,6 +222,8 @@ var searchFields = [
      'combo': true, 'attach':'div.rarity-entries'}), 
   new EditField('select', 'traits', 
     {'values':traits, 'combo':true, 'attach':'div.trait-entries'}),
+    new EditField('text', 'errata', 
+    {'hidden':true, 'attach':'div.card-text-entries'}),
 ]
 minmax(searchFields, 'amber', 'div.aember-entries', ambercounts)
 minmax(searchFields, 'armor', 'div.armor-entries', armorcounts)
@@ -325,6 +332,7 @@ var CSearch = {
   rarities: [],
   traits: [],
   cardnumber: [],
+  errata: false,
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
@@ -391,6 +399,8 @@ var CSearch = {
     statQuery(clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
     statQuery(clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
     statQuery(clauses, {'min':this.armor_min[0], 'max':this.armor_max[0]}, 'Armor')
+    console.log('ERRATA:')
+    console.log(this.errata)
     var where = joined('', clauses,
       '', 'AND')
     where = '&where=' + where
@@ -410,6 +420,7 @@ var CSearch = {
     } else if (returnType === 'count') {
       q = start + tables + countFields + where + joinon
     }
+    console.log(q)
     return q
   },
   updateResults: function (resultsArray) {
