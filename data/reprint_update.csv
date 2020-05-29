@@ -1,0 +1,239 @@
+(REDACTED)	reason
+After you choose Logos as your active house, place 1{{Aember}} from the common supply on [REDACTED]. When there are 4 or more {{Aember}} on [REDACTED], [[Sacrifice|sacrifice]] it and [[Timing_Chart#Forge_a_Key|forge a key]] at no [[Cost|cost]].	Old Text
+After you choose Logos as your active house, put 1{{Aember}} from the common supply on [REDACTED]. When there are 4{{Aember}} or more on [REDACTED], destroy it and [[Timing_Chart#Forge_a_Key|forge a key]] at no [[Cost|cost]].	New Text
+	
+Captain Val Jericho	
+During your turn, if Captain Val Jericho is in the [[Center of the Battleline|center of your battleline]], you may play one card that is not of the active house.	
+During your turn, if Captain Val Jericho is in the [[Center of the Battleline|center of your battleline]], you may play 1 card that is not of the active house.﻿﻿	one->1
+	
+City Gates	
+'''Action:''' A friendly creature captures 1{{Aember}}. If that creature is a Dinosaur, it captures 2{{Aember}} [[Replacement Effects|instead]].	
+'''Action:''' A friendly creature captures 1{{Aember}}. If that creature is a [http://archonarcana.com/Card_Gallery?traits=Dinosaur Dinosaur], it captures 2{{Aember}} [[Replacement Effects|instead]].﻿﻿	saluk
+	
+Cleansing Wave	
+'''Play:''' [[Heal|Heal]] 1 damage from each creature. Gain 1{{Aember}} [[For each|for each]] creature [[Heal|heal]]ed this way.	
+'''Play:''' [[Heal|Heal]] 1 damage from each creature. Gain 1{{Aember}} [[For each|for each]] creature healed this way.	saluk
+	
+Daughter	
+[[Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> During your “draw cards” step, refill your hand to 1 additional card.	
+[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> During your “draw cards” step, refill your hand to 1 additional card.	saluk
+	
+Diplo-Macy	
+[[Alpha]].  <p> '''Play:''' Until the start of your next turn, each creature gains, “'''Before Fight:''' [[Exalt|Exalt]] this creature.”	
+[[Alpha|Alpha]]. <p> '''Play:''' Until the start of your next turn, each creature gains, “'''Before Fight:''' [[Exalt|Exalt]] this creature.”	saluk
+	
+Eldest Bear	
+[[Assault]] 3. <p> While Eldest Bear is in the [[Center of the Battleline|center of your battleline]], it gains, “'''Before Fight:''' Gain 2{{Aember}}.”	
+[[Assault|Assault]] 3. <p> While Eldest Bear is in the [[Center of the Battleline|center of your battleline]], it gains, “'''Before Fight:''' Gain 2{{Aember}}.”	saluk
+	
+Encounter Suit	
+After an action card is played but before it resolves, [[Ward|ward]] this creature.	
+After an action card is played, but before resolving its play effect, [[Ward|ward]] this creature.	added "before play effect"
+	
+Entropic Swirl	
+'''Play:''' Choose a creature, [[For each|for each]] trait that creature has, deal it 2{{Damage}} and gain 1{{Aember}}.	
+'''Play:''' Choose a creature. [[For each|For each]] trait that creature has, deal 2{{Damage}} to it and gain 1{{Aember}}.	separate sentences + new wording
+	
+Equalize	
+'''Play:''' Redistribute the {{Aember}} on friendly creatures among friendly creatures. Then, redistribute the {{Aember}} on enemy creatures among enemy creatures.	
+'''Play:''' Redistribute the {{Aember}} on friendly creatures among friendly creatures. Redistribute the {{Aember}} on enemy creatures among enemy creatures.	removed "then"
+	
+Explo-rover	
+[[Skirmish]]. <p> Explo-rover may be played as an upgrade [[Replacement Effects|instead]] of a creature, with the text: “This creature gains [[Skirmish|skirmish]].”	
+[[Skirmish|Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.) <p> Explo-rover may be played as an upgrade [[Replacement Effects|instead]] of a creature, with the text: “This creature gains skirmish.”﻿﻿	added reminder text
+	
+Fidgit	
+[[Elusive]]. <p> '''Reap:''' Discard a random card from your opponent’s archives or the top card of their deck. If that card is an action, play it [[as if it were yours|as if it were yours]].	
+[[Elusive|Elusive]]. <p> '''Reap:''' Discard a random card from your opponent’s archives or the top card of their deck. If that card is an action, play it [[as if it were yours|as if it were yours]].﻿﻿	saluk
+	
+Gamgee	
+[[Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Reap:''' If your opponent has more {{Aember}} than you, steal 1{{Aember}}.	
+[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Reap:''' If your opponent has more {{Aember}} than you, steal 1{{Aember}}.﻿﻿	saluk
+	
+Ghosthawk	
+[[Deploy]]. (This creature can enter play anywhere in your battleline.) <p> '''Play:''' You may reap with each neighboring creature, one at a time.	
+[[Deploy|Deploy]]. (This creature can enter play anywhere in your battleline.) <p> '''Play:''' You may reap with each neighboring creature, one at a time.﻿﻿	saluk
+	
+Gorm of Omm	
+'''Omni:''' [[Sacrifice|Sacrifice]] Gorm of Omm. Destroy an artifact.	
+'''Omni:''' Destroy Gorm of Omm. Destroy an artifact.	sacrifice > destroy
+	
+Grimlocus Dux	
+[[Taunt]]. <p> '''Play:''' [[Exalt|Exalt]] Grimlocus Dux twice.	
+[[Taunt|Taunt]]. <p> '''Play:''' [[Exalt|Exalt]] Grimlocus Dux twice.	saluk
+	
+Guilty Hearts	
+'''Play:''' Destroy each creature with any {{Aember}} on it.	
+'''Play:''' Destroy each creature with {{Aember}} on it.	removed "any"
+	
+Heist Night	
+[[Alpha]]. (You can only play this card before doing anything else this step.) <p> '''Play:''' Steal 1{{Aember}} [[For each|for each]] friendly Thief creature.	
+[[Alpha|Alpha]]. (You can only play this card before doing anything else this step.)  <p> '''Play:''' Steal 1{{Aember}} [[For each|for each]] friendly [http://archonarcana.com/Card_Gallery?traits=Thief Thief] creature.	saluk
+	
+Honorable Claim	
+'''Play:''' Each friendly Knight creature captures 1{{Aember}}.	
+'''Play:''' Each friendly [http://archonarcana.com/Card_Gallery?traits=Knight Knight] creature captures 1{{Aember}}.	saluk
+	
+Hyde	
+'''Reap:''' Draw a card. If you [[Control|control]] [[Velum]], draw 2 cards [[Replacement Effects|instead]]. <p> '''Destroyed:''' Archive [[Velum]] from your discard pile. [[if you do|If you do]], archive Hyde.	
+'''Reap:''' Draw a card. If you [[Control|control]] [[Velum]], draw 2 cards [[Replacement Effects|instead]]. <p> '''Destroyed:''' Archive Velum from your discard pile. [[if you do|If you do]], archive Hyde.	saluk
+	
+Imperial Traitor	
+'''Play:''' Look at your opponent’s hand. You may choose and [[Purge|purge]] a Sanctum card in it.	
+'''Play:''' Look at your opponent’s hand. You may choose and [[Purge|purge]] a Sanctum card from it.﻿﻿	in > from
+	
+Impspector	
+'''Destroyed:''' [[Purge|Purge]] a random card from your opponent’s hand.	
+'''Destroyed:''' Your opponent purges a random card from their hand.	new wording
+	
+Infurnace	
+'''Play:''' [[Purge|Purge]] up to 2 cards from a discard pile. Your opponent loses {{Aember}} equal to the total Æmber bonus of the [[Purge|purged]] cards.	
+'''Play:''' [[Purge|Purge]] up to 2 cards from a discard pile. Your opponent loses {{Aember}} equal to the number of {{Aember}} bonus icons on the [[Purge|purged]] cards.	new wording
+	
+Lord Invidius	
+[[Elusive]].  <p> While Lord Invidius is in the [[Center of the Battleline|center of your battleline]], it gains, “'''Reap:''' [[Control|Take control]] of an enemy [[Flank|flank]] creature and exhaust it. While under your [[Control|control]], it belongs to house Dis.”	
+[[Elusive|Elusive]].  <p> While Lord Invidius is in the [[Center of the Battleline|center of your battleline]], it gains, “'''Reap:''' [[Control|Take control]] of an enemy [[Flank|flank]] creature and exhaust it. While under your [[Control|control]], it belongs to house Dis.”	saluk
+	
+Macis Asp	
+[[Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.) <p> [[Poison]]. (Any damage dealt by this creature’s power during a fight destroys the damaged creature.)	
+[[Skirmish|Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.) <p> [[Poison|Poison]]. (Any damage dealt by this creature’s power during a fight destroys the damaged creature.)﻿﻿	saluk
+	
+Masterplan	
+'''Play:''' Put a card from your hand facedown beneath Masterplan. <p> '''Omni:''' Play the card beneath Masterplan. [[Sacrifice|Sacrifice]] Masterplan.	
+'''Play:''' Put a card from your hand facedown under Masterplan. <p> '''Omni:''' Play the card under Masterplan. Destroy Masterplan.﻿﻿	new wording
+	
+Nexus	
+[[Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Reap:''' Use an opponent’s artifact [[as if it were yours|as if it were yours]].	
+[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Reap:''' Use an enemy artifact [[as if it were yours|as if it were yours]].﻿﻿	opponent > enemy
+	
+Niffle Queen	
+Each other friendly Beast creature gets +1 power. <p> Each other friendly Niffle creature gets +1 power.	
+Each other friendly [http://archonarcana.com/Card_Gallery?traits=Beast Beast] creature gets +1 power. <p> Each other friendly [http://archonarcana.com/Card_Gallery?traits=Niffle Niffle] creature gets +1 power.﻿﻿	saluk
+	
+Obsidian Forge	
+'''Action:''' [[Sacrifice|Sacrifice]] any number of friendly creatures. Then, you may [[Timing_Chart#Forge_a_Key|forge a key]] at +6{{Aember}} [[Cost|current cost]], reduced by 1{{Aember}} [[For each|for each]] creature sacrificed this way. [[if you do|If you do]], destroy Obsidian Forge.	
+'''Action:''' Destroy any number of friendly creatures. You may [[Timing_Chart#Forge_a_Key|forge a key]] at +6{{Aember}} [[Cost|current cost]], reduced by 1{{Aember}} [[For each|for each]] creature destroyed this way. If you [[Timing_Chart#Forge_a_Key|forge a key]] this way, destroy Obsidian Forge.	new wording
+	
+Old Bruno	
+[[Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Play:''' Capture 3{{Aember}}.	
+[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Play:''' Capture 3{{Aember}}.	saluk
+	
+Peace Accord	
+'''Play:''' Each player gains 2{{Aember}}.  <p> After a creature is used to fight, its controller loses 4{{Aember}}. Destroy Peace Accord.	
+'''Play:''' Each player gains 2{{Aember}}.  <p> After a player fights with a creature, they lose 4{{Aember}}. Destroy Peace Accord.﻿﻿	used > fights
+	
+Potion of Invulnerability	
+'''Omni:''' [[Sacrifice|Sacrifice]] Potion of Invulnerability. For the remainder of the turn, each friendly creature cannot be dealt damage.	
+'''Omni:''' Destroy Potion of Invulnerability. For the remainder of the turn, each friendly creature cannot be dealt damage.	sacrifice > destroy
+	
+Po’s Pixies	
+[[Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> {{Aember}} stolen or captured from your pool is taken from the common supply [[Replacement Effects|instead]].	
+[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> {{Aember}} that would be stolen or captured from your pool is taken from the common supply [[Replacement Effects|instead]].﻿﻿	new wording: "would be"
+	
+Praefectus Ludo	
+Each other friendly creature gains, “'''Destroyed:''' [[Move|Move]] each {{Aember}} on this creature to the common supply.”	
+Each other friendly creature gains, “'''Destroyed:''' [[Move|Move]] each {{Aember}} from this creature to the common supply.”﻿﻿	on > from
+	
+Prescriptive Grammarbot	
+[[Taunt]]. [[Hazardous]] 3.  <p> '''Reap:''' [[Enrage|Enrage]] a creature.	
+[[Taunt|Taunt]]. [[Hazardous|Hazardous]] 3. <p> '''Reap:''' [[Enrage|Enrage]] a creature.	saluk
+	
+Punctuated Equilibrium	
+'''Play:''' Each player discards their hand, then refills their hand as if it were the end of their turn.	
+'''Play:''' Each player discards their hand, then refills their hand as if it were their “draw cards” step.	end of turn > draw cards
+	
+Ritual of the Hunt	
+'''Omni:''' [[Sacrifice|Sacrifice]] Ritual of the Hunt. For the remainder of the turn, you may use friendly Untamed creatures.	
+'''Omni:''' Destroy Ritual of the Hunt. For the remainder of the turn, you may use friendly Untamed creatures.﻿﻿	sacrifice > destroy
+	
+Sack of Coins	
+'''Play:''' Deal 1{{Damage}} to a creature [[For each|for each]] {{Aember}} in your pool.	
+'''Play:''' Deal 1{{Damage}} to a creature [[For each|for each]] {{Aember}} you have.	pool > have
+	
+Safe Place	
+You may [[Forge|spend]] {{Aember}} on Safe Place when [[Forge|forging keys]]. <p> '''Action:''' [[Move|Move]] 1{{Aember}} from your pool to Safe Place.	
+You may [[Forge|spend]] {{Aember}} on Safe Place as if it were in your pool. <p> '''Action:''' [[Move|Move]] 1{{Aember}} from your pool to Safe Place.﻿﻿	forging > in your pool
+	
+Saurus Rex	
+'''Fight/Reap:''' If Saurus Rex is in the [[Center of the Battleline|center of your battleline]], you may [[Exalt|exalt]] it. [[if you do|If you do]], [[Search|search]] your deck for a Saurian card, reveal it, and add it to your hand. Then, shuffle your deck.	
+'''Fight/Reap:''' If Saurus Rex is in the [[Center of the Battleline|center of your battleline]], you may [[Exalt|exalt]] it. [[if you do|If you do]], [[Search|search]] your deck for a Saurian card, reveal it, and put it into your hand. Shuffle your deck.﻿﻿	removed "then"
+	
+Scout	
+'''Play:''' For the remainder of the turn, up to 2 friendly creatures gain [[Skirmish|skirmish]]. Then, fight with those creatures one at a time.	
+'''Play:''' For the remainder of the turn, up to 2 friendly creatures gain [[Skirmish|skirmish]]. Fight with those creatures one at a time.﻿﻿	removed "then"
+	
+Shadow of Dis	
+'''Play:''' Until your next turn, enemy creatures’ text boxes are considered blank (except for traits).	
+'''Play:''' Until the start of your next turn, each enemy creature’s text box is considered blank (except for traits).	added "start" and "each"
+	
+Skippy Timehog	
+'''Play:''' Your opponent cannot use any cards next turn. (Cards can still be played and discarded.)	
+'''Play:''' Your opponent cannot use any cards during their next turn. (Cards can still be played and discarded.)	added "during"
+	
+Sloppy Labwork	
+'''Play:''' Archive a card. Discard a card.	
+'''Play:''' Archive a card. Discard a card from your hand.	added "from your hand"
+	
+Smiling Ruth	
+[[Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Reap:''' If you forged a key this turn, [[Control|take control]] of an enemy [[Flank|flank]] creature.	
+[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Reap:''' If you forged a key this turn, [[Control|take control]] of an enemy [[Flank|flank]] creature.﻿﻿	saluk
+	
+Sow Salt	
+[[Alpha]].  <p> '''Play:''' Until the start of your next turn, creatures cannot be used to reap.	
+[[Alpha|Alpha]]. <p> '''Play:''' Until the start of your next turn, creatures cannot reap.	removed "used"
+	
+Spike Trap	
+'''Omni:''' [[Sacrifice|Sacrifice]] Spike Trap. [[if you do|If you do]], deal 3{{Damage}} to each [[Flank|flank]] creature.	
+'''Omni:''' Destroy Spike Trap. [[if you do|If you do]], deal 3{{Damage}} to each [[Flank|flank]] creature.	sacrifice > destroy
+	
+Stampede	
+'''Play:''' If you [[Use|used]] 3 or more creatures this turn, steal 2{{Aember}}.	
+'''Play:''' If you used 3 or more creatures this turn, steal 2{{Aember}}.	saluk
+	
+The Grey Rider	
+[[Deploy]]. (This creature can enter play anywhere in your battleline.) <p> '''Play/Fight/Reap:''' You may ready and fight with a neighboring creature.	
+[[Deploy|Deploy]]. (This creature can enter play anywhere in your battleline.) <p> '''Play/Fight/Reap:''' You may ready and fight with a neighboring creature.	saluk
+	
+The Shadow Council	
+[[Elusive]].  <p> While The Shadow Council is in the [[Center of the Battleline|center of your battleline]], it gains, “'''Action:''' Steal 2{{Aember}}.”	
+[[Elusive|Elusive]].  <p> While The Shadow Council is in the [[Center of the Battleline|center of your battleline]], it gains, “'''Action:''' Steal 2{{Aember}}.”﻿﻿	saluk
+	
+The Sting	
+Skip your “[[Timing_Chart#Forge_a_Key|forge a key]]” step. <p> You get all {{Aember}} [[Forge|spent]] by your opponent when [[Forge|forging keys]]. <p> '''Action:''' [[Sacrifice|Sacrifice]] The Sting.	
+Skip your “[[Timing_Chart#Forge_a_Key|forge a key]]” step. <p> You get all {{Aember}} [[Forge|spent]] by your opponent when [[Forge|forging keys]]. <p> '''Action:''' Destroy The Sting.﻿﻿	sacrifice > destroy
+	
+Transporter Platform	
+'''Action:''' Return a friendly creature and each upgrade attached to it to your hand.	
+'''Action:''' Return a friendly creature and each upgrade attached to it to their owners’ hands.	your > owners
+	
+Troop Call	
+'''Play:''' Return each friendly Niffle creature from your discard pile and from play to your hand.	
+'''Play:''' Return each friendly [http://archonarcana.com/Card_Gallery?traits=Niffle Niffle] creature from your discard pile and from play to your hand.﻿﻿	saluk
+	
+Truebaru	
+You must lose 3{{Aember}} in order to play Truebaru.   <p> [[Taunt]]. (This creature’s neighbors cannot be attacked unless they have [[Taunt|taunt]].) <p> '''Destroyed:''' Gain 5{{Aember}}.	
+You must lose 3{{Aember}} in order to play Truebaru.  <p> [[Taunt|Taunt]]. (This creature’s neighbors cannot be attacked unless they have taunt.) <p> '''Destroyed:''' Gain 5{{Aember}}.	saluk
+	
+Velum	
+'''Reap:''' Archive a card. If you [[Control|control]] [[Hyde]], archive 2 cards [[Replacement Effects|instead]]. <p> '''Destroyed:''' Archive [[Hyde]] from your discard pile. [[if you do|If you do]], archive Velum.	
+'''Reap:''' Archive a card. If you [[Control|control]] [[Hyde]], archive 2 cards [[Replacement Effects|instead]]. <p> '''Destroyed:''' Archive Hyde from your discard pile. [[if you do|If you do]], archive Velum.	saluk
+	
+Vineapple Tree	
+Keys [[Cost|cost]] +1{{Aember}} [[For each|for each]] growth counter on Vineapple Tree.  <p> After a player forges a key, remove each growth counter from Vineapple Tree.  <p> '''Action:''' Put a growth counter on Vineapple Tree.	
+Keys [[Cost|cost]] +1{{Aember}} [[For each|for each]] growth counter on Vineapple Tree.  <p> After a key is forged, remove each growth counter from Vineapple Tree.  <p> '''Action:''' Put a growth counter on Vineapple Tree.﻿﻿	player forges > is forged
+	
+Word of Returning	
+'''Play:''' Deal 1{{Damage}} to each enemy creature [[For each|for each]] {{Aember}} on it. Return all {{Aember}} from those creatures to your pool.	return > move
+'''Play:''' Deal 1{{Damage}} to each enemy creature [[For each|for each]] {{Aember}} on it. [[Move|Move]] each {{Aember}} from those creatures to your pool.﻿﻿	
+	
+Wretched Doll	
+'''Action:''' If there is a doom counter in play, destroy all creatures with doom counters. Otherwise, put a doom counter on a creature.	all > each
+'''Action:''' If there is a doom counter in play, destroy each creature with a doom counter. Otherwise, put a doom counter on a creature.	
+	
+Xenos Bloodshadow	
+[[Elusive]]. [[Hazardous]] 6. [[Poison]]. [[Skirmish]].	
+[[Elusive|Elusive]]. [[Hazardous|Hazardous]] 6. [[Poison|Poison]]. [[Skirmish|Skirmish]].	saluk
+	
+Æmberspine Mongrel	
+[[Hazardous]] 3. (Before this creature is attacked, deal 3{{Damage}} to the attacking enemy.) <p> After your opponent uses a creature to reap, gain 1{{Aember}}.	
+[[Hazardous|Hazardous]] 3. (Before this creature is attacked, deal 3{{Damage}} to the attacking enemy.) <p> After an enemy creature reaps, gain 1{{Aember}}.﻿﻿	uses > reaps
