@@ -118,7 +118,7 @@ class MasterVault(object):
                 except Exception as exc:
                     print("error", kwargs['params']['page'], method.__name__)
                     lastexc = exc
-        self.mv_lock.acquire()
+        #self.mv_lock.acquire()
         for i in range(4):
             try:
                 r = rget(timeout=timeout, *args, **kwargs)
@@ -129,14 +129,14 @@ class MasterVault(object):
                 continue
             try:
                 j = get_json(r)
-                self.mv_lock.release()
+                #self.mv_lock.release()
                 return j, {"method":"unproxied"}
             except Exception as exc:
                 print("error", kwargs['params']['page'], "raw2")
                 lastexc = exc
                 time.sleep(5)
                 continue
-        self.mv_lock.release()
+        #self.mv_lock.release()
         print(lastexc)
         raise Exception("Couldn't get valid response")
 
@@ -212,6 +212,7 @@ class MasterVault(object):
         self.thread_states[thread_index] = ""
         while 1:
             self.thread_states[thread_index] = "ok_open"
+            print("Before check next page")
             try:
                 page = self.scope.next_page_to_scrape(start_at)
             except Exception:
