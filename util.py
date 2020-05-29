@@ -1,3 +1,5 @@
+SEPARATOR = " • "
+
 def dequote(t):
     quotes = ['“', '”']
     while '"' in t:

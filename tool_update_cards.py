@@ -6,23 +6,57 @@ import card_model_1
 import requests
 import os
 import shutil
+import json
+
+reprints = {"edited":{}, "errata":{}}
+with open("data/reprint_update.csv") as f:
+    name = old = new = None
+    for line in f.read().split("\n"):
+        print(repr(line))
+        if not name:
+            name = line.split("\t")[0]
+            continue
+        if not old:
+            old = line.split("\t")
+            continue
+        if not new:
+            new = line.split("\t")
+            etype = "errata"
+            if "saluk" in old[1] or "saluk" in new[1]:
+                etype = "edited"
+            v = {"old":old[0], "new":new[0]}
+            print("add", name, v, etype)
+            reprints[etype][name] = v
+            name=old=new=None
+
+print(reprints["errata"]["Transporter Platform"])
 
 csv_changes = open("changes.csv","w")
 
-
+skip_status = {}
+if os.path.exists("skips.json"):
+    with open("skips.json") as f:
+        skip_status = json.loads(f.read())
+def add_skip(name):
+    skip_status[name] = {"skipped":True}
+    with open("skips.json", "w") as f:
+        f.write(json.dumps(skip_status))
 
 
 def update_page(title, page, text, reason, ot, pause=False):
+    if title in skip_status:
+        print("skipping", title)
+        return
     if text != ot and pause:
-        print("TEXT CHANGE:")
-        print(text)
         print("DIFF")
         for l in difflib.context_diff(ot.split("\n"), text.split("\n")):
             print(l)
         print("Changing", title)
-        cont = input("Continue?:")
-        if cont != "yes":
-            raise Exception("You didn't continue")
+        cont = input("(k)eep, (upd)ate, or anything else to ask later:")
+        if cont == "k":
+            add_skip(title)
+        if cont != "upd":
+            return
     if text == ot:
         return None
     if "nochange" in page.edit(text, reason).get("edit", {"nochange": ""}):
@@ -54,6 +88,12 @@ def put_cargo_on_new_card_page(wp, card_title, update_reason="Put card query on 
     return update_page(card_title, page, "{{Card Query}}", update_reason, "", pause)
 
 
+def update_reprint_with_errata(ct, errata, card):
+    new_version = "Mass Mutation Mastervault"
+    ct.append("ErrataData", {"Text":errata["old"], "Version":""})
+    ct.append("ErrataData", {"Text":card["card_text"], "Version":"Mass Mutation"})
+
+
 def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False):
     latest = carddb.get_latest_from_card(card)
     page = wp.page("CardData:" + latest["card_title"])
@@ -80,7 +120,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
             data[field] = t
         print(data)
         ct.update_or_create("CardData", latest["card_title"], data)
-    elif data_to_update == "reprint":
+    elif data_to_update == "reprint_pull":
         # TODO - create editdata containing old cardtext if it doesn't exist as mm reprint data
         """{
                 'CardData': {
@@ -95,16 +135,14 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
             csv_changes.write(ct.get_datas("CardData")[0]["Text"]+"\n")
             csv_changes.write(latest["card_text"]+"\n\n")
             csv_changes.flush()
-        new_version = "Mass Mutation Mastervault"
-        def add_errata():
-            errata = ct.data_types.get("ErrataData", {})
-            has_original = []
-            for ed in errata.values():
-                if ed.get("Tag", None) == "original":
-                    return
-            ct.append("ErrataData", {"Tag":"original", "Text":ct.get_datas()[0]["Text"], "Version":""})
-        # put new card fields in except use the old artist
-        pass
+    elif data_to_update == "reprint_write":
+        errata = reprints["errata"].get(latest["card_title"], None)
+        if errata:
+            update_reprint_with_errata(ct, errata, latest)
+        modified = reprints["edited"].get(latest["card_title"], None)
+        if modified:
+            ct.get_datas("CardData")[0]["Text"] = modified["new"]
+        carddb.get_cargo(card, ct, [key for key in ct.get_datas("CardData")[0].keys() if key not in ["Artist"]])            
     text = ct.output_text()
     if ot==text:
         return

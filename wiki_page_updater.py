@@ -22,13 +22,16 @@ if __name__ == "__main__":
             tool_update_cards.update_cards_v2(wp, search, "importing card data (mm)", 
                                               "carddb", restricted.split("|") if restricted else [],
                                               upload_image=False)
-        if sys.argv[1] == "import_cards_reprints":
+        if sys.argv[1] == "reprint_pull":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) >= 3 else None
-            restricted = sys.argv[3] if len(sys.argv) >= 4 else ""
             tool_update_cards.update_cards_v2(wp, search, "importing card data (mm reprints)", 
-                                              "reprint", restricted.split("|") if restricted else [],
-                                              upload_image=False)
+                                              "reprint_pull")
+        if sys.argv[1] == "reprint_write":
+            import tool_update_cards
+            search = sys.argv[2] if len(sys.argv) >= 3 else None
+            tool_update_cards.update_cards_v2(wp, search, "importing card data (mm reprints)", 
+                                              "reprint_write")
         if sys.argv[1] == "import_artist":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None

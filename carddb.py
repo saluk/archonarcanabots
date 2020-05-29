@@ -5,6 +5,7 @@ from fuzzywuzzy import fuzz
 from html_sanitizer import Sanitizer
 import connections
 import util
+from util import SEPARATOR
 from mastervault import datamodel
 import csv
 
@@ -23,7 +24,6 @@ for numerical_set in sorted(SETS.keys()):
     setname = SETS[numerical_set]
     SET_ORDER.append(setname)
     SET_BY_NUMBER[setname] = numerical_set
-
 
 def nice_set_name(num):
     return {
@@ -53,6 +53,27 @@ def sanitize_name(name):
     name = sanitizer.sanitize(name.replace("[", "(").replace("]", ")"))
     name = util.dequote(name)
     return name
+
+def sanitize_trait(trait):
+    return trait.replace("[","").replace("]","")
+
+def sanitize_text(text, flavor=False):
+    t = re.sub("(?<!\.)\.\.{1}$", ".", text)
+    t = t.replace("\ufeff", "")
+    t = t.replace("\u202f", " ")
+    if flavor:
+        t = re.sub(" *(\n|\r\n) *", " ", t)
+    return t
+
+assert sanitize_text("blah.") == "blah.", sanitize_text("blah.")
+assert sanitize_text("blah..") == "blah.", repr(sanitize_text("blah.."))
+assert sanitize_text("blah") == "blah"
+assert sanitize_text("blah... something") == "blah... something"
+assert sanitize_text("blah...") == "blah...", sanitize_text("blah...")
+assert sanitize_text("'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]].\ufeff\ufeff") == "'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]]."
+assert sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True) == "\u201cThe Red Shroud will defend the Crucible from the threat of dark \u00e6mber.\u201d", repr(sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True))
+assert sanitize_text("something    \n    something else", flavor=True)=="something something else"
+
 
 
 # TODO pull this direct from the site
@@ -203,19 +224,22 @@ def card_titles_that_link():
 
 def link_card_titles(text, original_title):
     if not card_title_reg:
-        card_titles = [x for x in card_titles_that_link() if not x.lower() in blacklist_card_names]
+        card_titles = sorted([x for x in card_titles_that_link() if not x.lower() in blacklist_card_names])
         card_titles = "|".join(card_titles).replace("(", r"\(").replace(")", r"\)")
         card_titles = re.sub('["””“]', ".", card_titles)
+        r = r"(^|[^[a-z\-])("+card_titles+r")([^\]a-z]|$)"
         card_title_reg.append(
-            re.compile(r"(^|[^[a-z\-])("+card_titles+r")([^\]a-z]|$)", flags=re.IGNORECASE)
+            re.compile(r, flags=re.IGNORECASE)
         )
     crazy_reg = card_title_reg[0]
     # Replace card titles with link
-    text = re.sub(crazy_reg, r"\1[[STITLE\2ETITLE]]\3", text, count=1)
+    text = re.sub(crazy_reg, r"\1[[STITLE\2ETITLE]]\3", text)
     # Replace remaining matches with STITLE/ETITLE tags
     text = re.sub(crazy_reg, r"\1STITLE\2ETITLE\3", text)
     # Replace self-referential card title with no link
     text = re.sub(r"\[\[STITLE(%s)ETITLE\]\]" % original_title, r"STITLE\1ETITLE", text, flags=re.IGNORECASE)
+    if "Quixo" in text:
+        print(text)
     return text
 
 traits_blacklist = [
@@ -227,7 +251,7 @@ def link_card_traits(card, preload_traits=[]):
         trait_reg.clear()
         if not preload_traits:
             preload_traits = all_traits()
-        card_traits = [sanitize_name(t.lower()) for t in preload_traits]
+        card_traits = [t.lower() for t in preload_traits]
         # ignore traits in the blacklist as well as traits that are in card titles
         card_traits = [t for t in card_traits if t not in traits_blacklist]
         card_traits = "|".join(card_traits).replace("(", r"\(").replace(")", r"\)")
@@ -236,7 +260,6 @@ def link_card_traits(card, preload_traits=[]):
         trait_reg.append(
             re.compile(r"(^|[^[a-z\-])("+card_traits+r")([^\]a-z]|$)", flags=re.IGNORECASE)
         )
-    #trait_reg = re.compile(r"(^|[^[a-z\-])("+sanitize_name(trait)+r")([^\]a-z]|$)", flags=re.IGNORECASE)
     bits = []
     if re.findall("(STITLE|ETITLE)", card["card_text"]):
         index = 0
@@ -372,17 +395,25 @@ def add_card(card):
             card["power"] = ""
         if card["armor"] and not int(card["armor"]):
             card["armor"] = ""
-    card["card_text"] = card["card_text"] or ""
+
+    card["card_text"] = sanitize_text(card["card_text"] or "")
+    card["flavor_text"] = sanitize_text(card["flavor_text"] or "", flavor=True)
+
+    card["card_text_search"] = card["card_text"]
+    card["flavor_text_search"] = card["flavor_text"]
+
     card["card_text"], enhancements = read_enhanced(card["card_text"])
     card.update(enhancements)
-    card["card_text_search"] = card["card_text"] or ""
-    card["flavor_text_search"] = card["flavor_text"] or ""
-    card["card_text"] = linking_keywords(modify_card_text(card["card_text_search"], title))
-    card["flavor_text"] = modify_card_text(card["flavor_text_search"], title, flavor_text=True)
+
+    card["card_text"] = linking_keywords(modify_card_text(card["card_text"], title))
+    card["flavor_text"] = modify_card_text(sanitize_text(card["flavor_text"]), title, flavor_text=True)
+
     card["image_number"] = image_number(card)
     card["rarity"] = nice_rarity(card["rarity"])
     if card.get("is_anomaly", False):
         card["house"] = "Anomaly"
+    if card["traits"]:
+        card["traits"] = SEPARATOR.join([sanitize_trait(t) for t in card["traits"].split(SEPARATOR)])
 
     if title not in cards:
         cards[title] = {}
@@ -486,7 +517,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False):
         "Image": latest["image_number"],
         "Artist": latest.get("artist", ""),
         "Text": latest["card_text"],
-        "Keywords": " • ".join(latest["keywords"]),
+        "Keywords": SEPARATOR.join(latest["keywords"]),
         "FlavorText": latest["flavor_text"],
         "Power": latest["power"],
         "Armor": latest["armor"],
@@ -502,6 +533,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False):
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
     }
+    assert "Artist" not in restricted
     if restricted:
         cardtable2 = {}
         for key in restricted:
@@ -526,7 +558,7 @@ def all_traits():
     for card in cards:
         ct = get_latest(card)["traits"]
         if ct:
-            for tt in ct.split(" • "):
+            for tt in ct.split(SEPARATOR):
                 traits.add(tt)
     return sorted(traits)
 

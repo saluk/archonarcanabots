@@ -4,6 +4,7 @@ except:
     pass
 import passwords
 import random
+import util
 PASSWORD = passwords.MASTERVAULT_PASSWORD
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
@@ -111,7 +112,7 @@ class UpdateScope(object):
                 continue
             if c.name in card_names:
                 if card_names[c.name].data['house'] != c.data['house']:
-                    card_names[c.name].data['house'] += " • " + c.data['house']
+                    card_names[c.name].data['house'] += util.SEPARATOR + c.data['house']
                 continue
             # TODO fix legacies
             # select * from decks where data->'_links'->'cards'@>'"a7621926-1f0f-4d56-b2aa-15efdded15a9"' and expansion=435;

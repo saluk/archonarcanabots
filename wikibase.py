@@ -63,10 +63,13 @@ def cargo_index(table_type):
             "SetData": "SetName"}.get(table_type, None)
 
 
+def cargo_unique(datatype):
+    return {"ErrataData": ("Version", "Text")}.get(datatype, None)
+
+
 def cargo_sort(table_type, table):
     sort_function = {
         "SetData": lambda row: int(row["SetNumber"]) if row["SetNumber"] else 0,
-        "ErrataData": lambda row: float(row["Version"] if row["Version"] else 0),
         "AltArt": lambda row: (int(row["Year"]), row["File"])
     }.get(table_type, None)
     if sort_function:
@@ -74,7 +77,7 @@ def cargo_sort(table_type, table):
     defkey = cargo_index(table_type)
     if defkey:
         return sorted(table, key=lambda row: row.get(defkey, ''))
-    raise Exception("No defined sort for table", table_type, table)
+    return table
 
 
 class CargoTable:
@@ -97,21 +100,22 @@ class CargoTable:
                     left, right = line.split("=", 1)
                     d[left[1:]] = right
                 elif line.startswith("}}"):
-                    if d["type"] not in self.data_types:
-                        self.data_types[d["type"]] = {}
-                    index_key = cargo_index(d["type"])
+                    datatype = d["type"]
+                    del d["type"]
+                    if datatype not in self.data_types:
+                        self.data_types[datatype] = {}
+                    index_key = cargo_index(datatype)
                     if index_key:
                         key = d[index_key]
                     else:
-                        key = len(self.data_types[d["type"]])
-                    self.data_types[d["type"]][key] = d
+                        key = len(self.data_types[datatype])
+                    self.data_types[datatype][key] = d
                     d = {}
                     mode = TYPE
 
     def output_text(self):
-        def write_item(item):
-            t = "{{%s\n" % item["type"]
-            del item["type"]
+        def write_item(item, datatype):
+            t = "{{%s\n" % datatype
             for k in item:
                 v = item[k] if item[k]!=None else ""
                 t += "|%s=%s\n" % (k, v)
@@ -121,7 +125,7 @@ class CargoTable:
         for datatype in self.data_types:
             typeset = self.data_types[datatype]
             for value in cargo_sort(datatype, typeset.values()):
-                t += write_item(value)+"\n"
+                t += write_item(value, datatype)+"\n"
         t = t[:-1]
         return t
 
@@ -130,13 +134,22 @@ class CargoTable:
             self.data_types[datatype] = {}
         if key not in self.data_types[datatype]:
             self.data_types[datatype][key] = {}
-        if "type" not in data:
-            data["type"] = datatype
         self.data_types[datatype][key].update(data)
 
     def append(self, datatype, data):
-        if "type" not in data:
-            data["type"] = datatype
+        if datatype not in self.data_types:
+            self.data_types[datatype] = {}
+        unique = cargo_unique(datatype)
+        if unique:
+            for ob in self.data_types[datatype].values():
+                flagged = True
+                for k in unique:
+                    print(data[k],ob[k])
+                    if data.get(k, None)!=ob.get(k, None):
+                        flagged = False
+                        break
+                if flagged:
+                    return
         self.data_types[datatype][len(self.data_types[datatype])] = data
 
     def get_datas(self, datatype):
@@ -144,3 +157,12 @@ class CargoTable:
 
     def get_data(self, datatype):
         return self.get_datas(datatype)[0]
+
+ct = CargoTable()
+ct.append("ErrataData", {'Version':'', 'Text':"this is the first text", 'Tag':"mm change"})
+ct.append("ErrataData", {'Version':'', 'Text':"this is the first text", 'Tag':"mm change"})
+ct.append("ErrataData", {'Version':"rulebook 1.2", 'Text':"this is a changed text", 'Tag':"mm change"})
+ct.append("ErrataData", {'Version':"rulebook 1.2", 'Text':"this is a changed text", 'Tag':"next set change"})
+ct.append("ErrataData", {'Version':"rulebook 1.5", 'Text':"this is a changed text again", 'Tag':"next set change"})
+print(ct.get_datas("ErrataData"))
+print(ct.output_text())
