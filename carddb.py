@@ -476,7 +476,7 @@ def get_latest(card_title, fuzzy=False):
     return card
 
 
-def get_cargo(card, ct=None, restricted=[], only_sets=True):
+def get_cargo(card, ct=None, restricted=[], only_sets=False):
     if not ct:
         from wikibase import CargoTable
         ct = CargoTable()

@@ -7,7 +7,11 @@ import requests
 import os
 import shutil
 
-def update_page(title, page, text, reason, ot, pause=True):
+csv_changes = open("changes.csv","w")
+csv_changes.write("name\tset\tnumber\tbefore\tafter\n")
+
+
+def update_page(title, page, text, reason, ot, pause=False):
     if text != ot and pause:
         print("TEXT CHANGE:")
         print(text)
@@ -49,7 +53,7 @@ def put_cargo_on_new_card_page(wp, card_title, update_reason="Put card query on 
     return update_page(card_title, page, "{{Card Query}}", update_reason, "", pause)
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True):
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=False, use_csv=True):
     latest = carddb.get_latest_from_card(card)
     page = wp.page("CardData:" + latest["card_title"])
     ct = wikibase.CargoTable()
@@ -76,6 +80,12 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         print(data)
         ct.update_or_create("CardData", latest["card_title"], data)
     text = ct.output_text()
+    if ot==text:
+        return
+    if use_csv:
+        csv_changes.write(latest["card_title"]+"\t"+str(latest["expansion"])+"\t"+str(latest["card_number"])+"\t"+text.replace("\n","\\n")+"\n")
+        csv_changes.flush()
+        return
     return update_page(latest["card_title"], page, text, update_reason, ot, pause)
 
 
