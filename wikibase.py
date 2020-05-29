@@ -120,7 +120,6 @@ class CargoTable:
         t = ""
         for datatype in self.data_types:
             typeset = self.data_types[datatype]
-            print(typeset)
             for value in cargo_sort(datatype, typeset.values()):
                 t += write_item(value)+"\n"
         t = t[:-1]
@@ -134,6 +133,11 @@ class CargoTable:
         if "type" not in data:
             data["type"] = datatype
         self.data_types[datatype][key].update(data)
+
+    def append(self, datatype, data):
+        if "type" not in data:
+            data["type"] = datatype
+        self.data_types[datatype][len(self.data_types[datatype])] = data
 
     def get_datas(self, datatype):
         return [self.data_types[datatype][key] for key in self.data_types[datatype]]

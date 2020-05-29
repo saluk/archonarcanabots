@@ -8,7 +8,8 @@ import os
 import shutil
 
 csv_changes = open("changes.csv","w")
-csv_changes.write("name\tset\tnumber\tbefore\tafter\n")
+
+
 
 
 def update_page(title, page, text, reason, ot, pause=False):
@@ -53,7 +54,7 @@ def put_cargo_on_new_card_page(wp, card_title, update_reason="Put card query on 
     return update_page(card_title, page, "{{Card Query}}", update_reason, "", pause)
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=False, use_csv=True):
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False):
     latest = carddb.get_latest_from_card(card)
     page = wp.page("CardData:" + latest["card_title"])
     ct = wikibase.CargoTable()
@@ -79,11 +80,36 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
             data[field] = t
         print(data)
         ct.update_or_create("CardData", latest["card_title"], data)
+    elif data_to_update == "reprint":
+        # TODO - create editdata containing old cardtext if it doesn't exist as mm reprint data
+        """{
+                'CardData': {
+                    'Desire': {'type': 'CardData', 'Name': 'Desire', 'Image': '479-053.png', 'Artist': 'Michele Giorgi', 'Text': "Keys [[Cost|cost]] +4{{Aember}}.  <p> '''Reap:''' [[Timing_Chart#Forge_a_Key|Forge a key]] at [[Cost|current cost]], reduced by 1{{Aember}} [[For each|for each]] friendly [http://archonarcana.com/Card_Gallery?traits=Sin Sin] creature.", 'Keywords': '', 'FlavorText': '', 'Power': '3', 'Armor': '0', 'Amber': '0', 'Assault': '0', 'Hazardous': '0', 'EnhanceDamage': '0', 'EnhanceAmber': '0', 'EnhanceDraw': '0', 'EnhanceCapture': '0', 'Type': 'Creature', 'House': 'Dis', 'Traits': 'Demon • Sin', 'Rarity': 'Variant'}
+                }, 
+                'SetData': {
+                    'Mass Mutation': {'type': 'SetData', 'SetName': 'Mass Mutation', 'SetNumber': '479', 'CardNumber': '053'}
+                }
+            }"""
+        if(ct.get_datas("CardData")[0]["Text"]!=latest["card_text"]):
+            csv_changes.write(latest["card_title"]+"\n")
+            csv_changes.write(ct.get_datas("CardData")[0]["Text"]+"\n")
+            csv_changes.write(latest["card_text"]+"\n\n")
+            csv_changes.flush()
+        new_version = "Mass Mutation Mastervault"
+        def add_errata():
+            errata = ct.data_types.get("ErrataData", {})
+            has_original = []
+            for ed in errata.values():
+                if ed.get("Tag", None) == "original":
+                    return
+            ct.append("ErrataData", {"Tag":"original", "Text":ct.get_datas()[0]["Text"], "Version":""})
+        # put new card fields in except use the old artist
+        pass
     text = ct.output_text()
     if ot==text:
         return
     if use_csv:
-        csv_changes.write(latest["card_title"]+"\t"+str(latest["expansion"])+"\t"+str(latest["card_number"])+"\t"+text.replace("\n","\\n")+"\n")
+        csv_changes.write(latest["card_title"]+"\t"+str(latest["expansion"])+"\t"+str(latest["card_number"])+"\t"+ot.replace("\n","\r")+"\t"+text.replace("\n","\r")+"\n")
         csv_changes.flush()
         return
     return update_page(latest["card_title"], page, text, update_reason, ot, pause)
@@ -94,6 +120,7 @@ def update_cards_v2(wp, search_name=None,
                     data_to_update="carddb",
                     restricted=[],
                     matching=None,
+                    restrict_expansion=479,
                     upload_image=False):
     changed = 0
     started = False
@@ -103,7 +130,7 @@ def update_cards_v2(wp, search_name=None,
         latest = carddb.get_latest(card_name)
         if matching and matching.lower() not in (latest["flavor_text"]+latest["card_text"]).lower():
             continue
-        if not latest["expansion"] == 479:
+        if restrict_expansion and not latest["expansion"] == restrict_expansion:
             continue
         started = True
         print(i+1, card_name)
