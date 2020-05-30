@@ -10,10 +10,18 @@ import util
 import datamodel
 import threading
 import sqlalchemy
+from hanging_threads import start_monitoring
+
+def wait(seconds,reason=""):
+    print(" -waiting",seconds,"for",reason)
+    time.sleep(seconds)
+    print(" -waited",seconds,"for",reason)
 
 def rget(*args, **kwargs):
     print("    req", args, kwargs)
-    return requests.get(*args, **kwargs)
+    resp = requests.get(*args, **kwargs)
+    print("    -resp", args, kwargs)
+    return resp
 
 def correlate_deck(deck, cards_by_key):
     for card_key in deck["_links"]["cards"]:
@@ -92,7 +100,7 @@ class MasterVault(object):
 
     def proxyget(self, *args, **kwargs):
         lastexc = None
-        timeout=10
+        timeout=20
         def good_proxy():
             return self.scope.get_proxy()
         methods = [(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
@@ -124,7 +132,7 @@ class MasterVault(object):
                 r = rget(timeout=timeout, *args, **kwargs)
             except Exception as exc:
                 lastexc = exc
-                time.sleep(5)
+                wait(2)
                 print("error", kwargs['params']['page'], "raw1")
                 continue
             try:
@@ -134,7 +142,7 @@ class MasterVault(object):
             except Exception as exc:
                 print("error", kwargs['params']['page'], "raw2")
                 lastexc = exc
-                time.sleep(5)
+                wait(2)
                 continue
         #self.mv_lock.release()
         print(lastexc)
@@ -218,7 +226,7 @@ class MasterVault(object):
             except Exception:
                 self.scope.session_reset()
                 self.thread_states[thread_index] = "fail_start"
-                time.sleep(5)
+                wait(5)
                 continue
             self.thread_states[thread_index] = "ok_scrape"
             print("SCRAPE PAGE",page,"thread:",thread_index,"threads",repr(self.thread_states))
@@ -226,7 +234,7 @@ class MasterVault(object):
                 decks, cards, proxy = self.get_decks_with_cards("", page)
             except Exception:
                 self.thread_states[thread_index] = "fail_proxy"
-                time.sleep(15)
+                wait(15)
                 continue
             if not decks:
                 # We're done scraping and can stop
@@ -236,13 +244,13 @@ class MasterVault(object):
                 self.insert(decks, cards)
                 self.thread_states[thread_index] = "ok_inserted"
             except Exception:
-                time.sleep(5)
+                wait(5)
                 self.thread_states[thread_index] = "fail_insert"
                 continue
-            time.sleep(1)
             print("########### inserted",len(decks),"decks, and",len(cards),"cards from page",page,"via",proxy, len(threading.enumerate()))
             self.scope.scraped_page(page=page, decks_scraped=len(decks), cards_scraped=len(cards))
             self.thread_states[thread_index] = "ok_continue"
+            wait(5)
         return True
 
     def scrape_front(self, page, *args):
@@ -285,7 +293,11 @@ if __name__ == "__main__":
     mv = MasterVault()
     for start in starts:
         def mv_thread():
+            print("thread open")
             mv.scrape_back(start, start)
+            print("thread close")
         t = threading.Thread(target=mv_thread)
         threads.append(t)
         t.start()
+    print("start monitoring")
+    monitoring_thread = start_monitoring()
