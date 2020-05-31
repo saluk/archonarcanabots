@@ -224,6 +224,8 @@ var searchFields = [
     {'values':traits, 'combo':true, 'attach':'div.trait-entries'}),
     new EditField('text', 'errata', 
     {'hidden':true, 'attach':'div.card-text-entries'}),
+    new EditField('text', 'gigantic', 
+    {'hidden':true, 'attach':'div.card-text-entries'}),
 ]
 minmax(searchFields, 'amber', 'div.aember-entries', ambercounts)
 minmax(searchFields, 'armor', 'div.armor-entries', armorcounts)
@@ -332,7 +334,8 @@ var CSearch = {
   rarities: [],
   traits: [],
   cardnumber: [],
-  errata: false,
+  errata: [false],
+  gigantic: [false],
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
@@ -386,6 +389,9 @@ var CSearch = {
       traits.push('%20LIKE%20%22'+trait+'+•+%25%22')
       traits.push('%20LIKE%20%22%25+•+'+trait+'+•+%25%22')
     })
+    if(this.gigantic[0]) {
+      this.cardtext = ["other half"]
+    }
     var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
       joined('SetName=%22', this.sets, '%22', 'OR'),
@@ -399,22 +405,28 @@ var CSearch = {
     statQuery(clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
     statQuery(clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
     statQuery(clauses, {'min':this.armor_min[0], 'max':this.armor_max[0]}, 'Armor')
+    if(this.errata[0]){
+      clauses.push('ErrataData.Version IS NOT NULL')
+    }
     console.log('ERRATA:')
     console.log(this.errata)
     var where = joined('', clauses,
       '', 'AND')
     where = '&where=' + where
-    var fieldstring = ['Name', 'House', 'Type', 'Image', 'Text'].join('%2C')
+    var fieldstring = ['CardData.Name', 'CardData.House', 'CardData.Type', 'CardData.Image', 'CardData.Text'].join('%2C')
     var fields = '&fields=' + fieldstring
     // /api.php?action=cargoquery&format=json&limit=100&fields=Name%2C%20House%2C%20Type%2C%20Image%2C%20SetName&where=(House%3D%22Brobnar%22%20OR%20House%3D%22Logos%22)%20AND%20Type%3D%22Action%22%20AND%20SetName%3D%22Worlds%20Collide%22&join_on=SetData._pageName%3DCardData._pageName&offset=0
     var start = '/api.php?action=cargoquery&format=json'
     var tables = '&tables=CardData%2C%20SetData'
     var countFields = '&fields=COUNT(DISTINCT%20CardData.Name)'
     var groupby = '&group_by=' + fieldstring
-    var joinon = '&join_on=SetData._pageName%3DCardData._pageName'
+    var joinon = '&join_on=CardData._pageName=SetData._pageName'
     var limitq = '&limit=' + this.pageSize
     var offsetq = '&offset=' + this.offset
-    var q
+    if(this.errata[0]) {
+      tables += '%2C%20ErrataData'
+      joinon += ',CardData._pageName=ErrataData._pageName'
+    }
     if (returnType === 'data') {
       q = start + tables + fields + where + joinon + groupby + limitq + offsetq
     } else if (returnType === 'count') {
