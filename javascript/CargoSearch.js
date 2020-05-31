@@ -226,6 +226,8 @@ var searchFields = [
     {'hidden':true, 'attach':'div.card-text-entries'}),
     new EditField('text', 'gigantic', 
     {'hidden':true, 'attach':'div.card-text-entries'}),
+    /*new EditField('text', 'exclusiveSet', 
+    {'hidden':true, 'attach':'div.card-text-entries'}),*/
 ]
 minmax(searchFields, 'amber', 'div.aember-entries', ambercounts)
 minmax(searchFields, 'armor', 'div.armor-entries', armorcounts)
@@ -336,6 +338,7 @@ var CSearch = {
   cardnumber: [],
   errata: [false],
   gigantic: [false],
+  exclusiveSet: [false],
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
@@ -389,10 +392,17 @@ var CSearch = {
       traits.push('%20LIKE%20%22'+trait+'+•+%25%22')
       traits.push('%20LIKE%20%22%25+•+'+trait+'+•+%25%22')
     })
+    var housesToSearch = []
+    this.houses.forEach(function(house) {
+      housesToSearch.push('=%22'+house+'%22')
+      housesToSearch.push('%20LIKE%20%22%25+•+'+house+'%22')
+      housesToSearch.push('%20LIKE%20%22'+house+'+•+%25%22')
+      housesToSearch.push('%20LIKE%20%22%25+•+'+house+'+•+%25%22')
+    })
     if(this.gigantic[0]) {
       this.cardtext = ["other half"]
     }
-    var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
+    var clauses = [joined('CardData.House', housesToSearch, '', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
       joined('SetName=%22', this.sets, '%22', 'OR'),
       joined('Rarity=%22', this.rarities, '%22', 'OR'),
