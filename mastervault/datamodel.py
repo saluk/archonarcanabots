@@ -48,59 +48,71 @@ class UpdateScope(object):
         card = Card(*args, **kwargs)
         self.cards.append(card)
     def commit(self):
-        self.session = Session()
-        postgres_upsert(self.session, Card, self.cards)
-        postgres_upsert(self.session, Deck, self.decks)
-        self.session.commit()
+        print("BEFORE COMMIT")
+        session = Session()
+        print( "sesion made")
+        try:
+            postgres_upsert(session, Card, self.cards)
+            print(" upserted cards")
+            postgres_upsert(session, Deck, self.decks)
+            print(" upserted decks")
+            session.commit()
+            print(" commit made")
+        except:
+            session.rollback()
+            session.close()
+            print(" session closed")
+            raise
         self.cards = []
         self.decks = []
     def next_page_to_scrape(self, start_at):
-        self.session = Session()
-        pages = self.session.execute("""
+        session = Session()
+        pages = session.execute("""
         select page+1 from back_scrape_page scraped
         where NOT EXISTS (select null from back_scrape_page to_scrape 
                         where to_scrape.page = scraped.page +1) 
             and page>%d 
             order by page limit 1""" % start_at).first()
-        self.session.close()
+        session.close()
         if pages is None:
             return 1
         return int(pages[0])
     def scraped_page(self, *args, **kwargs):
         back_scrape_page = BackScrapePage(*args, **kwargs)
-        self.session = Session()
-        if self.session.query(BackScrapePage).filter(BackScrapePage.page==back_scrape_page.page).first():
-            self.session.commit()
+        session = Session()
+        if session.query(BackScrapePage).filter(BackScrapePage.page==back_scrape_page.page).first():
+            session.commit()
+            session.close()
             return
-        self.session.add(back_scrape_page)
-        self.session.commit()
+        session.add(back_scrape_page)
+        session.commit()
+        session.close()
     def get_proxy(self):
-        self.session = Session()
-        proxy = self.session.query(GoodProxy).order_by(func.random()).limit(1).first()
+        session = Session()
+        proxy = session.query(GoodProxy).order_by(func.random()).limit(1).first()
         if not proxy:
-            self.session.commit()
+            session.commit()
             return None
         ip_port = proxy.ip_port
-        self.session.commit()
+        session.commit()
         return ip_port
     def add_proxy(self, ip_port):
-        self.session = Session()
-        existing = self.session.query(GoodProxy).filter(GoodProxy.ip_port==ip_port).first()
+        session = Session()
+        existing = session.query(GoodProxy).filter(GoodProxy.ip_port==ip_port).first()
         if existing:
-            self.session.commit()
+            session.commit()
             return
         proxy = GoodProxy(ip_port=ip_port)
-        self.session.add(proxy)
-        self.session.commit()
+        session.add(proxy)
+        session.commit()
     def remove_proxy(self, ip_port):
         return
     def session_reset(self):
-        if self.session:
-            self.session.close()
+        pass
     # 452, 453, 341, 479, 435
     def get_cards(self, expansion=479):
-        self.session = Session()
-        cards = self.session.query(Card).filter(
+        session = Session()
+        cards = session.query(Card).filter(
             Card.deck_expansion==expansion,
             Card.data['is_enhanced']=='false',
             Card.data['is_maverick']=='false').all()

@@ -96,11 +96,10 @@ class MasterVault(object):
         self.max_page = 24
         self.scope = datamodel.UpdateScope()
         self.thread_states = {}
-        self.mv_lock = threading.Lock()
 
     def proxyget(self, *args, **kwargs):
         lastexc = None
-        timeout=20
+        timeout=5
         def good_proxy():
             return self.scope.get_proxy()
         methods = [(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
@@ -126,25 +125,21 @@ class MasterVault(object):
                 except Exception as exc:
                     print("error", kwargs['params']['page'], method.__name__)
                     lastexc = exc
-        #self.mv_lock.acquire()
-        for i in range(4):
-            try:
-                r = rget(timeout=timeout, *args, **kwargs)
-            except Exception as exc:
-                lastexc = exc
-                wait(2)
-                print("error", kwargs['params']['page'], "raw1")
-                continue
-            try:
-                j = get_json(r)
-                #self.mv_lock.release()
-                return j, {"method":"unproxied"}
-            except Exception as exc:
-                print("error", kwargs['params']['page'], "raw2")
-                lastexc = exc
-                wait(2)
-                continue
-        #self.mv_lock.release()
+        try:
+            r = rget(timeout=timeout, *args, **kwargs)
+        except Exception as exc:
+            lastexc = exc
+            wait(1)
+            print("error", kwargs['params']['page'], "raw1")
+            raise
+        try:
+            j = get_json(r)
+            return j, {"method":"unproxied"}
+        except Exception as exc:
+            print("error", kwargs['params']['page'], "raw2")
+            lastexc = exc
+            wait(1)
+            raise
         print(lastexc)
         raise Exception("Couldn't get valid response")
 
@@ -226,7 +221,7 @@ class MasterVault(object):
             except Exception:
                 self.scope.session_reset()
                 self.thread_states[thread_index] = "fail_start"
-                wait(5)
+                wait(1)
                 continue
             self.thread_states[thread_index] = "ok_scrape"
             print("SCRAPE PAGE",page,"thread:",thread_index,"threads",repr(self.thread_states))
@@ -234,7 +229,7 @@ class MasterVault(object):
                 decks, cards, proxy = self.get_decks_with_cards("", page)
             except Exception:
                 self.thread_states[thread_index] = "fail_proxy"
-                wait(15)
+                wait(1)
                 continue
             if not decks:
                 # We're done scraping and can stop
@@ -244,13 +239,13 @@ class MasterVault(object):
                 self.insert(decks, cards)
                 self.thread_states[thread_index] = "ok_inserted"
             except Exception:
-                wait(5)
+                wait(1)
                 self.thread_states[thread_index] = "fail_insert"
                 continue
             print("########### inserted",len(decks),"decks, and",len(cards),"cards from page",page,"via",proxy, len(threading.enumerate()))
             self.scope.scraped_page(page=page, decks_scraped=len(decks), cards_scraped=len(cards))
             self.thread_states[thread_index] = "ok_continue"
-            wait(5)
+            wait(1)
         return True
 
     def scrape_front(self, page, *args):
@@ -300,4 +295,4 @@ if __name__ == "__main__":
         threads.append(t)
         t.start()
     print("start monitoring")
-    monitoring_thread = start_monitoring()
+    monitoring_thread = start_monitoring(seconds_frozen=30)
