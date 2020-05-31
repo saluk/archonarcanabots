@@ -398,8 +398,8 @@ var CSearch = {
       joined('Rarity=%22', this.rarities, '%22', 'OR'),
       joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
       joined('CardData.Traits', traits, '', 'OR'),
-      joined('CardData.FlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
-      joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
+      joined('CardData.SearchFlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
+      joined('CardData.SearchText%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
       joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
     ]
     statQuery(clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
