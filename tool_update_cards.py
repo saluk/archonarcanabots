@@ -94,7 +94,7 @@ def update_reprint_with_errata(ct, errata, card):
     ct.append("ErrataData", {"Text":card["card_text"], "Version":"Mass Mutation"})
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False):
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=False, use_csv=False):
     latest = carddb.get_latest_from_card(card)
     page = wp.page("CardData:" + latest["card_title"])
     ct = wikibase.CargoTable()
@@ -108,6 +108,8 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         carddb.get_cargo(card, ct, restricted)
     elif data_to_update == "artist":
         card_model_1.pull_artist(card, ct, wp)
+    elif data_to_update == "insert_search_text":
+        carddb.get_cargo(card, ct, ["SearchText", "SearchFlavorText"])
     elif data_to_update == "relink":
         # Grab text and flavor text from existing table and relink them
         print(ct.data_types)
@@ -158,7 +160,7 @@ def update_cards_v2(wp, search_name=None,
                     data_to_update="carddb",
                     restricted=[],
                     matching=None,
-                    restrict_expansion=479,
+                    restrict_expansion=None,
                     upload_image=False):
     changed = 0
     started = False

@@ -32,6 +32,11 @@ if __name__ == "__main__":
             search = sys.argv[2] if len(sys.argv) >= 3 else None
             tool_update_cards.update_cards_v2(wp, search, "importing card data (mm reprints)", 
                                               "reprint_write")
+        if sys.argv[1] == "insert_search_text":
+            import tool_update_cards
+            search = sys.argv[2] if len(sys.argv) >= 3 else None
+            tool_update_cards.update_cards_v2(wp, search, "inserting search text", 
+                                              "insert_search_text")
         if sys.argv[1] == "import_artist":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None

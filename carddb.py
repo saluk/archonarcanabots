@@ -178,6 +178,18 @@ def read_enhanced(text):
     return text, {'enhance_amber':ea, 'enhance_capture':ept, 'enhance_damage':ed, 'enhance_draw':er}
 
 
+def modify_search_text(text):
+    # Clean up carriage returns
+    text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
+    # Clean up spaces
+    text = re.sub("\u202f", " ", text)
+    # Make returns paragraphs
+    text = re.sub(r"(\u000b|\r)", " <p> ", text)
+    # Replace trailing <p> and spaces
+    text = re.sub(r"(<p>| )+$", "", text)
+    return text
+
+
 def modify_card_text(text, card_title, flavor_text=False):
     # Clean up carriage returns
     text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
@@ -203,6 +215,7 @@ def modify_card_text(text, card_title, flavor_text=False):
         # bold abilities at the begining of a line or following a new line
         text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\:)", r"\1'''\2'''", text)
 
+    # Make returns paragraphs
     text = re.sub(r"(\u000b|\r)", " <p> ", text)
 
     # Replace trailing <p> and spaces
@@ -517,8 +530,10 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False):
         "Image": latest["image_number"],
         "Artist": latest.get("artist", ""),
         "Text": latest["card_text"],
+        "SearchText": modify_search_text(latest["card_text_search"]),
         "Keywords": SEPARATOR.join(latest["keywords"]),
         "FlavorText": latest["flavor_text"],
+        "SearchFlavorText": modify_search_text(latest["flavor_text_search"]),
         "Power": latest["power"],
         "Armor": latest["armor"],
         "Amber": latest["amber"],
