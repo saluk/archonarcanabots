@@ -162,6 +162,8 @@ class Deck(Base):
     data = Column(JSONB)
     cards = relationship('Card', secondary='deck_cards')
 
+# TODO handle indexes
+
 # TODO handle legacies
 class Card(Base):
     __tablename__ = 'cards'
@@ -215,8 +217,16 @@ if __name__=="__main__":
     #print(len(scope.get_cards()))
     #scope.add_proxy('http://205.126.14.171:800')
     #scope.add_proxy('http://104.154.143.77:3128')
-    for i in "10000 13000 16000 23000 28000 31000 33000 35000 37000 42000 54000 62000 65000".split(" "):
-        print(i, scope.next_page_to_scrape(int(i)))
+    holes = []
+    i = 1
+    while 1:
+        next = scope.next_page_to_scrape(int(i))
+        if next not in holes:
+            print(next)
+            holes.append(next)
+            i = next
+        if i>80000 or i == 1:
+            break
 
 """
     scope = UpdateScope()

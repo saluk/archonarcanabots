@@ -376,7 +376,7 @@ def get_latest_from_card(card):
     raise Exception("couldn't find a set in", card)
 
 
-def add_card(card):
+def add_card(card, db=None):
     ot = card["card_title"]
     if ot in hard_code:
         commands = hard_code[ot]
@@ -431,7 +431,9 @@ def add_card(card):
     if title not in cards:
         cards[title] = {}
 
-    cards[title][str(card["expansion"])] = card
+    if db:
+        db[title][str(card["expansion"])] = card
+    return card
 
 
 def fuzzyfind(name, threshold=80):
@@ -475,12 +477,12 @@ def load_from_mv_files(only=None):
                 if title in card_name_index:
                     print("DUPLICATE:", card["card_title"])
                 card_name_index[title] = card
-                add_card(card)
+                add_card(card, cards)
 
     scope = datamodel.UpdateScope()
     for set_id in [479]:
         for card in scope.get_cards(set_id):
-            add_card(card.data)
+            add_card(card.data, cards)
     for card_title in cards:
         if only and card_title != only:
             continue
