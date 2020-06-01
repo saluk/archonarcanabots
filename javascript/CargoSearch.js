@@ -3,9 +3,20 @@ var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_M
 var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
 var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special']
 var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Assassin', 'Beast', 'Cat', 'Changeling', 'Cyborg', 'Demon', 'Dinosaur', 'Dragon', 'Egg', 'Elf', 'Equation', 'Experiment', 'Faerie', 'Fungus', 'Giant', 'Goblin', 'Handuhan', 'Horseman', 'Human', 'Hunter', 'Imp', 'Insect', 'Item', 'Jelly', 'Knight', 'Krxix', 'Law', 'Leader', 'Location', 'Martian', 'Merchant', 'Monk', 'Mutant', 'Niffle', 'Philosopher', 'Pilot', 'Pirate', 'Politician', 'Power', 'Priest', 'Proximan', 'Psion', 'Quest', 'Ranger', 'Rat', 'Robot', 'Scientist', 'Shapeshifter', 'Shard', 'Sin', 'Soldier', 'Specter', 'Spirit', 'Thief', 'Tree', 'Vehicle', 'Weapon', 'Witch', 'Wolf', 'Redacted']
+var keywords = ['Alpha',
+  'Assault',
+  'Deploy',
+  'Elusive',
+  'Hazardous',
+  'Invulnerable',
+  'Omega',
+  'Poison',
+  'Skirmish',
+  'Taunt']
 var ambercounts = ['0', '1', '2', '3', '4+']
 var armorcounts = ['0', '1', '2', '3', '4', '5+']
 var powercounts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
+var enhancecounts = ['1', '2', '3', '4', '5+']
 
 var check_images = {
 	'Brobnar': 'https://archonarcana.com/images/e/e0/Brobnar.png',
@@ -198,9 +209,11 @@ class EditField {
   }
 }
 
-var minmax = function(array, field, attach, values) {
-  array.push(new EditField('select', field+'_min', {'label':'Min ','attach':attach, 'values':values}))
-  array.push(new EditField('select', field+'_max', {'label':'Max ','attach':attach, 'values':values}))
+var minmax = function(array, field, attach, values, hidemax=false, min_label="Min ") {
+  array.push(new EditField('select', field+'_min', {'label':min_label,'attach':attach, 'values':values}))
+  if(!hidemax) {
+    array.push(new EditField('select', field+'_max', {'label':'Max ','attach':attach, 'values':values}))
+  }
 }
 
 var searchFields = [
@@ -226,12 +239,18 @@ var searchFields = [
     {'hidden':true, 'attach':'div.card-text-entries'}),
     new EditField('text', 'gigantic', 
     {'hidden':true, 'attach':'div.card-text-entries'}),
+    new EditField('select', 'keywords', {'values':keywords,
+      'combo': true, 'attach': 'div.keyword-entries'})
     /*new EditField('text', 'exclusiveSet', 
     {'hidden':true, 'attach':'div.card-text-entries'}),*/
 ]
 minmax(searchFields, 'amber', 'div.aember-entries', ambercounts)
 minmax(searchFields, 'armor', 'div.armor-entries', armorcounts)
 minmax(searchFields, 'power', 'div.power-entries', powercounts)
+minmax(searchFields, 'enhance_amber', 'div.enhance-entries', enhancecounts, hidemax=true, min_label='Amber')
+minmax(searchFields, 'enhance_capture', 'div.enhance-entries', enhancecounts, hidemax=true, min_label='Capture')
+minmax(searchFields, 'enhance_damage', 'div.enhance-entries', enhancecounts, hidemax=true, min_label='Damage')
+minmax(searchFields, 'enhance_draw', 'div.enhance-entries', enhancecounts, hidemax=true, min_label='Draw')
 
 
 var parseQueryString = function (argument) {
@@ -333,8 +352,17 @@ var CSearch = {
   amber_max: [""],
   armor_min: [""],
   armor_max: [""],
+  enhance_amber_min: [""],
+  enhance_amber_max: [""],
+  enhance_damage_min: [""],
+  enhance_damage_max: [""],
+  enhance_capture_min: [""],
+  enhance_capture_max: [""],
+  enhance_draw_min: [""],
+  enhance_draw_max: [""],
   rarities: [],
   traits: [],
+  keywords: [],
   cardnumber: [],
   errata: [false],
   gigantic: [false],
@@ -392,6 +420,14 @@ var CSearch = {
       traits.push('%20LIKE%20%22'+trait+'+•+%25%22')
       traits.push('%20LIKE%20%22%25+•+'+trait+'+•+%25%22')
     })
+    var keywordsToSearch = []
+    this.keywords.forEach(function(keyword) {
+      keywordsToSearch.push('=%22'+keyword+'%22')
+      keywordsToSearch.push('%20LIKE%20%22%25+•+'+keyword+'%22')
+      keywordsToSearch.push('%20LIKE%20%22'+keyword+'+•+%25%22')
+      keywordsToSearch.push('%20LIKE%20%22%25+•+'+keyword+'+•+%25%22')
+    })
+    console.log(this.keywords)
     var housesToSearch = []
     this.houses.forEach(function(house) {
       housesToSearch.push('=%22'+house+'%22')
@@ -408,6 +444,7 @@ var CSearch = {
       joined('Rarity=%22', this.rarities, '%22', 'OR'),
       joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
       joined('CardData.Traits', traits, '', 'OR'),
+      joined('CardData.Keywords', keywordsToSearch, '', 'OR'),
       joined('CardData.SearchFlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
       joined('CardData.SearchText%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
       joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
@@ -415,6 +452,10 @@ var CSearch = {
     statQuery(clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
     statQuery(clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
     statQuery(clauses, {'min':this.armor_min[0], 'max':this.armor_max[0]}, 'Armor')
+    statQuery(clauses, {'min':this.enhance_amber_min[0], 'max':this.enhance_amber_max[0]}, 'EnhanceAmber')
+    statQuery(clauses, {'min':this.enhance_draw_min[0], 'max':this.enhance_draw_max[0]}, 'EnhanceDraw')
+    statQuery(clauses, {'min':this.enhance_capture_min[0], 'max':this.enhance_capture_max[0]}, 'EnhanceCapture')
+    statQuery(clauses, {'min':this.enhance_damage_min[0], 'max':this.enhance_damage_max[0]}, 'EnhanceDamage')
     if(this.errata[0]){
       clauses.push('ErrataData.Version IS NOT NULL')
     }
