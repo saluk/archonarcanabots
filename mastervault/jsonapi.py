@@ -10,7 +10,7 @@ def not_found_handler():
 
 
 @hug.get(examples="key=something")
-def deck(key=None,name=None):
+def deck(key=None, name=None):
     print(repr(name))
     session = datamodel.Session()
     deck = session.query(datamodel.Deck)
@@ -33,3 +33,7 @@ def deck(key=None,name=None):
     d.update(deck.data)
     d['cards'] = cards
     return d
+
+@hug.get("/favicon.ico", output=hug.output_format.file)
+def favicon():
+    return "mastervault/keymirror.png"
