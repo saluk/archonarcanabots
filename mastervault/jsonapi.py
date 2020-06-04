@@ -29,8 +29,9 @@ def deck(key=None, name=None):
             cards.append(card)
         else:
             cards.append((card_key, "no data"))
-    d = {}
-    d.update(deck.data)
+    d = {'deck_data':{}}
+    d['deck_data'].update(deck.data)
+    d['meta'] = {'page':deck.page, 'index':deck.index, 'scrape_date':deck.scrape_date}
     d['cards'] = cards
     return d
 
