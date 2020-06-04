@@ -293,5 +293,5 @@ if __name__=="__main__":
             i = next+1
         else:
             i = next
-        if i>80000:# or i == 1:
+        if i>76000:# or i == 1:
             break
