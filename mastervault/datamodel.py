@@ -15,7 +15,9 @@ from sqlalchemy.inspection import inspect
 from sqlalchemy.sql.expression import func
 from sqlalchemy.sql import exists
 from sqlalchemy.dialects.postgresql import JSON, JSONB, insert
-from sqlalchemy import Column, Integer, String, Table, ForeignKey, UniqueConstraint, ForeignKeyConstraint
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Table, ForeignKey, UniqueConstraint, ForeignKeyConstraint, Sequence
+import datetime
 
 def object_as_dict(obj):
     return {c.key: getattr(obj, c.key)
@@ -26,6 +28,7 @@ def postgres_upsert(session, table, obs):
         d = object_as_dict(ob)
         sql = insert(table, bind=session).values(d)
         sql = sql.on_conflict_do_update(
+            #constraint = inspect(table).primary_key,
             index_elements = [c.key for c in inspect(table).primary_key],
             set_=d
         )
@@ -38,55 +41,108 @@ Session = scoped_session(sessionmaker(bind=engine))
 Base = declarative_base()
 
 class UpdateScope(object):
-    def __init__(self):
-        self.decks = []
+    def begin(self):
         self.cards = []
+        self.decks = []
+        self.deck_cards = []
     def add_deck(self, *args, **kwargs):
+        kwargs["scrape_date"] = datetime.datetime.now()
         deck = Deck(*args, **kwargs)
         self.decks.append(deck)
+        for card_key in deck.data["_links"]["cards"]:
+            self.deck_cards.append(DeckCard(deck_key=deck.key, card_key=card_key, card_deck_expansion=deck.expansion))
     def add_card(self, *args, **kwargs):
         card = Card(*args, **kwargs)
         self.cards.append(card)
     def commit(self):
         print("BEFORE COMMIT")
         session = Session()
+        #print([o.key for o in self.decks])
+        #print([(o.key, o.deck_expansion) for o in self.cards])
         print( "sesion made")
         try:
-            postgres_upsert(session, Card, self.cards)
-            print(" upserted cards")
             postgres_upsert(session, Deck, self.decks)
             print(" upserted decks")
+            postgres_upsert(session, Card, self.cards)
+            print(" upserted cards")
+            postgres_upsert(session, DeckCard, self.deck_cards)
+            print(" upserted deck_cards")
             session.commit()
             print(" commit made")
         except:
+            import traceback
+            traceback.print_exc()
             session.rollback()
             session.close()
             print(" session closed")
             raise
-        self.cards = []
-        self.decks = []
     def next_page_to_scrape(self, start_at):
         session = Session()
+        possible = []
+        if not session.query(BackScrapePage).filter(BackScrapePage.page==start_at).first():
+            return start_at
+        if not session.query(BackScrapePage).filter(BackScrapePage.page==start_at+1).first():
+            return start_at+1
         pages = session.execute("""
         select page+1 from back_scrape_page scraped
         where NOT EXISTS (select null from back_scrape_page to_scrape 
                         where to_scrape.page = scraped.page +1) 
-            and page>%d 
+            and page>%s
             order by page limit 1""" % start_at).first()
         session.close()
+        if pages:
+            possible.append(int(pages[0]))
         if pages is None:
-            return 1
-        return int(pages[0])
-    def scraped_page(self, *args, **kwargs):
-        back_scrape_page = BackScrapePage(*args, **kwargs)
+            if start_at==1:
+                return 1
+            return start_at+1
+        return min(possible)
+    def start_page(self, page):
         session = Session()
-        if session.query(BackScrapePage).filter(BackScrapePage.page==back_scrape_page.page).first():
+        found = session.query(BackScrapePage).filter(BackScrapePage.page==page).first()
+        if found and found.scraping:
+            print(" already scraping...")
+            return None
+        if not found:
+            found = BackScrapePage(page=page, scraping=1)
+        else:
+            found.scraping = 1
+        session.add(found)
+        try:
             session.commit()
+        except:
+            session.close()
+            return False
+        return True
+    def scraped_page(self, page, decks_scraped, cards_scraped):
+        session = Session()
+        back_scrape_page = session.query(BackScrapePage).filter(BackScrapePage.page==page).first()
+        if not back_scrape_page:
             session.close()
             return
+        back_scrape_page.decks_scraped = decks_scraped
+        back_scrape_page.cards_scraped = cards_scraped
         session.add(back_scrape_page)
         session.commit()
         session.close()
+    def clean_scrape(self, page=None):
+        session = Session()
+        if page:
+            session.execute("""
+            delete from back_scrape_page
+            where page=%d""" % page)
+        else:
+            session.execute("""
+            delete from back_scrape_page
+            where decks_scraped IS NULL OR decks_scraped<24""")
+        session.commit()
+        if page:
+            return
+        pages = session.query(BackScrapePage).filter(BackScrapePage.scraping==1).all()
+        for p in pages:
+            p.scraping = None
+            session.add(p)
+        session.commit()
     def get_proxy(self):
         session = Session()
         proxy = session.query(GoodProxy).order_by(func.random()).limit(1).first()
@@ -107,8 +163,6 @@ class UpdateScope(object):
         session.commit()
     def remove_proxy(self, ip_port):
         return
-    def session_reset(self):
-        pass
     # 452, 453, 341, 479, 435
     def get_cards(self, expansion=479):
         session = Session()
@@ -143,11 +197,13 @@ class UpdateScope(object):
         print(sorted(card_names.keys()))
         return card_names.values()
 
+
 class BackScrapePage(Base):
     __tablename__ = "back_scrape_page"
     page = Column(Integer, primary_key=True)
     decks_scraped = Column(Integer)
     cards_scraped = Column(Integer)
+    scraping = Column(Integer)
 
 class GoodProxy(Base):
     __tablename__ = "good_proxies"
@@ -157,14 +213,20 @@ class GoodProxy(Base):
 class Deck(Base):
     __tablename__ = 'decks'
     key = Column(String, primary_key=True, unique=True)
+    page = Column(Integer)   # MV page we scraped from
+    index = Column(Integer)  # index on MV page we scraped from
+    scrape_date = Column(DateTime(timezone=True), server_default=func.now())
     name = Column(String)
     expansion = Column(Integer)
     data = Column(JSONB)
     cards = relationship('Card', secondary='deck_cards')
-
 # TODO handle indexes
 
 # TODO handle legacies
+# mavericks sometimes appear under a newer expansion than the card expansion:
+#   we should set the card expansion according to its deck when it is a non-maverick
+# legacy cards should be from an older expansion. we want to use the card expansion
+#   as our expansion and NOT the deck expansion
 class Card(Base):
     __tablename__ = 'cards'
     key = Column(String, primary_key=True)
@@ -212,6 +274,11 @@ def add_deck_cards():
             amt += 1
             print(deck.key, amt)
 
+
+# Every time we start up, clean up from before
+UpdateScope().clean_scrape()
+
+
 if __name__=="__main__":
     scope = UpdateScope()
     #print(len(scope.get_cards()))
@@ -221,30 +288,10 @@ if __name__=="__main__":
     i = 1
     while 1:
         next = scope.next_page_to_scrape(int(i))
-        if next not in holes:
-            print(next)
-            holes.append(next)
+        print(i,next)
+        if i==next:
+            i = next+1
+        else:
             i = next
-        if i>80000 or i == 1:
+        if i>80000:# or i == 1:
             break
-
-"""
-    scope = UpdateScope()
-    scope.add_card(key='a', deck_expansion="341", name='my card', data={'key':'a','expansion':'341', 'extra':2})
-    scope.add_card(key='b', deck_expansion="435", name='my card', data={'key':'b','expansion':'435'})
-    scope.add_card(key='b', deck_expansion="341", name='my card', data={'key':'b','expansion':'435'})
-    scope.add_deck(key='deck1', name='My First Deck X', expansion='341', data={'key':'deck1', 'name':'some name'})
-
-    scope.commit()
-
-    session = Session()
-    card = session.query(Card).filter_by(key='a').first()
-    print(object_as_dict(card))
-
-    card = session.query(Deck).filter_by(key='deck1').first()
-    print(object_as_dict(card))
-
-    #for card in session.query(Card).all():
-    #    session.delete(card)
-    #session.commit()
-"""

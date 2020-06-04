@@ -19,14 +19,18 @@ def wait(seconds,reason=""):
 
 def rget(*args, **kwargs):
     print("    req", args, kwargs)
+    if "timeout" not in kwargs:
+        kwargs["timeout"] = 10
     resp = requests.get(*args, **kwargs)
     print("    -resp", args, kwargs)
     return resp
 
-def correlate_deck(deck, cards_by_key):
+def correlate_deck(deck, cards_by_key, cards_by_key_exp):
     for card_key in deck["_links"]["cards"]:
-        card = cards_by_key[card_key]
+        card = {}
+        card.update(cards_by_key[card_key])
         card["deck_expansion"] = deck["expansion"]
+        cards_by_key_exp[(card_key, deck["expansion"])] = card
 
 
 class RateLimitException(Exception):
@@ -96,6 +100,7 @@ class MasterVault(object):
         self.max_page = 24
         self.scope = datamodel.UpdateScope()
         self.thread_states = {}
+        self.insert_lock = threading.Lock()
 
     def proxyget(self, *args, **kwargs):
         lastexc = None
@@ -181,29 +186,34 @@ class MasterVault(object):
         }
         dat, proxy = self._call("decks", args)
         if "data" not in dat:
-            return [], []
+            return [], [], []
         decks = dat["data"]
         cards = dat["_linked"]["cards"]
         cards_by_key = {}
         for card in cards:
             cards_by_key[card["id"]] = card
-        [correlate_deck(deck, cards_by_key) for deck in decks]
-        return decks, cards, proxy
+        cards_by_key_exp = {}
+        [correlate_deck(deck, cards_by_key, cards_by_key_exp) for deck in decks]
+        return decks, list(cards_by_key_exp.values()), proxy
 
-    def insert(self, decks, cards):
-        [self.scope.add_deck(
-                key = deck['id'],
-                name = deck['name'],
-                expansion = deck['expansion'],
-                data = deck
-            ) for deck in decks]
-        [self.scope.add_card(
-                key = card['id'],
-                name = card['card_title'],
-                deck_expansion = card['deck_expansion'],
-                data = card
-            ) for card in cards]
-        self.scope.commit()
+    def insert(self, decks, cards, page):
+        with self.insert_lock:
+            self.scope.begin()
+            [self.scope.add_deck(
+                    key = deck['id'],
+                    name = deck['name'],
+                    expansion = deck['expansion'],
+                    data = deck,
+                    page = page,
+                    index = i
+                ) for (i,deck) in enumerate(decks)]
+            [self.scope.add_card(
+                    key = card['id'],
+                    name = card['card_title'],
+                    deck_expansion = card['deck_expansion'],
+                    data = card
+                ) for card in cards]
+            self.scope.commit()
 
     def scrape_back(self, start_at=1, thread_index=0):
         """Start scraping decks from the oldest to the newest
@@ -212,59 +222,55 @@ class MasterVault(object):
         up to the front scraper and can stop.
         
         We can also save which page we left off on and resume the back scrape from there"""
-        self.thread_states[thread_index] = ""
+        self.thread_states[thread_index] = ["", start_at]
+        wait(random.randint(0,10))
         while 1:
-            self.thread_states[thread_index] = "ok_open"
+            print("threads",repr(self.thread_states))
+            self.thread_states[thread_index][0] = "ok_open"
             print("Before check next page")
             try:
-                page = self.scope.next_page_to_scrape(start_at)
+                with self.insert_lock:
+                    page = self.scope.next_page_to_scrape(start_at)
             except Exception:
-                self.scope.session_reset()
-                self.thread_states[thread_index] = "fail_start"
+                self.thread_states[thread_index][0] = "fail_start"
                 wait(1)
                 continue
-            self.thread_states[thread_index] = "ok_scrape"
-            print("SCRAPE PAGE",page,"thread:",thread_index,"threads",repr(self.thread_states))
+            self.thread_states[thread_index] = ["ok_scrape", page]
+            print("start starting")
+            if not self.scope.start_page(page=page):
+                print("error")
+                wait(2)
+                continue
+            print("SCRAPE PAGE",page,"thread:",thread_index)
             try:
                 decks, cards, proxy = self.get_decks_with_cards("", page)
             except Exception:
-                self.thread_states[thread_index] = "fail_proxy"
+                import traceback
+                traceback.print_exc()
+                self.thread_states[thread_index][0] = "fail_api_call"
+                with self.insert_lock:
+                    self.scope.clean_scrape(page)
                 wait(1)
                 continue
-            if not decks:
-                # We're done scraping and can stop
-                self.thread_states[thread_index] = "ok_done"
-                return
+            if not decks or len(decks)<24:
+                self.thread_states[thread_index][0] = "ok_done"
+                with self.insert_lock:
+                    self.scope.clean_scrape(page)
+                print("#### - didn't get 24 decks on page %d" % page)
+                wait(60)
+                continue
             try:
-                self.insert(decks, cards)
-                self.thread_states[thread_index] = "ok_inserted"
+                self.insert(decks, cards, page)
+                self.thread_states[thread_index][0] = "ok_inserted"
             except Exception:
                 wait(1)
-                self.thread_states[thread_index] = "fail_insert"
+                self.thread_states[thread_index][0] = "fail_insert"
+                raise
                 continue
             print("########### inserted",len(decks),"decks, and",len(cards),"cards from page",page,"via",proxy, len(threading.enumerate()))
             self.scope.scraped_page(page=page, decks_scraped=len(decks), cards_scraped=len(cards))
-            self.thread_states[thread_index] = "ok_continue"
+            self.thread_states[thread_index][0] = "ok_continue"
             wait(1)
-        return True
-
-    def scrape_front(self, page, *args):
-        """Start scraping from the front. If we hit a deck we know about, we've
-        caught up to our last scrape from the front and can stop"""
-        while 1:
-            #page = self.scope.next_page_to_scrape(start_at)
-            print("SCRAPE PAGE",page)
-            decks, cards, proxy = self.get_decks_with_cards("-", page)
-            if not decks:
-                # We're done scraping and can stop
-                return
-            try:
-                self.insert(decks, cards)
-            except sqlalchemy.exc.OperationalError:
-                continue
-            print("########### inserted",len(decks),"decks, and",len(cards),"cards from page",page,"via",proxy, len(threading.enumerate()))
-            #self.scope.scraped_page(page=page, decks_scraped=len(decks), cards_scraped=len(cards))
-            page += 1
         return True
 
 
