@@ -263,6 +263,23 @@ var parseQueryString = function (argument) {
   }
 }
 
+function isElementInViewport (el) {
+
+  // Special bonus for those using jQuery
+  if (typeof jQuery === "function" && el instanceof jQuery) {
+      el = el[0];
+  }
+
+  var rect = el.getBoundingClientRect();
+
+  return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+  );
+}
+
 var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
   if (ar.length > 0) {
     var nar = ar.filter(function (item) {
@@ -491,25 +508,30 @@ var CSearch = {
     // Delete results tab
     var resultsTab = $('.card-gallery-images')
     $('.loader').remove()
+    $('.load_more').remove()
     // For each card in query
     for (var i in resultsArray) {
       var card = resultsArray[i]
       var el = ''
-      el += '<div class="gallery-image">'
+      el += '<div class="gallery-image" style="position:relative;text-align:center">'
       el += ' <a href="/' + card.title.Name + '">'
       var imgurl = '/Special:Redirect/file/' + card.title.Image
       //el += '<img width=180 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
-      el += '<img src="'+unhashThumbImage(card.title.Image)+'" data-src="'+unhashImage(card.title.Image)+'">'
-      el += '</a></div>'
+      el += '<img width=200 height=280 src="'+unhashThumbImage(card.title.Image)+'" data-src="'+unhashImage(card.title.Image)+'">'
+      el += '<div style="position:absolute;bottom:8px;left:16px;">'+card.title.Name+'</div>'
+      el += '</a>'
+      el += '</div>'
       /*if(self.texts[0]){
         el += card.title.Text
       }*/
       resultsTab.append(el)
     }
+    resultsTab.append('<div class="load_more"></div>')
     var imgs = $('img[data-src]')
     imgs.map(function(i) {
       var self = imgs[i]
       self.onload = () => {
+        $(self).next().remove()
         loadImage(self)
       }
     })
@@ -553,7 +575,11 @@ var CSearch = {
   listenScroll: function() {
     var self=this
     if(self.loadingCards || self.loadingCount){
-      return false;
+      return false
+    }
+    if(isElementInViewport($('.load_more'))){
+      self.nextPage()
+      return true
     }
     var height = document.documentElement.scrollHeight
     scrollOffset = document.documentElement.scrollTop + window.innerHeight;
