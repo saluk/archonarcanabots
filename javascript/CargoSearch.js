@@ -13,6 +13,391 @@ var keywords = ['Alpha',
   'Poison',
   'Skirmish',
   'Taunt']
+var artists = [
+  {
+      "Artist": "Adam Schumpert"
+  },
+  {
+      "Artist": "Adam Vehige"
+  },
+  {
+      "Artist": "Agri Karuniawan"
+  },
+  {
+      "Artist": "Albert Bruun"
+  },
+  {
+      "Artist": "Alena Medovnikova"
+  },
+  {
+      "Artist": "Alena Zhukova"
+  },
+  {
+      "Artist": "Alexandre Leoni"
+  },
+  {
+      "Artist": "Alexey Iavtuschenco"
+  },
+  {
+      "Artist": "Allon Kremer"
+  },
+  {
+      "Artist": "Alyn Spiller"
+  },
+  {
+      "Artist": "Ameen Naksewee"
+  },
+  {
+      "Artist": "Andreas Zafiratos"
+  },
+  {
+      "Artist": "Andrew Bosley"
+  },
+  {
+      "Artist": "Angelica Alieva"
+  },
+  {
+      "Artist": "Angelina Chernyak"
+  },
+  {
+      "Artist": "Anton Zemskov"
+  },
+  {
+      "Artist": "Anzka Nguyen"
+  },
+  {
+      "Artist": "Art tavern"
+  },
+  {
+      "Artist": "Asep Ariyanto"
+  },
+  {
+      "Artist": "Atha Kanaani"
+  },
+  {
+      "Artist": "\u00c2ngelo Bortolini"
+  },
+  {
+      "Artist": "BalanceSheet"
+  },
+  {
+      "Artist": "Bogdan Tauciuc"
+  },
+  {
+      "Artist": "Brandon Hunt"
+  },
+  {
+      "Artist": "Brolken"
+  },
+  {
+      "Artist": "Caio Monteiro"
+  },
+  {
+      "Artist": "Caravan Studio"
+  },
+  {
+      "Artist": "Chris Bjors"
+  },
+  {
+      "Artist": "Cindy Avelino"
+  },
+  {
+      "Artist": "Colin Searle"
+  },
+  {
+      "Artist": "Dany Orizio"
+  },
+  {
+      "Artist": "David Auden Nash"
+  },
+  {
+      "Artist": "David Keen"
+  },
+  {
+      "Artist": "David Kegg"
+  },
+  {
+      "Artist": "David Pursley"
+  },
+  {
+      "Artist": "David Tenorio"
+  },
+  {
+      "Artist": "Diego Machuca"
+  },
+  {
+      "Artist": "Djib"
+  },
+  {
+      "Artist": "Dong Cheng"
+  },
+  {
+      "Artist": "Eric Kenji Aoyagi"
+  },
+  {
+      "Artist": "Etienne Hebinger"
+  },
+  {
+      "Artist": "F\u00e1bio Perez"
+  },
+  {
+      "Artist": "Felipe Martini"
+  },
+  {
+      "Artist": "Forrest Imel"
+  },
+  {
+      "Artist": "Francisco Badilla"
+  },
+  {
+      "Artist": "Gabriel Rubio"
+  },
+  {
+      "Artist": "Gabriel Scavariello"
+  },
+  {
+      "Artist": "Gabriel Zanini"
+  },
+  {
+      "Artist": "Gabriela Marchioro"
+  },
+  {
+      "Artist": "Girma Moges"
+  },
+  {
+      "Artist": "Gizelle Karen Baluso"
+  },
+  {
+      "Artist": "Gong Studios"
+  },
+  {
+      "Artist": "Grigory Serov"
+  },
+  {
+      "Artist": "Hans Krill"
+  },
+  {
+      "Artist": "Harumi Namba"
+  },
+  {
+      "Artist": "Helena Butenkova"
+  },
+  {
+      "Artist": "Hendry Iwanaga"
+  },
+  {
+      "Artist": "Ilya Bondarenko"
+  },
+  {
+      "Artist": "Iqnatius Budi"
+  },
+  {
+      "Artist": "Ivan Frolov"
+  },
+  {
+      "Artist": "Ivan Tao"
+  },
+  {
+      "Artist": "Jacob Atienza"
+  },
+  {
+      "Artist": "Jacob Walker"
+  },
+  {
+      "Artist": "Jacqui Davis"
+  },
+  {
+      "Artist": "Jason Juta"
+  },
+  {
+      "Artist": "JB Casacop"
+  },
+  {
+      "Artist": "Jessada Sutthi"
+  },
+  {
+      "Artist": "Jess\u00e9 Suursoo"
+  },
+  {
+      "Artist": "John Silva"
+  },
+  {
+      "Artist": "Jon Bosco"
+  },
+  {
+      "Artist": "Jordan Kerbow"
+  },
+  {
+      "Artist": "Jorge Ramos"
+  },
+  {
+      "Artist": "Josh Corpuz"
+  },
+  {
+      "Artist": "Konstantin Porubov"
+  },
+  {
+      "Artist": "Konstantin Turovec"
+  },
+  {
+      "Artist": "Kristen Pauline"
+  },
+  {
+      "Artist": "Kristina Kolesnikova"
+  },
+  {
+      "Artist": "Leandro Franci"
+  },
+  {
+      "Artist": "Liiga Smilshkalne"
+  },
+  {
+      "Artist": "Limetown Studios"
+  },
+  {
+      "Artist": "Lorena Lammer"
+  },
+  {
+      "Artist": "Mads Ahm"
+  },
+  {
+      "Artist": "Maerel Hibadita"
+  },
+  {
+      "Artist": "Marc Escachx"
+  },
+  {
+      "Artist": "Marco Tamura"
+  },
+  {
+      "Artist": "Maria Poliakova"
+  },
+  {
+      "Artist": "Mariana Ennes"
+  },
+  {
+      "Artist": "Mariusz Gandzel"
+  },
+  {
+      "Artist": "Mark Bulahao"
+  },
+  {
+      "Artist": "Marko Fiedler"
+  },
+  {
+      "Artist": "Marzena Piwowar"
+  },
+  {
+      "Artist": "Matheus Schwartz"
+  },
+  {
+      "Artist": "Matt Zeilinger"
+  },
+  {
+      "Artist": "Matthew Mizak"
+  },
+  {
+      "Artist": "Melvin Chan"
+  },
+  {
+      "Artist": "Michele Giorgi"
+  },
+  {
+      "Artist": "Mihai Radu"
+  },
+  {
+      "Artist": "Mircea Nicula"
+  },
+  {
+      "Artist": "Mo Mukhtar"
+  },
+  {
+      "Artist": "Monztre"
+  },
+  {
+      "Artist": "Nasrul Hakim"
+  },
+  {
+      "Artist": "Natalie Russo"
+  },
+  {
+      "Artist": "Nicholas Gregory"
+  },
+  {
+      "Artist": "Nicola Saviori"
+  },
+  {
+      "Artist": "Oscar R\u00f6mer"
+  },
+  {
+      "Artist": "Pavel Tomashevskiy"
+  },
+  {
+      "Artist": "Pedro Dutra"
+  },
+  {
+      "Artist": "Preston Stone"
+  },
+  {
+      "Artist": "Quentin de Warren"
+  },
+  {
+      "Artist": "Radial Studio"
+  },
+  {
+      "Artist": "Randall Mackey"
+  },
+  {
+      "Artist": "Raphael Massarani"
+  },
+  {
+      "Artist": "Regis Torres"
+  },
+  {
+      "Artist": "Rodrigo Camilo"
+  },
+  {
+      "Artist": "Roman Semenenko"
+  },
+  {
+      "Artist": "Ronnie Price II"
+  },
+  {
+      "Artist": "Rudy Siswanto"
+  },
+  {
+      "Artist": "Sasha Tudvaseva"
+  },
+  {
+      "Artist": "Sean Donaldson"
+  },
+  {
+      "Artist": "Stanislav Dikolenko"
+  },
+  {
+      "Artist": "Taylor Ingvarsson"
+  },
+  {
+      "Artist": "Tey Bartolome"
+  },
+  {
+      "Artist": "Timur Shevtsov"
+  },
+  {
+      "Artist": "Tomek Larek"
+  },
+  {
+      "Artist": "Vladimir Kafanov"
+  },
+  {
+      "Artist": "Vladimir Zyrianov"
+  },
+  {
+      "Artist": "Yan Kyohara"
+  }
+].map(artistRow=>{
+  return  artistRow['Artist']
+})
 var ambercounts = ['0', '1', '2', '3', '4+']
 var armorcounts = ['0', '1', '2', '3', '4', '5+']
 var powercounts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
@@ -240,6 +625,8 @@ var searchFields = [
     new EditField('text', 'gigantic', 
     {'hidden':true, 'attach':'div.card-text-entries'}),
     new EditField('select', 'keywords', {'values':keywords,
+      'combo': true, 'attach': 'div.keyword-entries'}),
+    new EditField('select', 'artists', {'values':artists,
       'combo': true, 'attach': 'div.keyword-entries'})
     /*new EditField('text', 'exclusiveSet', 
     {'hidden':true, 'attach':'div.card-text-entries'}),*/
@@ -379,6 +766,7 @@ var CSearch = {
   enhance_draw_max: [""],
   rarities: [],
   traits: [],
+  artists: [],
   keywords: [],
   cardnumber: [],
   errata: [false],
@@ -460,6 +848,7 @@ var CSearch = {
       joined('SetName=%22', this.sets, '%22', 'OR'),
       joined('Rarity=%22', this.rarities, '%22', 'OR'),
       joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
+      joined('CardData.Artist=%22', this.artists, '%22', 'OR'),
       joined('CardData.Traits', traits, '', 'OR'),
       joined('CardData.Keywords', keywordsToSearch, '', 'OR'),
       joined('CardData.SearchFlavorText%20LIKE%20%22%25', this.flavortext, '%25%22', 'OR'),
@@ -498,7 +887,7 @@ var CSearch = {
     if (returnType === 'data') {
       q = start + tables + fields + where + joinon + groupby + limitq + offsetq
     } else if (returnType === 'count') {
-      q = start + tables + countFields + where + joinon
+      q = start + tables + countFields + where + joinon + '&limit=1'
     }
     console.log(q)
     return q
