@@ -43,7 +43,7 @@ def get_json(resp):
     except Exception:
         raise
     if j.get("code", None) == 429:
-        raise RateLimitException("Hit code 429")
+        raise RateLimitException("Hit code 429", j)
     return j
 
 
@@ -107,7 +107,7 @@ class MasterVault(object):
         timeout=5
         def good_proxy():
             return self.scope.get_proxy()
-        methods = [(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
+        methods = [(proxy_rotator, 2), (good_proxy, 2), (sslproxy, 2), (proxy_list1, 2)]
         random.shuffle(methods)
         for method, tries in methods:
             proxy = {"method": method.__name__}
@@ -130,6 +130,7 @@ class MasterVault(object):
                 except Exception as exc:
                     print("error", kwargs['params']['page'], method.__name__)
                     lastexc = exc
+        wait(12)
         try:
             r = rget(timeout=timeout, *args, **kwargs)
         except Exception as exc:
@@ -143,7 +144,7 @@ class MasterVault(object):
         except Exception as exc:
             print("error", kwargs['params']['page'], "raw2")
             lastexc = exc
-            wait(1)
+            wait(5)
             raise
         print(lastexc)
         raise Exception("Couldn't get valid response")
