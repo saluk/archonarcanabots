@@ -27,29 +27,6 @@ var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
   return ''
 }
 
-var statQuery = function(clauses, statInput, field) {
-  if(statInput) {
-    if(statInput.min.length>0 | statInput.max.length>0) {
-      var min = statInput.min
-      min = min.replace('+', '')
-      if (!min) {
-        min = 0
-      }
-      var max = statInput.max
-      if (!max||max.search(/\+/)>=0) {
-        max = 5000
-      }
-      clauses.push(
-        joined('', [
-          'CardData.'+field+' >= ' + min,
-          'CardData.'+field+' <= ' + max
-        ], '%20', 'AND')
-      )
-    }
-  }
-  return
-}
-
 var unhashImage = function(imgName) {
   var hash = md5(imgName)
   var firsthex = hash.substring(0,1)
@@ -137,9 +114,9 @@ var CSearchRandom = {
       joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
       joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
     ]
-    statQuery(clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
-    statQuery(clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
-    statQuery(clauses, {'min':this.armor_min[0], 'max':this.armor_max[0]}, 'Armor')
+    //statQuery(clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
+    //statQuery(clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
+    //statQuery(clauses, {'min':this.armor_min[0], 'max':this.armor_max[0]}, 'Armor')
     var where = joined('', clauses,
       '', 'AND')
     where = '&where=' + where
@@ -194,9 +171,12 @@ var CSearchRandom = {
   },
 }
 
-console.log('initing random search')
-if ($('.random_images').length>0) {
-    var element = $('.random_images')[0]
-    CSearchRandom.init(element, element.getAttribute('data-number'))
+function choose_random_cards() {
+  console.log('initing random search')
+  if ($('.random_images').length>0) {
+      var element = $('.random_images')[0]
+      CSearchRandom.init(element, element.getAttribute('data-number'))
+  }
 }
 
+export {choose_random_cards}

@@ -1,0 +1,40 @@
+{
+  "name": "archonarcanabots",
+  "version": "1.0.0",
+  "description": "",
+  "private": "true",
+  "dependencies": {
+    "chart": "^0.1.2",
+    "chart.js": "^2.9.3",
+    "jquery": "^3.5.1",
+    "select2": "^4.0.13",
+    "uglify-js": "^3.10.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saluk/archonarcanabots.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saluk/archonarcanabots/issues"
+  },
+  "homepage": "https://github.com/saluk/archonarcanabots#readme"
+}
