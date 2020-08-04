@@ -8,3 +8,5 @@ passwords.py
 javascript/node_modules
 */__pycache__
 images/*
+node_modules
+*.pyc

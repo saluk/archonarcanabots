@@ -107,7 +107,7 @@ class MasterVault(object):
         timeout=5
         def good_proxy():
             return self.scope.get_proxy()
-        methods = [(proxy_rotator, 2), (good_proxy, 2), (sslproxy, 2), (proxy_list1, 2)]
+        methods = [(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
         random.shuffle(methods)
         for method, tries in methods:
             proxy = {"method": method.__name__}
@@ -130,7 +130,7 @@ class MasterVault(object):
                 except Exception as exc:
                     print("error", kwargs['params']['page'], method.__name__)
                     lastexc = exc
-        wait(12)
+        wait(6)
         try:
             r = rget(timeout=timeout, *args, **kwargs)
         except Exception as exc:
@@ -253,11 +253,11 @@ class MasterVault(object):
                     self.scope.clean_scrape(page)
                 wait(1)
                 continue
-            if not decks or len(decks)<24:
+            if not decks or len(decks)<1:
                 self.thread_states[thread_index][0] = "ok_done"
                 with self.insert_lock:
                     self.scope.clean_scrape(page)
-                print("#### - didn't get 24 decks on page %d" % page)
+                print("#### - didn't get decks on page %d" % page)
                 wait(60)
                 continue
             try:
@@ -269,6 +269,12 @@ class MasterVault(object):
                 raise
                 continue
             print("########### inserted",len(decks),"decks, and",len(cards),"cards from page",page,"via",proxy, len(threading.enumerate()))
+            if len(decks)<24:
+                with self.insert_lock:
+                    self.scope.clean_scrape(page)
+                print("#### - didn't get 24 decks on page %d" % page)
+                wait(60)
+                continue
             self.scope.scraped_page(page=page, decks_scraped=len(decks), cards_scraped=len(cards))
             self.thread_states[thread_index][0] = "ok_continue"
             wait(1)

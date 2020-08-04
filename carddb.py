@@ -77,6 +77,7 @@ assert sanitize_text("something    \n    something else", flavor=True)=="somethi
 
 
 # TODO pull this direct from the site
+# Enhance is handled custom
 keywords = """Alpha
 Assault
 Deploy
@@ -86,7 +87,8 @@ Invulnerable
 Omega
 Poison
 Skirmish
-Taunt""".split("\n")
+Taunt
+""".split("\n")
 
 # TODO - as if it were yours, if you do, center of the battleline, preceding, instead and splash
 replacement_links = {

@@ -167,36 +167,25 @@ class UpdateScope(object):
     def get_cards(self, expansion=479):
         session = Session()
         cards = session.query(Card).filter(
-            Card.deck_expansion==expansion,
+            #Card.deck_expansion==expansion,
+            Card.data['expansion']==str(expansion),
             Card.data['is_enhanced']=='false',
             Card.data['is_maverick']=='false').all()
-        print(len(cards))
+        # print(len(cards))
         card_names = {}
         for c in cards:
-            print(c.key)
+            #print(c.key)
             if c.data["card_type"]=="Creature2":
                 continue
             if c.name in card_names:
                 if card_names[c.name].data['house'] != c.data['house']:
                     card_names[c.name].data['house'] += util.SEPARATOR + c.data['house']
                 continue
-            # TODO fix legacies
-            # select * from decks where data->'_links'->'cards'@>'"a7621926-1f0f-4d56-b2aa-15efdded15a9"' and expansion=435;
-            #select * from decks where data->'set_era_cards'->'Legacy'@>'"a7621926-1f0f-4d56-b2aa-15efdded15a9"' limit 1;
-            #a_deck = self.session.execute(
-            #    "select * from decks where data->'set_era_cards'->'Legacy'@>'\"%s\"' and expansion=%s limit 1" % (c.key, expansion)).first()
-            #print(a_deck)
-            #if(a_deck):
-            #    continue
             if c.data['expansion'] != expansion:
                 continue
-            if c.name=='Troll':
-                print(a_deck.data)
-                return []
             card_names[c.name] = c
-        print(sorted(card_names.keys()))
+        # print(sorted(card_names.keys()))
         return card_names.values()
-
 
 class BackScrapePage(Base):
     __tablename__ = "back_scrape_page"
@@ -248,6 +237,20 @@ class DeckCard(Base):
         ),
     )
 
+class ApiUser(Base):
+    __tablename__ = "api_user"
+    uuid = Column(String, primary_key=True, unique=True)
+    email = Column(String, unique=True)
+    hashed_password = Column(String)
+    dok_key = Column(String)
+
+class OwnedDeck(Base):
+    __tablename__ = "deck_user"
+    deck_key = Column(String, ForeignKey(Deck.key), primary_key=True)
+    user_key = Column(String, ForeignKey(ApiUser.uuid), primary_key=True)
+    wins = Column(Integer)
+    losses = Column(Integer)
+
 print("before create")
 Base.metadata.create_all(engine)
 print("after create")
@@ -277,7 +280,9 @@ def add_deck_cards():
 
 # Every time we start up, clean up from before
 UpdateScope().clean_scrape()
-
+# 341, 435, 452, 453, 479
+#for card_set in [341, 435, 452, 453, 479]:
+#    print(card_set, len(UpdateScope().get_cards(card_set)))
 
 if __name__=="__main__":
     scope = UpdateScope()
@@ -287,6 +292,7 @@ if __name__=="__main__":
     holes = []
     i = 1
     while 1:
+        break
         next = scope.next_page_to_scrape(int(i))
         print(i,next)
         if i==next:
