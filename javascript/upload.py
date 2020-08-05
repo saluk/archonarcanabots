@@ -82,7 +82,7 @@ def upload():
         f.write(gen_data)
     os.system("npm run build")
     upload_js_file("main.js")
-    for filename in ['Common.js']:#, 'Mobile.js']:
+    for filename in ['Common.js', 'Mobile.js']:
         with open("javascript/"+filename) as f:
             txt = f.read()
             for hashed in hashes:

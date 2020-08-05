@@ -3,6 +3,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 import uuid
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
 from jose import jwt,JWTError
 from datetime import datetime, timedelta
 import sys, os, traceback
@@ -26,6 +27,11 @@ class TokenData(BaseModel):
     email: Optional[str] = None
 
 mvapi = FastAPI()
+origins = ["https://archonarcana.com"]
+mvapi.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,allow_credentials=True,allow_methods=['*'],allow_headers=['*']
+)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 class UserInDB(BaseModel):

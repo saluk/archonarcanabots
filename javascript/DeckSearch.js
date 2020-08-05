@@ -125,6 +125,7 @@ var DSearch = {
     var joinon = ''
     var limitq = '&limit=' + this.pageSize
     var offsetq = '&offset=' + this.offset
+    var q = ''
     if (returnType === 'data') {
       q = start + tables + fields + where + joinon + groupby + limitq + offsetq
     } else if (returnType === 'count') {
@@ -283,4 +284,4 @@ var init_deck_search = function () {
   }
 }
 
-init_deck_search()
+export {init_deck_search}

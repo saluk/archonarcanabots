@@ -10,3 +10,4 @@ javascript/node_modules
 images/*
 node_modules
 *.pyc
+javascript/main.js
