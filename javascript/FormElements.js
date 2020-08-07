@@ -1,3 +1,6 @@
+import $ from 'jquery'
+import 'select2'
+
 var check_images = {
 	'Brobnar': 'https://archonarcana.com/images/e/e0/Brobnar.png',
 	'Dis': 'https://archonarcana.com/images/e/e8/Dis.png',
@@ -33,6 +36,7 @@ class EditField {
 	  this.label = ''
 	  this.split_on = ''
 	  this.values = []
+	  this.presetValue = ''
 	  this.checknumbers = false
 	  this.divclass = ''
 	  this.attach = ''
@@ -55,17 +59,20 @@ class EditField {
 	addElement() {
 	  var self=this
 	  var form=self.attach
-	  var presetValue = parseQueryString(this.field)
-	  if(presetValue && !this.basic){
+	  if(!this.presetValue) {
+		this.presetValue = parseQueryString(this.field)
+	  }
+	  if(this.presetValue && !this.basic){
 		this.triggerAdvanced = true
 	  }
 	  if(form === '') {
 		return
 	  }
+	  // $(form).empty() breaks min/max fields
 	  if (this.type === 'br') {
 		$(form).append('<br>')
 	  }
-	  if (this.type === 'text') {
+	  else if (this.type === 'text') {
 		if(this.label && !this.hidden){
 		  $(form).append('<label for="' + this.field + '">' + this.label + '</label>')
 		}
@@ -73,10 +80,10 @@ class EditField {
 		if(this.hidden){
 		  h = ' type="hidden" '
 		}
-		$(form).append('<input name="' + this.field + '"'+h+' value="' + presetValue + '" />')
+		$(form).append('<input name="' + this.field + '"'+h+' value="' + self.presetValue + '" />')
 		console.log("add text field "+this.field)
 	  }
-	  if (this.type === 'select') {
+	  else if (this.type === 'select') {
 		var options = []
 		if(this.label) {
 		  options.push('<label for="' + this.field + '">' + this.label + '</label>')
@@ -91,7 +98,7 @@ class EditField {
 		}
 		this.values.map(function(option) {
 		  var is_checked = ''
-		  if (presetValue.match(option)) {
+		  if (self.presetValue.match(option)) {
 			is_checked = ' selected="true"'
 		  }
 		  options.push('<option value="'+option+'"'+is_checked+'>'+option+'</option>')
@@ -113,7 +120,7 @@ class EditField {
 			$(this).append($element)
 			$(this).trigger("change")
 		  })
-		  presetValue.split('+').map(function(option) {
+		  this.presetValue.split('+').map(function(option) {
 			var optionEl = $(el).find('[value="Name"]')
 			optionEl.detach()
 			$(el).append(optionEl)
@@ -122,7 +129,7 @@ class EditField {
 		}
   
 	  }
-	  if (this.type === 'checkbox') {
+	  else if (this.type === 'checkbox') {
 		//$(form).append('<span>' + this.label + ': </span>')
 		this.values.map(function(value) {
 		  var img = check_images[value]
@@ -133,7 +140,7 @@ class EditField {
 		  if(img){
 			txt += 'class="checkbox-house"'
 		  }
-		  if(presetValue.replace(/\+/g,' ').match(value)) {
+		  if(self.presetValue.replace(/\+/g,' ').match(value)) {
 			txt += ' checked="true" '
 		  }
 		  txt += 'name="'+self.field+'" id="'+value+'" value="'+value+'">' 
@@ -148,6 +155,9 @@ class EditField {
 		  txt += '</span></label></div>'
 		  $(form).append(txt)
 		})
+	  }
+	  else {
+		  //console.log('NO FORM FOR '+this.field)
 	  }
 	}
 	getData() {

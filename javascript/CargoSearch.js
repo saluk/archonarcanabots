@@ -1,29 +1,8 @@
 import {EditField, minmax} from './FormElements'
-import {artists, set5artists} from './data'
-import {traits, set5traits} from './data'
-
-var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance','Shadows','Untamed','Anomaly']
-var set5houses = ['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Unfathomable','Untamed']
-var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation']
-var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
-var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special']
-var set5rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special', 'Evil Twin']
-var orders = {"Name":"Name","House":"House","Number":"CardNumber","Rarity":"Rarity","Power":"Power"}
-var keywords = ['Alpha',
-  'Assault',
-  'Deploy',
-  'Elusive',
-  'Hazardous',
-  'Invulnerable',
-  'Omega',
-  'Poison',
-  'Skirmish',
-  'Taunt']
-var features = ['gigantic', 'errata']
-var ambercounts = ['0', '1', '2', '3', '4+']
-var armorcounts = ['0', '1', '2', '3', '4', '5+']
-var powercounts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
-var enhancecounts = ['1', '2', '3', '4', '5+']
+import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
+  ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
+  types, rarities, set5rarities, orders, keywords, features, getHouses} from './data'
+import 'md5'
 
 var searchFields = [
   new EditField('checkbox', 'houses', 
@@ -228,7 +207,7 @@ var CSearch = {
     this.element = element;
     this.spoilers = this.element.attr('data-spoilers')!=null;
     if(this.spoilers){
-      getSearchField('houses').values = set5houses
+      getSearchField('houses').values = spoilerhouses
       getSearchField('rarities').values = set5rarities
       getSearchField('traits').values = set5traits
       getSearchField('artists').values = set5artists
@@ -284,6 +263,22 @@ var CSearch = {
     self.offset = 0
     self.offsetActual = 0
     self.toUrl()
+
+    // Update house selection based on sets
+    var setField = getSearchField('sets')
+    if(setField){
+      var clicked_sets = setField.getData()
+      if(clicked_sets.length>0){
+        getSearchField('houses').values = getHouses(clicked_sets)
+      } else {
+        getSearchField('houses').values = getHouses(sets)
+      }
+      $(getSearchField('houses').attach).empty()
+      getSearchField('houses').presetValue = self.houses.join('+')
+      getSearchField('houses').addElement()
+      getSearchField('houses').listener(self.initForm, self)
+      getSearchField('houses').assignData(self)
+    }
     self.newSearch()
   },
   initElement: function(self) {
@@ -674,7 +669,7 @@ var buildCardSearchForm = function(search) {
 }
 
 var init_cargo_search2 = function () {
-  console.log('initing cargo search')
+  console.log('initing cargo search updated')
   if ($('.card-gallery-images').length>0) {
     CSearch.init($('.card-gallery-images'), 50)
     buildCardSearchForm(CSearch)

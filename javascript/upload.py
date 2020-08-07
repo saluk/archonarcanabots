@@ -3,6 +3,8 @@ import connections
 wp = connections.get_wiki()
 import requests
 
+lasthashes = {"main.js":"main_TBVrkJNQic0r-A==.js"}
+
 def cargo_query(search_params):
     start = "/api.php?action=cargoquery&format=json"
     params = {
@@ -72,12 +74,16 @@ def upload_js_file(filename, use_hash=True):
         print(page.edit(txt, "javascript updated"))
 
 def upload():
-    gen_data = ""
-    gen_data += "var artists = %s\n" % repr(gen_artists("CardData"))
-    gen_data += "var set5artists = %s\n" % repr(gen_artists("SpoilerData"))
-    gen_data += "var traits = %s\n" % repr(gen_traits("CardData"))
-    gen_data += "var set5traits = %s\n" % repr(gen_traits("SpoilerData"))
-    gen_data += "export {artists, set5artists, traits, set5traits}"
+    with open("javascript/data_t.js") as f:
+        gen_data = f.read()
+        reps = {
+            "//ARTISTS": "var artists = %s" % repr(gen_artists("CardData")),
+            "//SET5ARTISTS": "var set5artists = %s" % repr(gen_artists("SpoilerData")),
+            "//TRAITS": "var traits = %s" % repr(gen_traits("CardData")),
+            "//SET5TRAITS": "var set5traits = %s" % repr(gen_traits("SpoilerData"))
+        }
+        for r in reps:
+            gen_data = gen_data.replace(r, reps[r])
     with open("javascript/data.js","w") as f:
         f.write(gen_data)
     os.system("npm run build")
@@ -85,8 +91,14 @@ def upload():
     for filename in ['Common.js', 'Mobile.js']:
         with open("javascript/"+filename) as f:
             txt = f.read()
+            hashkey = "<FILENAME_%s>"
+            debughashkey = "<FILENAMEDEBUG_%s>"
             for hashed in hashes:
-                k = "<FILENAME_%s>" % hashed
+                lastk = hashkey % hashed
+                k = debughashkey % hashed
+                print(lastk,k)
+                if lastk in txt:
+                    txt = txt.replace(lastk, lasthashes[hashed])
                 if k in txt:
                     txt = txt.replace(k, hashes[hashed])
             wpname = "MediaWiki:" + filename
