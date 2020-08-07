@@ -2,6 +2,7 @@ import {EditField, minmax} from './FormElements'
 import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
   types, rarities, set5rarities, orders, keywords, features, getHouses} from './data'
+import {parseQueryString} from './myutils'
 import 'md5'
 
 var searchFields = [
@@ -239,6 +240,9 @@ var CSearch = {
         elements.push(searchField.field+'='+val)
       }
     })
+    if(parseQueryString('testjs')){
+      elements.push('testjs='+parseQueryString('testjs'))
+    }
     elements = elements.join('&')
     if(elements){
       elements = '?'+elements
