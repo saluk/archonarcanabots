@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import 'select2'
+import {parseQueryString} from './myutils'
 
 var check_images = {
 	'Brobnar': 'https://archonarcana.com/images/e/e0/Brobnar.png',
@@ -18,16 +19,6 @@ var check_images = {
 var like_query = function(s){
 	return s.replace('"', '%').replace("'", '%')
 }
-
-var parseQueryString = function (argument) {
-	var res = '[\\?&]' + argument + '=([^&#]*)'
-	var found = new RegExp(res).exec(window.location.href)
-	if (found) {
-	  return decodeURIComponent(found[1])
-	} else {
-	  return ''
-	}
-  }
 
 class EditField {
 	constructor(type, field, props) {
