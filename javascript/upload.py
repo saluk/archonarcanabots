@@ -3,16 +3,18 @@ import connections
 wp = connections.get_wiki()
 import requests
 
-lasthashes = {"main.js":"main_Fx9P3SZh5154dg==.js"}
+lasthashes = {"main.js":"main_30Nepp6jK8owZQ==.js"}
 
 def cargo_query(search_params):
     start = "/api.php?action=cargoquery&format=json"
     params = {
         "action":"cargoquery",
         "format":"json",
+        "limit":500  # Really should page the query
     }
     params.update(search_params)
     r = requests.get("https://archonarcana.com/api.php", params=params)
+    print(len(r.json()['cargoquery']))
     return r.json()
 
 cache = {}
@@ -31,6 +33,7 @@ def gen_artists(tables):
         a = result['title']['Artist'].replace("?","").strip()
         if not a or a in artists: continue
         artists.append(a)
+    artists.sort()
     cache[k] = artists
     return artists
 
@@ -49,8 +52,11 @@ def gen_traits(tables):
             t = t.replace('?','').strip()
             if not t or t in traits: continue
             traits.append(t)
+    traits.sort()
     cache[k] = traits
     return traits
+
+print(gen_traits("CardData"))
 
 hashes = {}
 
