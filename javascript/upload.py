@@ -3,7 +3,7 @@ import connections
 wp = connections.get_wiki()
 import requests
 
-lasthashes = {"main.js":"main_30Nepp6jK8owZQ==.js"}
+lasthashes = {"main.js":"main_v7wksNq5CtVsVQ==.js"}
 
 def cargo_query(search_params):
     start = "/api.php?action=cargoquery&format=json"
