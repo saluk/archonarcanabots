@@ -209,6 +209,11 @@ class Deck(Base):
     expansion = Column(Integer)
     data = Column(JSONB)
     cards = relationship('Card', secondary='deck_cards')
+    def get_cards(self):
+        """Returns all cards including duplicates"""
+        for c in self.cards:
+            for i in range(self.data['_links']['cards'].count(c.key)):
+                yield c
 # TODO handle indexes
 
 # TODO handle legacies
