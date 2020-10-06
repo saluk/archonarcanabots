@@ -11,6 +11,7 @@ import base64
 from mastervault import datamodel
 from sqlalchemy import or_, and_
 import carddb
+import connections
 from mastervault import dok
 from passlib.context import CryptContext
 from pydantic import BaseModel
@@ -143,13 +144,8 @@ def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None
     if not deck:
         return "No data"
     cards = []
-    for card_key in deck.data['_links']['cards']:
-        card = session.query(datamodel.Card).filter(datamodel.Card.key==card_key).first()
-        if card:
-            card = carddb.add_card(card.data)
-            cards.append(card)
-        else:
-            cards.append((card_key, "no data"))
+    for card in deck.get_cards():
+        cards.append(carddb.add_card(card.data))
     d = {'deck_data':{}}
     d['deck_data'].update(deck.data)
     d['meta'] = {'page':deck.page, 'index':deck.index, 'scrape_date':deck.scrape_date}
@@ -232,5 +228,40 @@ def update_user_decks(current_user: UserInDB = Depends(get_current_user)):
     datamodel.postgres_upsert(session, datamodel.OwnedDeck, add_decks)
     session.commit()
     return {"updated":len(dok_decks)}
+
+@mvapi.get('/generate_aa_deck_page')
+def generate_aa_deck_page(key:str=None, recreate=False):
+    # Check if aa page exists
+    wp = connections.get_wiki()
+    page = wp.page("Deck:" + key)
+    if not recreate:
+        page.info()
+        if bool(page):
+            return {"exists": True, "operation": None}
+    # Get deck
+    session = datamodel.Session()
+    deck_query = session.query(datamodel.Deck)
+    if key:
+        deck_query = deck_query.filter(datamodel.Deck.key==key)
+    deck = deck_query.first()
+    # Create AA page from deck info
+    content = """
+{{DISPLAYTITLE:<span style="position: absolute; clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px);">{{FULLPAGENAME}}</span>}}
+= %s =
+    """ % deck.name
+    for card in deck.get_cards():
+        card = carddb.add_card(card.data)
+        content += """
+{{#cargo_query:tables=CardData
+|where=Name="%s"
+|fields=Name,Image,Artist,Text,FlavorText,Type,Rarity,House,Traits,Power,Armor,Amber
+|format=template
+|template=Card
+|named args=yes
+}}
+        """ % card["card_title"]
+    result = page.edit(content, "building deck page") 
+    return {"exists": False, "operation": result.get("edit")}
+
 
 mvapi.mount("/static", StaticFiles(directory="mastervault/static"), name="static")
