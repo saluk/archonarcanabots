@@ -103,7 +103,9 @@ var DSearch = {
   searchString: function (returnType) {
     var where = [];
     var fields = {
-      'houses': this.houses.join(','),
+      'houses': this.houses.map(function(house){
+        return house.replace(/\_/,' ')
+      }).join(','),
       'name': this.deckname[0],
       'expansions': this.sets.join(',')
     };
@@ -131,7 +133,7 @@ var DSearch = {
   addResultDeck: function (deck) {
     var s = '<a href="/Deck:'+deck[0]+'?testjs=true">'+deck[1]+'</a> '
     for(var house of deck[2].split(',')) {
-      house = unhashImage(house.trim()+'.png')
+      house = unhashImage(house.trim().replace(' ','_')+'.png')
       s+='<img width=20 src="'+house+'">'
     }
     s+='<br>'
