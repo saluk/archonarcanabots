@@ -22,7 +22,7 @@ function gen_deck_data() {
         console.log('not on deck page')
         return
     }
-    var deck_key = title
+    var deck_key = title.toLowerCase()
     console.log(deck_key)
     console.log(noarticle.length)
     console.log(content.length)

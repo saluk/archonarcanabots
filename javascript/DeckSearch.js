@@ -1,287 +1,167 @@
-var parseQueryString = function (argument) {
-  var res = '[\\?&]' + argument + '=([^&#]*)'
-  var found = new RegExp(res).exec(window.location.href)
-  if (found) {
-    return decodeURIComponent(found[1])
-  } else {
-    return ''
-  }
-}
+import {EditField} from './FormElements'
+import {parseQueryString} from './myutils'
+import {sets, houses, orders, getHouses} from './data'
+import 'md5'
 
-function isElementInViewport (el) {
+var searchFields = [
+  new EditField('checkbox', 'houses', 
+    {'label':'Houses', 'basic':true, 
+     'values':houses, 'divclass':'house', 'attach':"div.house-entries"}), 
+  new EditField('text', 'deckname', {'attach':'div.deck-name-entries', 'split_on': '|', 'basic':true}),
+  new EditField('checkbox', 'sets', 
+    {'label':'Sets', 'basic':true,
+     'values':sets, 'divclass':'set', 'attach':'div.set-entries'})
+]
 
-  // Special bonus for those using jQuery
-  if (typeof jQuery === "function" && el instanceof jQuery) {
-      el = el[0];
-  }
-
-  var rect = el.getBoundingClientRect();
-
-  return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
-  );
-}
-
-var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
-  if (ar.length > 0) {
-    var nar = ar.filter(function (item) {
-      return item
-    })
-    nar = nar.map(function (item) {
-      return pre + filter(item.replace(/\_/g, '%20')) + post
-    })
-    if (nar.length > 0) {
-      return '(' + nar.join('%20' + logic + '%20') + ')'
+var getSearchField = function(field) {
+  var foundField = null
+  searchFields.map(function(searchField) {
+    if(searchField.field===field) {
+      foundField = searchField
+      return
     }
-  }
-  return ''
+  })
+  return foundField
 }
 
-var unhashImage = function(imgName) {
-  var hash = md5(imgName)
-  var firsthex = hash.substring(0,1)
-  var first2 = hash.substring(0,2)
-  return '/images/'+firsthex+'/'+first2+'/'+imgName
-}
-
-var unhashThumbImage = function(imgName) {
-  return 'https://archonarcana.com/thumb.php?f='+imgName+'&width=200'
-  var hash = md5(imgName)
-  var firsthex = hash.substring(0,1)
-  var first2 = hash.substring(0,2)
-  return '/images/thumb/'+firsthex+'/'+first2+'/'+imgName+'/200px-'+imgName
-}
-
-var loadImage = function(image) {
-  image.setAttribute('src', image.getAttribute('data-src'))
-  image.onload = () => {
-    image.removeAttribute('data-src')
-  }
-}
-
-var padnum = function(number){
-  if(number.length>=3){
-    return number
-  }
-  var num_string = '000'+number
-  return num_string.substring(num_string.length-3,num_string.length)
-}
-
-var like_query = function(s){
-  return s.replace('"', '%').replace("'", '%')
+function htmlDecode(input){
+  var e = document.createElement('div')
+  e.innerHTML = input
+  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue
 }
 
 var DSearch = {
   element: undefined,
-  offset: 0,
-  pageSize: 20,
-  totalCount: 0,
-  deckkey: '',
-  cardname: [],
-  loadingDeck: false,
-  loadingCards: false,
-  loadingCount: false,
+  houses: [],
+  sets: [],
+  deckname: [],
+  loading: false,
   requestcount: 0,
-  init: function (element, pageSize) {
+  output_settings: {
+    img_width: 200,
+    img_height: 280
+  },
+  init: function (element) {
     var self=this
-    this.offset = 0
-    this.pageSize = Number.parseInt(pageSize)
     this.element = element;
-    window.addEventListener("scroll", function() {
-      self.listenScroll()
+  },
+  toUrl: function() {
+    var elements = []
+    var self = this
+    searchFields.forEach(function (searchField) {
+      var val = self[searchField.field]
+      val = val.join('+')
+      if(val) {
+        elements.push(searchField.field+'='+val)
+      }
     })
+    if(parseQueryString('testjs')){
+      elements.push('testjs='+parseQueryString('testjs'))
+    }
+    elements = elements.join('&')
+    if(elements){
+      elements = '?'+elements
+    }
+    var root_url = '/Template:SearchDecks'
+    history.replaceState({}, document.title, root_url+elements)
   },
   initForm: function(self) {
-    self.deckkey = parseQueryString('deck_key')
-    console.log(self.deckkey)
-    self.loadDeck();
+    searchFields.map(function(field) {
+      field.assignData(self)
+    })
     self.offset = 0
+    self.offsetActual = 0
+    self.toUrl()
+
+    // Update house selection based on sets
+    var setField = getSearchField('sets')
+    if(setField){
+      var clicked_sets = setField.getData()
+      if(clicked_sets.length>0){
+        getSearchField('houses').values = getHouses(clicked_sets)
+      } else {
+        getSearchField('houses').values = getHouses(sets)
+      }
+      $(getSearchField('houses').attach).empty()
+      getSearchField('houses').presetValue = self.houses.join('+')
+      getSearchField('houses').addElement()
+      getSearchField('houses').listener(self.initForm, self)
+      getSearchField('houses').assignData(self)
+    }
+    self.newSearch()
   },
-  newSearch: function(self) {
-    if(self.loadingCount) self.loadingCount.abort()
-    if(self.loadingCards) self.loadingCards.abort()
+  newSearch: function() {
+    var self=this
+    self.names_used = new Set()
+    self.offset = 0
+    self.offsetActual = 0
+    if(self.loading) self.loading.abort()
     self.requestcount ++
     self.element.empty()
-    self.loadCount();
     self.load();
   },
   searchString: function (returnType) {
-    var clauses = [
-      joined('RuleData.RulesText%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
-    ]
-    var where = joined('', clauses,
-      '', 'AND')
-    where = '&where=' + where
-    var fieldstring = ['RuleData.RulesText', 'RuleData.RulesType'].join('%2C')
-    var fields = '&fields=' + fieldstring
-    // /api.php?action=cargoquery&format=json&limit=100&fields=Name%2C%20House%2C%20Type%2C%20Image%2C%20SetName&where=(House%3D%22Brobnar%22%20OR%20House%3D%22Logos%22)%20AND%20Type%3D%22Action%22%20AND%20SetName%3D%22Worlds%20Collide%22&join_on=SetData._pageName%3DCardData._pageName&offset=0
-    var start = '/api.php?action=cargoquery&format=json'
-    var tables = '&tables=RuleData'
-    var countFields = '&fields=COUNT(*)'
-    var groupby = '&group_by=' + fieldstring
-    var joinon = ''
-    var limitq = '&limit=' + this.pageSize
-    var offsetq = '&offset=' + this.offset
-    var q = ''
-    if (returnType === 'data') {
-      q = start + tables + fields + where + joinon + groupby + limitq + offsetq
-    } else if (returnType === 'count') {
-      q = start + tables + countFields + where + joinon + '&limit=1'
+    var where = [];
+    var fields = {
+      'houses': this.houses.join(','),
+      'name': this.deckname[0],
+      'expansions': this.sets.join(',')
+    };
+    for(var field in fields) {
+      if(field.length>0) {
+        where.push(field+'='+fields[field])
+      }
     }
-    console.log(q)
-    return q
-  },
-updateRulings: function (resultsArray) {
-    var self = this
-    var ffg = resultsArray
-    ffg = resultsArray.filter((rule)=>{
-      return rule.title.RulesType == 'FAQ' || rule.title.RulesType == 'FFGRuling'
-    })
-    var resultsTab = $('.deck-gallery-rulings')
-    $('.loader').remove()
-    $('.load_more').remove()
-    // For each card in query
-    for (var i in ffg) {
-      var card = ffg[i]
-      console.log(card)
-      var el = ''
-      var styl = ''
-      el += '<div class="rule" style="">'
-      el += card.title.RulesText
-      el += '</div>'
-      resultsTab.append(el)
-    }
+    where = where.join('&')
+    return 'https://keyforge.tinycrease.com/deck_query?' + where
   },
   updateResults: function (resultsArray) {
     var self = this
     // Delete results tab
-    var resultsTab = $('.deck-gallery-images')
+    var resultsTab = this.element
     $('.loader').remove()
     $('.load_more').remove()
-    // For each card in query
+    // For each deck in query
     for (var i in resultsArray) {
-      var card = resultsArray[i]
-      var el = ''
-      var styl = ''
-      if(card.title.Enhanced) {
-        styl+= 'border-width: 6px; border-style: groove; width: 95%;'
-      }
-      el += '<div class="gallery-image" style="position:relative;text-align:center;">'
-      el += ' <a href="/' + card.title.Name + '">'
-      var imgurl = '/Special:Redirect/file/' + card.title.Image
-      //el += '<img width=180 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
-      el += '<img style="'+styl+'" width=200 height=280 src="'+unhashThumbImage(card.title.Image)+'" data-src="'+unhashImage(card.title.Image)+'">'
-      el += '<div style="position:absolute;bottom:8px;left:16px;">'+card.title.Name+'</div>'
-      el += '</a>'
-      el += '</div>'
-      /*if(self.texts[0]){
-        el += card.title.Text
-      }*/
-      resultsTab.append(el)
+      self.offset = self.offset + 1
+      var deck = resultsArray[i]
+      self.offsetActual += 1
+      resultsTab.append('<a href="/Deck:'+deck[0]+'?testjs=true">'+deck[1]+'</a> '+deck[2]+'<br>')
     }
-    resultsTab.append('<div class="load_more"></div>')
-    var imgs = $('img[data-src]')
-    imgs.map(function(i) {
-      var self = imgs[i]
-      self.onload = () => {
-        $(self).next().remove()
-        loadImage(self)
-      }
-    })
-  },
-  loadDeck: function() {
-    this.element.append('<div class="loader">Loading...</div>')
-    var self = this
-    self.loadingDeck = $.ajax('https://keyforge.tinycrease.com/deck?key='+self.deckkey,
-      {
-        success: function (data, status, xhr) {
-          if(xhr.requestcount<self.requestcount) return
-          self.cardname = data.cards.map((card)=>{
-            return card.card_title
-          })
-          console.log(self.cardname)
-          self.loadingDeck = false
-          self.newSearch(self)
-          self.updateResults(data.cards.map((card)=>{
-            return {
-              'title': {
-                'Name':card.card_title,
-                'Image':card.image_number,
-                'Enhanced':card.is_enhanced
-              }
-            }
-          }))
-        }
-      }
-    )
-    self.loadingCards.requestcount = self.requestcount
   },
   load: function() {
     this.element.append('<div class="loader">Loading...</div>')
     var self = this
-    self.loadingCards = $.ajax(this.searchString('data'),
+    self.loading = $.ajax(this.searchString('data'),
       {
         success: function (data, status, xhr) {
           if(xhr.requestcount<self.requestcount) return
-          self.updateRulings(data.cargoquery)
+          self.updateResults(data.decks)
           self.loadingCards = false
         }
       }
     )
-    self.loadingCards.requestcount = self.requestcount
-  },
-  loadCount: function() {
-    var self=this
-    self.loadingCount = $.ajax(self.searchString('count'),
-      {
-        success: function (data, status, xhr) {
-          if(xhr.requestcount<self.requestcount) return
-          self.totalCount = Number.parseInt(data.cargoquery[0].title['Name)'])
-          self.loadingCount = false
-          $('.cg-results').empty().append(self.totalCount + ' results')
-          // buildCargoPages(offset, totalCount, limit)
-        }
-      }
-    )
-    self.loadingCount.requestcount = self.requestcount
-  },
-  nextPage: function() {
-    if(this.offset + this.pageSize >= this.totalCount){
-      return false;
-    }
-    this.offset = this.offset + this.pageSize
-    this.load()
-  },
-  listenScroll: function() {
-    var self=this
-    if(self.loadingCards || self.loadingCount){
-      return false
-    }
-    if(isElementInViewport($('.load_more'))){
-      self.nextPage()
-      return true
-    }
-    var height = document.documentElement.scrollHeight
-    scrollOffset = document.documentElement.scrollTop + window.innerHeight;
-    if (scrollOffset >= height) {
-      self.nextPage()
-    }
+    self.loading.requestcount = self.requestcount
   }
 }
 
-var deckQuery = function (limit) {
-  DSearch.init($('.deck-gallery-images'), limit)
-  DSearch.initForm(DSearch)
-};
+var buildDeckSearchForm = function(search) {
+  searchFields.map(function(field) {
+    field.addElement()
+  })
+  searchFields.map(function(field) {
+    field.listener(search.initForm, search)
+  })
+  console.log('form built')
+}
 
 var init_deck_search = function () {
   console.log('initing deck search')
   if ($('.deck-gallery-images').length>0) {
-    deckQuery(250)
+    DSearch.init($('.deck-gallery-images'), 50)
+    buildDeckSearchForm(DSearch)
+    DSearch.initForm(DSearch)
   }
 }
 
-export {init_deck_search}
+export {init_deck_search, DSearch}

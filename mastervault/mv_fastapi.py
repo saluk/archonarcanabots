@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import FastAPI, Depends, HTTPException, status
 import uuid
 from fastapi.staticfiles import StaticFiles
@@ -151,6 +151,41 @@ def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None
     d['meta'] = {'page':deck.page, 'index':deck.index, 'scrape_date':deck.scrape_date}
     d['cards'] = cards
     return d
+
+
+@mvapi.get("/deck_query")
+def deck_query(
+        name:Optional[str]=None,
+        houses:Optional[str]=None,
+        expansions:Optional[str]=None
+    ):
+    session = datamodel.Session()
+    deckq = session.query(datamodel.Deck)
+    if houses:
+        houses = [x.strip() for x in houses.split(',')]
+        for h in houses:
+            deckq = deckq.filter(datamodel.Deck.data['_links']['houses'].has_key(h))
+    if expansions:
+        expansions = [int(x.strip()) for x in expansions.split(',')]
+        deckq = deckq.filter(or_(
+            *[datamodel.Deck.expansion == expansion for expansion in expansions]
+        ))
+    if name:
+        name = "%{}%".format(name)
+        deckq = deckq.filter(datamodel.Deck.name.ilike(name))
+    deckq = deckq.limit(10)
+    print(str(deckq))
+    decks = deckq.all()
+    return {"decks":
+        [
+            [
+                d.key,
+                d.name,
+                ", ".join(d.data['_links']['houses']),
+                d.data["expansion"]
+            ] for d in decks
+        ]}
+
 
 @mvapi.get("/decks")
 def decks(start:Optional[int]=None, end:Optional[int]=None):

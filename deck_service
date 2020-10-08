@@ -1,2 +1,3 @@
 #!/bin/sh
+
 .env/bin/uvicorn mastervault.mv_fastapi:mvapi --port=2345 --log-level=debug
