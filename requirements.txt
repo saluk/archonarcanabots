@@ -6,3 +6,10 @@ praw
 fuzzywuzzy
 python-Levenshtein
 html_sanitizer
+
+uvicorn
+fastapi==0.59.0
+aiofiles
+python-jose==3.1.0
+sqlalchemy
+psycopg2-binary
