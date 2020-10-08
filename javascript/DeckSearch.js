@@ -1,5 +1,5 @@
 import {EditField} from './FormElements'
-import {parseQueryString} from './myutils'
+import {parseQueryString, unhashImage} from './myutils'
 import {sets, houses, orders, getHouses} from './data'
 import 'md5'
 
@@ -118,7 +118,6 @@ var DSearch = {
   updateResults: function (resultsArray) {
     var self = this
     // Delete results tab
-    var resultsTab = this.element
     $('.loader').remove()
     $('.load_more').remove()
     // For each deck in query
@@ -126,8 +125,17 @@ var DSearch = {
       self.offset = self.offset + 1
       var deck = resultsArray[i]
       self.offsetActual += 1
-      resultsTab.append('<a href="/Deck:'+deck[0]+'?testjs=true">'+deck[1]+'</a> '+deck[2]+'<br>')
+      self.addResultDeck(deck)
     }
+  },
+  addResultDeck: function (deck) {
+    var s = '<a href="/Deck:'+deck[0]+'?testjs=true">'+deck[1]+'</a> '
+    for(var house of deck[2].split(',')) {
+      house = unhashImage(house.trim()+'.png')
+      s+='<img width=20 src="'+house+'">'
+    }
+    s+='<br>'
+    this.element.append(s)
   },
   load: function() {
     this.element.append('<div class="loader">Loading...</div>')
