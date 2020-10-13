@@ -208,7 +208,7 @@ class Deck(Base):
     name = Column(String)
     expansion = Column(Integer)
     data = Column(JSONB)
-    cards = relationship('Card', secondary='deck_cards')
+    cards = relationship('Card', secondary='deck_cards', lazy="joined")
     def get_cards(self):
         """Returns all cards including duplicates"""
         for c in self.cards:
