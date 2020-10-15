@@ -1,8 +1,14 @@
+psycopg2
+sqlalchemy
 mw_api_client
 wikitextparser
 requests
-
 praw
 fuzzywuzzy
 python-Levenshtein
-html_sanitizer
+bleach
+uvicorn
+gunicorn
+fastapi
+aiofiles
+python-jose[pycryptodome]

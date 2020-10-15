@@ -2,14 +2,12 @@ import os
 import json
 import re
 from fuzzywuzzy import fuzz
-from html_sanitizer import Sanitizer
 import connections
 import util
 from util import SEPARATOR
 from mastervault import datamodel
 import csv
-
-sanitizer = Sanitizer()
+import bleach
 
 cards = {}
 
@@ -50,7 +48,7 @@ hard_code = {
 
 
 def sanitize_name(name):
-    name = sanitizer.sanitize(name.replace("[", "(").replace("]", ")"))
+    name = bleach.clean(name.replace("[", "(").replace("]", ")"))
     name = util.dequote(name)
     return name
 
