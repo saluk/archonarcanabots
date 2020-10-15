@@ -1,21 +1,10 @@
 import os
 import connections
 wp = connections.get_wiki()
+from util import cargo_query
 import requests
 
 lasthashes = {"main.js":"main_v7wksNq5CtVsVQ==.js"}
-
-def cargo_query(search_params):
-    start = "/api.php?action=cargoquery&format=json"
-    params = {
-        "action":"cargoquery",
-        "format":"json",
-        "limit":500  # Really should page the query
-    }
-    params.update(search_params)
-    r = requests.get("https://archonarcana.com/api.php", params=params)
-    print(len(r.json()['cargoquery']))
-    return r.json()
 
 cache = {}
 
@@ -24,14 +13,15 @@ def gen_artists(tables):
     if k in cache:
         return cache[k]
     search = {
-        "tables":tables,
-        "fields":"Artist",
-        "group_by":"Artist"
+        "tables": tables,
+        "fields": "Artist",
+        "group_by": "Artist"
     }
     artists = []
     for result in cargo_query(search)['cargoquery']:
         a = result['title']['Artist'].replace("?","").strip()
-        if not a or a in artists: continue
+        if not a or a in artists:
+            continue
         artists.append(a)
     artists.sort()
     cache[k] = artists
@@ -42,15 +32,16 @@ def gen_traits(tables):
     if k in cache:
         return cache[k]
     search = {
-        "tables":tables,
-        "fields":"Traits",
-        "group_by":"Traits"
+        "tables": tables,
+        "fields": "Traits",
+        "group_by": "Traits"
     }
     traits = []
     for result in cargo_query(search)['cargoquery']:
         for t in result['title']['Traits'].split(" • "):
             t = t.replace('?','').strip()
-            if not t or t in traits: continue
+            if not t or t in traits:
+                continue
             traits.append(t)
     traits.sort()
     cache[k] = traits

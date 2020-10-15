@@ -12,7 +12,7 @@ from mastervault import datamodel
 from sqlalchemy import or_, and_
 import carddb
 import connections
-from mastervault import dok
+from mastervault import dok, deck_writer
 from passlib.context import CryptContext
 from pydantic import BaseModel
 
@@ -140,12 +140,12 @@ def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None
         index = id_-((page-1)*24)
         print(page,index)
         deck = deck.filter(datamodel.Deck.page==page, datamodel.Deck.index==index)
+    print("GET DECK")
     deck = deck.first()
+    print("(end)")
     if not deck:
         return "No data"
-    cards = []
-    for card in deck.get_cards():
-        cards.append(carddb.add_card(card.data))
+    cards = [card.aa_format() for card in deck.get_cards()]
     d = {'deck_data':{}}
     d['deck_data'].update(deck.data)
     d['meta'] = {'page':deck.page, 'index':deck.index, 'scrape_date':deck.scrape_date}
@@ -280,21 +280,7 @@ def generate_aa_deck_page(key:str=None, recreate=False):
         deck_query = deck_query.filter(datamodel.Deck.key==key)
     deck = deck_query.first()
     # Create AA page from deck info
-    content = """
-{{DISPLAYTITLE:<span style="position: absolute; clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px);">{{FULLPAGENAME}}</span>}}
-= %s =
-    """ % deck.name
-    for card in deck.get_cards():
-        card = carddb.add_card(card.data)
-        content += """
-{{#cargo_query:tables=CardData
-|where=Name="%s"
-|fields=Name,Image,Artist,Text,FlavorText,Type,Rarity,House,Traits,Power,Armor,Amber
-|format=template
-|template=Card
-|named args=yes
-}}
-        """ % card["card_title"]
+    content = deck_writer.write(deck)
     result = page.edit(content, "building deck page") 
     return {"exists": False, "operation": result.get("edit")}
 
