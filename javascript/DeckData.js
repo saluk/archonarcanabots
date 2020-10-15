@@ -1,9 +1,9 @@
 import {parseQueryString} from './myutils'
 
-function perform_page_create(deck_key, recreate, div) {
+function perform_page_create(deck_key, div) {
     div.append('<div class="loader">Importing deck...</div>')
     $.ajax(
-        'https://keyforge.tinycrease.com/generate_aa_deck_page?key='+deck_key+'&recreate='+recreate,
+        'https://keyforge.tinycrease.com/generate_aa_deck_page?key='+deck_key,
         {
             success: function (data, status, xhr) {
               location.replace('https://archonarcana.com/Deck:'+deck_key+'?testjs=true')
@@ -12,8 +12,11 @@ function perform_page_create(deck_key, recreate, div) {
     )
 }
 
+function inject_deck_data() {
+    
+}
+
 function gen_deck_data() {
-    var recreate = parseQueryString('recreate');
     var noarticle = $('.noarticletext')
     var content = $('#mw-content-text')
     var title = mw.config.values.wgTitle
@@ -23,20 +26,12 @@ function gen_deck_data() {
         return
     }
     var deck_key = title.toLowerCase()
-    console.log(deck_key)
-    console.log(noarticle.length)
-    console.log(content.length)
-    console.log(recreate)
     if(noarticle.length > 0) {
         console.log('create new deck')
-        perform_page_create(deck_key, recreate, noarticle)
+        perform_page_create(deck_key, content)
         return
-    }
-    if(content.length > 0 && recreate==='1') {
-        console.log('recreate deck')
-        content.replaceWith('')
-        perform_page_create(deck_key, recreate, content)
-        return
+    } else {
+        inject_deck_data()
     }
     console.log('didnt understand deck')
 }
