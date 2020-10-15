@@ -1,11 +1,9 @@
 try:
     import __updir__
-except:
+except Exception:
     pass
 import passwords
-import random
 import util
-PASSWORD = passwords.MASTERVAULT_PASSWORD
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -14,14 +12,19 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.inspection import inspect
 from sqlalchemy.sql.expression import func
 from sqlalchemy.sql import exists
-from sqlalchemy.dialects.postgresql import JSON, JSONB, insert
+from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy import Table, ForeignKey, UniqueConstraint, ForeignKeyConstraint, Sequence
 import datetime
+import carddb
+
+PASSWORD = passwords.MASTERVAULT_PASSWORD
+
 
 def object_as_dict(obj):
     return {c.key: getattr(obj, c.key)
             for c in inspect(obj).mapper.column_attrs}
+
 
 def postgres_upsert(session, table, obs):
     for ob in obs:
@@ -34,26 +37,34 @@ def postgres_upsert(session, table, obs):
         )
         session.execute(sql)
 
-engine = sqlalchemy.create_engine('postgresql+psycopg2://mastervault:'+PASSWORD+'@localhost/mastervault',
-    pool_size=20)
+
+engine = sqlalchemy.create_engine(
+    'postgresql+psycopg2://mastervault:'+PASSWORD+'@localhost/mastervault',
+    pool_size=20,
+    echo=True
+)
 Session = scoped_session(sessionmaker(bind=engine))
 
 Base = declarative_base()
+
 
 class UpdateScope(object):
     def begin(self):
         self.cards = []
         self.decks = []
         self.deck_cards = []
+
     def add_deck(self, *args, **kwargs):
         kwargs["scrape_date"] = datetime.datetime.now()
         deck = Deck(*args, **kwargs)
         self.decks.append(deck)
         for card_key in deck.data["_links"]["cards"]:
             self.deck_cards.append(DeckCard(deck_key=deck.key, card_key=card_key, card_deck_expansion=deck.expansion))
+
     def add_card(self, *args, **kwargs):
         card = Card(*args, **kwargs)
         self.cards.append(card)
+
     def commit(self):
         print("BEFORE COMMIT")
         session = Session()
@@ -76,27 +87,29 @@ class UpdateScope(object):
             session.close()
             print(" session closed")
             raise
+
     def next_page_to_scrape(self, start_at):
         session = Session()
         possible = []
-        if not session.query(BackScrapePage).filter(BackScrapePage.page==start_at).first():
+        if not session.query(BackScrapePage).filter(BackScrapePage.page == start_at).first():
             return start_at
-        if not session.query(BackScrapePage).filter(BackScrapePage.page==start_at+1).first():
+        if not session.query(BackScrapePage).filter(BackScrapePage.page == start_at+1).first():
             return start_at+1
         pages = session.execute("""
         select page+1 from back_scrape_page scraped
-        where NOT EXISTS (select null from back_scrape_page to_scrape 
-                        where to_scrape.page = scraped.page +1) 
+        where NOT EXISTS (select null from back_scrape_page to_scrape
+                        where to_scrape.page = scraped.page +1)
             and page>%s
             order by page limit 1""" % start_at).first()
         session.close()
         if pages:
             possible.append(int(pages[0]))
         if pages is None:
-            if start_at==1:
+            if start_at == 1:
                 return 1
             return start_at+1
         return min(possible)
+
     def start_page(self, page):
         session = Session()
         found = session.query(BackScrapePage).filter(BackScrapePage.page==page).first()
@@ -110,10 +123,11 @@ class UpdateScope(object):
         session.add(found)
         try:
             session.commit()
-        except:
+        except Exception:
             session.close()
             return False
         return True
+
     def scraped_page(self, page, decks_scraped, cards_scraped):
         session = Session()
         back_scrape_page = session.query(BackScrapePage).filter(BackScrapePage.page==page).first()
@@ -125,6 +139,7 @@ class UpdateScope(object):
         session.add(back_scrape_page)
         session.commit()
         session.close()
+
     def clean_scrape(self, page=None):
         session = Session()
         if page:
@@ -143,6 +158,7 @@ class UpdateScope(object):
             p.scraping = None
             session.add(p)
         session.commit()
+
     def get_proxy(self):
         session = Session()
         proxy = session.query(GoodProxy).order_by(func.random()).limit(1).first()
@@ -152,6 +168,7 @@ class UpdateScope(object):
         ip_port = proxy.ip_port
         session.commit()
         return ip_port
+
     def add_proxy(self, ip_port):
         session = Session()
         existing = session.query(GoodProxy).filter(GoodProxy.ip_port==ip_port).first()
@@ -161,9 +178,11 @@ class UpdateScope(object):
         proxy = GoodProxy(ip_port=ip_port)
         session.add(proxy)
         session.commit()
+
     def remove_proxy(self, ip_port):
         return
     # 452, 453, 341, 479, 435
+
     def get_cards(self, expansion=479):
         session = Session()
         cards = session.query(Card).filter(
@@ -187,6 +206,7 @@ class UpdateScope(object):
         # print(sorted(card_names.keys()))
         return card_names.values()
 
+
 class BackScrapePage(Base):
     __tablename__ = "back_scrape_page"
     page = Column(Integer, primary_key=True)
@@ -194,10 +214,12 @@ class BackScrapePage(Base):
     cards_scraped = Column(Integer)
     scraping = Column(Integer)
 
+
 class GoodProxy(Base):
     __tablename__ = "good_proxies"
     inc = Column(Integer, primary_key=True, autoincrement=1, default=1)
     ip_port = Column(String, primary_key=True)
+
 
 class Deck(Base):
     __tablename__ = 'decks'
@@ -208,10 +230,13 @@ class Deck(Base):
     name = Column(String)
     expansion = Column(Integer)
     data = Column(JSONB)
-    cards = relationship('Card', secondary='deck_cards', lazy="joined")
+    cards = relationship('Card', secondary='deck_cards')
+
     def get_cards(self):
         """Returns all cards including duplicates"""
-        for c in self.cards:
+        for c in sorted(self.cards, key=lambda card: card.data['house']):
+            if c.data['card_type'] == 'Creature2':
+                continue
             for i in range(self.data['_links']['cards'].count(c.key)):
                 yield c
 # TODO handle indexes
@@ -221,6 +246,8 @@ class Deck(Base):
 #   we should set the card expansion according to its deck when it is a non-maverick
 # legacy cards should be from an older expansion. we want to use the card expansion
 #   as our expansion and NOT the deck expansion
+
+
 class Card(Base):
     __tablename__ = 'cards'
     key = Column(String, primary_key=True)
@@ -228,6 +255,10 @@ class Card(Base):
     name = Column(String)
     data = Column(JSONB)
     UniqueConstraint('key', 'deck_expansion')
+
+    def aa_format(self):
+        return carddb.add_card({**self.data})
+
 
 class DeckCard(Base):
     __tablename__ = 'deck_cards'
@@ -242,12 +273,14 @@ class DeckCard(Base):
         ),
     )
 
+
 class ApiUser(Base):
     __tablename__ = "api_user"
     uuid = Column(String, primary_key=True, unique=True)
     email = Column(String, unique=True)
     hashed_password = Column(String)
     dok_key = Column(String)
+
 
 class OwnedDeck(Base):
     __tablename__ = "deck_user"
@@ -256,9 +289,11 @@ class OwnedDeck(Base):
     wins = Column(Integer)
     losses = Column(Integer)
 
+
 print("before create")
 Base.metadata.create_all(engine)
 print("after create")
+
 
 def add_deck_cards():
     session = Session()
@@ -289,7 +324,8 @@ UpdateScope().clean_scrape()
 #for card_set in [341, 435, 452, 453, 479]:
 #    print(card_set, len(UpdateScope().get_cards(card_set)))
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     scope = UpdateScope()
     #print(len(scope.get_cards()))
     #scope.add_proxy('http://205.126.14.171:800')
