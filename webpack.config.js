@@ -6,13 +6,19 @@ module.exports = {
     filename: './main.js',
     path: path.resolve(__dirname, 'javascript'),
   },
-  mode: "production",
+  mode: "development",
   module: {
 	  rules: [
 		  {
 			  test: /\.(js)$/,
 			  exclude: /node_modules/,
-			  use: ['babel-loader']
+			  use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            cacheDirectory: true
+          }
+        }
 		  }
 	  ]
   },

@@ -1,3 +1,5 @@
+import json
+
 from util import cargo_query
 
 COMMENTARY = """
@@ -128,6 +130,24 @@ class DeckWriter:
     def __init__(self, deck):
         self.deck = deck
 
+    def deck_json(self):
+        def cd(card):
+            aa = card.aa_format()
+            d = card.data
+            d.update({
+                "card_title": aa["card_title"],
+                "image": aa["image_number"]
+            })
+            return d
+        d = {
+            'key': self.deck.key,
+            'cards': [cd(card) for card in self.deck.get_cards()]
+        }
+        return """
+<div class="deckjson" style="display:none"><nowiki>
+{json_data}
+</nowiki></div>""".format(json_data=json.dumps(d))
+
     def decklist(self):
         return """
 <div><img src="https://images.skyjedi.com/custom/{}/en/deck_list.png" width="300" height="380"></div>
@@ -224,12 +244,14 @@ clip: rect(1px, 1px, 1px, 1px);">{{FULLPAGENAME}}</span>}}
 
     def write(self):
         fields = []
-        fields.append(self.name())
-        fields.append("<html>")
-        fields.append(self.decklist())
-        fields.append(self.card_browser())
-        fields.append("</html>")
-        fields.append(self.commentary())
+        fields.append(self.deck_json())
+        fields.append('<div class="deck_contents"></div>')
+        #fields.append(self.name())
+        #fields.append("<html>")
+        #fields.append(self.decklist())
+        #fields.append(self.card_browser())
+        #fields.append("</html>")
+        #fields.append(self.commentary())
         return "\n".join(fields)
 
 
