@@ -1,4 +1,4 @@
-import {parseQueryString, htmlDecode, unhashThumbImage, uniques, renderWikitextToHtml} from './myutils'
+import {parseQueryString, htmlDecode, unhashThumbImage, uniques, renderWikitextToHtml, collapsible_block} from './myutils'
 
 function perform_page_create(deck_key, div) {
     div.append('<div class="loader">Importing deck...</div>')
@@ -92,7 +92,7 @@ function perform_errata_lookup(deckdata) {
                     data.cargoquery.map(function(result) {
                         return result.title
                     }),
-                    deckdata.cards
+                    uniques(deckdata.cards, 'card_title')
                 )
             }
         }
@@ -140,7 +140,7 @@ function write_errata(cargo_results, cards) {
                 errata_text += '<h2>' + gen_card_image(card, 40, 60)+card.card_title + '</h2>'
                 errata_text += '</div>'
                 errata_text += '<div class="ruling_text_errata">'
-                errata_text += renderWikitextToHtml(result.Text)
+                errata_text += '<i>Should Read:</i> ' + renderWikitextToHtml(result.Text)
                 errata_text += '</div>'
                 errata_text += '</div>'
             }
@@ -159,7 +159,8 @@ function write_rules(cargo_results, cards, section) {
         return
     }
     var div = $('.deck_rules')
-    div.append('<h1>'+section+'</h1><br>')
+    var s = ''
+    //div.append('<h1>'+section+'</h1><br>')
     for(var card_set of Object.keys(texts).sort()) {
         var rule_text = ''
         rule_text += '<div class="ruling_section Section'+section+'"><div class="ruling_cards">'
@@ -184,33 +185,80 @@ function write_rules(cargo_results, cards, section) {
             rule_text += '</div>'
         }
         rule_text += '</div>'
-        div.append(rule_text)
+        s += rule_text
     }
+    div.append(collapsible_block(0, section, s))
 }
 
 function gen_deck_image(data, width, height) {
-    return '<img src="https://images.skyjedi.com/custom/'+data.key+'/en/deck_list.png" '+
+    var lang = Object.keys(mw.language.data)[0]
+    if(!['en','es','it','de','fr','pl','pt','th','zh'].includes(lang)) {
+        lang = 'en'
+    }
+    return '<img src="https://images.skyjedi.com/custom/'+data.key+'/'+lang+'/deck_list.png" '+
         'width='+width+' height='+height+'>'
 }
 
-function gen_card_image(card, width, height) {
-    return '<img src="'+unhashThumbImage(card.image)+'" width="'+width+'" height="'+height+'"></a>'
+function gen_card_image(card, width, height, css) {
+    if(!css) {
+        css = ''
+    }
+    var image = unhashThumbImage(card.image, 200)
+    if(card.card_type==='Creature2' || card.card_type==='Creature1') {
+        image = card.front_image
+    }
+    var s = '<a href="/'+card.card_title+'">'
+    s += '<img class="'+css+'" src="'+image+'" width="'+width+'" height="'+height+'"></a>'
+    return s
 }
 
 function gen_cards(data) {
     var s = ''
+    var houses = [];
     for(var card of data.cards) {
-        s += '<a href="/'+card.card_title+'">'
+        var classes = ['card_image']
         if(card.is_maverick) {
-            s += 'Maverick:' + card.house
+            classes.push(card.house)
+            classes.push('maverick')
         }
         if(card.is_anomaly) {
-            s += 'Anomaly:' + card.house
+            classes.push(card.house)
+            classes.push('anomaly')
         }
         if(card.is_enhanced) {
-            s += 'Enhanced'
+            classes.push('enhanced')
+        } 
+        if(!houses.includes(card.house)) {
+            houses.push(card.house)
         }
-        s += gen_card_image(card, 140, 200)
+        classes.push('house_'+houses.length)
+        s += '<div class="'+classes.join(' ')+'">'
+        s += gen_card_image(card, 140, 200, 'card_image_card')
+        if(card.is_anomaly || card.is_maverick) {
+            s += '<img class="house_icon" src="'+unhashThumbImage(
+                card.house.substring(0,1).toUpperCase()+
+                card.house.substring(1)+'_no_bg.png',
+                40
+            ) + '">'
+        }
+        if(card.is_enhanced || card.is_maverick || card.is_anomaly) {
+            s += '<div class="infobar">'
+            var infos = []
+            if(card.is_anomaly) {
+                infos.push('Anomaly')
+            }
+            if(card.is_maverick) {
+                infos.push('Maverick')
+            }
+            if(card.is_enhanced) {
+                infos.push('Enhanced')
+            }
+            if(card.is_legacy) {
+                infos.push('Legacy')
+            }
+            s += infos.join(' ') + '</div>'
+        }
+        s += '</div>'
     }
     return '<div class="card_images">'+s+'</div>'
 }
@@ -218,8 +266,9 @@ function gen_cards(data) {
 function gen_rules(data) {
     perform_rule_lookup(data)
     perform_errata_lookup(data)
-    return '<div class="deck_rules">Loading rules...</div>'+
-        '<div class="deck_errata">Loading errata...</div>'
+    return '<div class="deck_errata">Loading errata...</div>'+
+        '<div class="deck_rules">Loading rules...</div>'
+        
 }
 
 function inject_deck_data() {
@@ -233,9 +282,10 @@ function inject_deck_data() {
 		$(div).empty()
         $(div).append(gen_deck_image(data, 300, 420))
         $(div).append(gen_rules(data))
-        $(div).append(gen_cards(data))
-		$(div)[0].style.display=""
-	})
+        $(div).append(collapsible_block(0, 'Cards', gen_cards(data)))
+        $(div)[0].style.display=""
+        $('#firstHeading').empty().append(data.name)
+    })
 }
 
 function gen_deck_data() {

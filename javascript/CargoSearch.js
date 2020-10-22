@@ -431,7 +431,7 @@ var CSearch = {
     return el
   },
   outputSpoilerResult(self,cardData) {
-    var thumbsrc = unhashThumbImage(cardData.Image)
+    var thumbsrc = unhashThumbImage(cardData.Image, 200)
     var fullsrc = unhashImage(cardData.Image)
 
     var el = '<div class="spoilerEntry spoilerReprint">'

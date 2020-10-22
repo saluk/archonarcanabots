@@ -235,8 +235,6 @@ class Deck(Base):
     def get_cards(self):
         """Returns all cards including duplicates"""
         for c in sorted(self.cards, key=lambda card: card.data['house']):
-            if c.data['card_type'] == 'Creature2':
-                continue
             for i in range(self.data['_links']['cards'].count(c.key)):
                 yield c
 # TODO handle indexes

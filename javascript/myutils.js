@@ -33,8 +33,14 @@ var unhashImage = function(imgName) {
 	return '/images/'+firsthex+'/'+first2+'/'+imgName
 }
   
-var unhashThumbImage = function(imgName) {
-	return 'https://archonarcana.com/thumb.php?f='+imgName+'&width=200'
+var unhashThumbImage = function(imgName, width) {
+	if(typeof width==='string' && width.endsWith('px')) {
+		width = width.substring(0,width.length-2)
+	}
+	if(imgName.startsWith('File:')) {
+		imgName = imgName.substring(5)
+	}
+	return 'https://archonarcana.com/thumb.php?f='+imgName+'&width='+width
 }
 
 function isElementInViewport (el) {
@@ -54,6 +60,12 @@ function isElementInViewport (el) {
 	);
 }
 
+function fileIsImage(source) {
+	return source.startsWith("File:") && (
+		source.endsWith('.png') || source.endsWith('.jpg') || source.endsWith('.webp')
+	)
+}
+
 function renderWikitextToHtml(text) {
 	var s = htmlDecode(text)
 	// Split "//"
@@ -67,11 +79,20 @@ function renderWikitextToHtml(text) {
 		if(linkparts[1]) {
 			linkname = linkparts[1]
 		}
-		return '<a href="/'+linksource+'">'+linkname+'</a>'
+		if(fileIsImage(linksource)){
+			return '<img src="'+unhashThumbImage(linksource,linkname)+'">'
+		} else {
+			return '<a href="/'+linksource+'">'+linkname+'</a>'
+		}
+	})
+	// Bold
+	s = s.replace(/\'\'\'.*?\'\'\'/, function (text) {
+		return '<b>'+text.substring(3,text.length-3)+'</b>'
 	})
 	// Numbered list tags
 	var lines = s.split('\n')
 	var ol = false
+	var ul = false
 	for(var i in lines) {
 		var line = lines[i]
 		// TODO Iterate through lines inserting <ol> where a line starts with '#' and </ol> where
@@ -84,6 +105,14 @@ function renderWikitextToHtml(text) {
 		} else if (ol && !line.startsWith('#')) {
 			ol = false
 			lines[i] = '</ol>'
+		} else if(!ul && line.startsWith('*')) {
+			ul = true
+			lines[i] = '<ul><li>' + line.substring(1) + '</li>'
+		} else if (ul && line.startsWith('*')) {
+			lines[i] = '<li>'+line.substring(1)+'</li>'
+		} else if (ul && !line.startsWith('*')) {
+			ul = false
+			lines[i] = '</ul>'
 		} else if (i<lines.length-1) {
 			lines[i] = line + '\n'
 		}
@@ -91,11 +120,30 @@ function renderWikitextToHtml(text) {
 	if(ol) {
 		lines.push('</ol>')
 	}
+	if(ul) {
+		lines.push('</ul>')
+	}
 	s = lines.join('')
 	// Replace newlines
 	s = s.replace(/\n+/g,'<br>')
 	return s
 }
 
+function collapsible_block(index, heading, inner_text) {
+	var s = ''
+	s += '<h1 class="section-heading collapsible-heading open-block" '+
+		'tabindex="0" aria-haspopup="true" aria-controls="content-collapsible-block-'+
+		index+'">'
+	s += '<div class="mw-ui-icon mw-ui-icon-mf-expand mw-ui-icon-element mw-ui-icon-small '+
+		'mf-mw-ui-icon-rotate-flip indicator mw-ui-icon-flush-left"></div>'+
+		'<span class="mw-headline" id="'+heading+'">'+heading+'</span></h1>'
+	s += '<div class="mf-section-1 collapsible-block open-block" '+
+		'id="content-collapsible-block-'+index+'" '+
+		'aria-pressed="true" aria-expanded="true">'+
+		inner_text+
+		'</div>'
+	return s;
+}
+
 export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
-	isElementInViewport, htmlDecode, uniques}
+	isElementInViewport, htmlDecode, uniques, collapsible_block}

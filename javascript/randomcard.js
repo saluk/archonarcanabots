@@ -143,7 +143,7 @@ var CSearchRandom = {
       var el = ''
       el += '<div class="header-image">'
       el += ' <a href="/' + card.title.Name + '"title="' + card.title.Name + '">'
-      el += '<img class="card-' + (Number.parseInt(i)+1) + '" src="'+unhashThumbImage(card.title.Image)+'" data-src="'+unhashImage(card.title.Image)+'">'
+      el += '<img class="card-' + (Number.parseInt(i)+1) + '" src="'+unhashThumbImage(card.title.Image, 200)+'" data-src="'+unhashImage(card.title.Image)+'">'
       el += '</a></div>'
       resultsTab.append(el)
     }

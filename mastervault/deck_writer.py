@@ -140,7 +140,9 @@ class DeckWriter:
             })
             return d
         d = {
+            'name': self.deck.name,
             'key': self.deck.key,
+            'expansion': self.deck.expansion,
             'cards': [cd(card) for card in self.deck.get_cards()]
         }
         return """
@@ -244,6 +246,7 @@ clip: rect(1px, 1px, 1px, 1px);">{{FULLPAGENAME}}</span>}}
 
     def write(self):
         fields = []
+        fields.append('<templatestyles src="Template:Deck/style.css" />')
         fields.append(self.deck_json())
         fields.append('<div class="deck_contents"></div>')
         #fields.append(self.name())
