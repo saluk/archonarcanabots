@@ -3,6 +3,7 @@ import connections
 wp = connections.get_wiki()
 from util import cargo_query
 import requests
+import re
 
 lasthashes = {"main.js":"main_v7wksNq5CtVsVQ==.js"}
 
@@ -27,6 +28,7 @@ def gen_artists(tables):
     cache[k] = artists
     return artists
 
+
 def gen_traits(tables):
     k = "gen_traits_"+tables
     if k in cache:
@@ -47,7 +49,15 @@ def gen_traits(tables):
     cache[k] = traits
     return traits
 
-print(gen_traits("CardData"))
+
+def gen_card_combos():
+    p = wp.page('Essay:List_of_Keyforge_Combos')
+    combos = []
+    for combo in re.findall(r'[*] .*?$', p.content, re.MULTILINE):
+        combos.append(re.findall(r'\[\[(.*?)\]\]', combo))
+    return combos
+
+print(gen_card_combos())
 
 hashes = {}
 
@@ -77,7 +87,8 @@ def upload():
             "//ARTISTS": "var artists = %s" % repr(gen_artists("CardData")),
             "//SET5ARTISTS": "var set5artists = %s" % repr(gen_artists("SpoilerData")),
             "//TRAITS": "var traits = %s" % repr(gen_traits("CardData")),
-            "//SET5TRAITS": "var set5traits = %s" % repr(gen_traits("SpoilerData"))
+            "//SET5TRAITS": "var set5traits = %s" % repr(gen_traits("SpoilerData")),
+            "//CARDCOMBOS": "var cardCombos = %s" % repr(gen_card_combos())
         }
         for r in reps:
             gen_data = gen_data.replace(r, reps[r])

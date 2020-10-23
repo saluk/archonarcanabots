@@ -396,8 +396,11 @@ def add_card(card, db=None):
                  "enhance_amber": "", "enhance_damage": "",
                  "enhance_capture": "", "enhance_draw": ""})
     if card["card_type"] in ["Creature1", "Creature2"]:
+        if card["card_type"] == "Creature1":
+            card["subtype"] = "GiganticTop"
+        else:
+            card["subtype"] = "GiganticBottom"
         card["card_type"] = "Creature"
-        card["subtype"] = "Gigantic"
     if card["card_type"] == "Creature":
         card["assault"] = get_keywordvalue_text(card["card_text"], "assault") or 0
         card["hazardous"] = get_keywordvalue_text(card["card_text"], "hazardous") or 0

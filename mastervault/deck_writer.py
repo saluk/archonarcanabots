@@ -132,11 +132,11 @@ class DeckWriter:
 
     def deck_json(self):
         def cd(card):
-            aa = card.aa_format()
-            d = card.data
+            d = card.aa_format()
             d.update({
-                "card_title": aa["card_title"],
-                "image": aa["image_number"]
+                "house": card.data["house"],
+                "card_type": card.data["card_type"],
+                "front_image": card.data["front_image"]
             })
             return d
         d = {

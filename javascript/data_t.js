@@ -7,6 +7,15 @@ var houses_by_set = {
 	'Mass_Mutation': new Set(['Dis','Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed']),
 	'Dark_Tidings': new Set(['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed', 'Unfathomable'])
 }
+var set_name_by_number = function(number) {
+	return {
+        452: "Worlds Collide",
+        453: "Worlds Collide",
+        341: "Call of the Archons",
+        435: "Age of Ascension",
+        479: "Mass Mutation"
+	}[number]
+}
 var getHouses = function(set_filter){
 	var s = new Set()
 	set_filter.map((setname)=>{
@@ -39,10 +48,27 @@ var keywords = ['Alpha',
   'Taunt']
 var features = ['gigantic', 'errata']
 
+var images = {
+	enhanceAmber: 'https://archonarcana.com/images/f/fb/Enhance_aember.png',
+	enhanceCapture: 'https://archonarcana.com/images/f/fc/Enhance_capture.png',
+	enhanceDamage: 'https://archonarcana.com/images/5/50/Enhance_damage.png',
+	enhanceDraw: 'https://archonarcana.com/images/a/ac/Enhance_draw.png',
+
+	raritySpecial: 'https://archonarcana.com/images/thumb/3/34/Rarity-special.png/25px-Rarity-special.png',
+	rarityCommon: 'https://archonarcana.com/images/thumb/e/e4/Rarity-common.png/25px-Rarity-common.png',
+	rarityUncommon: 'https://archonarcana.com/images/thumb/d/d3/Rarity-uncommon.png/25px-Rarity-uncommon.png',
+	rarityRare: 'https://archonarcana.com/images/thumb/c/c2/Rarity-rare.png/25px-Rarity-rare.png',
+	rarityEviltwin: 'https://archonarcana.com/images/thumb/4/42/Evil-twin.png/25px-Evil-twin.png' 
+}
+
 //ARTISTS
 //SET5ARTISTS
 //TRAITS
 //SET5TRAITS
+//CARDCOMBOS
+
 export {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
-		types, rarities, set5rarities, orders, keywords, features, getHouses}
+		types, rarities, set5rarities, orders, keywords, features, getHouses,
+		cardCombos, images, set_name_by_number
+	}

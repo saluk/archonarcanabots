@@ -1,6 +1,7 @@
 from typing import Optional, List
 from fastapi import FastAPI, Depends, HTTPException, status
 import uuid
+import time
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,9 +32,20 @@ mvapi = FastAPI()
 origins = ["https://archonarcana.com"]
 mvapi.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,allow_credentials=True,allow_methods=['*'],allow_headers=['*']
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*']
 )
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+import sentry_sdk
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+sentry_sdk.init(
+    "https://9f4401b9166a405199414dfb625af120@o465720.ingest.sentry.io/5478890",
+    traces_sample_rate=1.0
+)
+mvapi.add_middleware(SentryAsgiMiddleware)
 
 class UserInDB(BaseModel):
     uuid: uuid.UUID
@@ -264,8 +276,13 @@ def update_user_decks(current_user: UserInDB = Depends(get_current_user)):
     session.commit()
     return {"updated":len(dok_decks)}
 
+from fastapi import BackgroundTasks
+def task_write_aa_deck_to_page(page, deck):
+    content = deck_writer.write(deck)
+    return page.edit(content, "building deck page")
+
 @mvapi.get('/generate_aa_deck_page')
-def generate_aa_deck_page(key:str=None, recreate=False):
+def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:BackgroundTasks=None):
     # Check if aa page exists
     wp = connections.get_wiki()
     page = wp.page("Deck:" + key)
@@ -280,9 +297,8 @@ def generate_aa_deck_page(key:str=None, recreate=False):
         deck_query = deck_query.filter(datamodel.Deck.key==key)
     deck = deck_query.first()
     # Create AA page from deck info
-    content = deck_writer.write(deck)
-    result = page.edit(content, "building deck page") 
-    return {"exists": False, "operation": result.get("edit")}
+    background_tasks.add_task(task_write_aa_deck_to_page, page, deck)
+    return {"exists": False, "operation": "edited"}
 
 
 mvapi.mount("/static", StaticFiles(directory="mastervault/static"), name="static")

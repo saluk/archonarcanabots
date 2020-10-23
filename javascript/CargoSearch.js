@@ -1,7 +1,7 @@
 import {EditField, minmax} from './FormElements'
 import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
-  types, rarities, set5rarities, orders, keywords, features, getHouses} from './data'
+  types, rarities, set5rarities, orders, keywords, features, getHouses, images} from './data'
 import {parseQueryString, unhashImage, unhashThumbImage, isElementInViewport} from './myutils'
 import 'md5'
 
@@ -44,10 +44,10 @@ var searchFields = [
 minmax(searchFields, 'amber', 'div.aember-entries', ambercounts)
 minmax(searchFields, 'armor', 'div.armor-entries', armorcounts)
 minmax(searchFields, 'power', 'div.power-entries', powercounts)
-minmax(searchFields, 'enhance_amber', 'div.enhance-entries', enhancecounts, true, '<img src="https://archonarcana.com/images/f/fb/Enhance_aember.png" width="20px" class="enhance-image">')
-minmax(searchFields, 'enhance_capture', 'div.enhance-entries', enhancecounts, true, '<img src="https://archonarcana.com/images/f/fc/Enhance_capture.png" width="20px" class="enhance-image">')
-minmax(searchFields, 'enhance_damage', 'div.enhance-entries', enhancecounts, true, '<p></p><img src="https://archonarcana.com/images/5/50/Enhance_damage.png" width="20px" class="enhance-image">')
-minmax(searchFields, 'enhance_draw', 'div.enhance-entries', enhancecounts, true, '<img src="https://archonarcana.com/images/a/ac/Enhance_draw.png" width="20px" class="enhance-image">')
+minmax(searchFields, 'enhance_amber', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceAmber}" width="20px" class="enhance-image">`)
+minmax(searchFields, 'enhance_capture', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceCapture}" width="20px" class="enhance-image">`)
+minmax(searchFields, 'enhance_damage', 'div.enhance-entries', enhancecounts, true, `<p></p><img src="${images.enhanceDamage}" width="20px" class="enhance-image">`)
+minmax(searchFields, 'enhance_draw', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceDraw}" width="20px" class="enhance-image">`)
 
 var getSearchField = function(field) {
   var foundField = null
@@ -422,7 +422,7 @@ var CSearch = {
     el += ' <a href="/' + cardData.Name + '">'
     var imgurl = '/Special:Redirect/file/' + cardData.Image
     //el += '<img width=180 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
-    el += '<img id="img_'+cardData.Name.replace(/\(|\)/g,'br')+'" width='+self.output_settings.img_width+' height='+self.output_settings.img_height+' src="'+unhashThumbImage(cardData.Image)+'" data-src="'+unhashImage(cardData.Image)+'">'
+    el += '<img id="img_'+cardData.Name.replace(/\(|\)/g,'br')+'" width='+self.output_settings.img_width+' height='+self.output_settings.img_height+' src="'+unhashThumbImage(cardData.Image, 200)+'" data-src="'+unhashImage(cardData.Image)+'">'
     el += '<div style="position:absolute;bottom:8px;left:16px;">'+cardData.Name+'</div>'
     // Card number
     // el += '<div style="position:absolute;bottom:8px;left:60px;background-color:white">'+card.title.CardNumber+'</div>'
