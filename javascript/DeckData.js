@@ -406,7 +406,7 @@ function gen_deck_databox(data) {
 
         `<div class="stat_amber">${stats.amber} Æmber</div>`+
 
-        '<div class="stat_enhancements">'+
+        '<div class="stat_enhancements">Enhancements: '+
         ['enhanceAmber','enhanceCapture','enhanceDamage','enhanceDraw'].filter(function(enhancement){
             if(oldSets.includes(set_name_by_number(data.expansion))){
                 return false;
