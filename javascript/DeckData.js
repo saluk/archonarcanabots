@@ -1,4 +1,5 @@
 import {parseQueryString, htmlDecode, unhashThumbImage, uniques, renderWikitextToHtml, collapsible_block} from './myutils'
+import {cardCombos, images, set_name_by_number} from './data'
 
 function perform_page_create(deck_key, div) {
     div.append('<div class="loader">Importing deck...</div>')
@@ -6,25 +7,15 @@ function perform_page_create(deck_key, div) {
         'https://keyforge.tinycrease.com/generate_aa_deck_page?key='+deck_key,
         {
             success: function (data, status, xhr) {
-                location.replace('https://archonarcana.com/Deck:'+deck_key+'?testjs=true')
+                setTimeout(
+                    function() {
+                        location.replace('https://archonarcana.com/Deck:'+deck_key+'?testjs=true')
+                    },
+                    2000
+                )
             }
         }
     )
-}
-
-function cards_in_text(thecards, result, rule_types) {
-    return thecards.filter(function(card) {
-        var name = card.card_title
-        if (
-            (
-                (result['RulesText'].includes(name) && !result['RulesPages']) ||
-                (result['RulesPages'].includes(name))
-            ) && (rule_types.includes(result['RulesType']))
-            && result['RulesText'].includes('//') 
-        ) {
-            return true;
-        }
-    })
 }
 
 function perform_rule_lookup(deckdata) {
@@ -97,6 +88,20 @@ function perform_errata_lookup(deckdata) {
             }
         }
     )
+}
+
+function cards_in_text(thecards, result, rule_types) {
+    return thecards.filter(function(card) {
+        var name = card.card_title
+        if (
+            (
+                (result['RulesText'].includes(name) && !result['RulesPages']) ||
+                (result['RulesPages'].includes(name))
+            ) && (rule_types.includes(result['RulesType']))
+        ) {
+            return true;
+        }
+    })
 }
 
 function correlate_rules_by_card(cargo_results, cards, section) {
@@ -172,17 +177,22 @@ function write_rules(cargo_results, cards, section) {
         rule_text += '</div>'
         for(var result of texts[card_set]) {
             var q_a = result['RulesText'].split('//')
-            rule_text += '<div class="ruling_text_question">Q: '
-            rule_text += renderWikitextToHtml(q_a[0])
-            rule_text += '</div>'
-            rule_text += '<div class="ruling_text_answer">'
-            if(section=='OutstandingIssues') {
-                rule_text += 'Arcana Advises: '
+            if(q_a.length==2) {
+                rule_text += '<div class="ruling_text_question">Q: '
+                rule_text += renderWikitextToHtml(q_a[0])
+                rule_text += '</div>'
+                rule_text += '<div class="ruling_text_answer">'
+                if(section=='OutstandingIssues') {
+                    rule_text += 'Arcana Advises: '
+                } else {
+                    rule_text += 'A: '
+                }
+                rule_text += renderWikitextToHtml(q_a[1])
+                rule_text += '</div>'
             } else {
-                rule_text += 'A: '
+                rule_text += '<div class="ruling_text_commentary">'+
+                    renderWikitextToHtml(q_a[0])+'</div>'
             }
-            rule_text += renderWikitextToHtml(q_a[1])
-            rule_text += '</div>'
         }
         rule_text += '</div>'
         s += rule_text
@@ -203,8 +213,8 @@ function gen_card_image(card, width, height, css) {
     if(!css) {
         css = ''
     }
-    var image = unhashThumbImage(card.image, 200)
-    if(card.card_type==='Creature2' || card.card_type==='Creature1') {
+    var image = unhashThumbImage(card.image_number, 200)
+    if(card.subtype && card.subtype.match(/gigantic/i)) {
         image = card.front_image
     }
     var s = '<a href="/'+card.card_title+'">'
@@ -271,6 +281,148 @@ function gen_rules(data) {
         
 }
 
+function gen_card_combos(data) {
+    var cardNames = data.cards.map(function(card){
+        return card.card_title
+    })
+    var combos = cardCombos.filter(function(combo){
+        for(var cardName of combo) {
+            if(!cardNames.includes(cardName)) {
+                return false;
+            }
+        }
+        return true;
+    })
+    if(combos.length==0) {
+        return ''
+    }
+    return '<div class="deck_combos">'+'<h1>Card Combos</h1>'+
+        combos.map(function(combo){
+            return combo.map(function(comboCardTitle){
+                var card = data.cards.filter(function(deckCard){
+                    return deckCard.card_title===comboCardTitle
+                })[0]
+                return gen_card_image(
+                    card,
+                    40,
+                    60
+                ) + card.card_title
+            }).join(', ')
+        }).join('<br>')
+}
+
+var oldSets = ['Call of the Archons', 'Age of Ascension', 'Worlds Collide']
+
+function get_links(data) {
+    var d = {
+        'Decks of Keyforge': 'https://decksofkeyforge.com/decks/'+data.key,
+        'FFG Master Vault': 'https://www.keyforgegame.com/deck-details/'+data.key
+    }
+    if(oldSets.includes(
+        set_name_by_number(data.expansion)
+        )
+    ){
+        d['Aember-forge'] = 'https://aember-forge.com/deck/'+encodeURI(data.name)
+    }
+    return d
+}
+
+function deck_stats(data) {
+    return {
+        links: get_links(data),
+        houses: uniques(data.cards, 'house').map(function(card){
+            return card.house
+        }),
+        actions: data.cards.filter(function(card){
+            return card.card_type.match(/action/i)
+        }),
+        creatures: data.cards.filter(function(card){
+            return card.card_type.match(/creature/i)
+        }),
+        artifacts: data.cards.filter(function(card){
+            return card.card_type.match(/artifact/i)
+        }),
+        upgrades: data.cards.filter(function(card){
+            return card.card_type.match(/upgrade/i)
+        }),
+        rarityCommon: data.cards.filter(function(card){
+            return ['Common'].includes(card.rarity)
+        }),
+        rarityUncommon: data.cards.filter(function(card){
+            return ['Uncommon'].includes(card.rarity)
+        }),
+        rarityRare: data.cards.filter(function(card){
+            return ['Rare'].includes(card.rarity)
+        }),
+        raritySpecial: data.cards.filter(function(card){
+            return ['Fixed', 'Variant', 'Special'].includes(card.rarity)
+        }),
+        rarityEviltwin: data.cards.filter(function(card){
+            return ['Evil Twin'].includes(card.rarity)
+        }),
+        amber: data.cards.reduce(function(total, card) {
+            return total + card.amber
+        }, 0),
+        enhanceAmber: data.cards.reduce(function(total, card) {
+            return total + (card.enhance_amber? card.enhance_amber : 0)
+        }, 0),
+        enhanceDamage: data.cards.reduce(function(total, card) {
+            return total + (card.enhance_damage? card.enhance_damage : 0)
+        }, 0),
+        enhanceCapture: data.cards.reduce(function(total, card) {
+            return total + (card.enhance_capture? card.enhance_capture : 0)
+        }, 0),
+        enhanceDraw: data.cards.reduce(function(total, card) {
+            return total + (card.enhance_draw? card.enhance_draw : 0)
+        }, 0)
+    }
+}
+
+function gen_deck_databox(data) {
+    var stats = deck_stats(data)
+    console.log(stats)
+    return '<div class="statbox">'+
+        `<div class="stat_set">${set_name_by_number(data.expansion)}</div>`+
+
+        '<div class="stat_houses">'+
+        stats.houses.map(function(house){
+            return `<img src="${unhashThumbImage(house+'.png', 40)}">`
+        }).join(' ')+'</div>'+
+
+        '<div class="stat_types">'+
+        `${stats.actions.length} Actions | ${stats.artifacts.length} Artifacts | `+
+        `${stats.creatures.length} Creatures | ${stats.upgrades.length} Upgrades`+
+        '</div>'+
+
+        Object.keys(stats).filter(function(key) {
+            if(!key.match('rarity')) {
+                return false;
+            }
+            return stats[key].length > 0
+        }).map(function(key) {
+            return `<img src="${images[key]}" width=20> ${key.replace('rarity', '')} ${stats[key].length}`
+        }).join(' ')+'</div>'+
+
+
+        `<div class="stat_amber">${stats.amber} Æmber</div>`+
+
+        '<div class="stat_enhancements">'+
+        ['enhanceAmber','enhanceCapture','enhanceDamage','enhanceDraw'].filter(function(enhancement){
+            if(oldSets.includes(set_name_by_number(data.expansion))){
+                return false;
+            }
+            return true;
+        }).map(function(enhancement){
+            return `${stats[enhancement]} <img src="${images[enhancement]}" width="20">`
+        }).join(' | ')+'</div>'+
+
+        '<div class="stat_links">'+
+        Object.keys(stats.links).map(function(name){
+            return `<a href="${stats.links[name]}">${name}</a>`
+        }).join('<br>')+'</div>'+
+    '</div>'
+}
+
 function inject_deck_data() {
     var divs = $('.deckjson')
     var out = $('.deck_contents')
@@ -281,7 +433,9 @@ function inject_deck_data() {
         div = out
 		$(div).empty()
         $(div).append(gen_deck_image(data, 300, 420))
+        $(div).append(gen_deck_databox(data))
         $(div).append(gen_rules(data))
+        $(div).append(gen_card_combos(data))
         $(div).append(collapsible_block(0, 'Cards', gen_cards(data)))
         $(div)[0].style.display=""
         $('#firstHeading').empty().append(data.name)
