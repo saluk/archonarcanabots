@@ -9,7 +9,7 @@ function perform_page_create(deck_key, div) {
             success: function (data, status, xhr) {
                 setTimeout(
                     function() {
-                        location.replace('https://archonarcana.com/Deck:'+deck_key+'?testjs=true')
+                        //location.replace('https://archonarcana.com/Deck:'+deck_key+'?testjs=true')
                     },
                     2000
                 )
@@ -381,6 +381,9 @@ function deck_stats(data) {
 function gen_deck_databox(data) {
     var stats = deck_stats(data)
     console.log(stats)
+    var enhancements = !oldSets.includes(set_name_by_number(data.expansion)) ? 
+        ['enhanceAmber','enhanceCapture','enhanceDamage','enhanceDraw'] :
+        false
     return '<div class="statbox">'+
         `<div class="stat_set">${set_name_by_number(data.expansion)}</div>`+
 
@@ -406,15 +409,12 @@ function gen_deck_databox(data) {
 
         `<div class="stat_amber">${stats.amber} Æmber</div>`+
 
-        '<div class="stat_enhancements">Enhancements: '+
-        ['enhanceAmber','enhanceCapture','enhanceDamage','enhanceDraw'].filter(function(enhancement){
-            if(oldSets.includes(set_name_by_number(data.expansion))){
-                return false;
-            }
-            return true;
-        }).map(function(enhancement){
-            return `${stats[enhancement]} <img src="${images[enhancement]}" width="20">`
-        }).join(' | ')+'</div>'+
+        (
+            enhancements? ('<div class="stat_enhancements">Enhancements: '+
+            enhancements.map(function(enhancement){
+                return `${stats[enhancement]} <img src="${images[enhancement]}" width="20">`
+            }).join(' | ')+'</div>') : '' 
+        ) +
 
         '<div class="stat_links">'+
         Object.keys(stats.links).map(function(name){
@@ -423,23 +423,38 @@ function gen_deck_databox(data) {
     '</div>'
 }
 
-function inject_deck_data() {
+function write_deck_data(data) {
+    console.log(data)
+    var div = $('.deck_contents')
+    $(div).empty()
+    $(div).append(gen_deck_image(data, 300, 420))
+    $(div).append(gen_deck_databox(data))
+    $(div).append(gen_rules(data))
+    $(div).append(gen_card_combos(data))
+    $(div).append(collapsible_block(0, 'Cards', gen_cards(data)))
+    //$(div)[0].style.display=""
+    $('#firstHeading').empty().append(data.name)
+}
+
+function read_wiki_deck_data() {
     var divs = $('.deckjson')
-    var out = $('.deck_contents')
 	divs.map(function(id){
-		var div = divs[id]
-        var data = JSON.parse($(div).text())
-        // TODO - change to div for production
-        div = out
-		$(div).empty()
-        $(div).append(gen_deck_image(data, 300, 420))
-        $(div).append(gen_deck_databox(data))
-        $(div).append(gen_rules(data))
-        $(div).append(gen_card_combos(data))
-        $(div).append(collapsible_block(0, 'Cards', gen_cards(data)))
-        $(div)[0].style.display=""
-        $('#firstHeading').empty().append(data.name)
+        var div = divs[id]
+        write_deck_data(
+            JSON.parse($(div).text())
+        )
     })
+}
+
+function pull_deck_data(deck_key) {
+    $.ajax(
+        'https://keyforge.tinycrease.com/get_aa_deck_data?key='+deck_key,
+        {
+            success: function (deck, status, xhr) {
+                write_deck_data(deck)
+            }
+        }
+    )
 }
 
 function gen_deck_data() {
@@ -454,12 +469,51 @@ function gen_deck_data() {
     var deck_key = title.toLowerCase()
     if(noarticle.length > 0) {
         console.log('create new deck')
-        perform_page_create(deck_key, content)
+        //perform_page_create(deck_key, content)
+        content.empty()
+        $('head').append(`
+        <style type="text/css">
+        .card_images {
+            display:grid;
+            margin:24px;
+            grid-template-columns:repeat(auto-fit,200px);
+           }
+           .infobar {
+             background-color:lightblue;
+             border: solid 1px
+           }
+           .card_image {
+            padding:4px;
+            text-align:center;
+            position:relative;
+           }
+           .card_image_card {
+            width:100%;
+            height:auto;
+            border: solid 2px black;
+            border-radius: 25px;
+            box-sizing:border-box;
+           }
+           .house_icon {
+            position:absolute;
+            left:1em;
+            right:14px
+           }
+           .enhanced .card_image_card{
+            border: solid 4px blueviolet;
+            border-radius: 20px;
+            box-sizing:border-box;
+           }
+           </style>`)
+        content.append('<div class="deck_contents"></div>')
+        pull_deck_data(deck_key)
+        perform_page_create(deck_key)
         return
     } else {
-        inject_deck_data()
+        //read_wiki_deck_data()
+        pull_deck_data(deck_key)
+        return
     }
-    console.log('didnt understand deck')
 }
 
 export {gen_deck_data}

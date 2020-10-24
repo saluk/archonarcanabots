@@ -145,10 +145,7 @@ class DeckWriter:
             'expansion': self.deck.expansion,
             'cards': [cd(card) for card in self.deck.get_cards()]
         }
-        return """
-<div class="deckjson" style="display:none"><nowiki>
-{json_data}
-</nowiki></div>""".format(json_data=json.dumps(d))
+        return d
 
     def decklist(self):
         return """
@@ -247,14 +244,14 @@ clip: rect(1px, 1px, 1px, 1px);">{{FULLPAGENAME}}</span>}}
     def write(self):
         fields = []
         fields.append('<templatestyles src="Template:Deck/style.css" />')
-        fields.append(self.deck_json())
+        fields.append(
+            (
+                '<div class="deckjson" style="display:none"><nowiki>' +
+                '{json_data}' +
+                '</nowiki></div>'
+            ).format(json_data=json.dumps(self.deck_json()))
+        )
         fields.append('<div class="deck_contents"></div>')
-        #fields.append(self.name())
-        #fields.append("<html>")
-        #fields.append(self.decklist())
-        #fields.append(self.card_browser())
-        #fields.append("</html>")
-        #fields.append(self.commentary())
         return "\n".join(fields)
 
 

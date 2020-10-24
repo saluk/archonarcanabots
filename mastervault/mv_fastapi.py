@@ -276,10 +276,12 @@ def update_user_decks(current_user: UserInDB = Depends(get_current_user)):
     session.commit()
     return {"updated":len(dok_decks)}
 
+
 from fastapi import BackgroundTasks
 def task_write_aa_deck_to_page(page, deck):
     content = deck_writer.write(deck)
     return page.edit(content, "building deck page")
+
 
 @mvapi.get('/generate_aa_deck_page')
 def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:BackgroundTasks=None):
@@ -299,6 +301,18 @@ def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:Backgro
     # Create AA page from deck info
     background_tasks.add_task(task_write_aa_deck_to_page, page, deck)
     return {"exists": False, "operation": "edited"}
+
+
+@mvapi.get('/get_aa_deck_data')
+def get_aa_deck_data(key:str=None):
+    # Get deck
+    session = datamodel.Session()
+    deck_query = session.query(datamodel.Deck)
+    if key:
+        deck_query = deck_query.filter(datamodel.Deck.key==key)
+    deck = deck_query.first()
+    # Return data
+    return deck_writer.DeckWriter(deck).deck_json()
 
 
 mvapi.mount("/static", StaticFiles(directory="mastervault/static"), name="static")
