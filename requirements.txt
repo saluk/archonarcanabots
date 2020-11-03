@@ -6,9 +6,9 @@ praw
 fuzzywuzzy
 bleach
 uvicorn
+uvloop
 gunicorn
 python-jose[pycryptodome]
-html_sanitizer
 fastapi==0.59.0
 aiofiles
 psycopg2-binary
