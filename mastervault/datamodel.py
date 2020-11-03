@@ -183,13 +183,13 @@ class UpdateScope(object):
         return
     # 452, 453, 341, 479, 435
 
-    def get_cards(self, expansion=479):
+    def get_cards(self, expansion=None):
         session = Session()
         cards = session.query(Card).filter(
-            #Card.deck_expansion==expansion,
-            Card.data['expansion']==str(expansion),
             Card.data['is_enhanced']=='false',
             Card.data['is_maverick']=='false').all()
+        if expansion:
+            cards = cards.filter(Card.data['expansion']==str(expansion))
         # print(len(cards))
         card_names = {}
         for c in cards:

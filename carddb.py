@@ -434,7 +434,9 @@ def add_card(card, db=None):
     if title not in cards:
         cards[title] = {}
 
-    if db:
+    if db is not None:
+        if title not in db:
+            db[title] = {}
         db[title][str(card["expansion"])] = card
     return card
 

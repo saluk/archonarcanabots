@@ -209,6 +209,46 @@ def latest():
     key = query.first()[0]
     return deck(key)
 
+@mvapi.get("/card_query", tags=["mastervault-clone"])
+def card_query(
+        name:Optional[str]=None,
+        houses:Optional[str]=None,
+        expansions:Optional[str]=None,
+        is_maverick:bool=False,
+        is_enhanced:bool=False,
+        limit:bool=True
+    ):
+    is_maverick = {True:'true',False:'false'}[is_maverick]
+    is_enhanced = {True:'true',False:'false'}[is_enhanced]
+    session = datamodel.Session()
+    cardq = session.query(datamodel.Card)
+    if houses:
+        houses = [x.strip() for x in houses.split(',')]
+        for h in houses:
+            cardq = cardq.filter(datamodel.Card.data['house'].has_key(h))
+    if expansions:
+        expansions = [int(x.strip()) for x in expansions.split(',')]
+        cardq = cardq.filter(or_(
+            *[datamodel.Card.data['expansion'].astext == str(expansion) for expansion in expansions]
+        ))
+    if name:
+        name = "%{}%".format(name)
+        cardq = cardq.filter(datamodel.Card.name.ilike(name))
+    cardq = cardq.filter(datamodel.Card.data['is_maverick'].astext == is_maverick)
+    cardq = cardq.filter(datamodel.Card.data['is_enhanced'].astext == is_enhanced)
+    if limit:
+        cardq = cardq.limit(10)
+    print(str(cardq))
+    cards = cardq.all()
+    db = {}
+    for card in cards:
+        carddb.add_card(card.data, db)
+    return {"cards":
+        [
+            db[name]
+            for name in db
+        ]}
+
 @mvapi.post('/user/create', tags=["user-operation"])
 def create_user(admin_key:str, email:str, password:str):
     print("insert email",email)
