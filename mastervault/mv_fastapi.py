@@ -12,6 +12,7 @@ import base64
 from mastervault import datamodel
 from sqlalchemy import or_, and_
 import carddb
+import passwords
 import connections
 from mastervault import dok, deck_writer
 from passlib.context import CryptContext
@@ -28,7 +29,11 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email: Optional[str] = None
 
-mvapi = FastAPI()
+mvapi = FastAPI(
+    title = "Wormhole Vault Api",
+    description = "A synced clone of keyforgegame.com mastervault and utility functions for Archon Arcana",
+    version="1.0"
+)
 origins = ["https://archonarcana.com"]
 mvapi.add_middleware(
     CORSMiddleware,
@@ -110,7 +115,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
     return user
 
-@mvapi.post('/token')
+@mvapi.post('/token', tags=["authentication"])
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -120,7 +125,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     access_token = create_access_token({"sub":user.email}, access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
-@mvapi.get('/mydecks')
+@mvapi.get('/user/decks', tags=["user-action"])
 async def mydecks(current_user: UserInDB = Depends(get_current_user)):
     decks = []
     session = datamodel.Session()
@@ -138,7 +143,7 @@ async def mydecks(current_user: UserInDB = Depends(get_current_user)):
         })
     return {"user":current_user,"decks":decks}
 
-@mvapi.get("/deck")
+@mvapi.get("/decks/get", tags=["mastervault-clone"])
 def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None):
     print(repr(name))
     session = datamodel.Session()
@@ -165,41 +170,7 @@ def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None
     return d
 
 
-@mvapi.get("/deck_query")
-def deck_query(
-        name:Optional[str]=None,
-        houses:Optional[str]=None,
-        expansions:Optional[str]=None
-    ):
-    session = datamodel.Session()
-    deckq = session.query(datamodel.Deck)
-    if houses:
-        houses = [x.strip() for x in houses.split(',')]
-        for h in houses:
-            deckq = deckq.filter(datamodel.Deck.data['_links']['houses'].has_key(h))
-    if expansions:
-        expansions = [int(x.strip()) for x in expansions.split(',')]
-        deckq = deckq.filter(or_(
-            *[datamodel.Deck.expansion == expansion for expansion in expansions]
-        ))
-    if name:
-        name = "%{}%".format(name)
-        deckq = deckq.filter(datamodel.Deck.name.ilike(name))
-    deckq = deckq.limit(10)
-    print(str(deckq))
-    decks = deckq.all()
-    return {"decks":
-        [
-            [
-                d.key,
-                d.name,
-                ", ".join(d.data['_links']['houses']),
-                d.data["expansion"]
-            ] for d in decks
-        ]}
-
-
-@mvapi.get("/decks")
+@mvapi.get("/decks/walk", tags=["mastervault-clone"])
 def decks(start:Optional[int]=None, end:Optional[int]=None):
     if not start: start = 0
     if not end: end = 50
@@ -231,18 +202,18 @@ def decks(start:Optional[int]=None, end:Optional[int]=None):
             "count":len(decks),
             "decks":[[d.key, d.name, ", ".join(d.data['_links']['houses']), d.data["expansion"]] for d in decks]}
 
-@mvapi.get('/deck/latest')
+@mvapi.get('/decks/latest', tags=["mastervault-clone"])
 def latest():
     session = datamodel.Session()
     query = session.execute("select key from decks where (select max(page) from decks)=page order by index desc limit 1;")
     key = query.first()[0]
     return deck(key)
 
-@mvapi.post('/create_user')
+@mvapi.post('/user/create', tags=["user-operation"])
 def create_user(admin_key:str, email:str, password:str):
     print("insert email",email)
-    if admin_key!="tiddlywinks":
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="invalid key")
+    if admin_key!=passwords.KFDECKSERV_ADMIN_KEY:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     session = datamodel.Session()
     api_user = datamodel.ApiUser(uuid=uuid.uuid4(),email=email, hashed_password=pwd_context.hash(password))
     session.add(api_user)
@@ -251,7 +222,7 @@ def create_user(admin_key:str, email:str, password:str):
     user = get_user(email)
     return user
 
-@mvapi.post('/update_user')
+@mvapi.post('/user/update', tags=["user-operation"])
 def update_user(current_user: UserInDB = Depends(get_current_user),
                 email:Optional[str]=None, password:Optional[str]=None,
                 dok_key:Optional[str]=None):
@@ -259,12 +230,16 @@ def update_user(current_user: UserInDB = Depends(get_current_user),
     api_user = session.query(datamodel.ApiUser).filter(datamodel.ApiUser.email==current_user.email).first()
     if dok_key:
         api_user.dok_key = dok_key
+    if email:
+        api_user.email = email
+    if password:
+        api_user.hashed_password = pwd_context.hash(password)
     session.add(api_user)
     session.commit()
     user = get_user(api_user.email)
     return user
 
-@mvapi.get('/update_decks')
+@mvapi.get('/user/decks/get_dok', tags=["user-operation"])
 def update_user_decks(current_user: UserInDB = Depends(get_current_user)):
     session = datamodel.Session()
     api_user = session.query(datamodel.ApiUser).filter(datamodel.ApiUser.email==current_user.email).first()
@@ -283,7 +258,7 @@ def task_write_aa_deck_to_page(page, deck):
     return page.edit(content, "building deck page")
 
 
-@mvapi.get('/generate_aa_deck_page')
+@mvapi.get('/generate_aa_deck_page', tags=["aa-api"])
 def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:BackgroundTasks=None):
     # Check if aa page exists
     wp = connections.get_wiki()
@@ -303,7 +278,7 @@ def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:Backgro
     return {"exists": False, "operation": "edited"}
 
 
-@mvapi.get('/get_aa_deck_data')
+@mvapi.get('/get_aa_deck_data', tags=["aa-api"])
 def get_aa_deck_data(key:str=None):
     # Get deck
     session = datamodel.Session()
@@ -313,6 +288,47 @@ def get_aa_deck_data(key:str=None):
     deck = deck_query.first()
     # Return data
     return deck_writer.DeckWriter(deck).deck_json()
+
+
+@mvapi.get("/deck_query", tags=["aa-api"])
+def deck_query(
+        name:Optional[str]=None,
+        houses:Optional[str]=None,
+        expansions:Optional[str]=None
+    ):
+    session = datamodel.Session()
+    deckq = session.query(datamodel.Deck)
+    if houses:
+        houses = [x.strip() for x in houses.split(',')]
+        for h in houses:
+            deckq = deckq.filter(datamodel.Deck.data['_links']['houses'].has_key(h))
+    if expansions:
+        expansions = [int(x.strip()) for x in expansions.split(',')]
+        deckq = deckq.filter(or_(
+            *[datamodel.Deck.expansion == expansion for expansion in expansions]
+        ))
+    if name:
+        name = "%{}%".format(name)
+        deckq = deckq.filter(datamodel.Deck.name.ilike(name))
+    deckq = deckq.limit(10)
+    print(str(deckq))
+    decks = deckq.all()
+    return {"decks":
+        [
+            [
+                d.key,
+                d.name,
+                ", ".join(d.houses),
+                d.data["expansion"]
+            ] for d in decks
+        ]}
+
+
+@mvapi.put('/generate_event_decks', tags=["aa-maintenance"])
+def generate_event_decks(current_user: UserInDB = Depends(get_current_user)):
+    wp = connections.get_wiki()
+    import tool_update_decks
+    return {"edited": tool_update_decks.update_event_decks(wp)}
 
 
 mvapi.mount("/static", StaticFiles(directory="mastervault/static"), name="static")
