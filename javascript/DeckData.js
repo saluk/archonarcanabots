@@ -93,10 +93,13 @@ function perform_errata_lookup(deckdata) {
 function cards_in_text(thecards, result, rule_types) {
     return thecards.filter(function(card) {
         var name = card.card_title
+        if (result['RulesType']==='OutstandingIssues' && !result['RulesText'].includes('//')){
+            return false;
+        }
         if (
             (
                 (result['RulesText'].includes(name) && !result['RulesPages']) ||
-                (result['RulesPages'].includes(name))
+                (result['RulesPages'].includes('•'+name+'•'))
             ) && (rule_types.includes(result['RulesType']))
         ) {
             return true;
@@ -425,6 +428,7 @@ function gen_deck_databox(data) {
 
 function write_deck_data(data) {
     console.log(data)
+    $('.noarticletext').replaceWith('')
     var div = $('.deck_contents')
     $(div).empty()
     $(div).append(gen_deck_image(data, 300, 420))
@@ -470,7 +474,7 @@ function gen_deck_data() {
     if(noarticle.length > 0) {
         console.log('create new deck')
         //perform_page_create(deck_key, content)
-        content.empty()
+        //content.empty()
         $('head').append(`
         <style type="text/css">
         .card_images {

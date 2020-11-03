@@ -2,6 +2,7 @@ import {EditField} from './FormElements'
 import {parseQueryString, unhashImage} from './myutils'
 import {sets, houses, orders, getHouses} from './data'
 import 'md5'
+import { set_number_by_name } from './data'
 
 var searchFields = [
   new EditField('checkbox', 'houses', 
@@ -107,7 +108,10 @@ var DSearch = {
         return house.replace(/\_/,' ')
       }).join(','),
       'name': this.deckname[0],
-      'expansions': this.sets.join(',')
+      'expansions': this.sets.map(function(set){
+        console.log(set)
+        return set_number_by_name(set)
+      }).join(',')
     };
     for(var field in fields) {
       if(field.length>0) {

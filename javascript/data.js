@@ -7,14 +7,22 @@ var houses_by_set = {
 	'Mass_Mutation': new Set(['Dis','Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed']),
 	'Dark_Tidings': new Set(['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed', 'Unfathomable'])
 }
+var set_numbers = [
+	[452, "Worlds Collide"],
+	[453, "Worlds Collide"],
+	[341, "Call of the Archons"],
+	[435, "Age of Ascension"],
+	[479, "Mass Mutation"]
+]
 var set_name_by_number = function(number) {
-	return {
-        452: "Worlds Collide",
-        453: "Worlds Collide",
-        341: "Call of the Archons",
-        435: "Age of Ascension",
-        479: "Mass Mutation"
-	}[number]
+	return set_numbers.filter(function(set){
+		return set[0] == number
+	})[0][1]
+}
+var set_number_by_name = function(name) {
+	return set_numbers.filter(function(set){
+		return set[1].toLowerCase() === name.replace(/\_/g, ' ').toLowerCase()
+	})[0][0]
 }
 var getHouses = function(set_filter){
 	var s = new Set()
@@ -70,5 +78,5 @@ var cardCombos = [['Binate Rupture', 'Interdimensional Graft'], ['Drummernaut', 
 export {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
 		types, rarities, set5rarities, orders, keywords, features, getHouses,
-		cardCombos, images, set_name_by_number
+		cardCombos, images, set_name_by_number, set_number_by_name
 	}
