@@ -56,3 +56,6 @@ if __name__ == "__main__":
         if sys.argv[1] == "javascript":
             from javascript import upload
             upload.upload()
+        if sys.argv[1] == "delete":
+            for page in wp.allpages(limit=500, namespace=3006):
+                page.delete('Removing all deck pages')
