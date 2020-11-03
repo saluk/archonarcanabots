@@ -12,14 +12,28 @@ def dequote(t):
     return t
 
 
+cargo_cache = {}
+
+def cache_key(url, params):
+    k = url
+    for key in sorted(params.keys()):
+        k += '__..'+str(params[key])
+    return k
+
+
 def cargo_query(search_params):
-    start = "/api.php?action=cargoquery&format=json"
     params = {
         "action": "cargoquery",
         "format": "json",
         "limit": 500  # Really should page the query
     }
     params.update(search_params)
+    key = cache_key("https://archonarcana.com/api.php", params)
+    if key in cargo_cache:
+        return cargo_cache[key]
     r = requests.get("https://archonarcana.com/api.php", params=params)
-    print(len(r.json()['cargoquery']))
-    return r.json()
+    j = r.json()
+    print(j)
+    print(j['cargoquery'])
+    cargo_cache[key] = j
+    return j

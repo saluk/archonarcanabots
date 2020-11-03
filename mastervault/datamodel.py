@@ -232,6 +232,10 @@ class Deck(Base):
     data = Column(JSONB)
     cards = relationship('Card', secondary='deck_cards')
 
+    @property
+    def houses(self):
+        return sorted(self.data['_links']['houses'])
+
     def get_cards(self):
         """Returns all cards including duplicates"""
         for c in sorted(self.cards, key=lambda card: card.data['house']):
@@ -253,6 +257,10 @@ class Card(Base):
     name = Column(String)
     data = Column(JSONB)
     UniqueConstraint('key', 'deck_expansion')
+    
+    @property
+    def card_type(self):
+        return self.data["card_type"]
 
     def aa_format(self):
         return carddb.add_card({**self.data})

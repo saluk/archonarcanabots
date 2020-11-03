@@ -59,3 +59,6 @@ if __name__ == "__main__":
         if sys.argv[1] == "delete":
             for page in wp.allpages(limit=500, namespace=3006):
                 page.delete('Removing all deck pages')
+        if sys.argv[1] == "eventdecks":
+            import tool_update_decks
+            tool_update_decks.update_event_decks(wp)

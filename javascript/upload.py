@@ -7,12 +7,7 @@ import re
 
 lasthashes = {"main.js":"main_v7wksNq5CtVsVQ==.js"}
 
-cache = {}
-
 def gen_artists(tables):
-    k = "gen_artists_"+tables
-    if k in cache:
-        return cache[k]
     search = {
         "tables": tables,
         "fields": "Artist",
@@ -25,14 +20,10 @@ def gen_artists(tables):
             continue
         artists.append(a)
     artists.sort()
-    cache[k] = artists
     return artists
 
 
 def gen_traits(tables):
-    k = "gen_traits_"+tables
-    if k in cache:
-        return cache[k]
     search = {
         "tables": tables,
         "fields": "Traits",
@@ -46,7 +37,6 @@ def gen_traits(tables):
                 continue
             traits.append(t)
     traits.sort()
-    cache[k] = traits
     return traits
 
 
