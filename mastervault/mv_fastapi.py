@@ -43,7 +43,7 @@ import sentry_sdk
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 sentry_sdk.init(
     "https://9f4401b9166a405199414dfb625af120@o465720.ingest.sentry.io/5478890",
-    traces_sample_rate=1.0
+    traces_sample_rate=0.01
 )
 mvapi.add_middleware(SentryAsgiMiddleware)
 
