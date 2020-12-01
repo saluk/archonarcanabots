@@ -187,9 +187,10 @@ class UpdateScope(object):
         session = Session()
         cards = session.query(Card).filter(
             Card.data['is_enhanced']=='false',
-            Card.data['is_maverick']=='false').all()
+            Card.data['is_maverick']=='false')
         if expansion:
             cards = cards.filter(Card.data['expansion']==str(expansion))
+        cards = cards.all()
         # print(len(cards))
         card_names = {}
         for c in cards:

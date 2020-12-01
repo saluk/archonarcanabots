@@ -85,8 +85,8 @@ Invulnerable
 Omega
 Poison
 Skirmish
-Taunt
-""".split("\n")
+Taunt""".split("\n")
+keywords = [x for x in keywords if x.strip()]
 
 # TODO - as if it were yours, if you do, center of the battleline, preceding, instead and splash
 replacement_links = {
