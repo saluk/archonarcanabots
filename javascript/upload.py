@@ -5,7 +5,7 @@ from util import cargo_query
 import requests
 import re
 
-lasthashes = {"main.js":"main_v7wksNq5CtVsVQ==.js"}
+lasthashes = {"main.js":"main_W0vECXWV9Gi1fw==.js"}
 
 def gen_artists(tables):
     search = {
