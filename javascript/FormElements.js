@@ -156,9 +156,11 @@ class EditField {
 		var val = this.getElement().value
 		val = like_query(val)
 		if(this.split_on.length>0) {
-		  return val.split(this.split_on)
+		  return val.split(this.split_on).map(function(to_trim) {
+			  return to_trim.trim()
+		  })
 		}
-		return [val]
+		return [val.trim()]
 	  } else if(this.type === 'select') {
 		var vals = []
 		console.log(this.getElement())
@@ -201,6 +203,7 @@ class EditField {
 	}
 	assignData(ob) {
 	  var d = this.getData()
+	  console.log(d)
 	  if(d!==undefined) {
 		ob[this.field] = d
 	  }
