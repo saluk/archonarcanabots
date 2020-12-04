@@ -86,6 +86,7 @@ def upload():
         f.write(gen_data)
     os.system("npm run build")
     upload_js_file("main.js")
+    upload_js_file("cardwidget.js", use_hash=False)
     for filename in ['Common.js', 'Mobile.js']:
         with open("javascript/"+filename) as f:
             txt = f.read()
