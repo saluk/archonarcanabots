@@ -1,16 +1,4 @@
-var houses = ['Brobnar','Dis','Logos','Mars','Sanctum','Saurian','Star_Alliance','Shadows','Untamed','Anomaly']
-var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation']
-var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
-var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant']
-var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Beast', 'Cyborg', 'Demon', 'Dinosaur', 'Dragon', 'Elf', 
-              'Equation', 'Experiment', 'Faerie', 'Fungus', 'Giant', 'Goblin', 'Handuhan', 'Horseman', 'Human', 'Hunter', 
-              'Imp', 'Insect', 'Item', 'Jelly', 'Knight', 'Krxix', 'Law', 'Leader', 'Location', 'Martian', 'Merchant', 
-              'Monk', 'Mutant', 'Niffle', 'Philosopher', 'Pilot', 'Pirate', 'Politician', 'Power', 'Priest', 'Proximan', 
-              'Psion', 'Quest', 'Ranger', 'Rat', 'Redacted', 'Robot', 'Scientist', 'Shapeshifter', 'Shard', 'Soldier', 
-              'Specter', 'Spirit', 'Thief', 'Tree', 'Vehicle', 'Weapon', 'Witch', 'Wolf']
-var ambercounts = ['0', '1', '2', '3', '4+']
-var armorcounts = ['0', '1', '2', '3', '4', '5+']
-var powercounts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
+import {unhashImage} from './myutils'
 
 var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
   if (ar.length > 0) {
@@ -25,27 +13,6 @@ var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
     }
   }
   return ''
-}
-
-var unhashImage = function(imgName) {
-  var hash = md5(imgName)
-  var firsthex = hash.substring(0,1)
-  var first2 = hash.substring(0,2)
-  return '/images/'+firsthex+'/'+first2+'/'+imgName
-}
-
-var unhashThumbImage = function(imgName) {
-  var hash = md5(imgName)
-  var firsthex = hash.substring(0,1)
-  var first2 = hash.substring(0,2)
-  return '/images/thumb/'+firsthex+'/'+first2+'/'+imgName+'/200px-'+imgName
-}
-
-var loadImage = function(image) {
-  image.setAttribute('src', image.getAttribute('data-src'))
-  image.onload = () => {
-    image.removeAttribute('data-src')
-  }
 }
 
 var padnum = function(number){
@@ -84,6 +51,7 @@ var CSearchRandom = {
     var self=this
     this.element = element
     this.numCards = numCards
+    console.log("random search for "+this.numCards)
     this.newSearch()
   },
   newSearch: function() {
@@ -94,7 +62,7 @@ var CSearchRandom = {
     self.load()
   },
   searchString: function () {
-      console.log(this.numCards)
+    console.log(this.numCards)
     this.cardnumber = []
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max)) + 1;
@@ -102,7 +70,7 @@ var CSearchRandom = {
     for(var i=0;i<this.numCards;i++){
         this.cardnumber.push("" + getRandomInt(404))
     }
-    this.sets = ["Worlds Collide"]
+    this.sets = ["Mass Mutation"]
     this.pageSize = this.numCards
     var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
@@ -140,11 +108,9 @@ var CSearchRandom = {
     // For each card in query
     for (var i in resultsArray) {
       var card = resultsArray[i]
-      var el = ''
-      el += '<div class="header-image">'
-      el += ' <a href="/' + card.title.Name + '"title="' + card.title.Name + '">'
-      el += '<img class="card-' + (Number.parseInt(i)+1) + '" src="'+unhashThumbImage(card.title.Image, 200)+'" data-src="'+unhashImage(card.title.Image)+'">'
-      el += '</a></div>'
+      var el = '<div class="card-images-' + (Number.parseInt(i)+1) + '">\
+      <img src="'+unhashImage(card.title.Image)+'" \
+      alt="'+card.title.Name+'"><a href="'+card.title.Name+'">'+card.title.Name+'</a></div>'
       resultsTab.append(el)
     }
     /*var imgs = $('img[data-src]')
@@ -173,8 +139,10 @@ var CSearchRandom = {
 
 function choose_random_cards() {
   console.log('initing random search')
-  if ($('.random_images').length>0) {
-      var element = $('.random_images')[0]
+  if ($('.random-cards').length>0) {
+      var element = $('.random-cards')[0]
+      console.log("found element")
+      console.log(element)
       CSearchRandom.init(element, element.getAttribute('data-number'))
   }
 }
