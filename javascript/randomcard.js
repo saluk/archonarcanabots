@@ -68,7 +68,7 @@ var CSearchRandom = {
         return Math.floor(Math.random() * Math.floor(max)) + 1;
     }
     for(var i=0;i<this.numCards;i++){
-        this.cardnumber.push("" + getRandomInt(404))
+        this.cardnumber.push("" + getRandomInt(422))
     }
     this.sets = ["Mass Mutation"]
     this.pageSize = this.numCards

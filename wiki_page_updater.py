@@ -55,7 +55,9 @@ if __name__ == "__main__":
             tool_update_cards.update_cards_v2(wp, None, "relink card data", "relink", matching=search)
         if sys.argv[1] == "javascript":
             from javascript import upload
-            upload.upload()
+            stage = sys.argv[2] if len(sys.argv) > 2 else "dev"
+            test = sys.argv[3] if len(sys.argv) > 3 else None
+            upload.upload(stage, test)
         if sys.argv[1] == "delete":
             for page in wp.allpages(limit=500, namespace=3006):
                 page.delete('Removing all deck pages')
