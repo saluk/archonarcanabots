@@ -3,6 +3,7 @@ import {replace_charts} from './chart_with_js'
 import {choose_random_cards} from './randomcard'
 import {init_deck_search} from './DeckSearch'
 import {gen_deck_data} from './DeckData'
+import {carousel} from './myutils'
 import './share42.js' // share42 sharing module
 
 var arcana_main = function() {
@@ -12,6 +13,7 @@ var arcana_main = function() {
 	replace_charts()
 	choose_random_cards()
 	init_deck_search()
+	carousel(true)
 	console.log(CSearch)
 }
 

@@ -145,5 +145,36 @@ function collapsible_block(index, heading, inner_text) {
 	return s;
 }
 
+var carousels = {};
+
+function carousel(first_time) {
+  var i
+  var x = document.getElementsByClassName("carousel")
+  if(first_time) {
+	for (i = 0; i < x.length; i++) {
+		var el = x[i]
+		var id = el.getAttribute("data-carousel-id")
+		if(!carousels[id]) {
+			carousels[id] = []
+		}
+		carousels[id].push(el)
+	}
+  }
+  for(var id in carousels) {
+		var elements = carousels[id]
+		for(var element of elements) {
+			element.style.display = "none"
+		}
+		if(!first_time) {
+			var firstElement = elements[0]
+			elements.splice(0, 1)
+			elements.push(firstElement)
+			console.log(elements.length)
+		}
+		elements[0].style.display = "block"
+		setTimeout(carousel, elements[0].getAttribute("data-carousel-speed")) 
+  }
+}
+
 export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
-	isElementInViewport, htmlDecode, uniques, collapsible_block}
+	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel}

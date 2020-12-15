@@ -53,7 +53,8 @@ function HideDiv(evt, title) {
 }
 
 function renderCardLink(image, name) {
-    var id = "renderCardWidget_"+name;
+    console.log('RENDER');
+    var root = document.currentScript.parentElement;
     var el = document.createElement('div');
     var content = [
         '<div class="arcanabox">',
@@ -67,8 +68,8 @@ function renderCardLink(image, name) {
         'style="display:none;float:left;position:absolute">',
         "text",
         '</div></div>'
-
     ];
     el.innerHTML = content.join('');
-    document.getElementById(id).append(el);
+    root.textContent = '';
+    root.append(el);
 }

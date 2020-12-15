@@ -121,6 +121,6 @@ def upload(stage="dev", test=False):
                 page = wp.page(wpname)
                 print(txt)
                 print(page.edit(txt, "javascript updated"))
-    if not test:
+    if not test and stage == "prod":
         with open("cache/lasthash.json", "w") as f:
             f.write(json.dumps(hashes))
