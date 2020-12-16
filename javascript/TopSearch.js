@@ -11,7 +11,7 @@
   </a>
   <div class="suggestions-special"></div></div>
 */
-import {unhashThumbImage} from './myutils'
+import {unhashThumbImage, unhashImage} from './myutils'
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
 var resultshtml = '<div style="font-size: 15.2px; inset: 41.5167px auto auto 0.4px; width: 100%; height: auto; display: block;" class="suggestions">\
@@ -28,12 +28,23 @@ function miniImage(image) {
 }
 
 class Caller {
-    constructor(searchString, inputElement) {
+    constructor() {
+        this.currentCall = 0
+    }
+    reset (searchString, inputElement) {
+        this.currentCall += 1
         this.searchString = searchString
         this.inputElement = inputElement
         this.wikiResults = false
         this.cardResults = false
+        this.deckResults = false
         this.results = []
+        if(this.loadingCards)
+            this.loadingCards.abort()
+        if(this.loadingWiki)
+            this.loadingWiki.abort()        
+        if(this.loadingDecks)
+            this.loadingDecks.abort()
     }
     addWikiResults(results) {
         console.log(results)
@@ -78,8 +89,29 @@ class Caller {
         this.cardResults = true
         this.finalize()
     }
+    addDeckResults(results) {
+        for(var deck of results) {
+            var deckImg = ''
+            for(var house of deck[2].split(',')) {
+                house = unhashImage(house.trim().replace(' ','_')+'.png')
+                deckImg+='<img width=20 src="'+house+'">'
+            }
+            this.results.push(
+                {
+                    name: deck[1],
+                    link: '/Deck:' + deck[0] + '?testjs=true',
+                    image: deckImg,
+                    source: 'deck',
+                    rank: -1
+                }
+            )
+        }
+        console.log(this.results)
+        this.deckResults = true
+        this.finalize()
+    }
     finalize() {
-        if(this.wikiResults && this.cardResults) {
+        if(this.wikiResults && this.cardResults && this.deckResults) {
             this.renderResults()
         }
     }
@@ -151,19 +183,25 @@ class Caller {
 function hookTopSearch() {
     var selector = '.overridesearch #searchInput2'
     console.log('hooking top search')
+    var caller = new Caller()
     $(selector).on("input", function ontype(evt) {
         var search = this.value
+        caller.reset(search, this)
         if(search.length<1) {
-            $('.suggestions').empty()
+            $('.suggestions').remove()
             return
         }
-        var caller = new Caller(search, this)
+        var call = caller.currentCall
         caller.loadingWiki = $.ajax(wikisearch.replace("{{ SEARCH }}", search),
         {
             success: function (data, status, xhr) {
+                console.log(call, caller.currentCall)
+                if(call!=caller.currentCall)
+                    return
                 caller.addWikiResults(data)
             }
         })
+
         var start = '/api.php?action=cargoquery&format=json'
         var tables = '&tables=CardData'
         var fields = '&fields=CardData.SearchText%2CCardData.SearchFlavorText%2CCardData.Name%2CCardData.Image'
@@ -175,13 +213,24 @@ function hookTopSearch() {
         caller.loadingCards = $.ajax(
             start + tables + fields + where + limit, {
             success: function (data, status, xhr) {
+                if(call!=caller.currentCall)
+                    return
                 console.log(data)
                 caller.addCardResults(data.cargoquery)
             },
-            error: function ( jqXHR, textStatus, errorThrown ) {
-                console.log(textStatus)
-            }
         })
+
+        caller.loadingDecks = $.ajax(
+            'https://keyforge.tinycrease.com/deck_query?name='+search,
+            {
+                success: function (data, status, xhr) {
+                    if(call!=caller.currentCall)
+                        return
+                    console.log(data)
+                    caller.addDeckResults(data.decks)
+                },
+            }
+        )
         console.log('done setting up calls')
     })
 }
