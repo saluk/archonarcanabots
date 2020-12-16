@@ -145,6 +145,21 @@ function collapsible_block(index, heading, inner_text) {
 	return s;
 }
 
+var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
+	if (ar.length > 0) {
+	  var nar = ar.filter(function (item) {
+		return item
+	  })
+	  nar = nar.map(function (item) {
+		return pre + filter(item.replace(/\_/g, '%20')) + post
+	  })
+	  if (nar.length > 0) {
+		return '(' + nar.join('%20' + logic + '%20') + ')'
+	  }
+	}
+	return ''
+  }
+
 var carousels = {};
 
 function carousel(first_time) {
@@ -169,7 +184,6 @@ function carousel(first_time) {
 			var firstElement = elements[0]
 			elements.splice(0, 1)
 			elements.push(firstElement)
-			console.log(elements.length)
 		}
 		elements[0].style.display = "block"
 		setTimeout(carousel, elements[0].getAttribute("data-carousel-speed")) 
@@ -177,4 +191,4 @@ function carousel(first_time) {
 }
 
 export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
-	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel}
+	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, joined}

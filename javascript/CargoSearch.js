@@ -2,7 +2,7 @@ import {EditField, minmax} from './FormElements'
 import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
   types, rarities, set5rarities, orders, keywords, features, getHouses, images} from './data'
-import {parseQueryString, unhashImage, unhashThumbImage, isElementInViewport} from './myutils'
+import {parseQueryString, unhashImage, unhashThumbImage, isElementInViewport, joined} from './myutils'
 import 'md5'
 
 var searchFields = [
@@ -64,21 +64,6 @@ function htmlDecode(input){
   var e = document.createElement('div')
   e.innerHTML = input
   return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue
-}
-
-var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
-  if (ar.length > 0) {
-    var nar = ar.filter(function (item) {
-      return item
-    })
-    nar = nar.map(function (item) {
-      return pre + filter(item.replace(/\_/g, '%20')) + post
-    })
-    if (nar.length > 0) {
-      return '(' + nar.join('%20' + logic + '%20') + ')'
-    }
-  }
-  return ''
 }
 
 var statQuery = function(card_db, clauses, statInput, field) {

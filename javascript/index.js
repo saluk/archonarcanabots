@@ -5,16 +5,16 @@ import {init_deck_search} from './DeckSearch'
 import {gen_deck_data} from './DeckData'
 import {carousel} from './myutils'
 import './share42.js' // share42 sharing module
+import {hookTopSearch} from './TopSearch.js'
 
 var arcana_main = function() {
-	console.log("hello")
-	gen_deck_data()
-	init_cargo_search2()
-	replace_charts()
+	hookTopSearch()
 	choose_random_cards()
-	init_deck_search()
 	carousel(true)
-	console.log(CSearch)
+	init_cargo_search2()
+	gen_deck_data()
+	init_deck_search()
+	replace_charts()
 }
 
 arcana_main()
