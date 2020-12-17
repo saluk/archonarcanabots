@@ -1,4 +1,5 @@
 import requests
+import re
 SEPARATOR = " • "
 
 
@@ -10,6 +11,12 @@ def dequote(t):
         quotes.append(next)
     t = t.replace("'","\u2019")
     return t
+
+
+def sanitize_deck_name(name):
+    name_sane = name.lower()
+    name_sane = re.sub("[^(\w| )]+", "", name_sane)
+    return name_sane
 
 
 cargo_cache = {}

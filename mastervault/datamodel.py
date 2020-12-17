@@ -10,13 +10,15 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.inspection import inspect
-from sqlalchemy.sql.expression import func
+from sqlalchemy.sql.expression import func, update, bindparam
 from sqlalchemy.sql import exists
 from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy import Table, ForeignKey, UniqueConstraint, ForeignKeyConstraint, Sequence
 import datetime
 import carddb
+import re
+import time
 
 PASSWORD = passwords.MASTERVAULT_PASSWORD
 
@@ -41,7 +43,8 @@ def postgres_upsert(session, table, obs):
 engine = sqlalchemy.create_engine(
     'postgresql+psycopg2://mastervault:'+PASSWORD+'@localhost/mastervault',
     pool_size=20,
-    echo=True
+    #echo=True,
+    #executemany_mode='batch'
 )
 Session = scoped_session(sessionmaker(bind=engine))
 
@@ -207,6 +210,32 @@ class UpdateScope(object):
         # print(sorted(card_names.keys()))
         return card_names.values()
 
+    def update_add_name_sane(self, batch_size=1000):
+        session = Session()
+        batch = 0
+        while 1:
+            start = time.time()
+            print("batch:", batch)
+            batch += 1
+            next_batch = session.query(Deck).filter(
+                Deck.name_sane == None
+            ).limit(batch_size)
+            decks = []
+            print("query batch")
+            for deck in next_batch.all():
+                deck.sanitize_name()
+                decks.append({
+                    "key": deck.key,
+                    "name_sane": deck.name_sane
+                })
+            if not decks:
+                return
+            print("bulk update")
+            session.bulk_update_mappings(Deck, decks)
+            print("commit")
+            session.commit()
+            print(" time:", time.time()-start)
+
 
 class BackScrapePage(Base):
     __tablename__ = "back_scrape_page"
@@ -229,9 +258,18 @@ class Deck(Base):
     index = Column(Integer)  # index on MV page we scraped from
     scrape_date = Column(DateTime(timezone=True), server_default=func.now())
     name = Column(String)
+    name_sane = Column(String)
     expansion = Column(Integer)
     data = Column(JSONB)
     cards = relationship('Card', secondary='deck_cards')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.name:
+            self.sanitize_name()
+
+    def sanitize_name(self):
+        self.name_sane = util.sanitize_deck_name(self.name)
 
     @property
     def houses(self):
@@ -242,6 +280,7 @@ class Deck(Base):
         for c in sorted(self.cards, key=lambda card: card.data['house']):
             for i in range(self.data['_links']['cards'].count(c.key)):
                 yield c
+
 # TODO handle indexes
 
 # TODO handle legacies
