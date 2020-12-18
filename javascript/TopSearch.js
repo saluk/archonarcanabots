@@ -11,7 +11,7 @@
   </a>
   <div class="suggestions-special"></div></div>
 */
-import {unhashThumbImage, unhashImage} from './myutils'
+import {unhashThumbImage, unhashImage, removePunctuation} from './myutils'
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
 var resultshtml = '<div style="font-size: 15.2px; inset: 41.5167px auto auto 0.4px; width: 100%; height: auto; display: block;" class="suggestions">\
@@ -25,6 +25,14 @@ var resulthtml = '<a href="{{ LINK }}" title="{{ NAME }}" class="mw-searchSugges
 
 function miniImage(image) {
     return '   <img src="' + unhashThumbImage(image, 40) + '">'
+}
+
+function match(search, content) {
+    if(removePunctuation(search) === removePunctuation(content)) {
+        return "equal"
+    }
+    var index = removePunctuation(content).search(removePunctuation(content))
+    return index
 }
 
 class Caller {
@@ -134,13 +142,13 @@ class Caller {
         var s = this.searchString.toLowerCase()
         for(var res of this.results) {
             var n = res.name.toLowerCase()
-            var s = this.searchString.toLowerCase()
-            if(n === s) {
+            var loc = match(s,n)
+            if(loc==="equal") {
                 res.rank = 100
             }
-            else if(n.search(s) >= 0){
+            else if(loc >= 0){
                 res.rank += 10 // Increase rank if search string is in the name
-                if(n.search(s) == 0){
+                if(loc == 0){
                     res.rank += 5 // Increase rank if search string is at the beginning of name
                 }
                 if(res.source === 'card') {
@@ -185,7 +193,7 @@ function hookTopSearch() {
     console.log('hooking top search')
     var caller = new Caller()
     $(selector).on("input", function ontype(evt) {
-        var search = this.value
+        var search = removePunctuation(this.value)
         caller.reset(search, this)
         if(search.length<1) {
             $('.suggestions').remove()

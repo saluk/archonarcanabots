@@ -14,6 +14,10 @@ function htmlDecode(input){
 	return e.childNodes[0].nodeValue;
   }
 
+function removePunctuation(string) {
+	return string.replace(/[^(\w| )]+/gi, '')
+}
+
 function uniques(objects, unique_field) {
 	var unique = []
 	var fields = []
@@ -191,4 +195,5 @@ function carousel(first_time) {
 }
 
 export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
-	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, joined}
+	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
+	joined, removePunctuation}
