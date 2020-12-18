@@ -10,7 +10,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.inspection import inspect
-from sqlalchemy.sql.expression import func, update, bindparam
+from sqlalchemy.sql.expression import text, func, update, bindparam
 from sqlalchemy.sql import exists
 from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy import Column, Integer, String, DateTime
@@ -210,7 +210,9 @@ class UpdateScope(object):
         # print(sorted(card_names.keys()))
         return card_names.values()
 
+    # TODO move to migration module, add the index removal part
     def update_add_name_sane(self, batch_size=1000):
+        # Remvove index decks_name_sane_trgrm
         session = Session()
         batch = 0
         while 1:
@@ -229,12 +231,16 @@ class UpdateScope(object):
                     "name_sane": deck.name_sane
                 })
             if not decks:
-                return
+                break
             print("bulk update")
             session.bulk_update_mappings(Deck, decks)
             print("commit")
             session.commit()
             print(" time:", time.time()-start)
+        # TODO add this
+        # Add index
+        #session.execute(text('create index "decks_name_sane_trgrm" on decks using gin (name_sane gin_trgm_ops)'))
+
 
 
 class BackScrapePage(Base):
@@ -340,7 +346,7 @@ print("before create")
 Base.metadata.create_all(engine)
 print("after create")
 
-
+# TODO move to a migration module
 def add_deck_cards():
     session = Session()
     amt = 0
