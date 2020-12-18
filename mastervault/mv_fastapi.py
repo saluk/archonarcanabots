@@ -349,9 +349,11 @@ def deck_query(
             *[datamodel.Deck.expansion == expansion for expansion in expansions]
         ))
     if name:
-        name = "%{}%".format(name)
+        name = "%{}%".format(
+            util.sanitize_deck_name(name)
+        )
         deckq = deckq.filter(
-            datamodel.Deck.name_sane.ilike(util.sanitize_deck_name(name))
+            datamodel.Deck.name_sane.ilike(name)
         )
     deckq = deckq.limit(10)
     print(str(deckq))

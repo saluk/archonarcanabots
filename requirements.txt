@@ -13,3 +13,5 @@ fastapi==0.59.0
 aiofiles
 psycopg2-binary
 sentry-sdk
+passlib
+httptools
