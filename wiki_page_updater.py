@@ -3,12 +3,13 @@
 
 import sys
 import connections
+import wikibase
 
 # TODO - add templates to appropriate pages
 # TODO - create artist pages that list their cards
 
 wp = connections.get_wiki()
-
+mwm = wikibase.MediawikiManager(wp)
 
 if __name__ == "__main__":
     print(sys.argv)
@@ -64,3 +65,6 @@ if __name__ == "__main__":
         if sys.argv[1] == "eventdecks":
             import tool_update_decks
             tool_update_decks.update_event_decks(wp)
+        if sys.argv[1] == "table_to_cargo":
+            import tool_read_tables
+            tool_read_tables.write(mwm)

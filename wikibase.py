@@ -81,8 +81,9 @@ def cargo_sort(table_type, table):
 
 
 class CargoTable:
-    def __init__(self):
-        self.data_types = {}
+    def __init__(self, page_name=""):
+        self.data_types = {}  #Each data type is a different cargo table
+        self.page_name = page_name  #All datatypes are written to this page name
 
     def read_from_text(self, text):
         d = {}
@@ -144,7 +145,6 @@ class CargoTable:
             for ob in self.data_types[datatype].values():
                 flagged = True
                 for k in unique:
-                    print(data[k],ob[k])
                     if data.get(k, None)!=ob.get(k, None):
                         flagged = False
                         break
@@ -158,11 +158,27 @@ class CargoTable:
     def get_data(self, datatype):
         return self.get_datas(datatype)[0]
 
-ct = CargoTable()
-ct.append("ErrataData", {'Version':'', 'Text':"this is the first text", 'Tag':"mm change"})
-ct.append("ErrataData", {'Version':'', 'Text':"this is the first text", 'Tag':"mm change"})
-ct.append("ErrataData", {'Version':"rulebook 1.2", 'Text':"this is a changed text", 'Tag':"mm change"})
-ct.append("ErrataData", {'Version':"rulebook 1.2", 'Text':"this is a changed text", 'Tag':"next set change"})
-ct.append("ErrataData", {'Version':"rulebook 1.5", 'Text':"this is a changed text again", 'Tag':"next set change"})
-print(ct.get_datas("ErrataData"))
-print(ct.output_text())
+class MediawikiManager:
+    def __init__(self, api):
+        self.api = api
+        self.skip = []
+        self.check_before_write = True
+    def write_page(self, title, text, reason):
+        old_text = None
+        page = self.api.page(title)
+        if self.check_before_write:
+            old_text = page.read()
+        if old_text == text:
+            return {"result": None, "msg": "No text was changed"}
+        return {"result": page.edit(text, reason)}
+        
+
+if __name__ == "__main__":
+    ct = CargoTable()
+    ct.append("ErrataData", {'Version':'', 'Text':"this is the first text", 'Tag':"mm change"})
+    ct.append("ErrataData", {'Version':'', 'Text':"this is the first text", 'Tag':"mm change"})
+    ct.append("ErrataData", {'Version':"rulebook 1.2", 'Text':"this is a changed text", 'Tag':"mm change"})
+    ct.append("ErrataData", {'Version':"rulebook 1.2", 'Text':"this is a changed text", 'Tag':"next set change"})
+    ct.append("ErrataData", {'Version':"rulebook 1.5", 'Text':"this is a changed text again", 'Tag':"next set change"})
+    print(ct.get_datas("ErrataData"))
+    print(ct.output_text())
