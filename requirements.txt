@@ -16,3 +16,4 @@ sentry-sdk
 passlib
 httptools
 hanging_threads
+free-proxy

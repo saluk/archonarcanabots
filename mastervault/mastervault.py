@@ -2,14 +2,13 @@ import __updir__
 import passwords
 import random
 import json
-import os
 import sys
 import time
 import requests
 import util
-import datamodel
+from mastervault import mastervault_workers
+from mastervault import datamodel
 import threading
-import sqlalchemy
 from hanging_threads import start_monitoring
 
 def wait(seconds,reason=""):
@@ -80,6 +79,7 @@ def get_proxy_list():
     return str(d["ip"])+":"+str(d["port"])
 
 def proxy_list1():
+    return None
     # from https://proxyscrape.com/premium?ref=topfpl
     with open("proxy_list1.txt") as f:
         urls = f.read().split("\n")
@@ -94,7 +94,7 @@ def sslproxy():
         return None
 
 
-class MasterVault(object):
+class MasterVault:
     def __init__(self):
         self.last_call = None
         self.max_page = 24
@@ -282,6 +282,7 @@ class MasterVault(object):
 
 
 mv = MasterVault()
+workers = mastervault_workers.Workers()
 
 
 def master_vault_lookup(deck_name):
@@ -307,5 +308,8 @@ if __name__ == "__main__":
         t = threading.Thread(target=mv_thread)
         threads.append(t)
         t.start()
+    t = threading.Thread(target=workers.thread)
+    threads.append(t)
+    t.start()
     print("start monitoring")
     monitoring_thread = start_monitoring(seconds_frozen=30)

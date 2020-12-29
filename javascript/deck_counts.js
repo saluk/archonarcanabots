@@ -7,9 +7,9 @@ function deck_counts() {
         $.ajax(
             "https://keyforge.tinycrease.com/deck_count?month=true&week=true", {
             success: function (data, status, xhr) {
-                $('.total_deck_count').append(data.total_count)
-                $('.month_deck_count').append(data.month_count)
-                $('.week_deck_count').append(data.week_count)
+                $('.total_deck_count').append(data.total_deck_count)
+                $('.month_deck_count').append(data.month_deck_count)
+                $('.week_deck_count').append(data.week_deck_count)
             },
         })
     }

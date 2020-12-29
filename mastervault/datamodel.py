@@ -342,6 +342,13 @@ class OwnedDeck(Base):
     losses = Column(Integer)
 
 
+class Counts(Base):
+    __tablename__ = "counts"
+    label = Column(String, primary_key=True)
+    count = Column(Integer)
+    meta = Column(JSONB)
+
+
 print("before create")
 Base.metadata.create_all(engine)
 print("after create")
