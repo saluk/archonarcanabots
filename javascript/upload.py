@@ -93,7 +93,10 @@ def upload(stage="dev", test=False):
             gen_data = gen_data.replace(r, reps[r])
     with open("javascript/data.js","w") as f:
         f.write(gen_data)
-    os.system("npm run build")
+    os.system("npm run build -- --mode=%s" % {
+        "prod": "production",
+        "dev": "development"
+    }[stage])
     upload_js_file("main.js", use_hash=True, test=test)
     upload_js_file("cardwidget.js", use_hash=False, test=test)
     for filename in ['Common.js', 'Mobile.js']:
