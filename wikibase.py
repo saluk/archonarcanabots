@@ -171,6 +171,9 @@ class MediawikiManager:
         if old_text == text:
             return {"result": None, "msg": "No text was changed"}
         return {"result": page.edit(text, reason)}
+    def read_page(self, title):
+        page = self.api.page(title)
+        return page.read()
         
 
 if __name__ == "__main__":
