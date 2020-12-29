@@ -1,4 +1,5 @@
-from carddb import linking_keywords, link_card_titles, all_traits, get_cargo, cards
+from models.wiki_model import linking_keywords, sanitize_text
+from models.wiki_card_db import linking_keywords, link_card_titles, all_traits, get_cargo, cards
 
 print(get_cargo(cards["Ancient Bear"]))
 
@@ -29,6 +30,15 @@ assert (linking_keywords(t14)) == t15, linking_keywords(t14)
 t16 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it for each friendly creature. You may exalt a friendly creature to repeat the preceding effect."
 t17 = "'''Play:''' Choose a creature. Deal 1{{Damage}} to it [[For each|for each]] friendly creature. You may [[Exalt|exalt]] a friendly creature to [[Preceding|repeat the preceding effect]]."
 assert (linking_keywords(t16)) == t17, linking_keywords(t16)
+
+assert sanitize_text("blah.") == "blah.", sanitize_text("blah.")
+assert sanitize_text("blah..") == "blah.", repr(sanitize_text("blah.."))
+assert sanitize_text("blah") == "blah"
+assert sanitize_text("blah... something") == "blah... something"
+assert sanitize_text("blah...") == "blah...", sanitize_text("blah...")
+assert sanitize_text("'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]].\ufeff\ufeff") == "'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]]."
+assert sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True) == "\u201cThe Red Shroud will defend the Crucible from the threat of dark \u00e6mber.\u201d", repr(sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True))
+assert sanitize_text("something    \n    something else", flavor=True)=="something something else"
 
 
 print(link_card_titles("something Orb of Wonder", "Lesser Oxtet"))

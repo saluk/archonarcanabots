@@ -11,3 +11,4 @@ images/*
 node_modules
 *.pyc
 javascript/main.js
+skips.json

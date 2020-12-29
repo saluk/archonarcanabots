@@ -10,6 +10,7 @@ uvloop
 gunicorn
 python-jose[pycryptodome]
 fastapi==0.59.0
+python-multipart
 aiofiles
 psycopg2-binary
 sentry-sdk

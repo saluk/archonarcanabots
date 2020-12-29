@@ -7,7 +7,7 @@ import time
 import requests
 import util
 from mastervault import mastervault_workers
-from mastervault import datamodel
+from models import mv_model
 import threading
 from hanging_threads import start_monitoring
 
@@ -79,9 +79,8 @@ def get_proxy_list():
     return str(d["ip"])+":"+str(d["port"])
 
 def proxy_list1():
-    return None
     # from https://proxyscrape.com/premium?ref=topfpl
-    with open("proxy_list1.txt") as f:
+    with open("data/proxy_list1.txt") as f:
         urls = f.read().split("\n")
         return random.choice(urls)
     return None
@@ -98,7 +97,7 @@ class MasterVault:
     def __init__(self):
         self.last_call = None
         self.max_page = 24
-        self.scope = datamodel.UpdateScope()
+        self.scope = mv_model.UpdateScope()
         self.thread_states = {}
         self.insert_lock = threading.Lock()
 

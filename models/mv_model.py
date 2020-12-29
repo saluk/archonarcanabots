@@ -16,7 +16,7 @@ from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy import Table, ForeignKey, UniqueConstraint, ForeignKeyConstraint, Sequence
 import datetime
-import carddb
+from models import wiki_model
 import re
 import time
 
@@ -309,7 +309,7 @@ class Card(Base):
         return self.data["card_type"]
 
     def aa_format(self):
-        return carddb.add_card({**self.data})
+        return wiki_model.card_data({**self.data})
 
 
 class DeckCard(Base):

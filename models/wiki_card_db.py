@@ -5,16 +5,16 @@ from fuzzywuzzy import fuzz
 import connections
 import util
 from util import SEPARATOR
-from mastervault import datamodel
+from models import mv_model, wiki_model
 import csv
 import bleach
 
 cards = {}
 
-SETS = {452: "WC", 
-        453: "WC-A", 
-        341: "CotA", 
-        435: "AoA", 
+SETS = {452: "WC",
+        453: "WC-A",
+        341: "CotA",
+        435: "AoA",
         479: "MM"}
 SET_BY_NUMBER = {}
 SET_ORDER = []
@@ -22,6 +22,7 @@ for numerical_set in sorted(SETS.keys()):
     setname = SETS[numerical_set]
     SET_ORDER.append(setname)
     SET_BY_NUMBER[setname] = numerical_set
+
 
 def nice_set_name(num):
     return {
@@ -251,8 +252,6 @@ def link_card_titles(text, original_title):
     text = re.sub(crazy_reg, r"\1STITLE\2ETITLE\3", text)
     # Replace self-referential card title with no link
     text = re.sub(r"\[\[STITLE(%s)ETITLE\]\]" % original_title, r"STITLE\1ETITLE", text, flags=re.IGNORECASE)
-    if "Quixo" in text:
-        print(text)
     return text
 
 traits_blacklist = [
@@ -376,71 +375,6 @@ def get_latest_from_card(card):
     raise Exception("couldn't find a set in", card)
 
 
-def add_card(card, db=None):
-    ot = card["card_title"]
-    if ot in hard_code:
-        commands = hard_code[ot]
-        card.update(commands.get("update", {}))
-        for exp in commands.get("rename_expansion", {}):
-            if exp != card["expansion"]:
-                continue
-            new_name = commands["rename_expansion"][exp]
-            new_name = new_name.replace("%s", ot)
-            card["card_title"] = new_name
-
-    title = sanitize_name(card["card_title"])
-    title = safe_name(title)
-    card["card_title"] = title
-    card["keywords"] = get_keywords_text(card["card_text"])
-    card.update({"assault": "", "hazardous": "",
-                 "enhance_amber": "", "enhance_damage": "",
-                 "enhance_capture": "", "enhance_draw": ""})
-    if card["card_type"] in ["Creature1", "Creature2"]:
-        if card["card_type"] == "Creature1":
-            card["subtype"] = "GiganticTop"
-        else:
-            card["subtype"] = "GiganticBottom"
-        card["card_type"] = "Creature"
-    if card["card_type"] == "Creature":
-        card["assault"] = get_keywordvalue_text(card["card_text"], "assault") or 0
-        card["hazardous"] = get_keywordvalue_text(card["card_text"], "hazardous") or 0
-        card["power"] = card["power"] or 0
-        card["armor"] = card["armor"] or 0
-    else:
-        if card["power"] and not int(card["power"]):
-            card["power"] = ""
-        if card["armor"] and not int(card["armor"]):
-            card["armor"] = ""
-
-    card["card_text"] = sanitize_text(card["card_text"] or "")
-    card["flavor_text"] = sanitize_text(card["flavor_text"] or "", flavor=True)
-
-    card["card_text_search"] = card["card_text"]
-    card["flavor_text_search"] = card["flavor_text"]
-
-    card["card_text"], enhancements = read_enhanced(card["card_text"])
-    card.update(enhancements)
-
-    card["card_text"] = linking_keywords(modify_card_text(card["card_text"], title))
-    card["flavor_text"] = modify_card_text(sanitize_text(card["flavor_text"]), title, flavor_text=True)
-
-    card["image_number"] = image_number(card)
-    card["rarity"] = nice_rarity(card["rarity"])
-    if card.get("is_anomaly", False):
-        card["house"] = "Anomaly"
-    if card["traits"]:
-        card["traits"] = SEPARATOR.join([sanitize_trait(t) for t in card["traits"].split(SEPARATOR)])
-
-    if title not in cards:
-        cards[title] = {}
-
-    if db is not None:
-        if title not in db:
-            db[title] = {}
-        db[title][str(card["expansion"])] = card
-    return card
-
-
 def fuzzyfind(name, threshold=80):
     s = sanitize_name(name)
     matches = []
@@ -469,6 +403,13 @@ def get_card_by_number(num, expansion):
     return num_index[(num, str(expansion))]
 
 
+def add_card(card, cards):
+    card_data = wiki_model.card_data(card)
+    if card_data["card_title"] not in cards:
+        cards[card_data["card_title"]] = {}
+    cards[card_data["card_title"]][str(card_data["expansion"])] = card_data
+
+
 def load_from_mv_files(only=None):
     cards.clear()
     # sort it so that we get the newest data last
@@ -484,10 +425,10 @@ def load_from_mv_files(only=None):
                 card_name_index[title] = card
                 add_card(card, cards)
 
-    scope = datamodel.UpdateScope()
+    scope = mv_model.UpdateScope()
     for set_id in [479]:
         for card in scope.get_cards(set_id):
-            add_card(card.data, cards)
+            add_card(card, cards)
     for card_title in cards:
         if only and card_title != only:
             continue

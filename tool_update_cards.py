@@ -1,8 +1,7 @@
 import difflib
 import time
-import carddb
+from models import wiki_card_db
 import wikibase
-import card_model_1
 import requests
 import os
 import shutil
@@ -64,20 +63,6 @@ def update_page(title, page, text, reason, ot, pause=False):
     return text
 
 
-def put_cargo_on_card_page(wp, card_title, update_reason="Put card query on card page", pause=False):
-    page = wp.page(card_title)
-    try:
-        ot = page.read()
-        if "{{Card Query}}" in ot:
-            return
-        text = card_model_1.replace_old_card_text(card_title, ot)
-    except Exception:
-        #TODO build new cardquery
-        raise
-        return
-    return update_page(card_title, page, text, update_reason, ot, pause)
-
-
 def put_cargo_on_new_card_page(wp, card_title, update_reason="Put card query on card page", pause=False):
     page = wp.page(card_title)
     try:
@@ -94,8 +79,8 @@ def update_reprint_with_errata(ct, errata, card):
     ct.append("ErrataData", {"Text":card["card_text"], "Version":"Mass Mutation"})
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=False, use_csv=False):
-    latest = carddb.get_latest_from_card(card)
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="wiki_card_db", restricted=[], pause=True, use_csv=False):
+    latest = wiki_card_db.get_latest_from_card(card)
     page = wp.page("CardData:" + latest["card_title"])
     ct = wikibase.CargoTable()
     ot = ""
@@ -105,11 +90,9 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
     except Exception:
         pass
     if data_to_update == "carddb":
-        carddb.get_cargo(card, ct, restricted)
-    elif data_to_update == "artist":
-        card_model_1.pull_artist(card, ct, wp)
+        wiki_card_db.get_cargo(card, ct, restricted)
     elif data_to_update == "insert_search_text":
-        carddb.get_cargo(card, ct, ["SearchText", "SearchFlavorText"])
+        wiki_card_db.get_cargo(card, ct, ["SearchText", "SearchFlavorText"])
     elif data_to_update == "relink":
         # Grab text and flavor text from existing table and relink them
         print(ct.data_types)
@@ -117,8 +100,8 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         for field in ["Text", "FlavorText"]:
             t = data[field]
             if field != "FlavorText":
-                t = carddb.linking_keywords(t)
-            t = carddb.link_card_titles(t, latest["card_title"])
+                t = wiki_card_db.linking_keywords(t)
+            t = wiki_card_db.link_card_titles(t, latest["card_title"])
             data[field] = t
         print(data)
         ct.update_or_create("CardData", latest["card_title"], data)
@@ -144,7 +127,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         modified = reprints["edited"].get(latest["card_title"], None)
         if modified:
             ct.get_datas("CardData")[0]["Text"] = modified["new"]
-        carddb.get_cargo(card, ct, [key for key in ct.get_datas("CardData")[0].keys() if key not in ["Artist"]])            
+        wiki_card_db.get_cargo(card, ct, [key for key in ct.get_datas("CardData")[0].keys() if key not in ["Artist"]])            
     text = ct.output_text()
     if ot==text:
         return
@@ -164,10 +147,10 @@ def update_cards_v2(wp, search_name=None,
                     upload_image=False):
     changed = 0
     started = False
-    for i, card_name in enumerate(sorted(carddb.cards.keys())):
+    for i, card_name in enumerate(sorted(wiki_card_db.cards.keys())):
         if not started and (search_name and search_name.lower() not in card_name.lower()):
             continue
-        latest = carddb.get_latest(card_name)
+        latest = wiki_card_db.get_latest(card_name)
         if matching and matching.lower() not in (latest["flavor_text"]+latest["card_text"]).lower():
             continue
         if restrict_expansion and not latest["expansion"] == restrict_expansion:
@@ -186,13 +169,11 @@ def update_cards_v2(wp, search_name=None,
                     shutil.copyfileobj(r.raw, f)
             with open(lp, "rb") as f:
                 print(wp.upload(f, latest["image_number"]))
-        if data_to_update == "cargo_to_card":
-            text = put_cargo_on_card_page(wp, card_name)
         if data_to_update == "cargo_to_card2":
             text = put_cargo_on_new_card_page(wp, card_name)
         else:
             text = update_card_page_cargo(
-                wp, carddb.cards[card_name],
+                wp, wiki_card_db.cards[card_name],
                 update_reason=update_reason,
                 restricted=restricted,
                 data_to_update=data_to_update)

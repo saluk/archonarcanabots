@@ -38,14 +38,6 @@ if __name__ == "__main__":
             search = sys.argv[2] if len(sys.argv) >= 3 else None
             tool_update_cards.update_cards_v2(wp, search, "inserting search text", 
                                               "insert_search_text")
-        if sys.argv[1] == "import_artist":
-            import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) == 3 else None
-            tool_update_cards.update_cards_v2(wp, search, "pulling artist", "artist")
-        if sys.argv[1] == "cargo_to_card":
-            import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) == 3 else None
-            tool_update_cards.update_cards_v2(wp, search, "put card query on card", "cargo_to_card")
         if sys.argv[1] == "cargo_to_card2":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None

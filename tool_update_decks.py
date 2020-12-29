@@ -2,8 +2,7 @@ import collections
 from operator import add
 from util import cargo_query
 from wikibase import CargoTable
-from mastervault import datamodel
-import carddb
+from models import mv_model, wiki_card_db
 
 
 def get_event_results():
@@ -29,7 +28,7 @@ def deck_to_cargo(deck):
         "DeckName": deck.name,
         "DeckID": deck.key,
         "Houses": "•".join([""] + deck.houses + [""]),
-        "SetName": carddb.nice_set_name(deck.expansion),
+        "SetName": wiki_card_db.nice_set_name(deck.expansion),
         "UpgradeCount": len([c for c in cards if c.card_type == "Upgrade"]),
         "CreatureCount": len([c for c in cards if c.card_type in ["Creature", "Creature1"]]),
         "ArtifactCount": len([c for c in cards if c.card_type == "Artifact"]),

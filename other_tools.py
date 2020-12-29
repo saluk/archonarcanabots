@@ -1,11 +1,12 @@
-import carddb
+from models import wiki_card_db
+import time
 
 
 def list_traits():
     begin = False
     traits = set()
-    for i, card_name in enumerate(carddb.cards):
-        card = carddb.get_latest(card_name)
+    for i, card_name in enumerate(wiki_card_db.cards):
+        card = wiki_card_db.get_latest(card_name)
         if not card["traits"]: continue
         for trait in re.findall("\w+", card["traits"]):
             traits.add(trait)

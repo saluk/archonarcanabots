@@ -3,7 +3,7 @@ import re
 import json
 import connections
 import pprint
-import carddb
+from models import wiki_card_db
 import time
 
 post_db = {}
@@ -44,7 +44,7 @@ def is_good_category(card_page):
             return True
 
 def lookup_card(name):
-    sname = carddb.fuzzyfind(name) or name
+    sname = wiki_card_db.fuzzyfind(name) or name
     if sname not in card_searches:
         found = []
         page = wp.page(sname)
