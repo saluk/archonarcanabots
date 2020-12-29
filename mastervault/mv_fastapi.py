@@ -369,6 +369,42 @@ def deck_query(
         ]}
 
 
+@mvapi.get("/deck_count", tags=["aa-api"])
+def deck_count(
+        month:Optional[bool]=False,
+        month_time:Optional[str]=None,
+        week:Optional[bool]=False,
+        week_time:Optional[str]=None
+    ):
+    resp = {}
+    session = datamodel.Session()
+    deckq = session.query(datamodel.Deck)
+    resp["total_count"] = deckq.count()
+    if month:
+        if month_time:
+            month_time = datetime.fromisoformat(month_time)
+        else:
+            month_time = datetime.now()
+        deckq = session.query(datamodel.Deck)
+        deckq = deckq.filter(
+            datamodel.Deck.scrape_date>month_time-timedelta(weeks=4),
+            datamodel.Deck.scrape_date<month_time
+        )
+        resp["month_count"] = deckq.count()
+    if week:
+        if week_time:
+            week_time = datetime.fromisoformat(week_time)
+        else:
+            week_time = datetime.now()
+        deckq = session.query(datamodel.Deck)
+        deckq = deckq.filter(
+            datamodel.Deck.scrape_date>week_time-timedelta(weeks=1),
+            datamodel.Deck.scrape_date<week_time
+        )
+        resp["week_count"] = deckq.count()
+    return resp
+
+
 @mvapi.put('/generate_event_decks', tags=["aa-maintenance"])
 def generate_event_decks(current_user: UserInDB = Depends(get_current_user)):
     wp = connections.get_wiki()

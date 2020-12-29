@@ -6,9 +6,11 @@ import {gen_deck_data} from './DeckData'
 import {carousel} from './myutils'
 import './share42.js' // share42 sharing module
 import {hookTopSearch} from './TopSearch.js'
+import {deck_counts} from './deck_counts.js'
 
 var arcana_main = function() {
 	hookTopSearch()
+	deck_counts()
 	choose_random_cards()
 	carousel(true)
 	init_cargo_search2()
