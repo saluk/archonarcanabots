@@ -38,6 +38,7 @@ var DSearch = {
   deckname: [],
   loading: false,
   requestcount: 0,
+  pagesize: 15,
   output_settings: {
     img_width: 200,
     img_height: 280
@@ -91,11 +92,12 @@ var DSearch = {
     }
     self.newSearch()
   },
-  newSearch: function() {
+  newSearch: function(offset) {
+    console.log(offset)
     var self=this
     self.names_used = new Set()
-    self.offset = 0
-    self.offsetActual = 0
+    self.offset = offset? offset : 0
+    console.log(self.offset)
     if(self.loading) self.loading.abort()
     self.requestcount ++
     self.element.empty()
@@ -119,20 +121,31 @@ var DSearch = {
       }
     }
     where = where.join('&')
+    where += '&page='+this.offset/this.pagesize
     return 'https://keyforge.tinycrease.com/deck_query?' + where
   },
-  updateResults: function (resultsArray) {
+  updateResults: function (data) {
     var self = this
     // Delete results tab
     $('.loader').remove()
     $('.load_more').remove()
     // For each deck in query
-    for (var i in resultsArray) {
-      self.offset = self.offset + 1
-      var deck = resultsArray[i]
-      self.offsetActual += 1
+    for (var i in data.decks) {
+      var deck = data.decks[i]
       self.addResultDeck(deck)
     }
+    if(this.offset>0) {
+      this.element.append('<a id="dprev" href="#">< - prev </a>')
+    }
+    if(data.decks.length==this.pagesize) {
+      this.element.append('<a id="dnext" href="#"> next - ></a>')
+    }
+    $('#dprev').on("click", function() {
+      self.newSearch(self.offset-self.pagesize)
+    })
+    $('#dnext').on("click", function() {
+      self.newSearch(self.offset+self.pagesize)
+    })
   },
   addResultDeck: function (deck) {
     var s = '<a href="/Deck:'+deck[0]+'?testjs=true">'+deck[1]+'</a> '
@@ -150,7 +163,7 @@ var DSearch = {
       {
         success: function (data, status, xhr) {
           if(xhr.requestcount<self.requestcount) return
-          self.updateResults(data.decks)
+          self.updateResults(data)
           self.loadingCards = false
         }
       }
