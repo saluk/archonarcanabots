@@ -11,6 +11,7 @@ class Workers:
                 "func": self.count_decks
             }
         ]
+        self.timers = []
         for t in self.timers:
             t["next_time"] = time.time()
     def thread(self):
