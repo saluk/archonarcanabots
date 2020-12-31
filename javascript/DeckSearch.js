@@ -1,16 +1,17 @@
 import {EditField} from './FormElements'
 import {parseQueryString, unhashImage} from './myutils'
-import {sets, houses, orders, getHouses} from './data'
+import {sets, houses, orders, getDeckHouses} from './data'
 import 'md5'
 import { set_number_by_name } from './data'
 
 var searchFields = [
   new EditField('checkbox', 'houses', 
     {'label':'Houses', 'basic':true, 
-     'values':houses, 'divclass':'house', 'attach':"div.house-entries"}), 
-  new EditField('text', 'deckname', {'attach':'div.deck-name-entries', 'split_on': '|', 'basic':true}),
-  new EditField('checkbox', 'sets', 
-    {'label':'Sets', 'basic':true,
+     'values':getDeckHouses(sets), 'divclass':'house', 'attach':"div.house-entries"}), 
+  new EditField('text', 'deckName', {'split_on': '|', 'basic':true, }),
+  new EditField('select', 'set_selected', 
+    {'label':'', 'basic':true,
+      'defaultlabel': 'All sets',
      'values':sets, 'divclass':'set', 'attach':'div.set-entries'})
 ]
 
@@ -34,15 +35,17 @@ function htmlDecode(input){
 var DSearch = {
   element: undefined,
   houses: [],
-  sets: [],
-  deckname: [],
+  set_selected: [],
+  deckName: [],
   loading: false,
+  scheduleLoading: false,
   requestcount: 0,
   pagesize: 15,
   output_settings: {
     img_width: 200,
     img_height: 280
   },
+  scrollToResults: false,
   init: function (element) {
     var self=this
     this.element = element;
@@ -76,13 +79,14 @@ var DSearch = {
     self.toUrl()
 
     // Update house selection based on sets
-    var setField = getSearchField('sets')
+    var setField = getSearchField('set_selected')
     if(setField){
       var clicked_sets = setField.getData()
+      console.log(clicked_sets)
       if(clicked_sets.length>0){
-        getSearchField('houses').values = getHouses(clicked_sets)
+        getSearchField('houses').values = getDeckHouses(clicked_sets)
       } else {
-        getSearchField('houses').values = getHouses(sets)
+        getSearchField('houses').values = getDeckHouses(sets)
       }
       $(getSearchField('houses').attach).empty()
       getSearchField('houses').presetValue = self.houses.join('+')
@@ -92,16 +96,27 @@ var DSearch = {
     }
     self.newSearch()
   },
-  newSearch: function(offset) {
+  newSearch: function(offset, toResults) {
     console.log(offset)
     var self=this
+    self.scrollToResults = toResults
     self.names_used = new Set()
     self.offset = offset? offset : 0
     console.log(self.offset)
     if(self.loading) self.loading.abort()
+    if(self.scheduleLoading) {
+      window.clearInterval(self.scheduleLoading)
+    }
     self.requestcount ++
-    self.element.empty()
-    self.load();
+    self.element[0].style.opacity = 0.5
+    // No deck has 4+ houses, so lets just return nothing
+    if(self.houses.length>3) {
+      self.updateResults({})
+      return
+    }
+    self.scheduleLoading = window.setTimeout(function() {
+      self.load()
+    }, 250)
   },
   searchString: function (returnType) {
     var where = [];
@@ -109,9 +124,9 @@ var DSearch = {
       'houses': this.houses.map(function(house){
         return house.replace(/\_/,' ')
       }).join(','),
-      'name': this.deckname[0],
-      'expansions': this.sets.map(function(set){
-        console.log(set)
+      'name': this.deckName[0],
+      'expansions': this.set_selected.map(function(set){
+        console.log("found-sets:"+set)
         return set_number_by_name(set)
       }).join(',')
     };
@@ -126,34 +141,49 @@ var DSearch = {
   },
   updateResults: function (data) {
     var self = this
+    self.element.empty()
     // Delete results tab
     $('.loader').remove()
     $('.load_more').remove()
+    if(!('decks' in data) || (data.decks.length==0)) {
+      self.element.append('<div>No results</div>')
+      return
+    }
     // For each deck in query
     for (var i in data.decks) {
       var deck = data.decks[i]
       self.addResultDeck(deck)
     }
+    var nav = '<div class="results-navigation">'
     if(this.offset>0) {
-      this.element.append('<a id="dprev" href="#">< - prev </a>')
+      nav += '<a id="dprev" href=""><img src="https://archonarcana.com/images/1/1b/Back_arrow.png" alt="Back arrow"> Previous</a>'
     }
     if(data.decks.length==this.pagesize) {
-      this.element.append('<a id="dnext" href="#"> next - ></a>')
+      nav += '<a id="dnext" href="">Next <img src="https://archonarcana.com/images/d/db/Noun_Arrow_5569.png" alt="Forward arrow"></a>'
     }
+    nav += '</div><div></div>'
+    this.element.append(nav)
     $('#dprev').on("click", function() {
-      self.newSearch(self.offset-self.pagesize)
+      self.newSearch(self.offset-self.pagesize, true)
+      return false;
     })
     $('#dnext').on("click", function() {
-      self.newSearch(self.offset+self.pagesize)
+      self.newSearch(self.offset+self.pagesize, true)
+      return false;
     })
+    self.element[0].style.opacity = 1
+    //if(self.scrollToResults==true) {
+    //  $('.deck-results')[0].scrollIntoView(true)
+    //}
   },
   addResultDeck: function (deck) {
-    var s = '<a href="/Deck:'+deck[0]+'?testjs=true">'+deck[1]+'</a> '
+    var s = '<div><a href="/Deck:'+deck[0]+'?testjs=true">'+deck[1]+'</a></div>'
+    s += '<div>'
     for(var house of deck[2].split(',')) {
       house = unhashImage(house.trim().replace(' ','_')+'.png')
       s+='<img width=20 src="'+house+'">'
     }
-    s+='<br>'
+    s+='</div>\n'
     this.element.append(s)
   },
   load: function() {
@@ -165,6 +195,9 @@ var DSearch = {
           if(xhr.requestcount<self.requestcount) return
           self.updateResults(data)
           self.loadingCards = false
+        },
+        error: function(req, status, error) {
+          self.element.append('<div class="error">Loading failed: ' + error + '</div>')
         }
       }
     )
@@ -184,8 +217,8 @@ var buildDeckSearchForm = function(search) {
 
 var init_deck_search = function () {
   console.log('initing deck search')
-  if ($('.deck-gallery-images').length>0) {
-    DSearch.init($('.deck-gallery-images'), 50)
+  if ($('.deck-results').length>0) {
+    DSearch.init($('.deck-results'))
     buildDeckSearchForm(DSearch)
     DSearch.initForm(DSearch)
   }

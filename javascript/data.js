@@ -33,6 +33,11 @@ var getHouses = function(set_filter){
 	})
 	return Array.from(s).sort()
 }
+var getDeckHouses = function(set_filter) {
+	return getHouses(set_filter).filter(function(house) {
+		return house !== 'Anomaly'
+	})
+}
 var ambercounts = ['0', '1', '2', '3', '4+']
 var armorcounts = ['0', '1', '2', '3', '4', '5+']
 var powercounts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
@@ -77,6 +82,6 @@ var cardCombos = []
 
 export {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
-		types, rarities, set5rarities, orders, keywords, features, getHouses,
+		types, rarities, set5rarities, orders, keywords, features, getHouses, getDeckHouses,
 		cardCombos, images, set_name_by_number, set_number_by_name
 	}

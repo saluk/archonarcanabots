@@ -35,6 +35,7 @@ class EditField {
 	  this.basic = false
 	  this.triggerAdvanced = false
 	  this.hidden = false
+	  this.defaultlabel = ''
 	  Object.assign(this, props)
 	  return this
 	}
@@ -75,6 +76,10 @@ class EditField {
 		console.log("add text field "+this.field)
 	  }
 	  else if (this.type === 'select') {
+		var defaultlabel = ''
+		if(this.defaultlabel != '') {
+			defaultlabel = 'label="'+this.defaultlabel+'"'
+		}
 		var options = []
 		if(this.label) {
 		  options.push('<label for="' + this.field + '">' + this.label + '</label>')
@@ -85,14 +90,14 @@ class EditField {
 		  options.push('<select name="'+this.field+'">')
 		}
 		if(!this.combo){
-		  options.push('<option value=""></option>')
+		  options.push('<option '+defaultlabel+' value=""></option>')
 		}
 		this.values.map(function(option) {
 		  var is_checked = ''
 		  if (self.presetValue.match(option)) {
 			is_checked = ' selected="true"'
 		  }
-		  options.push('<option value="'+option+'"'+is_checked+'>'+option+'</option>')
+		  options.push('<option label="'+option.replace(/_/g,' ')+'" value="'+option+'"'+is_checked+'>'+option+'</option>')
 		})
 		options.push('</select>')
 		$(form).append(options.join(''))
@@ -170,7 +175,9 @@ class EditField {
 		}
 		var opts = this.getElement().selectedOptions
 		for(var i=0; i<opts.length; i++) {
-		  vals.push(opts[i].value)
+			if(opts[i].value.length>0) {
+		  		vals.push(opts[i].value)
+			}
 		}
 		return vals
 	  }
@@ -203,7 +210,7 @@ class EditField {
 	}
 	assignData(ob) {
 	  var d = this.getData()
-	  console.log(d)
+	  console.log(this.field+': '+d)
 	  if(d!==undefined) {
 		ob[this.field] = d
 	  }

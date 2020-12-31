@@ -534,17 +534,6 @@ var CSearch = {
       }
     })
   },
-  wikitext: function(title) {
-    self.loadingWiki = $.ajax('/api.php?action=parse&format=json&text={{Spoiler Query}}&title='+title+'&contentmodel=wikitext',
-      {
-        success: function(data, status, xhr) {
-          $('#popup').empty()
-          $('#popup').append(data['parse']['text']['*'])
-          self.loadingWiki = false
-        }
-      }
-    )
-  },
   load: function() {
     this.element.append('<div class="loader">Loading...</div>')
     var self = this
@@ -554,6 +543,9 @@ var CSearch = {
           if(xhr.requestcount<self.requestcount) return
           self.updateResults(data.cargoquery)
           self.loadingCards = false
+        },
+        error: function(req, status, error) {
+          self.element.append('<div class="error">Loading failed: ' + error + '</div>')
         }
       }
     )
@@ -569,6 +561,9 @@ var CSearch = {
           self.loadingCount = false
           $('.cg-results').empty().append(self.totalCount + ' results')
           // buildCargoPages(offset, totalCount, limit)
+        },
+        error: function(req, status, error) {
+          self.element.append('<div class="error">Loading failed: ' + error + '</div>')
         }
       }
     )
