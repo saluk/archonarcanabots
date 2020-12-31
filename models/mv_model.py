@@ -42,7 +42,7 @@ def postgres_upsert(session, table, obs):
 
 engine = sqlalchemy.create_engine(
     'postgresql+psycopg2://mastervault:'+PASSWORD+'@localhost/mastervault',
-    pool_size=20,
+    pool_size=5,
     #echo=True,
     #executemany_mode='batch'
 )

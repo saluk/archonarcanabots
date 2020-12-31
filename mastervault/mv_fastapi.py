@@ -18,6 +18,16 @@ from mastervault import dok, deck_writer
 from passlib.context import CryptContext
 from pydantic import BaseModel
 
+#Use different connection options for server
+import sqlalchemy
+from sqlalchemy.orm import scoped_session, sessionmaker
+engine = sqlalchemy.create_engine(
+    'postgresql+psycopg2://mastervault:'+passwords.MASTERVAULT_PASSWORD+'@localhost/mastervault',
+    pool_size=5,
+    connect_args={'connect_timeout': 15}
+)
+Session = scoped_session(sessionmaker(bind=engine))
+
 SECRET_KEY = "f16861df9f66125336d2f588c080b67f22a0c39267dd5127654b6bc71d9c1bbd"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
@@ -67,7 +77,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 def get_user(email:str):
-    session = mv_model.Session()
+    session = Session()
     api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==email).first()
     session.close()
     if api_user:
@@ -128,7 +138,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 @mvapi.get('/user/decks', tags=["user-action"])
 async def mydecks(current_user: UserInDB = Depends(get_current_user)):
     decks = []
-    session = mv_model.Session()
+    session = Session()
     print(str(session.query(mv_model.Deck).\
             join(mv_model.OwnedDeck, mv_model.OwnedDeck.deck_key==mv_model.Deck.key).\
             filter(mv_model.OwnedDeck.user_key==str(current_user.uuid)).\
@@ -146,7 +156,7 @@ async def mydecks(current_user: UserInDB = Depends(get_current_user)):
 @mvapi.get("/decks/get", tags=["mastervault-clone"])
 def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None):
     print(repr(name))
-    session = mv_model.Session()
+    session = Session()
     deck = session.query(mv_model.Deck)
     if key:
         deck = deck.filter(mv_model.Deck.key==key)
@@ -180,7 +190,7 @@ def decks(start:Optional[int]=None, end:Optional[int]=None):
         end = start+1000
     if end==start:
         end = start+1
-    session = mv_model.Session()
+    session = Session()
     total = session.execute("select * from decks_count")
     count = total.first()[0]
     left_bound_page = start//int(24)
@@ -204,7 +214,7 @@ def decks(start:Optional[int]=None, end:Optional[int]=None):
 
 @mvapi.get('/decks/latest', tags=["mastervault-clone"])
 def latest():
-    session = mv_model.Session()
+    session = Session()
     query = session.execute("select key from decks where (select max(page) from decks)=page order by index desc limit 1;")
     key = query.first()[0]
     return deck(key)
@@ -220,7 +230,7 @@ def card_query(
     ):
     is_maverick = {True:'true',False:'false'}[is_maverick]
     is_enhanced = {True:'true',False:'false'}[is_enhanced]
-    session = mv_model.Session()
+    session = Session()
     cardq = session.query(mv_model.Card)
     if houses:
         houses = [x.strip() for x in houses.split(',')]
@@ -251,7 +261,7 @@ def create_user(admin_key:str, email:str, password:str):
     print("insert email",email)
     if admin_key!=passwords.KFDECKSERV_ADMIN_KEY:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    session = mv_model.Session()
+    session = Session()
     api_user = mv_model.ApiUser(uuid=uuid.uuid4(),email=email, hashed_password=pwd_context.hash(password))
     session.add(api_user)
     session.commit()
@@ -263,7 +273,7 @@ def create_user(admin_key:str, email:str, password:str):
 def update_user(current_user: UserInDB = Depends(get_current_user),
                 email:Optional[str]=None, password:Optional[str]=None,
                 dok_key:Optional[str]=None):
-    session = mv_model.Session()
+    session = Session()
     api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==current_user.email).first()
     if dok_key:
         api_user.dok_key = dok_key
@@ -278,7 +288,7 @@ def update_user(current_user: UserInDB = Depends(get_current_user),
 
 @mvapi.get('/user/decks/get_dok', tags=["user-operation"])
 def update_user_decks(current_user: UserInDB = Depends(get_current_user)):
-    session = mv_model.Session()
+    session = Session()
     api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==current_user.email).first()
     dok_decks = dok.get_decks(api_user.dok_key)
     add_decks = []
@@ -305,7 +315,7 @@ def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:Backgro
         if bool(page):
             return {"exists": True, "operation": None}
     # Get deck
-    session = mv_model.Session()
+    session = Session()
     deck_query = session.query(mv_model.Deck)
     if key:
         deck_query = deck_query.filter(mv_model.Deck.key==key)
@@ -318,7 +328,7 @@ def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:Backgro
 @mvapi.get('/get_aa_deck_data', tags=["aa-api"])
 def get_aa_deck_data(key:str=None):
     # Get deck
-    session = mv_model.Session()
+    session = Session()
     deck_query = session.query(mv_model.Deck)
     if key:
         deck_query = deck_query.filter(mv_model.Deck.key==key)
@@ -334,7 +344,7 @@ def deck_query(
         expansions:Optional[str]=None,
         page:Optional[int]=0
     ):
-    session = mv_model.Session()
+    session = Session()
     deckq = session.query(mv_model.Deck)
     if houses:
         houses = [x.strip() for x in houses.split(',')]
@@ -374,7 +384,7 @@ def deck_query(
 @mvapi.get("/deck_count", tags=["aa-api"])
 def deck_count():
     resp = {}
-    session = mv_model.Session()
+    session = Session()
     counts = session.query(mv_model.Counts).all()
     for count in counts:
         resp[count.label] = count.count
