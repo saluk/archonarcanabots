@@ -352,7 +352,7 @@ def deck_query(
         deckq = deckq.filter(
             mv_model.Deck.name_sane.ilike(name)
         )
-    deckq = deckq.order_by(mv_model.Deck.page)
+    #deckq = deckq.order_by(mv_model.Deck.page)
     page_size=15
     deckq = deckq.limit(page_size)
     deckq = deckq.offset(page*page_size)
