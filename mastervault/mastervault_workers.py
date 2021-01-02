@@ -1,3 +1,4 @@
+import __updir__
 from models import mv_model
 from datetime import datetime, timedelta
 import time
@@ -27,12 +28,14 @@ class Workers:
         print("counting decks")
         session = mv_model.Session()
         self.count_decks_expansion(session)
+        print("--getting distinct")
         for expansion in session.query(mv_model.Deck.expansion).distinct():
             self.count_decks_expansion(session, expansion)
         session.commit()
         print(">>decks counted")
 
     def count_decks_expansion(self, session, expansion=None):
+        print("--counting", expansion)
         expansion_label = ""
         if expansion:
             expansion_label = "_%s" % expansion
@@ -40,6 +43,7 @@ class Workers:
         if expansion:
             deckq = deckq.filter(mv_model.Deck.expansion==expansion)
         total = deckq.count()
+        print("--total:", total)
         
         month_time = datetime.now()
         deckq = session.query(mv_model.Deck)
@@ -50,6 +54,7 @@ class Workers:
             mv_model.Deck.scrape_date<month_time
         )
         month = deckq.count()
+        print("--month:", month)
 
         deckq = session.query(mv_model.Deck)
         if expansion:
@@ -59,6 +64,7 @@ class Workers:
             mv_model.Deck.scrape_date<month_time-timedelta(weeks=4)
         )
         month_prev = deckq.count()
+        print("--month_prev:", month_prev)
 
         week_time = datetime.now()
         deckq = session.query(mv_model.Deck)
@@ -69,6 +75,7 @@ class Workers:
             mv_model.Deck.scrape_date<week_time
         )
         week = deckq.count()
+        print("--week:", week)
 
         deckq = session.query(mv_model.Deck)
         if expansion:
@@ -78,6 +85,7 @@ class Workers:
             mv_model.Deck.scrape_date<week_time-timedelta(weeks=1)
         )
         week_prev = deckq.count()
+        print("--week_prev:", week_prev)
 
         total_count = mv_model.Counts(label="total_deck_count"+expansion_label, count=total)
         session.merge(total_count)
@@ -89,3 +97,8 @@ class Workers:
         session.merge(prev_month_count)
         prev_week_count = mv_model.Counts(label="prev_week_deck_count"+expansion_label, count=week_prev)
         session.merge(prev_week_count)
+        print("--merged")
+
+if __name__ == "__main__":
+    w = Workers()
+    w.count_decks()
