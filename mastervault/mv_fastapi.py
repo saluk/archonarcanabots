@@ -349,7 +349,7 @@ def deck_query(
     if houses:
         houses = [x.strip() for x in houses.split(',')]
         for h in houses:
-            deckq = deckq.filter(mv_model.Deck.data['_links']['houses'].has_key(h))
+            deckq = deckq.filter(mv_model.Deck.data['_links']['houses'].contains('"'+h+'"'))
     if expansions:
         expansions = [int(x.strip()) for x in expansions.split(',')]
         deckq = deckq.filter(or_(
