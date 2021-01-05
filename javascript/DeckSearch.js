@@ -181,8 +181,10 @@ var DSearch = {
     //}
   },
   addResultDeck: function (deck) {
-    var s = '<div><a href="/Deck:'+deck[0]+'?testjs=true">'+deck[1]+'</a></div>'
-    s += '<div>'
+    var s = `
+    <div><a href="/Deck:${deck[0]}${parseQueryString('testjs')==='true'? '?testjs=true':''}">
+    ${deck[1]}</a></div>
+    <div>`
     for(var house of deck[2].split(',')) {
       house = unhashImage(house.trim().replace(' ','_')+'.png')
       s+='<img width=20 src="'+house+'">'

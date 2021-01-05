@@ -734,34 +734,15 @@ function perform_rule_lookup(deckdata) {
         {
             success: function (data, status, xhr) {
                 $('.deck_rules').empty()
-                write_rules(
+                for(var section of ['FAQ', 'FFGRuling', 'Commentary', 'OutstandingIssues']) {
+                  write_rules(
                     data.cargoquery.map(function(result) {
                         return result.title
                     }),
                     deckdata.cards,
-                    'FAQ'
-                )
-                write_rules(
-                    data.cargoquery.map(function(result) {
-                        return result.title
-                    }),
-                    deckdata.cards,
-                    'FFGRuling'
-                )
-                write_rules(
-                    data.cargoquery.map(function(result) {
-                        return result.title
-                    }),
-                    deckdata.cards,
-                    'OutstandingIssues'
-                )
-                write_rules(
-                    data.cargoquery.map(function(result) {
-                        return result.title
-                    }),
-                    deckdata.cards,
-                    'Commentary'
-                )
+                    section
+                  )
+                }
             }
         }
     )
@@ -776,7 +757,7 @@ function perform_event_lookup(deckdata) {
   var base = '/api.php?action=cargoquery&format=json'
   var params = [
       'tables=EventResults, Event',
-      'fields=EventResults.Name, EventResults.Rank, Event.Format',
+      'fields=EventResults.Name, EventResults.Rank, Event.Format, Event.Variant',
       'join_on=EventResults.Name=Event.Name',
       `where=EventResults.DeckID="${deckdata.key}"`,
       'limit=500'
@@ -806,30 +787,33 @@ var event_images = {
 var event_text = {
   '1': '1st',
   '2': '2nd',
-  'Top 4': 'Top 4',
-  'Top 8': 'Top 8',
-  'Top 16': 'Top 16'
+  'Top 4': 'top 4',
+  'Top 8': 'top 8',
+  'Top 16': 'top 16'
 }
 function write_events(cargo_results) {
   if(cargo_results.length==0) {
     return
   }
   var div = $('.deck_events')
-  div.append(`
-  <h2>Organized Play</h2>
+  var s = `
   <div class="op-container">
   ${
     cargo_results.map(function(placement) {
       return `<div class="op-event">
       ${event_images[placement.Rank]}
       <span class="placement">${event_text[placement.Rank]}</span>
-      <li><a href="${placement.Name}">${placement.Name}</a>
-      <li>${placement.Format}
+      <li><a href="${
+        placement.Name.match('Grand Championship') ? 'Grand_Championships' :
+        placement.Name
+      }">${placement.Name}</a>
+      <li>${placement.Format} ${placement.Variant}
       </div>`
     }).join('\n')
   }
   </div>
-  `)
+  `
+  div.append(collapsible_block('h2', 'Organized Play', s, 1))
 }
 
 function perform_errata_lookup(deckdata) {
@@ -921,15 +905,16 @@ function write_errata(cargo_results, cards) {
         }
     }
     if(errata_text){
-        div.append(`
-        <h2>Errata</h2>
-        <dl class="errata-list">
-        ${errata_text}
-        </dl>
-        `)
+      errata_text = `
+      <dl class="errata-list">
+      ${errata_text}
+      </dl>
+      `
+      div.append(collapsible_block('h2', 'Errata', errata_text, 2))
     }
 }
 
+var outstanding_issue_disclaimer = `<div class="outstanding-issues-disclaimer">We recommend speaking with the head judge before an event to find out how they will rule on the following ambiguous rules interactions. Arcana Advises is a recommendation on how to resolve each outstanding issue in the absence of a judge. For more information, <a href="https://archonarcana.com/Outstanding_Issues">click here</a>.</div>`
 function write_rules(cargo_results, cards, section) {
     console.log('write rules for'+section)
     var texts = correlate_rules_by_card(cargo_results, cards, section)
@@ -937,7 +922,7 @@ function write_rules(cargo_results, cards, section) {
         return
     }
     var div = $('.deck_rules')
-    var s = `<h2>${section in rulingSectionNames? rulingSectionNames[section] : section}</h2>`
+    var s = ''
     var dl_class = 'faq'
     if(section==="Commentary") {
         dl_class = 'commentary'
@@ -947,6 +932,7 @@ function write_rules(cargo_results, cards, section) {
     //div.append('<h1>'+section+'</h1><br>')
     for(var card_set of Object.keys(texts).sort()) {
         var rule_text = `
+        ${section==='OutstandingIssues'? outstanding_issue_disclaimer : ''}
         <dl class="${dl_class}">
         <dt>
         ${texts[card_set][0]['cards'].map(
@@ -965,7 +951,11 @@ function write_rules(cargo_results, cards, section) {
         rule_text += '</dl>'
         s += rule_text
     }
-    div.append(s)
+    div.append(collapsible_block(
+      'h2', 
+      section in rulingSectionNames? rulingSectionNames[section] : section,
+      s,
+      3))
     //div.append(collapsible_block(0, section, s))
 }
 
@@ -1021,7 +1011,8 @@ function gen_cards(data) {
   for(var card of data.cards) {
       s += gen_card_gallery_image(card)
   }
-  return '<div class="card-preview-gallery">'+s+'</div>'
+  return collapsible_block('h2', 'Cards', 
+    '<div class="card-preview-gallery">'+s+'</div>', 4)
 }
 
 function gen_events(data) {
@@ -1070,15 +1061,15 @@ function gen_card_combos(data) {
 var oldSets = ['Call of the Archons', 'Age of Ascension', 'Worlds Collide']
 
 function get_links(data) {
-    var d = {
-        'Decks of Keyforge': 'https://decksofkeyforge.com/decks/'+data.key,
-        'FFG Master Vault': 'https://www.keyforgegame.com/deck-details/'+data.key
-    }
+    var d = [
+      ['Master Vault', 'https://www.keyforgegame.com/deck-details/'+data.key],
+      ['Decks of KeyForge', 'https://decksofkeyforge.com/decks/'+data.key]
+    ]
     if(oldSets.includes(
         set_name_by_number(data.expansion)
         )
     ){
-        d['Aember-forge'] = 'https://aember-forge.com/deck/'+encodeURI(data.name)
+        d.push(['Æmber-Forge', 'https://aember-forge.com/deck/'+encodeURI(data.name)])
     }
     return d
 }
@@ -1147,11 +1138,11 @@ function gen_deck_databox(data) {
         if(!key.match('rarity')) {
             return false;
         }
-        return stats[key].length > 0
+        return !key.match('Eviltwin') || stats[key].length > 0
     }).map(function(key) {
-        return `<img src="${images[key]}" width=20 alt="${key.replace('rarity', '')}"> ${key.replace('rarity', '')} ${stats[key].length}`
+        return `${stats[key].length} <img src="${images[key]}" width=20 alt="${key.replace('rarity', '')}">`
     }).join('<br>')
-    return `<h2>Decklist</h2>
+    var s = `
     <div class="decklist-viewer">
     ${gen_deck_image(data)}
     <div class="decklist-title">${data.name}</div>
@@ -1175,13 +1166,14 @@ function gen_deck_databox(data) {
     </div>
     <div class="deck-aember">${stats.amber}  Æmber</div>
     ${
-        Object.keys(stats.links).map(function(name, n){
+        stats.links.map(function(item, n){
             return `<div class="link-${n+1}">
-            <a href="${stats.links[name]}">${name}</a>
+            <a href="${item[1]}">${item[0]}</a>
             </div>`
         }).join('\n')
     }
     </div>`
+    return collapsible_block('h2', 'Decklist', s, 0)
 }
 
 function write_deck_data(data) {
@@ -1195,7 +1187,7 @@ function write_deck_data(data) {
     $(div).append(gen_events(data))
     $(div).append(gen_rules(data))
     $(div).append(gen_card_combos(data))
-    $(div).append(collapsible_block(0, 'Cards', gen_cards(data)))
+    $(div).append(gen_cards(data))
     //$(div)[0].style.display=""
     $('#firstHeading').empty().append(data.name)
 }

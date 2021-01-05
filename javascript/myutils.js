@@ -90,8 +90,12 @@ function renderWikitextToHtml(text) {
 		}
 	})
 	// Bold
-	s = s.replace(/\'\'\'[^']*?\'\'\'/g, function (text) {
+	s = s.replace(/\'\'\'[^'].*?[^']\'\'\'/g, function (text) {
 		return '<b>'+text.substring(3,text.length-3)+'</b>'
+	})
+	// Italics
+	s = s.replace(/\'\'[^'].*?[^']\'\'/g, function (text) {
+		return '<i>'+text.substring(2,text.length-2)+'</i>'
 	})
 	// Numbered list tags
 	var lines = s.split('\n')
@@ -133,20 +137,19 @@ function renderWikitextToHtml(text) {
 	return s
 }
 
-function collapsible_block(index, heading, inner_text) {
-	var s = ''
-	s += '<h1 class="section-heading collapsible-heading open-block" '+
-		'tabindex="0" aria-haspopup="true" aria-controls="content-collapsible-block-'+
-		index+'">'
-	s += '<div class="mw-ui-icon mw-ui-icon-mf-expand mw-ui-icon-element mw-ui-icon-small '+
-		'mf-mw-ui-icon-rotate-flip indicator mw-ui-icon-flush-left"></div>'+
-		'<span class="mw-headline" id="'+heading+'">'+heading+'</span></h1>'
-	s += '<div class="mf-section-1 collapsible-block open-block" '+
-		'id="content-collapsible-block-'+index+'" '+
-		'aria-pressed="true" aria-expanded="true">'+
-		inner_text+
-		'</div>'
-	return s;
+function collapsible_block(heading_level, heading, inner_text, index) {
+	return `<${heading_level}>${heading}</${heading_level}>
+	${inner_text}`
+	return `
+<${heading_level} class="section-heading collapsible-heading open-block"
+ 'tabindex="0" aria-haspopup="true"
+  aria-controls="content-collapsible-block-${index}">
+<div class="mw-ui-icon mw-ui-icon-mf-expand mw-ui-icon-element mw-ui-icon-small
+ mf-mw-ui-icon-rotate-flip indicator mw-ui-icon-flush-left"></div>
+ <span class="mw-headline" id="${heading}">${heading}</span></${heading_level}>
+ <div class="mf-section-1 collapsible-block open-block"
+  id="content-collapsible-block-${index}"
+  aria-pressed="true" aria-expanded="true">${inner_text}</div>`
 }
 
 var joined = function (pre, ar, post, logic, filter=function(x){return x}) {
