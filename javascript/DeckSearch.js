@@ -4,11 +4,15 @@ import {sets, houses, orders, getDeckHouses} from './data'
 import 'md5'
 import { set_number_by_name } from './data'
 
+`<input type="text" id="deckName" name="deckName" placeholder="Deck Name">`
 var searchFields = [
   new EditField('checkbox', 'houses', 
     {'label':'Houses', 'basic':true, 
      'values':getDeckHouses(sets), 'divclass':'house', 'attach':"div.house-entries"}), 
-  new EditField('text', 'deckName', {'split_on': '|', 'basic':true, }),
+  new EditField('text', 'deckName', {
+    'split_on': '|', 'basic':true, 'attach':'div.deck-name-entries',
+    'placeholder': 'Deck Name'
+  }),
   new EditField('select', 'set_selected', 
     {'label':'', 'basic':true,
       'defaultlabel': 'All sets',

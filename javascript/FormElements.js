@@ -36,6 +36,7 @@ class EditField {
 	  this.triggerAdvanced = false
 	  this.hidden = false
 	  this.defaultlabel = ''
+	  this.placeholder = ''
 	  Object.assign(this, props)
 	  return this
 	}
@@ -72,7 +73,9 @@ class EditField {
 		if(this.hidden){
 		  h = ' type="hidden" '
 		}
-		$(form).append('<input name="' + this.field + '"'+h+' value="' + self.presetValue + '" />')
+		$(form).append(`
+		<input name="${this.field}" ${h} value="${self.presetValue}" placeholder="${self.placeholder}"/>
+`)
 		console.log("add text field "+this.field)
 	  }
 	  else if (this.type === 'select') {
