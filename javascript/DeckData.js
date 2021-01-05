@@ -767,6 +767,71 @@ function perform_rule_lookup(deckdata) {
     )
 }
 
+`https://archonarcana.com/api.php?action=cargoquery&
+format=json&
+tables=Event%2C%20EventResults&
+fields=EventResults.DeckID%2C%20EventResults.Rank%2C%20Event.Name%2C%20Event.Format&
+join_on=EventResults.Name%3DEvent.Name`
+function perform_event_lookup(deckdata) {
+  var base = '/api.php?action=cargoquery&format=json'
+  var params = [
+      'tables=EventResults, Event',
+      'fields=EventResults.Name, EventResults.Rank, Event.Format',
+      'join_on=EventResults.Name=Event.Name',
+      `where=EventResults.DeckID="${deckdata.key}"`,
+      'limit=500'
+  ]
+  var url = encodeURI(base+'&'+params.join('&'))
+  $.ajax(
+    url,
+    {
+        success: function (data, status, xhr) {
+            $('.deck_events').empty()
+            write_events(
+                data.cargoquery.map(function(result) {
+                    return result.title
+                })
+            )
+        }
+    })
+}
+
+var event_images = {
+  '1': '<img src="https://archonarcana.com/images/3/3f/Noun_Laurel_Wreath_314748_gold.png" class="laurel" alt="Golden victory laurel">',
+  '2': '<img src="https://archonarcana.com/images/3/34/Noun_Laurel_Wreath_314748_silver.png" class="laurel" alt="Silver victory laurel">',
+  'Top 4': '<img src="https://archonarcana.com/images/d/d6/Noun_Laurel_Wreath_314748_olive.png" class="laurel" alt="Green victory laurel">',
+  'Top 8': '<img src="https://archonarcana.com/images/6/62/Noun_Laurel_Wreath_314748.png" class="laurel" alt="Black victory laurel">',
+  'Top 16': '<img src="https://archonarcana.com/images/6/62/Noun_Laurel_Wreath_314748.png" class="laurel" alt="Black victory laurel">'
+}
+var event_text = {
+  '1': '1st',
+  '2': '2nd',
+  'Top 4': 'Top 4',
+  'Top 8': 'Top 8',
+  'Top 16': 'Top 16'
+}
+function write_events(cargo_results) {
+  if(cargo_results.length==0) {
+    return
+  }
+  var div = $('.deck_events')
+  div.append(`
+  <h2>Organized Play</h2>
+  <div class="op-container">
+  ${
+    cargo_results.map(function(placement) {
+      return `<div class="op-event">
+      ${event_images[placement.Rank]}
+      <span class="placement">${event_text[placement.Rank]}</span>
+      <li><a href="${placement.Name}">${placement.Name}</a>
+      <li>${placement.Format}
+      </div>`
+    }).join('\n')
+  }
+  </div>
+  `)
+}
+
 function perform_errata_lookup(deckdata) {
     var base = '/api.php?action=cargoquery&format=json'
     var params = [
@@ -959,6 +1024,11 @@ function gen_cards(data) {
   return '<div class="card-preview-gallery">'+s+'</div>'
 }
 
+function gen_events(data) {
+  perform_event_lookup(data)
+  return '<div class="deck_events">Loading events...</div>'
+}
+
 function gen_rules(data) {
     perform_rule_lookup(data)
     perform_errata_lookup(data)
@@ -1121,6 +1191,7 @@ function write_deck_data(data) {
     $(div).empty()
     $(div).append(preamble)
     $(div).append(gen_deck_databox(data))
+    $(div).append(gen_events(data))
     $(div).append(gen_rules(data))
     $(div).append(gen_card_combos(data))
     $(div).append(collapsible_block(0, 'Cards', gen_cards(data)))
