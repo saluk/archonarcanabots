@@ -282,9 +282,10 @@ class Deck(Base):
         return sorted(self.data['_links']['houses'])
 
     def get_cards(self):
-        """Returns all cards including duplicates"""
+        """Returns all cards including duplicates, also tags is_legacy for legacy cards"""
         for c in sorted(self.cards, key=lambda card: card.data['house']):
             for i in range(self.data['_links']['cards'].count(c.key)):
+                c.data['is_legacy'] = c.key in self.data.get('set_era_cards',{}).get('Legacy',[])
                 yield c
 
 # TODO handle indexes

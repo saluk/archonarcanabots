@@ -559,6 +559,32 @@ dt a:hover {
   font-size:.9em;
 }
 
+.anomaly-card {
+  position:absolute;
+  height:100%;
+  width:100%;
+  display:block;
+  top:0px;
+  left:0px;
+  content:"";
+  z-index:5;
+  opacity:1;
+  border-radius:5%;
+}
+
+.anomaly-card:before {
+  position:absolute;
+  top:40%;
+  right:0px;
+  content:"Anomaly";
+  font-family:lato;
+  padding:3px 5px 3px 10px;
+  background-color:#353331;
+  color:white;
+  opacity:1;
+  font-size:.9em;
+}
+
 @media screen and (max-width:600px) {
   .card-preview-gallery {
     grid-template-columns: repeat(2, 1fr);
@@ -898,60 +924,39 @@ function gen_card_image(card, width, height, css) {
     if(card.subtype && card.subtype.match(/gigantic/i)) {
         image = card.front_image
     }
-    var s = '<a href="/'+card.card_title+'">'
-    s += '<img class="'+css+'" src="'+image+'" width="'+width+'" height="'+height+'"></a>'
-    return s
+    return `<a href="/${card.card_title}">
+<img class="${css}" src="${image}" width="${width}"
+ height="${height}" alt="${card.card_title}"></a>`
+}
+
+function gen_card_gallery_image(card) {
+  var image = unhashThumbImage(card.image_number, 400)
+  if(card.subtype && card.subtype.match(/gigantic/i)) {
+      image = card.front_image
+  }
+  var maverick = card.is_maverick? `<div class="maverick-card"></div>`: ''
+  var enhanced = card.is_enhanced? `<div class="enhanced-card"></div>` : ''
+  var anomaly = card.is_anomaly? `<div class="anomaly-card"></div>` : ''
+  var legacy = card.is_legacy? `<div class="legacy-card"></div>` : ''
+  var houseicon = (card.is_anomaly || card.is_maverick) ? `<div class="maverick-${card.house.toLowerCase()}"></div>` : ''
+  var s = `<div class="card-preview">
+<a href="/${card.card_title}">
+<img src="${image}" alt="${card.card_title}">
+${houseicon}
+${maverick}
+${enhanced}
+${anomaly}
+${legacy}
+</a></div>`
+  return s
 }
 
 function gen_cards(data) {
-    var s = ''
-    var houses = [];
-    for(var card of data.cards) {
-        var classes = ['card_image']
-        if(card.is_maverick) {
-            classes.push(card.house)
-            classes.push('maverick')
-        }
-        if(card.is_anomaly) {
-            classes.push(card.house)
-            classes.push('anomaly')
-        }
-        if(card.is_enhanced) {
-            classes.push('enhanced')
-        } 
-        if(!houses.includes(card.house)) {
-            houses.push(card.house)
-        }
-        classes.push('house_'+houses.length)
-        s += '<div class="'+classes.join(' ')+'">'
-        s += gen_card_image(card, 140, 200, 'card_image_card')
-        if(card.is_anomaly || card.is_maverick) {
-            s += '<img class="house_icon" src="'+unhashThumbImage(
-                card.house.substring(0,1).toUpperCase()+
-                card.house.substring(1)+'_no_bg.png',
-                40
-            ) + '">'
-        }
-        if(card.is_enhanced || card.is_maverick || card.is_anomaly) {
-            s += '<div class="infobar">'
-            var infos = []
-            if(card.is_anomaly) {
-                infos.push('Anomaly')
-            }
-            if(card.is_maverick) {
-                infos.push('Maverick')
-            }
-            if(card.is_enhanced) {
-                infos.push('Enhanced')
-            }
-            if(card.is_legacy) {
-                infos.push('Legacy')
-            }
-            s += infos.join(' ') + '</div>'
-        }
-        s += '</div>'
-    }
-    return '<div class="card_images">'+s+'</div>'
+  var s = ''
+  for(var card of data.cards) {
+      s += gen_card_gallery_image(card)
+  }
+  return '<div class="card-preview-gallery">'+s+'</div>'
 }
 
 function gen_rules(data) {
