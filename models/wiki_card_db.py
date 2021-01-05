@@ -468,12 +468,24 @@ def get_latest(card_title, fuzzy=False):
     return card
 
 
+def get_restricted_dict(source, restricted, pre=""):
+    """ Limits a source dictionary to only the keys in restricted """
+    if not restricted:
+        return source
+    print("restricted",restricted, "pre", pre)
+    rd= {}
+    for key in source:
+        if pre+"."+key in restricted:
+            rd[key] = source[key]
+    return rd
+
+
 def get_cargo(card, ct=None, restricted=[], only_sets=False):
     if not ct:
         from wikibase import CargoTable
         ct = CargoTable()
     latest = get_latest_from_card(card)
-    cardtable = {
+    cardtable = get_restricted_dict({
         "Name": latest["card_title"],
         "Image": latest["image_number"],
         "Artist": latest.get("artist", ""),
@@ -495,25 +507,26 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False):
         "House": latest["house"],
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
-    }
+    }, restricted)
     assert "Artist" not in restricted
-    if restricted:
-        cardtable2 = {}
-        for key in restricted:
-            cardtable2[key] = cardtable[key]
-        cardtable = cardtable2
     # TODO This only updates SetData for old cards when we are importing new sets
     if only_sets and len(card)>1 and not latest["card_title"]=="Orb of Wonder":
         pass
     else:
         ct.update_or_create("CardData", latest["card_title"], cardtable)
-    for (set_name, set_num, card_num) in get_sets(card):
-        settable = {
+    card_sets = list(get_sets(card))
+    print(card_sets)
+    earliest_set = min([s[1] for s in card_sets])
+    print(earliest_set)
+    for (set_name, set_num, card_num) in card_sets:
+        settable = get_restricted_dict({
             "SetName": set_name,
             "SetNumber": set_num,
-            "CardNumber": card_num
-        }
+            "CardNumber": card_num,
+            "Meta":"Debut" if set_num == earliest_set else ""
+        }, restricted, "SetData")
         ct.update_or_create("SetData", set_name, settable)
+        print(settable)
 
 
 def all_traits():

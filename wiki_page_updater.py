@@ -60,3 +60,6 @@ if __name__ == "__main__":
         if sys.argv[1] == "table_to_cargo":
             import tool_read_tables
             tool_read_tables.write(mwm)
+        if sys.argv[1] == "debut_sets":
+            import tool_update_cards
+            tool_update_cards.update_cards_v2(wp, None, "Adding debut to debut set", "carddb", ["SetData.Meta"])
