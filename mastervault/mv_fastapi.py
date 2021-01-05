@@ -387,7 +387,7 @@ def deck_count():
     session = Session()
     counts = session.query(mv_model.Counts).all()
     for count in counts:
-        resp[count.label] = count.count
+        resp[count.label] = "{:,}".format(count.count)
     return resp
 
 
