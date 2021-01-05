@@ -12,7 +12,7 @@ var searchFields = [
   new EditField('text', 'cardname', {'attach':'div.card-name-entries', 'split_on': '+', 'basic':true}),
   new EditField('checkbox', 'sets', 
     {'label':'Sets', 'basic':true,
-     'values':sets, 'divclass':'set', 'attach':'div.set-entries'}), 
+     'values':sets.concat(['Exclude Reprints']), 'divclass':'set', 'attach':'div.set-entries'}), 
   new EditField('checkbox', 'types', 
     {'label':'Types', 'basic':true,
      'values':types, 'divclass':'type', 'attach':'div.type-entries'}), 
@@ -144,6 +144,7 @@ var CSearch = {
   errata: [false],
   gigantic: [false],
   exclusiveSet: [false],
+  excludeReprints: false,
   reprints: ['New Cards', 'Reprints'], //Only for spoilers
   spoilers: false,
   loadingCards: false,
@@ -221,10 +222,17 @@ var CSearch = {
     self.offsetActual = 0
     self.toUrl()
 
+    // Remove reprint out of sets
+    var eri = self.sets.indexOf('Exclude Reprints');
+    if(eri >= 0) {
+      self.sets.splice(eri, 1)
+      self.excludeReprints = true
+    }
+
     // Update house selection based on sets
     var setField = getSearchField('sets')
     if(setField){
-      var clicked_sets = setField.getData()
+      var clicked_sets = self.sets
       if(clicked_sets.length>0){
         getSearchField('houses').values = getHouses(clicked_sets)
       } else {
@@ -310,6 +318,10 @@ var CSearch = {
     ]
     if(!this.exclusiveSet[0]) {
       clauses.push(joined('SetName=%22', this.sets, '%22', 'OR'))
+    }
+    // New exclude reprints option
+    if(join_sets && this.excludeReprints) {
+      clauses.push('SetData.Meta LIKE "%25Debut%25"')
     }
     statQuery(card_db, clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
     statQuery(card_db, clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
