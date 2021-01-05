@@ -90,7 +90,7 @@ function renderWikitextToHtml(text) {
 		}
 	})
 	// Bold
-	s = s.replace(/\'\'\'.*?\'\'\'/, function (text) {
+	s = s.replace(/\'\'\'[^']*?\'\'\'/g, function (text) {
 		return '<b>'+text.substring(3,text.length-3)+'</b>'
 	})
 	// Numbered list tags
