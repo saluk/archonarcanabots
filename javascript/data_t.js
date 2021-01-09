@@ -61,6 +61,8 @@ var keywords = ['Alpha',
   'Taunt']
 var features = ['gigantic', 'errata']
 
+var multiHouseCards = ["It’s Coming...", "Dark Æmber Vault"]
+
 var images = {
 	enhanceAmber: 'https://archonarcana.com/images/f/fb/Enhance_aember.png',
 	enhanceCapture: 'https://archonarcana.com/images/f/fc/Enhance_capture.png',
@@ -82,6 +84,7 @@ var images = {
 
 export {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
+		multiHouseCards,
 		types, rarities, set5rarities, orders, keywords, features, getHouses, getDeckHouses,
 		cardCombos, images, set_name_by_number, set_number_by_name
 	}

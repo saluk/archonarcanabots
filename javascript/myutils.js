@@ -1,3 +1,5 @@
+import {multiHouseCards} from './data.js'
+
 var parseQueryString = function (argument) {
 	var res = '[\\?&]' + argument + '=([^&#]*)'
 	var found = new RegExp(res).exec(window.location.href)
@@ -7,6 +9,10 @@ var parseQueryString = function (argument) {
 	  return ''
 	}
   }
+
+function capitalize(s){
+	return s[0].toUpperCase()+s.slice(1)
+}
 
 function htmlDecode(input){
 	var e = document.createElement('div');
@@ -45,6 +51,47 @@ var unhashThumbImage = function(imgName, width) {
 		imgName = imgName.substring(5)
 	}
 	return 'https://archonarcana.com/thumb.php?f='+imgName+'&width='+width
+}
+
+var loadImage = function(image) {
+	image.setAttribute('src', image.getAttribute('data-src'))
+	image.onload = () => {
+	  image.removeAttribute('data-src')
+	}
+  }
+
+function getCardImage(card, opts) {
+	var widtharg = opts.outputWidth? ` width="${opts.outputWidth}" ` : ''
+	var heightarg = opts.outputHeight? ` height="${opts.outputHeight}" ` : ''
+	var sizearg = widtharg + heightarg
+	var image_file = card.image_number.replace('.png', '')
+	if(opts && opts.splitGigantic && card.subtype && card.subtype.match(/gigantic/i)) {
+		image_file = card.front_image
+		return `<img src="${image_file}" alt="${card.card_title}" ${sizearg}/>`
+	}
+	if(multiHouseCards.indexOf(card.card_title)>=0) {
+		image_file = `${image_file}-${capitalize(card.house)}`
+	}
+	image_file = image_file + '.png'
+	var full_image_file = unhashImage(image_file)
+	var data_src = (opts && !opts.noFullUpdate) ? `data-src="${full_image_file}"` : ''
+	if(opts && opts.width) {
+		image_file = unhashThumbImage(image_file, opts['width'])
+		return `<img src="${image_file}" alt="${card.card_title}" ${data_src} ${sizearg}"/>`
+	} else {
+		return `<img src="${full_image_file}" alt="${card.card_title}" ${sizearg}/>`
+	}
+}
+
+function updateCardImages() {
+    var imgs = $('img[data-src]')
+    imgs.map(function(i) {
+      var self = imgs[i]
+      self.onload = () => {
+        $(self).next().remove()
+        loadImage(self)
+      }
+    })
 }
 
 function isElementInViewport (el) {
@@ -199,4 +246,4 @@ function carousel(first_time) {
 
 export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
 	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
-	joined, removePunctuation}
+	joined, removePunctuation, getCardImage, updateCardImages}

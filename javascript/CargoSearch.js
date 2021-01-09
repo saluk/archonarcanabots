@@ -2,7 +2,9 @@ import {EditField, minmax} from './FormElements'
 import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
   types, rarities, set5rarities, orders, keywords, features, getHouses, images} from './data'
-import {parseQueryString, unhashImage, unhashThumbImage, isElementInViewport, joined} from './myutils'
+import {parseQueryString, joined, 
+  getCardImage, updateCardImages, unhashImage, unhashThumbImage, 
+  isElementInViewport} from './myutils'
 import 'md5'
 
 var searchFields = [
@@ -91,13 +93,6 @@ var statQuery = function(card_db, clauses, statInput, field) {
     }
   }
   return
-}
-
-var loadImage = function(image) {
-  image.setAttribute('src', image.getAttribute('data-src'))
-  image.onload = () => {
-    image.removeAttribute('data-src')
-  }
 }
 
 var padnum = function(number){
@@ -414,18 +409,20 @@ var CSearch = {
     return q
   },
   outputImageResult(self,cardData) {
-    var el = ''
-    el += '<div class="gallery-image" style="position:relative;text-align:center">'
-    el += ' <a href="/' + cardData.Name + '">'
-    var imgurl = '/Special:Redirect/file/' + cardData.Image
-    //el += '<img width=180 src="https://archonarcana.com/index.php?title=Special:Redirect/file/' + card.title.Image + '&width=200">'
-    el += '<img id="img_'+cardData.Name.replace(/\(|\)/g,'br')+'" width='+self.output_settings.img_width+' height='+self.output_settings.img_height+' src="'+unhashThumbImage(cardData.Image, 200)+'" data-src="'+unhashImage(cardData.Image)+'">'
-    el += '<div style="position:absolute;bottom:8px;left:16px;">'+cardData.Name+'</div>'
-    // Card number
-    // el += '<div style="position:absolute;bottom:8px;left:60px;background-color:white">'+card.title.CardNumber+'</div>'
-    el += '</a>'
-    el += '</div>'
-    return el
+    return `
+<div class="gallery-image" style="position:relative;text-align:center">
+<a href="${cardData.Name}">
+${getCardImage({
+  card_title: cardData.Name,
+  image_number: cardData.Image
+}, {
+  width: 200,
+  outputWidth: self.output_settings.img_width,
+  outputHeight: self.output_settings.img_height
+})}
+<div style="position:absolute;bottom:8px;left:16px;">${cardData.Name}</div>
+</a></div>`
+//<img id="img_'+cardData.Name.replace(/\(|\)/g,'br')+'" width='+self.output_settings.img_width+' height='+self.output_settings.img_height+' src="'+unhashThumbImage(cardData.Image, 200)+'" data-src="'+unhashImage(cardData.Image)+'">'
   },
   outputSpoilerResult(self,cardData) {
     var thumbsrc = unhashThumbImage(cardData.Image, 200)
@@ -537,14 +534,7 @@ var CSearch = {
       }
     }
     resultsTab.append('<div class="load_more"></div>')
-    var imgs = $('img[data-src]')
-    imgs.map(function(i) {
-      var self = imgs[i]
-      self.onload = () => {
-        $(self).next().remove()
-        loadImage(self)
-      }
-    })
+    updateCardImages()
   },
   load: function() {
     this.element.append('<div class="loader">Loading...</div>')

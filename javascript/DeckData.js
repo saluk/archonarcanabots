@@ -1,4 +1,4 @@
-import {parseQueryString, htmlDecode, unhashThumbImage, unhashImage, uniques, renderWikitextToHtml, collapsible_block} from './myutils'
+import {getCardImage, updateCardImages, unhashImage, uniques, renderWikitextToHtml, collapsible_block} from './myutils'
 import {cardCombos, images, set_name_by_number} from './data'
 
 var rulingSectionNames = {
@@ -6,7 +6,7 @@ var rulingSectionNames = {
   'FFGRuling': 'FFG Rulings'
 }
 
-var preamble = `<html>
+var preamble = `
 <style>
 
 /* link formatting */
@@ -143,12 +143,19 @@ var preamble = `<html>
   padding: 5px 5px 5px 5px;
 }
 
+   .links {
+     grid-column-start:2;
+     grid-column-end:5;
+     display:flex;
+   }
+
 .link-1,
 .link-2,
 .link-3 {
   font-family: lato;
   font-size: 0.9em;
   display: flex;
+  flex:1;
   justify-content: center;
   align-items: center;
   padding: 5px 0px 5px 0px;
@@ -332,6 +339,15 @@ dt a:hover {
     margin:1px 5px 0px 0px;
 }
 
+.commentary dd:first-of-type {
+   padding: 10px 5px 5px 5px; 
+}
+
+.commentary dd+dd {
+    border-top:1px dashed #a0a0a0;
+    padding: 15px 5px 5px 5px; 
+}
+
 .outstanding-issues dd:nth-of-type(2n):before {
   content:"Arcana Advises: ";
   font-size:1.2em;
@@ -443,6 +459,12 @@ dt a:hover {
     grid-column-end: 4;
     padding: 10px 5px 10px 5px;
   }
+   
+
+   .links {
+     grid-column-start:1;
+     grid-column-end:4;
+   }
 
   .link-1,
   .link-2,
@@ -559,32 +581,6 @@ dt a:hover {
   font-size:.9em;
 }
 
-.anomaly-card {
-  position:absolute;
-  height:100%;
-  width:100%;
-  display:block;
-  top:0px;
-  left:0px;
-  content:"";
-  z-index:5;
-  opacity:1;
-  border-radius:5%;
-}
-
-.anomaly-card:before {
-  position:absolute;
-  top:40%;
-  right:0px;
-  content:"Anomaly";
-  font-family:lato;
-  padding:3px 5px 3px 10px;
-  background-color:#353331;
-  color:white;
-  opacity:1;
-  font-size:.9em;
-}
-
 @media screen and (max-width:600px) {
   .card-preview-gallery {
     grid-template-columns: repeat(2, 1fr);
@@ -594,7 +590,7 @@ dt a:hover {
 
   .enhanced-card:before {
   font-size:.85em;
-}
+  }
 
 }
 
@@ -693,7 +689,6 @@ dt a:hover {
 .legacy-card {
   content: url(https://archonarcana.com/images/d/d1/Legacy-orange.png);
 }
-
 </style>
 
 <!-- import fonts -->
@@ -896,7 +891,7 @@ function write_errata(cargo_results, cards) {
         for(var result of cargo_results) {
             if(result.title === card.card_title) {
                 errata_text += '<dt>'
-                errata_text += '<li>' + gen_card_image(card, 40, 60)+card.card_title + '</li>'
+                errata_text += '<li>' + gen_rule_card_image(card, 40, 60)+card.card_title + '</li>'
                 errata_text += '</dt>'
                 errata_text += '<dd>'
                 errata_text += renderWikitextToHtml(result.Text)
@@ -937,7 +932,7 @@ function write_rules(cargo_results, cards, section) {
         <dt>
         ${texts[card_set][0]['cards'].map(
             function(card) {
-                return `<li>${gen_card_image(card, 40, 60)+card.card_title}</li>`
+                return `<li>${gen_rule_card_image(card, 40, 60)+card.card_title}</li>`
             }
         ).join('')}
         </dt>
@@ -971,24 +966,11 @@ function gen_deck_image(data) {
     </div>`
 }
 
-function gen_card_image(card, width, height, css) {
-    if(!css) {
-        css = ''
-    }
-    var image = unhashThumbImage(card.image_number, 200)
-    if(card.subtype && card.subtype.match(/gigantic/i)) {
-        image = card.front_image
-    }
-    return `<a href="/${card.card_title}">
-<img class="${css}" src="${image}" width="${width}"
- height="${height}" alt="${card.card_title}"></a>`
+function gen_rule_card_image(card, width, height) {
+    return `<a href="/${card.card_title}">${getCardImage(card, {width:200, noFullUpdate:true})}</a>`
 }
 
 function gen_card_gallery_image(card) {
-  var image = unhashThumbImage(card.image_number, 400)
-  if(card.subtype && card.subtype.match(/gigantic/i)) {
-      image = card.front_image
-  }
   var maverick = card.is_maverick? `<div class="maverick-card"></div>`: ''
   var enhanced = card.is_enhanced? `<div class="enhanced-card"></div>` : ''
   var anomaly = card.is_anomaly? `<div class="anomaly-card"></div>` : ''
@@ -996,7 +978,7 @@ function gen_card_gallery_image(card) {
   var houseicon = (card.is_anomaly || card.is_maverick) ? `<div class="maverick-${card.house.toLowerCase()}"></div>` : ''
   var s = `<div class="card-preview">
 <a href="/${card.card_title}">
-<img src="${image}" alt="${card.card_title}">
+${getCardImage(card, {width: 200, splitGigantic: true})}
 ${houseicon}
 ${maverick}
 ${enhanced}
@@ -1049,7 +1031,7 @@ function gen_card_combos(data) {
                 var card = data.cards.filter(function(deckCard){
                     return deckCard.card_title===comboCardTitle
                 })[0]
-                return gen_card_image(
+                return gen_rule_card_image(
                     card,
                     40,
                     60
@@ -1144,34 +1126,36 @@ function gen_deck_databox(data) {
     }).join('<br>')
     var s = `
     <div class="decklist-viewer">
-    ${gen_deck_image(data)}
-    <div class="decklist-title">${data.name}</div>
-    <div class="set-name">${set_name_by_number(data.expansion)}</div>
-    <div class="set-houses">${houses}</div>
-    <div class="deck-info">
-        <div class="card-types">
-        Card Types<br>
-        ${stats.actions.length} Actions<br>
-        ${stats.artifacts.length} Artifacts<br>
-        ${stats.creatures.length} Creatures<br>
-        ${stats.upgrades.length} Upgrades
-        </div>
-        <div class="card-rarities">Card Rarities<br>${rarities}</div>
-        ${enhancements ? `<div class="card-enhancements">
-            Enhancements<br>
-            ${enhancements.map(function(enhancement){
-                return `${stats[enhancement]} <img src="${images[enhancement]}" width="20">`
-            }).join('<br>')}
-        </div>` : ''}
-    </div>
-    <div class="deck-aember">${stats.amber}  Æmber</div>
-    ${
-        stats.links.map(function(item, n){
-            return `<div class="link-${n+1}">
-            <a href="${item[1]}">${item[0]}</a>
-            </div>`
-        }).join('\n')
-    }
+      ${gen_deck_image(data)}
+      <div class="decklist-title">${data.name}</div>
+      <div class="set-name">${set_name_by_number(data.expansion)}</div>
+      <div class="set-houses">${houses}</div>
+      <div class="deck-info">
+          <div class="card-types">
+          Card Types<br>
+          ${stats.actions.length} Actions<br>
+          ${stats.artifacts.length} Artifacts<br>
+          ${stats.creatures.length} Creatures<br>
+          ${stats.upgrades.length} Upgrades
+          </div>
+          <div class="card-rarities">Card Rarities<br>${rarities}</div>
+          ${enhancements ? `<div class="card-enhancements">
+              Enhancements<br>
+              ${enhancements.map(function(enhancement){
+                  return `${stats[enhancement]} <img src="${images[enhancement]}" width="20">`
+              }).join('<br>')}
+          </div>` : ''}
+      </div>
+      <div class="deck-aember">${stats.amber}  Æmber</div>
+      <div class="links">
+      ${
+          stats.links.map(function(item, n){
+              return `<div class="link-${n+1}">
+              <a href="${item[1]}">${item[0]}</a>
+              </div>`
+          }).join('\n')
+      }
+      </div>
     </div>`
     return collapsible_block('h2', 'Decklist', s, 0)
 }
@@ -1190,6 +1174,7 @@ function write_deck_data(data) {
     $(div).append(gen_cards(data))
     //$(div)[0].style.display=""
     $('#firstHeading').empty().append(data.name)
+    updateCardImages()
 }
 
 function read_wiki_deck_data() {
@@ -1223,53 +1208,8 @@ function gen_deck_data() {
         return
     }
     var deck_key = title.toLowerCase()
-    if(noarticle.length > 0) {
-        console.log('create new deck')
-        //perform_page_create(deck_key, content)
-        //content.empty()
-        $('head').append(`
-        <style type="text/css">
-        .card_images {
-            display:grid;
-            margin:24px;
-            grid-template-columns:repeat(auto-fit,200px);
-           }
-           .infobar {
-             background-color:lightblue;
-             border: solid 1px
-           }
-           .card_image {
-            padding:4px;
-            text-align:center;
-            position:relative;
-           }
-           .card_image_card {
-            width:100%;
-            height:auto;
-            border: solid 2px black;
-            border-radius: 25px;
-            box-sizing:border-box;
-           }
-           .house_icon {
-            position:absolute;
-            left:1em;
-            right:14px
-           }
-           .enhanced .card_image_card{
-            border: solid 4px blueviolet;
-            border-radius: 20px;
-            box-sizing:border-box;
-           }
-           </style>`)
-        content.append('<div class="deck_contents"></div>')
-        pull_deck_data(deck_key)
-        //perform_page_create(deck_key)
-        return
-    } else {
-        //read_wiki_deck_data()
-        pull_deck_data(deck_key)
-        return
-    }
+    content.append('<div class="deck_contents"></div>')
+    pull_deck_data(deck_key)
 }
 
 export {gen_deck_data}
