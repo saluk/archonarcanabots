@@ -940,7 +940,12 @@ function write_rules(cargo_results, cards, section) {
         for(var result of texts[card_set]) {
             var q_a = result['RulesText'].split('//')
             rule_text += q_a.map(function(text) {
-                return `<dd>${renderWikitextToHtml(text)}</dd>`
+                return `<dd>${renderWikitextToHtml(
+                  (texts[card_set][0]['cards'].length==1) ? text.replace(
+                    /this card/g, 
+                    `[[${texts[card_set][0]['cards'][0].card_title}]]`
+                   ) : text
+                )}</dd>`
             }).join('\n')
         }
         rule_text += '</dl>'

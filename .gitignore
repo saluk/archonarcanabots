@@ -13,3 +13,4 @@ node_modules
 javascript/main.js
 skips.json
 cron.log
+cache/lasthash.json
