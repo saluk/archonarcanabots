@@ -71,7 +71,7 @@ var DSearch = {
     if(elements){
       elements = '?'+elements
     }
-    var root_url = '/Template:SearchDecks'
+    var root_url = '/Deck Search'
     history.replaceState({}, document.title, root_url+elements)
   },
   initForm: function(self) {
