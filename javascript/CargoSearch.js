@@ -534,7 +534,10 @@ ${getCardImage({
       }
     }
     resultsTab.append('<div class="load_more"></div>')
-    updateCardImages()
+    updateCardImages(function(img){
+      // Once first image loads, remove the card title
+      $(img).next().remove()
+    })
   },
   load: function() {
     this.element.append('<div class="loader">Loading...</div>')

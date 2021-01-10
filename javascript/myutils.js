@@ -77,18 +77,20 @@ function getCardImage(card, opts) {
 	var data_src = (opts && !opts.noFullUpdate) ? `data-src="${full_image_file}"` : ''
 	if(opts && opts.width) {
 		image_file = unhashThumbImage(image_file, opts['width'])
-		return `<img src="${image_file}" alt="${card.card_title}" ${data_src} ${sizearg}"/>`
+		return `<img src="${image_file}" alt="${card.card_title}" ${data_src} ${sizearg}/>`
 	} else {
 		return `<img src="${full_image_file}" alt="${card.card_title}" ${sizearg}/>`
 	}
 }
 
-function updateCardImages() {
+function updateCardImages(onloadTrigger) {
     var imgs = $('img[data-src]')
     imgs.map(function(i) {
       var self = imgs[i]
       self.onload = () => {
-        $(self).next().remove()
+		if(onloadTrigger) {
+			onloadTrigger()
+		}
         loadImage(self)
       }
     })
