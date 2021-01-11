@@ -85,14 +85,11 @@ function getCardImage(card, opts) {
 	}
 }
 
-function updateCardImages(onloadTrigger) {
+function updateCardImages() {
     var imgs = $('img[data-src]')
     imgs.map(function(i) {
       var self = imgs[i]
       self.onload = () => {
-		if(onloadTrigger) {
-			onloadTrigger()
-		}
         loadImage(self)
       }
     })

@@ -414,7 +414,7 @@ ${getCardImage({
   outputWidth: self.output_settings.img_width,
   outputHeight: self.output_settings.img_height
 })}
-<div style="position:absolute;bottom:8px;left:16px;">${cardData.Name}</div>
+<div style="display:none;position:absolute;bottom:8px;left:16px;">${cardData.Name}</div>
 </a></div>`
 //<img id="img_'+cardData.Name.replace(/\(|\)/g,'br')+'" width='+self.output_settings.img_width+' height='+self.output_settings.img_height+' src="'+unhashThumbImage(cardData.Image, 200)+'" data-src="'+unhashImage(cardData.Image)+'">'
   },
@@ -527,10 +527,7 @@ ${getCardImage({
       }
     }
     resultsTab.append('<div class="load_more"></div>')
-    updateCardImages(function(img){
-      // Once first image loads, remove the card title
-      $(img).next().remove()
-    })
+    updateCardImages()
   },
   load: function() {
     this.element.append('<div class="loader">Loading...</div>')
