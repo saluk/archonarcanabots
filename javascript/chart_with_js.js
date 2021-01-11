@@ -2,7 +2,6 @@ function replace_charts() {
 	var divs = $('.genchart')
 	divs.map(function(id){
 		var div = divs[id]
-		console.log(div)
 		var data = JSON.parse($(div).text())
 		$(div).empty()
 		$(div).append('<canvas id="myChart"></canvas>')

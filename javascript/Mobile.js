@@ -16,7 +16,6 @@ $.when(
         if(parseQueryString('testjs')==='true') {
             mw.loader.getScript('/index.php?title=MediaWiki:<FILENAMEDEBUG_main.js>&action=raw&ctype=text/javascript')
         } else {
-            mw.loader.getScript('/index.php?title=MediaWiki:<FILENAME_main.js>&action=raw&ctype=text/javascript')
+            //mw.loader.getScript('/index.php?title=MediaWiki:<FILENAME_main.js>&action=raw&ctype=text/javascript')
         }
-        console.log("loaded external js")
 });

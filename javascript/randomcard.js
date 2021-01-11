@@ -51,7 +51,6 @@ var CSearchRandom = {
     var self=this
     this.element = element
     this.numCards = numCards
-    console.log("random search for "+this.numCards)
     this.newSearch()
   },
   newSearch: function() {
@@ -62,7 +61,6 @@ var CSearchRandom = {
     self.load()
   },
   searchString: function () {
-    console.log(this.numCards)
     this.cardnumber = []
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max)) + 1;
@@ -123,7 +121,6 @@ var CSearchRandom = {
   },
   load: function() {
     var self = this
-    console.log(self.searchString())
     self.loadingCards = $.ajax(self.searchString(),
       {
         success: function (data, status, xhr) {
@@ -138,11 +135,8 @@ var CSearchRandom = {
 }
 
 function choose_random_cards() {
-  console.log('initing random search')
   if ($('.random-cards').length>0) {
       var element = $('.random-cards')[0]
-      console.log("found element")
-      console.log(element)
       CSearchRandom.init(element, element.getAttribute('data-number'))
   }
 }

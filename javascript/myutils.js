@@ -37,6 +37,8 @@ function uniques(objects, unique_field) {
 }
 
 var unhashImage = function(imgName) {
+	// Mediawiki doesn't allow files to have spaces in their names, so it converts spaces to underscores when saving them
+	imgName = imgName.replace(' ', '_')
 	var hash = md5(imgName)
 	var firsthex = hash.substring(0,1)
 	var first2 = hash.substring(0,2)
@@ -69,7 +71,7 @@ function getCardImage(card, opts) {
 		image_file = card.front_image
 		return `<img src="${image_file}" alt="${card.card_title}" ${sizearg}/>`
 	}
-	if(multiHouseCards.indexOf(card.card_title)>=0) {
+	if(multiHouseCards.indexOf(card.card_title)>=0 && card.house) {
 		image_file = `${image_file}-${capitalize(card.house)}`
 	}
 	image_file = image_file + '.png'

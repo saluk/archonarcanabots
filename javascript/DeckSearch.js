@@ -86,7 +86,6 @@ var DSearch = {
     var setField = getSearchField('set_selected')
     if(setField){
       var clicked_sets = setField.getData()
-      console.log(clicked_sets)
       if(clicked_sets.length>0){
         getSearchField('houses').values = getDeckHouses(clicked_sets)
       } else {
@@ -101,12 +100,10 @@ var DSearch = {
     self.newSearch()
   },
   newSearch: function(offset, toResults) {
-    console.log(offset)
     var self=this
     self.scrollToResults = toResults
     self.names_used = new Set()
     self.offset = offset? offset : 0
-    console.log(self.offset)
     if(self.loading) self.loading.abort()
     if(self.scheduleLoading) {
       window.clearInterval(self.scheduleLoading)
@@ -130,7 +127,6 @@ var DSearch = {
       }).join(','),
       'name': this.deckName[0],
       'expansions': this.set_selected.map(function(set){
-        console.log("found-sets:"+set)
         return set_number_by_name(set)
       }).join(',')
     };
@@ -218,11 +214,9 @@ var buildDeckSearchForm = function(search) {
   searchFields.map(function(field) {
     field.listener(search.initForm, search)
   })
-  console.log('form built')
 }
 
 var init_deck_search = function () {
-  console.log('initing deck search')
   if ($('.deck-results').length>0) {
     DSearch.init($('.deck-results'))
     buildDeckSearchForm(DSearch)

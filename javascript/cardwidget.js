@@ -53,7 +53,6 @@ function HideDiv(evt, title) {
 }
 
 function renderCardLink(image, name) {
-    console.log('RENDER');
     var root = document.currentScript.parentElement;
     var el = document.createElement('div');
     var content = [

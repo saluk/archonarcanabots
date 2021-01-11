@@ -70,7 +70,6 @@ function htmlDecode(input){
 
 var statQuery = function(card_db, clauses, statInput, field) {
   if(statInput) {
-    console.log(statInput)
     if(statInput.min===undefined || statInput.max===undefined){
       return
     }
@@ -218,6 +217,7 @@ var CSearch = {
     self.toUrl()
 
     // Remove reprint out of sets
+    self.excludeReprints = false
     var eri = self.sets.indexOf('Exclude Reprints');
     if(eri >= 0) {
       self.sets.splice(eri, 1)
@@ -275,14 +275,12 @@ var CSearch = {
       traits.push('%20LIKE%20%22%25+•+'+trait+'+•+%25%22')
     })
     var keywordsToSearch = []
-    console.log(this.cardkeywords)
     this.cardkeywords.forEach(function(keyword) {
       keywordsToSearch.push('=%22'+keyword+'%22')
       keywordsToSearch.push('%20LIKE%20%22%25+•+'+keyword+'%22')
       keywordsToSearch.push('%20LIKE%20%22'+keyword+'+•+%25%22')
       keywordsToSearch.push('%20LIKE%20%22%25+•+'+keyword+'+•+%25%22')
     })
-    console.log(this.cardkeywords)
     var housesToSearch = []
     this.houses.forEach(function(house) {
       housesToSearch.push('=%22'+house+'%22')
@@ -339,7 +337,7 @@ var CSearch = {
     var where = joined('', clauses,
       '', 'AND')
     where = '&where=' + where
-    var fields_array = [card_db+'.Power', card_db+'.Rarity', card_db+'.Name', card_db+'.House', card_db+'.Type', card_db+'.Image']
+    var fields_array = [card_db+'.Power', card_db+'.Rarity', card_db+'.Name', card_db+'.House', card_db+'.Type', card_db+'.Image', card_db+'.House']
     if(join_sets){
       fields_array.push('SetData.CardNumber')
     }
@@ -380,32 +378,25 @@ var CSearch = {
       joinon += ','+card_db+'._pageName=ErrataData._pageName'
     }
     if(this.exclusiveSet[0]) {
-      console.log('is exclusive')
       var each_set = []
       this.sets.map((set)=>{
-        console.log('check search set'+set)
         var this_set = []
           for(const prevSet of sets){
-            console.log('prevset:'+prevSet)
             if(prevSet===set){
               break
             }
             this_set.push('sum(SetData.SetName="'+prevSet.replace(/\_/g, ' ')+'")=0')
           }
-        console.log(this_set)
         each_set.push(joined('',this_set,'','AND'))
       })
-      console.log(each_set)
       having = '&having='+joined('',each_set,'','OR')
     }
-    console.log("having="+having)
     var q = ""
     if (returnType === 'data') {
       q = start + tables + fields + where + joinon + groupby + limitq + offsetq + having + order_by
     } else if (returnType === 'count') {
       q = start + tables + countFields + where + joinon + '&limit=1' + having
     }
-    console.log(q)
     return q
   },
   outputImageResult(self,cardData) {
@@ -414,7 +405,10 @@ var CSearch = {
 <a href="${cardData.Name}">
 ${getCardImage({
   card_title: cardData.Name,
-  image_number: cardData.Image
+  image_number: cardData.Image,
+  house: cardData.House.split(" • ").filter(function(house){
+    return (self.houses.length == 0) || (self.houses.includes(house.replace(' ', '_')))
+  })[0]
 }, {
   width: 200,
   outputWidth: self.output_settings.img_width,
@@ -504,7 +498,6 @@ ${getCardImage({
     el = el.replace(/ARMOR/g,htmlDecode(cardData.Armor))
     el = el.replace(/SOURCE/g,htmlDecode(cardData.Source))
     el = el.replace(/AMBER/g,htmlDecode(cardData.Amber))
-    console.log(el)
     return el
   },
   updateResults: function (resultsArray) {
@@ -622,11 +615,9 @@ var buildCardSearchForm = function(search) {
   searchFields.map(function(field) {
     field.listener(search.initForm, search)
   })
-  console.log('form built')
 }
 
 var init_cargo_search2 = function () {
-  console.log('initing cargo search updated')
   if ($('.card-gallery-images').length>0) {
     CSearch.init($('.card-gallery-images'), 50)
     buildCardSearchForm(CSearch)

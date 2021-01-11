@@ -874,7 +874,6 @@ function correlate_rules_by_card(cargo_results, cards, section) {
         var card_list = result['cards'].map(function(card) {
             return card.card_title
         }).sort().join(',')
-        console.log(card_list)
         if(texts_by_card_list[card_list]) {
             texts_by_card_list[card_list].push(result)
         } else {
@@ -911,7 +910,6 @@ function write_errata(cargo_results, cards) {
 
 var outstanding_issue_disclaimer = `<div class="outstanding-issues-disclaimer">We recommend speaking with the head judge before an event to find out how they will rule on the following ambiguous rules interactions. Arcana Advises is a recommendation on how to resolve each outstanding issue in the absence of a judge. For more information, <a href="https://archonarcana.com/Outstanding_Issues">click here</a>.</div>`
 function write_rules(cargo_results, cards, section) {
-    console.log('write rules for'+section)
     var texts = correlate_rules_by_card(cargo_results, cards, section)
     if(Object.keys(texts).length==0) {
         return
@@ -1114,7 +1112,6 @@ function deck_stats(data) {
 
 function gen_deck_databox(data) {
     var stats = deck_stats(data)
-    console.log(stats)
     var enhancements = !oldSets.includes(set_name_by_number(data.expansion)) ? 
         ['enhanceAmber','enhanceCapture','enhanceDamage','enhanceDraw'] :
         false
@@ -1166,7 +1163,6 @@ function gen_deck_databox(data) {
 }
 
 function write_deck_data(data) {
-    console.log(data)
     $('title').empty().append(data.name)
     $('.noarticletext').replaceWith('')
     var div = $('.deck_contents')
@@ -1209,7 +1205,6 @@ function gen_deck_data() {
     var title = mw.config.values.wgTitle
     var ns = mw.config.values.wgNamespaceNumber
     if(ns != mw.config.values.wgNamespaceIds['deck']) {
-        console.log('not on deck page')
         return
     }
     var deck_key = title.toLowerCase()

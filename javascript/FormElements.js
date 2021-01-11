@@ -76,7 +76,6 @@ class EditField {
 		$(form).append(`
 		<input name="${this.field}" ${h} value="${self.presetValue}" placeholder="${self.placeholder}"/>
 `)
-		console.log("add text field "+this.field)
 	  }
 	  else if (this.type === 'select') {
 		var defaultlabel = ''
@@ -107,8 +106,6 @@ class EditField {
   
 		if(this.combo) {
 		  var el = $('select[name="'+this.field+'"]')
-		  console.log("Make combo field for "+this.field)
-		  console.log(el)
 		  el.select2()
 		  // Sort by last item added
 		  el.on("select2:select", function (evt) {
@@ -155,9 +152,6 @@ class EditField {
 		  $(form).append(txt)
 		})
 	  }
-	  else {
-		  //console.log('NO FORM FOR '+this.field)
-	  }
 	}
 	getData() {
 	  if(this.type === 'text') {
@@ -171,9 +165,7 @@ class EditField {
 		return [val.trim()]
 	  } else if(this.type === 'select') {
 		var vals = []
-		console.log(this.getElement())
 		if(!this.getElement().selectedOptions) {
-		  console.log('nothing selected for '+this.field)
 		  return vals
 		}
 		var opts = this.getElement().selectedOptions
@@ -213,7 +205,6 @@ class EditField {
 	}
 	assignData(ob) {
 	  var d = this.getData()
-	  console.log(this.field+': '+d)
 	  if(d!==undefined) {
 		ob[this.field] = d
 	  }
