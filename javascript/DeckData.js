@@ -1165,7 +1165,7 @@ function gen_deck_databox(data) {
 function write_deck_data(data) {
     $('title').empty().append(data.name)
     $('.noarticletext').replaceWith('')
-    var div = $('.deck_contents')
+    var div = $('#bodyContent') //$('.deck_contents')
     $(div).empty()
     $(div).append(preamble)
     $(div).append(gen_deck_databox(data))
