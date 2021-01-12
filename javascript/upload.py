@@ -97,8 +97,15 @@ def upload(stage="dev", test=False):
         "prod": "production",
         "dev": "development"
     }[stage])
-    os.system("scp javascript/main.js saluk@archonarcana.com:/var/www/html/aa-en/extensions/AADeckView/resources/ext.aaDeckView")
-    upload_js_file("main.js", use_hash=True, test=test)
+    for bundle in [
+        "main.indexCommon.js",
+        "main.indexDeckSearch.js",
+        "main.indexDeckView.js",
+        "main.indexGallery.js"
+    ]:
+        os.system("scp javascript/{} saluk@archonarcana.com:/var/www/html/aa-en/extensions/AADeckView/resources/ext.aaDeckView".format(
+            bundle
+        ))
     upload_js_file("cardwidget.js", use_hash=False, test=test)
     for filename in ['Common.js', 'Mobile.js']:
         with open("javascript/"+filename) as f:

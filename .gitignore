@@ -14,3 +14,4 @@ javascript/main.js
 skips.json
 cron.log
 cache/lasthash.json
+javascript/main.*.js

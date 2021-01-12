@@ -1,5 +1,5 @@
 import {multiHouseCards} from './data.js'
-import 'md5'
+const md5 = require('md5')
 
 var parseQueryString = function (argument) {
 	var res = '[\\?&]' + argument + '=([^&#]*)'

@@ -1,9 +1,14 @@
 const path = require('path');
 
 module.exports = {
-  entry: './javascript/index.js',
+  entry: {
+    indexCommon: './javascript/index-common.js',
+    indexDeckView: './javascript/index-deckView.js',
+    indexGallery: './javascript/index-gallery.js',
+    indexDeckSearch: './javascript/index-deckSearch.js'
+  },
   output: {
-    filename: './main.js',
+    filename: './main.[name].js',
     path: path.resolve(__dirname, 'javascript'),
   },
   mode: "development",
