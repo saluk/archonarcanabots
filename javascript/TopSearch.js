@@ -259,6 +259,19 @@ class Caller {
             $(evt.delegateTarget).removeClass('suggestions-result-current')
         })
         $('.suggestions').show()
+        $(document).on('mouseup', function(e) 
+        {
+            var container = $(".suggestions")
+
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && container.has(e.target).length === 0) 
+            {
+                container.hide()
+            }
+        })
+        $('#searchInput').on('click', function(evt) {
+            $('.suggestions').show()
+        })
     }
 }
 
@@ -267,6 +280,9 @@ function hookTopSearch() {
     var selector = 'input#searchInput'
     console.log('hooking top search')
     var caller = new Caller()
+    $(selector).replaceWith(
+        '<input type="search" name="search" placeholder="Search Archon Arcana" title="Search Archon Arcana [Alt+Shift+f]" accesskey="f" id="searchInput" class="webfonts-changed" autocomplete="off">'
+    )
     $(selector).on("input", function ontype(evt) {
         var search = removePunctuation(this.value)
         caller.reset(this.value, this)
