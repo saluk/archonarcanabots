@@ -14,24 +14,43 @@
 import {unhashThumbImage, unhashImage, removePunctuation} from './myutils'
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
+var moreDecks = '<a class="mw-searchSuggest-link" href="/Deck Search?deckName={{ SEARCH }}">\
+<div class="suggestions-special" style="display: block;"><div class="special-label">Deck names containing...</div>\
+<div class="special-query">{{ SEARCH }}</div></div>\
+</a>'
+var moreCards = '<a class="mw-searchSuggest-link" href="/Card Gallery?cardname={{ SEARCH }}">\
+<div class="suggestions-special" style="display: block;"><div class="special-label">Cards containing...</div>\
+<div class="special-query">{{ SEARCH }}</div></div>\
+</a>'
 var resultshtml = '<div style="font-size: 15.2px; inset: 41.5167px auto auto 0.4px; width: 100%; height: auto; display: block;" class="suggestions">\
 <div class="suggestions-results"></div>\
-<div class="suggestions-special" style="display: block;"><div class="special-label">containing...</div><div class="special-query">{{ SEARCH }}</div></div>\
+<a class="mw-searchSuggest-link" href="/index.php?search={{ SEARCH }}&title=Special%3ASearch&fulltext=1">\
+<div class="suggestions-special" style="display: block;"><div class="special-label">containing...</div>\
+<div class="special-query">{{ SEARCH }}</div></div>\
+</a>\
+{{ MOREDECKS }}\
+{{ MORECARDS }}\
 </div>'
 var resulthtml = '<a href="{{ LINK }}" title="{{ NAME }}" class="mw-searchSuggest-link">\
     <div class="suggestions-result" rel="0">\
-    <span class="highlight">{{ NAME_HIGHLIGHT }}</span>{{ NAME_AFTER_HIGHLIGHT }}{{ IMAGE }}</div>\
+    <span class="highlight">{{ NAME_HIGHLIGHT }}</span>{{ NAME_AFTER_HIGHLIGHT }} {{ IMAGE }}</div>\
   </a>'
+
+var cardLimit = 100
+var deckLimit = 15
+var maxDecks = 5
+var maxCards = 5
+var maxResults = 12
 
 function miniImage(image) {
     return '   <img src="' + unhashThumbImage(image, 40) + '">'
 }
 
 function match(search, content) {
-    if(removePunctuation(search) === removePunctuation(content)) {
+    if(removePunctuation(content) === removePunctuation(search)) {
         return "equal"
     }
-    var index = removePunctuation(content).search(removePunctuation(content))
+    var index = removePunctuation(content).search(removePunctuation(search))
     return index
 }
 
@@ -46,6 +65,8 @@ class Caller {
         this.wikiResults = false
         this.cardResults = false
         this.deckResults = false
+        this.cardsFound = 0
+        this.decksFound = 0
         this.results = []
         if(this.loadingCards)
             this.loadingCards.abort()
@@ -75,8 +96,8 @@ class Caller {
         this.finalize()
     }
     addCardResults(results) {
-        console.log(results)
         for(var i=0; i<results.length; i++) {
+            this.cardsFound += 1
             var rank = 0
             if(results[i]['title']['Name'].toLowerCase().search(this.searchString) < 0) {
                 rank = -1
@@ -98,7 +119,9 @@ class Caller {
         this.finalize()
     }
     addDeckResults(results) {
-        for(var deck of results) {
+        for(var i=0; i<results.length; i++) {
+            this.decksFound += 1
+            var deck = results[i]
             var deckImg = ''
             for(var house of deck[2].split(',')) {
                 house = unhashImage(house.trim().replace(' ','_')+'.png')
@@ -107,15 +130,15 @@ class Caller {
             this.results.push(
                 {
                     name: deck[1],
-                    link: '/Deck:' + deck[0] + '?testjs=true',
+                    link: '/Deck:' + deck[0],
                     image: deckImg,
                     source: 'deck',
                     rank: -1
                 }
             )
         }
-        console.log(this.results)
         this.deckResults = true
+        console.log(this.results)
         this.finalize()
     }
     finalize() {
@@ -123,22 +146,7 @@ class Caller {
             this.renderResults()
         }
     }
-    filter() {
-        // If names match, use the card name
-        for(var result of this.results.filter(function(res) {
-            if(res.source === 'card') {
-                return true
-            }
-            return false
-        })) {
-            this.results = this.results.filter(function(res) {
-                if(res.source != 'card' && res.name === result.name) {
-                    return false
-                }
-                return true
-            })
-        }
-
+    rank() {
         var s = this.searchString.toLowerCase()
         for(var res of this.results) {
             var n = res.name.toLowerCase()
@@ -149,7 +157,7 @@ class Caller {
             else if(loc >= 0){
                 res.rank += 10 // Increase rank if search string is in the name
                 if(loc == 0){
-                    res.rank += 5 // Increase rank if search string is at the beginning of name
+                    res.rank += 15 // Increase rank if search string is at the beginning of name
                 }
                 if(res.source === 'card') {
                     res.rank += 5 // Cards rank more when they have matching text
@@ -167,18 +175,67 @@ class Caller {
             return 0
         })
     }
+    filter() {
+        // If names match, use the card name
+        for(var result of this.results.filter(function(res) {
+            if(res.source === 'card') {
+                return true
+            }
+            return false
+        })) {
+            this.results = this.results.filter(function(res) {
+                if(res.source != 'card' && res.name === result.name) {
+                    return false
+                }
+                return true
+            })
+        }
+
+        var results2 = []
+        var decks = 0
+        var cards = 0
+        var resultCount = 0
+        for(var result of this.results){
+            if(resultCount >= maxResults) {
+                break
+            }
+            if(result.source === 'card') {
+                if (cards >= maxCards) {
+                    this.cardsFound = cardLimit  // We're hiding a result, so pretend we found a few more cards
+                    continue
+                }
+                cards += 1
+            }
+            if(result.source === 'deck') {
+                if (decks >= maxDecks) {
+                    this.decksFound = deckLimit  // We'rd hiding a result, so pretend we found a few more decks
+                    continue
+                }
+                decks += 1
+            }
+            resultCount += 1
+            results2.push(result)
+        }
+        this.results = results2
+    }
     renderResults() {
-        this.filter()
+        this.rank()
         this.sort()
+        this.filter()
         console.log('render suggestions')
         $('.suggestions').remove()
-        $(this.inputElement.parentElement).append(resultshtml.replace('{{ SEARCH }}', this.searchString))
+        var outhtml = resultshtml
+        outhtml = outhtml.replace('{{ MOREDECKS }}', this.decksFound >= deckLimit? moreDecks : '' )
+        outhtml = outhtml.replace('{{ MORECARDS }}', this.cardsFound >= cardLimit? moreCards : '')
+        outhtml = outhtml.replace(/\{\{ SEARCH \}\}/g, this.searchString)
+        $(this.inputElement.parentElement).append(outhtml)
         for(var result of this.results) {
+            console.log(result)
             var NAME_HIGHLIGHT = ''
             var NAME_AFTER_HIGHLIGHT = result.name
             var html = resulthtml
                 .replace('{{ LINK }}', result.link)
-                .replace('{{ NAME }}', result.name)
+                .replace('{{ NAME }}', result.name + ' - ' + result.rank)
                 .replace('{{ NAME_HIGHLIGHT }}','')
                 .replace('{{ NAME_AFTER_HIGHLIGHT }}', result.name)
                 .replace('{{ IMAGE }}', result.image)
@@ -194,7 +251,7 @@ function hookTopSearch() {
     var caller = new Caller()
     $(selector).on("input", function ontype(evt) {
         var search = removePunctuation(this.value)
-        caller.reset(search, this)
+        caller.reset(this.value, this)
         if(search.length<1) {
             $('.suggestions').remove()
             return
@@ -213,7 +270,7 @@ function hookTopSearch() {
         var start = '/api.php?action=cargoquery&format=json'
         var tables = '&tables=CardData'
         var fields = '&fields=CardData.SearchText%2CCardData.SearchFlavorText%2CCardData.Name%2CCardData.Image'
-        var limit = '&limit=10'
+        var limit = '&limit=' + cardLimit
         var where = '&where=' + 
             'CardData.Name%20LIKE%20%22%25' + search + '%25%22' + ' OR ' +
             'CardData.SearchText%20LIKE%20%22%25' + search + '%25%22' + ' OR ' +
