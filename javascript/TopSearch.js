@@ -14,26 +14,27 @@
 import {unhashThumbImage, unhashImage, removePunctuation} from './myutils'
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
-var moreDecks = `<a class="mw-searchSuggest-link" href="/Deck Search?deckName={{ SEARCH }}">
+var more = {
+    'deck':`<a class="mw-searchSuggest-link" href="/Deck Search?deckName={{ SEARCH }}">
 <div class="suggestions-special" style="display: block;">
 <div class="special-label">Deck names containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
-</a>`
-var moreCards = `<a class="mw-searchSuggest-link" href="/Card Gallery?cardname={{ SEARCH }}">
+</a>`,
+    'card':`<a class="mw-searchSuggest-link" href="/Card Gallery?cardname={{ SEARCH }}">
 <div class="suggestions-special" style="display: block;">
 <div class="special-label">Cards containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
-</a>`
-var resultshtml = `<div 
- style="font-size: 15.2px; inset: 41.5167px auto auto 0.4px; width: 100%; height: auto; display: block;" 
- class="suggestions">
-<div class="suggestions-results"></div>
-<a class="mw-searchSuggest-link" href="/index.php?search={{ SEARCH }}&title=Special%3ASearch&fulltext=1">
+</a>`,
+    'wiki':`<a class="mw-searchSuggest-link" href="/index.php?search={{ SEARCH }}&title=Special%3ASearch&fulltext=1">
 <div class="suggestions-special" style="display: block;"><div class="special-label">containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
-</a>
-{{ MOREDECKS }}
-{{ MORECARDS }}
+</a>`
+}
+var webkit = /WebKit/.test(navigator.userAgent)? 'position:relative' : ''
+var resultshtml = `<div 
+ style="font-size: 15.2px; inset: 41.5167px auto auto 0.4px; width: 100%; height: auto; display: block; ${webkit}" 
+ class="suggestions">
+<div class="suggestions-results"></div>
 </div>`
 var resulthtml = `<a href="{{ LINK }}" title="{{ NAME }}" class="mw-searchSuggest-link">
     <div class="suggestions-result" rel="0">
@@ -223,6 +224,17 @@ class Caller {
         }
         this.results = results2
     }
+    writeResult(result) {
+        var NAME_HIGHLIGHT = ''
+        var NAME_AFTER_HIGHLIGHT = result.name
+        var html = resulthtml
+            .replace('{{ LINK }}', result.link)
+            .replace('{{ NAME }}', result.name)
+            .replace('{{ NAME_HIGHLIGHT }}',NAME_HIGHLIGHT)
+            .replace('{{ NAME_AFTER_HIGHLIGHT }}', NAME_AFTER_HIGHLIGHT)
+            .replace('{{ IMAGE }}', result.image)
+        $('.suggestions-results').append(html)
+    }
     renderResults() {
         this.rank()
         this.sort()
@@ -230,21 +242,27 @@ class Caller {
         console.log('render suggestions')
         $('.suggestions').remove()
         var outhtml = resultshtml
-        outhtml = outhtml.replace('{{ MOREDECKS }}', this.decksFound >= deckLimit? moreDecks : '' )
-        outhtml = outhtml.replace('{{ MORECARDS }}', this.cardsFound >= cardLimit? moreCards : '')
-        outhtml = outhtml.replace(/\{\{ SEARCH \}\}/g, this.searchString)
         $(this.inputElement.parentElement).append(outhtml)
+        var bestRank = {}
         for(var result of this.results) {
-            console.log(result)
-            var NAME_HIGHLIGHT = ''
-            var NAME_AFTER_HIGHLIGHT = result.name
-            var html = resulthtml
-                .replace('{{ LINK }}', result.link)
-                .replace('{{ NAME }}', result.name)
-                .replace('{{ NAME_HIGHLIGHT }}','')
-                .replace('{{ NAME_AFTER_HIGHLIGHT }}', result.name)
-                .replace('{{ IMAGE }}', result.image)
-            $('.suggestions-results').append(html)
+            if(!bestRank[result.source] || result.rank > bestRank[result.source]) {
+                bestRank[result.source] = result.rank
+            }
+        }
+        for(var group of ['card', 'wiki', 'deck']) {
+            var wroteAny = false;
+            for(var result of this.results.filter(r=>r.source===group)){
+                this.writeResult(result)
+                wroteAny = true;
+            }
+            if(wroteAny) {
+                $('.suggestions-results').append('<hr>')
+            }
+        }
+        for(var group of ['card', 'wiki', 'deck']) {
+            if(group==='wiki' || (group==='card' && this.cardsFound >= deckLimit) || (group==='deck' && this.decksFound >= deckLimit)) {
+                $('.suggestions-results').append(more[group].replace(/\{\{ SEARCH \}\}/g, this.searchString))
+            }
         }
         $('.suggestions-special').on('mouseenter', function(evt) {
             $(evt.delegateTarget).addClass('suggestions-result-current')
