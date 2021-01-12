@@ -12,6 +12,7 @@
   <div class="suggestions-special"></div></div>
 */
 import {unhashThumbImage, unhashImage, removePunctuation} from './myutils'
+const Bowser = require('bowser')
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
 var more = {
@@ -30,7 +31,7 @@ var more = {
 <div class="special-query">{{ SEARCH }}</div></div>
 </a>`
 }
-var webkit = /WebKit/.test(navigator.userAgent)? 'position:relative' : ''
+var webkit = Bowser.parse(navigator.userAgent)['browser']['name'] === 'Safari' ? 'position:relative' : ''
 var resultshtml = `<div 
  style="font-size: 15.2px; inset: 41.5167px auto auto 0.4px; width: 100%; height: auto; display: block; ${webkit}" 
  class="suggestions">
