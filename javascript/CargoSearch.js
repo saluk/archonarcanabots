@@ -34,7 +34,7 @@ var searchFields = [
     {'attach':'div.order-entries', 'combo':true,
     'values':Object.keys(orders)}),
   new EditField('checkbox', 'reprints', 
-      {'values':['New Cards', 'Reprints'], 'basic':true,
+      {'values':['New Cards', 'Reprints', 'Unknown'], 'basic':true,
       'attach':'div.isnew-entries'}),
   /*new EditField('text', 'errata', 
     {'hidden':true, 'attach':'div.card-text-entries'}),
@@ -139,8 +139,9 @@ var CSearch = {
   gigantic: [false],
   exclusiveSet: [false],
   excludeReprints: false,
-  reprints: ['New Cards', 'Reprints'], //Only for spoilers
+  reprints: ['New Cards', 'Reprints', 'Unknown'], //Only for spoilers
   spoilers: false,
+  countField: '',
   loadingCards: false,
   loadingCount: false,
   requestcount: 0,
@@ -155,6 +156,7 @@ var CSearch = {
     this.pageSize = Number.parseInt(pageSize)
     this.element = element;
     this.spoilers = this.element.attr('data-spoilers')!=null;
+    this.countField = this.spoilers? 'CardNumber': 'Name'
     if(this.spoilers){
       getSearchField('houses').values = spoilerhouses
       getSearchField('rarities').values = set5rarities
@@ -333,6 +335,9 @@ var CSearch = {
       if(this.reprints.includes('Reprints')){
         clauses.push('IsNew IS NULL')
       }
+      if(!this.reprints.includes('Unknown')){
+        clauses.push('Name!=""')
+      }
     }
     var where = joined('', clauses,
       '', 'AND')
@@ -361,7 +366,7 @@ var CSearch = {
     if(join_sets) {
       tables += '%2C%20SetData'
     }
-    var countFields = '&fields=COUNT(DISTINCT%20'+card_db+'.Name)'
+    var countFields = '&fields=COUNT(DISTINCT%20'+card_db+'.'+this.countField+')'
     var groupby = '&group_by=' + fieldstring
     var joinon = ''
     if(join_sets){
@@ -419,72 +424,107 @@ ${getCardImage({
 //<img id="img_'+cardData.Name.replace(/\(|\)/g,'br')+'" width='+self.output_settings.img_width+' height='+self.output_settings.img_height+' src="'+unhashThumbImage(cardData.Image, 200)+'" data-src="'+unhashImage(cardData.Image)+'">'
   },
   outputSpoilerResult(self,cardData) {
+    console.log(cardData.Name)
+    console.log(cardData.CardNumber)
     var thumbsrc = unhashThumbImage(cardData.Image, 200)
     var fullsrc = unhashImage(cardData.Image)
-
-    var el = '<div class="spoilerEntry spoilerReprint">'
-    if(cardData.IsNew==='yes'){
-      el='<div class="spoilerEntry">'
-      el+='<div class="newCard">new</div>'
-    }
-    el += '<div class="image"><div class="header">'
-    el += '<div class="number">NUMBER</div>'
-    el += '<div class="name">'
-    el += 'NAME'
-    el += '</div></div>'
-    el += '<div class="picture"><center><div class="center"><div class="floatnone"><a href="/File:IMAGE" class="image"><img alt="IMAGEALT" src="IMAGESRC" decoding="async" style="vertical-align: middle" width="225" height="320" data-src="IMAGEFULL"></a></div></div></center></div></div>'
-    el += '<div class="text"><div class="header"><div class="number">NUMBER</div><div class="name">'
-    el += 'NAME'
-    el += '</div></div>'
-    el += '<div class="cardInfo">'
-    if(cardData.Power!= "" || cardData.Armor!=""){
-      el += ' POWER power - ARMOR armor '
-    }
-    if(cardData.Amber!=""){
-      el += ' AMBER <img src="https://archonarcana.com/images/f/fb/Enhance_aember.png" width="18px"> '
-    }
-    if(cardData.Power!= "" || cardData.Armor!="" || cardData.Amber){
-      el += '<br>'
-    }
-    el += '<i>TRAITS</i><p>'
-    el += 'TEXT<p><small><b>Source: </b><i>SOURCE</i></small></div>'
-    el += '<div class="bottomRow"><div class="type">TYPE</div><div class="rarity">RARITY</div>'
-    el += '</div></div></div>'
-
-    el += '<div class="mobileEntry">'
-    if(cardData.IsNew==='yes'){
-      el += '<div class="newCard">new</div>'
-    }
-    el += '<div class="header">\
-      <div class="number">NUMBER</div><div class="name">NAME</div>\
-      </div><div class="picture"><div class="floatnone">\
-      <a href="/File:IMAGE" class="image">\
-      <img alt="IMAGEALT" src="IMAGESRC" decoding="async" style="vertical-align: middle" width="225" height="320" data-src="IMAGEFULL"></img></a></div></div>\
-      <div class="mobileText">'
-    if(cardData.Power!= "" || cardData.Armor!=""){
-      el += ' POWER power - ARMOR armor '
-    }
-    if(cardData.Amber!=""){
-      el += ' AMBER <img src="https://archonarcana.com/images/f/fb/Enhance_aember.png" width="18px"> '
-    }
-    if(cardData.Power!= "" || cardData.Armor!="" || cardData.Amber){
-      el += '<br>'
-    }
-    el += '<i>TRAITS</i><p>TEXT<p><small><b>Source: </b><i>SOURCE</i></small></div>\
-      <div class="mobileBottomRow">\
-        <div class="type"><b>Type</b>: TYPE</div>\
-        <div class="rarity"><b>Rarity</b>: RARITY</div>\
-      </div></div>'
     var evil_twin = ""
     if(cardData.Rarity==='Evil Twin') {
       evil_twin = '<img src="https://archonarcana.com/images/4/42/Evil-twin.png" width="20px">'
     }
-    var name = htmlDecode(cardData.Name).replace("(Evil Twin)","")
+    var name_txt = htmlDecode(cardData.Name).replace("(Evil Twin)","")
+    console.log(name_txt)
+    var name
     if(cardData.IsNew==='yes'){
-      name = '<a href="/File:IMAGE">' + name + '</a>' + evil_twin
+      name = '<a href="/File:IMAGE">' + name_txt + '</a>' + evil_twin
     } else {
-      name = '<a href="/'+name+'">' + name + '</a>' + evil_twin
+      name = '<a href="/'+name_txt+'">' + name_txt + '</a>' + evil_twin
     }
+
+    var el
+    if(cardData.Name) {
+      el = '<div class="spoilerEntry spoilerReprint">'
+      if(cardData.IsNew==='yes'){
+        el='<div class="spoilerEntry">'
+        el+='<div class="newCard">new</div>'
+      }
+      el += '<div class="image"><div class="header">'
+      el += '<div class="number">NUMBER</div>'
+      el += '<div class="name">'
+      el += 'NAME'
+      el += '</div></div>'
+      el += '<div class="picture"><center><div class="center"><div class="floatnone"><a href="/File:IMAGE" class="image"><img alt="IMAGEALT" src="IMAGESRC" decoding="async" style="vertical-align: middle" width="225" height="320" data-src="IMAGEFULL"></a></div></div></center></div></div>'
+      el += '<div class="text"><div class="header"><div class="number">NUMBER</div><div class="name">'
+      el += 'NAME'
+      el += '</div></div>'
+      if(cardData.IsNew!=='yes') {
+        el+='<div class="reprint">reprint</div>'
+      }
+      el += '<div class="cardInfo">'
+      if(cardData.Power!= "" || cardData.Armor!=""){
+        el += ' POWER power - ARMOR armor '
+      }
+      if(cardData.Amber!=""){
+        el += ' AMBER <img src="https://archonarcana.com/images/f/fb/Enhance_aember.png" width="18px"> '
+      }
+      if(cardData.Power!= "" || cardData.Armor!="" || cardData.Amber){
+        el += '<br>'
+      }
+      el += '<i>TRAITS</i><p>'
+      el += 'TEXT<p><small><b>Source: </b><i>SOURCE</i></small></div>'
+      el += '<div class="bottomRow"><div class="type">TYPE</div><div class="rarity">RARITY</div>'
+      el += '</div></div></div>'
+    } else {
+      el = `
+      <div class="spoilerUnknown">
+      <div class="image">
+        <div class="header">
+          <div class="number">${htmlDecode(cardData.CardNumber)}</div>
+          <div class="name"></div>
+        </div>
+      </div>
+    </div>`
+    }
+
+    if(cardData.IsNew==='yes' && cardData.Name){
+      el += '<div class="mobileEntry">'
+      el += '<div class="newCard">new</div>'
+      el += '<div class="header">\
+        <div class="number">NUMBER</div><div class="name">NAME</div>\
+        </div><div class="picture"><div class="floatnone">\
+        <a href="/File:IMAGE" class="image">\
+        <img alt="IMAGEALT" src="IMAGESRC" decoding="async" style="vertical-align: middle" width="225" height="320" data-src="IMAGEFULL"></img></a></div></div>\
+        <div class="mobileText">'
+      if(cardData.Power!= "" || cardData.Armor!=""){
+        el += ' POWER power - ARMOR armor '
+      }
+      if(cardData.Amber!=""){
+        el += ' AMBER <img src="https://archonarcana.com/images/f/fb/Enhance_aember.png" width="18px"> '
+      }
+      if(cardData.Power!= "" || cardData.Armor!="" || cardData.Amber){
+        el += '<br>'
+      }
+      el += '<i>TRAITS</i><p>TEXT<p><small><b>Source: </b><i>SOURCE</i></small></div>\
+        <div class="mobileBottomRow">\
+          <div class="type"><b>Type</b>: TYPE</div>\
+          <div class="rarity"><b>Rarity</b>: RARITY</div>\
+        </div></div>'
+    } else if (cardData.Name) {
+        el += `
+        <div class="mobileReprint">
+        <div class="reprintHeader">
+          <div class="reprintNumber">${htmlDecode(cardData.CardNumber)}</div>
+          <div class="reprintName"><a href="/${name_txt}" title="${name_txt}">${name_txt}</a></div>
+          <div class="reprint">reprint</div>
+        </div>
+      </div>`
+    } else {
+      el += `
+      <div class="mobileUnknown">
+        <div class="number">${htmlDecode(cardData.CardNumber)}</div>
+      </div>`
+    }
+  
     el = el.replace(/NAME/g,name)
     el = el.replace(/RARITY/g,htmlDecode(cardData.Rarity))
     el = el.replace(/IMAGESRC/g,thumbsrc)
@@ -507,11 +547,12 @@ ${getCardImage({
     $('.loader').remove()
     $('.load_more').remove()
     var count_retrieved = self.pageSize
+    var group_field = this.spoilers? card=>card.title.CardNumber : card=>card.title.Name
     // For each card in query
     for (var i in resultsArray) {
       self.offset = self.offset + 1
       var card = resultsArray[i]
-      if (self.names_used.has(card.title.Name)){
+      if (self.names_used.has(group_field(card))){
         continue
       }
       self.offsetActual += 1
@@ -520,7 +561,7 @@ ${getCardImage({
       } else {
         resultsTab.append(self.outputSpoilerResult(self,card.title))
       }
-      self.names_used.add(card.title.Name)
+      self.names_used.add(group_field(card))
       count_retrieved -= 1
       if(count_retrieved<=0){
         break
@@ -552,7 +593,7 @@ ${getCardImage({
       {
         success: function (data, status, xhr) {
           if(xhr.requestcount<self.requestcount) return
-          self.totalCount = Number.parseInt(data.cargoquery[0].title['Name)'])
+          self.totalCount = Number.parseInt(data.cargoquery[0].title[`${self.countField})`])
           self.loadingCount = false
           $('.cg-results').empty().append(self.totalCount + ' results')
           // buildCargoPages(offset, totalCount, limit)
