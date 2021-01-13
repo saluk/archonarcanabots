@@ -54,10 +54,17 @@ function miniImage(image) {
 }
 
 function match(search, content) {
+    if(content === search){
+        return "equal"
+    }
     if(removePunctuation(content) === removePunctuation(search)) {
         return "equal"
     }
-    var index = removePunctuation(content).search(removePunctuation(search))
+    var index = content.search(search)
+    if(index>=0) {
+        return index
+    }
+    index = removePunctuation(content).search(removePunctuation(search))
     return index
 }
 
@@ -303,8 +310,9 @@ function hookTopSearch() {
         '<input type="search" name="search" placeholder="Search Archon Arcana" title="Search Archon Arcana [Alt+Shift+f]" accesskey="f" id="searchInput" class="webfonts-changed" autocomplete="off">'
     )
     $(selector).on("input", function ontype(evt) {
-        var search = removePunctuation(this.value)
-        caller.reset(this.value, this)
+        var search = this.value
+        var searchNoPunc = removePunctuation(this.value)
+        caller.reset(search, this)
         if(search.length<1) {
             $('.suggestions').remove()
             return
@@ -325,9 +333,9 @@ function hookTopSearch() {
         var fields = '&fields=CardData.SearchText%2CCardData.SearchFlavorText%2CCardData.Name%2CCardData.Image'
         var limit = '&limit=' + cardLimit
         var where = '&where=' + 
-            'CardData.Name%20LIKE%20%22%25' + search + '%25%22' + ' OR ' +
+            'CardData.Name%20LIKE%20%22%25' + searchNoPunc + '%25%22'/* + ' OR ' +
             'CardData.SearchText%20LIKE%20%22%25' + search + '%25%22' + ' OR ' +
-            'CardData.SearchFlavorText%20LIKE%20%22%25' + search + '%25%22'
+            'CardData.SearchFlavorText%20LIKE%20%22%25' + search + '%25%22'*/
         caller.loadingCards = $.ajax(
             start + tables + fields + where + limit, {
             success: function (data, status, xhr) {
@@ -339,7 +347,7 @@ function hookTopSearch() {
         })
 
         caller.loadingDecks = $.ajax(
-            'https://keyforge.tinycrease.com/deck_query?name='+search,
+            'https://keyforge.tinycrease.com/deck_query?name='+searchNoPunc,
             {
                 success: function (data, status, xhr) {
                     if(call!=caller.currentCall)
