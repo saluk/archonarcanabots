@@ -70,26 +70,16 @@ function htmlDecode(input){
 
 var statQuery = function(card_db, clauses, statInput, field) {
   if(statInput) {
-    if(statInput.min===undefined || statInput.max===undefined){
-      return
+    var constraints = []
+    if(statInput.min && statInput.min.length>0){
+      var min = statInput.min.replace('+', '')
+      constraints.push(`${card_db}.${field} >= ${min}`)
     }
-    if(statInput.min.length>0 | statInput.max.length>0) {
-      var min = statInput.min
-      min = min.replace('+', '')
-      if (!min) {
-        min = 0
-      }
+    if(statInput.max && statInput.max.length>0){
       var max = statInput.max
-      if (!max||max.search(/\+/)>=0) {
-        max = 5000
-      }
-      clauses.push(
-        joined('', [
-          card_db+'.'+field+' >= ' + min,
-          card_db+'.'+field+' <= ' + max
-        ], '%20', 'AND')
-      )
+      constraints.push(`${card_db}.${field} <= ${max}`)
     }
+    clauses.push(joined('', constraints, '%20', 'AND'))
   }
   return
 }
