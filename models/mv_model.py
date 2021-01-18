@@ -313,6 +313,14 @@ class Card(Base):
         return wiki_model.card_data({**self.data})
 
 
+class LocaleCard(Base):
+    __tablename__ = 'locale-card'
+    en_name = Column(String, primary_key=True)
+    key = Column(String, primary_key=True)
+    locale = Column(String, primary_key=True)
+    data = Column(JSONB)
+
+
 class DeckCard(Base):
     __tablename__ = 'deck_cards'
     deck_key = Column(String, ForeignKey(Deck.key), primary_key=True)

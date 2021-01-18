@@ -106,7 +106,7 @@ class MasterVault:
         timeout=5
         def good_proxy():
             return self.scope.get_proxy()
-        methods = [(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
+        methods = []#(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
         random.shuffle(methods)
         for method, tries in methods:
             proxy = {"method": method.__name__}
@@ -148,11 +148,11 @@ class MasterVault:
         print(lastexc)
         raise Exception("Couldn't get valid response")
 
-    def _call(self, endpoint, args):
+    def _call(self, endpoint, args, lang="en-US"):
         assert endpoint in ['decks']
         url = "https://www.keyforgegame.com/api/%s/" % endpoint
         key = url+";params:"+json.dumps(args, sort_keys=True)
-        return self.proxyget(url, params=args)
+        return self.proxyget(url, params=args, headers={"Accept-Language": lang})
 
     def get_deck(self, deck_name):
         args = {
@@ -175,7 +175,7 @@ class MasterVault:
             "url": "https://www.keyforgegame.com/deck-details/%(id)s" % {"id": deck_data["id"]}
         }
 
-    def get_decks_with_cards(self, direction, page):
+    def get_decks_with_cards(self, direction, page, lang="en-us"):
         args = {
             "page": page,
             "page_size": self.max_page,
@@ -184,7 +184,7 @@ class MasterVault:
             "ordering": direction+"date",
             "links": "cards"
         }
-        dat, proxy = self._call("decks", args)
+        dat, proxy = self._call("decks", args, lang)
         if "data" not in dat:
             return [], [], []
         decks = dat["data"]
@@ -278,6 +278,48 @@ class MasterVault:
             self.thread_states[thread_index][0] = "ok_continue"
             wait(1)
         return True
+    
+    def scrape_cards_locale(self, locale):
+        """Updates card definitions by retriving the decks that contain the cards using the given locale"""
+        #Get all cards that need to be updated... all cards
+        session = mv_model.Session()
+        cards = [card for card in session.query(mv_model.Card).all()
+            if not (card.data["is_anomaly"] or card.data["is_maverick"] or card.data["is_enhanced"])]
+
+        deck_pages = {}
+        handled_cards = {}
+        #For each card, find a deck that it has and that decks page. 
+        for card in cards:
+            if card.key in handled_cards:
+                continue
+            decks = session.query(mv_model.DeckCard).filter(mv_model.DeckCard.card_key==card.key).limit(1)
+            deck_key = decks.first().deck_key
+            deck = session.query(mv_model.Deck).filter(mv_model.Deck.key==deck_key).first()
+            page = deck.page
+            deck_pages[page] = 1
+            # For each card that is on that decks page, mark it as handled if we update that page
+            for deck in session.query(mv_model.Deck).filter(mv_model.Deck.page==page).all():
+                for card_id in deck.data["_links"]["cards"]:
+                    handled_cards[card_id] = 1
+
+        #Pull the selected pages from mv and update the cards with the right locale
+        for page in sorted(deck_pages.keys()):
+            print("GET PAGE", page)
+            while 1:
+                try:
+                    decks, cards, proxy = self.get_decks_with_cards("", page, locale)
+                    update_cards = []
+                    for card in cards:
+                        en_card = session.query(mv_model.Card).filter(mv_model.Card.key==card["id"]).first()
+                        locale_card = mv_model.LocaleCard(en_name=en_card.name, key=card["id"], data=card, locale=locale)
+                        update_cards.append(locale_card)
+                    print("adding", len(cards))
+                    mv_model.postgres_upsert(session, mv_model.LocaleCard, update_cards)
+                    session.commit()
+                    break
+                except:
+                    time.sleep(10)
+
 
 
 mv = MasterVault()
@@ -294,8 +336,7 @@ def master_vault_lookup(deck_name):
     return deck
 
 
-if __name__ == "__main__":
-    print(sys.argv)
+def daemon():
     starts = [int(x) for x in sys.argv[1:]]
     threads = []
     mv = MasterVault()
@@ -312,3 +353,11 @@ if __name__ == "__main__":
     t.start()
     print("start monitoring")
     monitoring_thread = start_monitoring(seconds_frozen=30)
+
+
+if __name__ == "__main__":
+    print(sys.argv)
+    if sys.argv[1] == "get_deck":
+        print(mv.scrape_cards_locale("fr-fr"))
+    else:
+        daemon()
