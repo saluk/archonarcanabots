@@ -51,6 +51,10 @@ if __name__ == "__main__":
             stage = sys.argv[2] if len(sys.argv) > 2 else "dev"
             test = sys.argv[3] if len(sys.argv) > 3 else None
             upload.upload(stage, test)
+        if sys.argv[1] == "lua":
+            from scribunto import upload
+            test = sys.argv[2] if len(sys.argv) > 2 else None
+            upload.upload(test)
         if sys.argv[1] == "delete":
             for page in wp.allpages(limit=500, namespace=3006):
                 page.delete('Removing all deck pages')
