@@ -347,7 +347,7 @@ function hookTopSearch() {
         })
 
         caller.loadingDecks = $.ajax(
-            'https://keyforge.tinycrease.com/deck_query?name='+searchNoPunc,
+            'https://keyforge.tinycrease.com/deck_query?name='+search,
             {
                 success: function (data, status, xhr) {
                     if(call!=caller.currentCall)

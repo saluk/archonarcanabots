@@ -2,6 +2,7 @@ from typing import Optional, List
 from fastapi import FastAPI, Depends, HTTPException, status
 import uuid
 import time
+import re
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
@@ -342,8 +343,13 @@ def deck_query(
         name:Optional[str]=None,
         houses:Optional[str]=None,
         expansions:Optional[str]=None,
+        key:Optional[str]=None,
         page:Optional[int]=0
     ):
+    uuid_re = re.compile('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', re.I)
+    if name and uuid_re.findall(name):
+        key = uuid_re.findall(name)[0].lower()
+        name = None
     session = Session()
     deckq = session.query(mv_model.Deck)
     if houses:
@@ -361,6 +367,10 @@ def deck_query(
         )
         deckq = deckq.filter(
             mv_model.Deck.name_sane.ilike(name)
+        )
+    if key:
+        deckq = deckq.filter(
+            mv_model.Deck.key==key.strip()
         )
     #deckq = deckq.order_by(mv_model.Deck.page)
     page_size=15
