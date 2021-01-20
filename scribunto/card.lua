@@ -2,16 +2,25 @@
 local p = {}
 local cargo = mw.ext.cargo
 
-local templates = mw.loadData('Module:LuacardTemplates')
-local cardstyle = mw.loadData('Module:LuacardStyle')
+local templates = require('Module:LuacardTemplates')
+local cardstyle = require('Module:LuacardStyle')
 
 function interp(s, tab)
   return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
 end
 
-local join = function ( separator, array )
-    return table.concat( array, separator, 1, #array )
+function wikitext(s)
+	return s:gsub('\n', ' '):gsub('<p>','')
 end
+
+local set_category = {}
+set_category['Call of the Archons']='CotA'
+set_category['Age of Ascension']='AoA'
+set_category['Worlds Collide']='WC'
+set_category['Mass Mutation']='MM'
+set_category['Dark Tidings']='DT'
+set_category['Worlds Collide-Anomaly']='WC-A'
+set_category['Anomaly']='WC-A'
 
 local shortset = function(longset)
 	local sets = {}
@@ -81,6 +90,79 @@ local apply_altart = function(frame, vars)
 	end
 end
 
+function apply_house(frame, vars)
+	if(vars.cardhouse:find('•', 1, true)) then
+		vars.cardhouse_section = 'Multi'
+		vars.categories[#vars.categories+1] = 'Multi'
+	else
+		vars.categories[#vars.categories+1] = vars.cardhouse
+		if(vars.cardhouse:find('Anomaly')) then
+			vars.cardhouse_section = '{{House|House=Anomaly|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=Anomaly">Anomaly</a></html>'
+		else
+			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse}]]'
+		end
+	end
+	vars.cardhouse_section = interp(vars.cardhouse_section, vars)
+end
+
+function minmax_arg(value, max)
+	value = tonumber(value)
+	if(value > max-1) then
+		return {min=tostring(max)..'+', max=tostring(max)..'+', value=value}
+	else
+		return {min=tostring(value), max=tostring(value), value=value}
+	end
+end
+
+function apply_stats(frame, vars)
+	vars.cardstatamber = ''
+	vars.cardstatpower = ''
+	vars.cardstatarmor = ''
+	if(vars.cardtype == 'Creature' and string.len(vars.cardpower)>0 and tonumber(vars.cardpower) >= 0) then
+		local mm = minmax_arg(vars.cardpower, 10)
+		local t = '<div class="power"><html><a href="/Card_Gallery?types=Creature&power_min=${min}&power_max=${max}"></html>${value} Power<html></a></html></div>'
+		vars.cardstatpower = interp(t, mm)
+	end
+	if(vars.cardtype == 'Creature' and string.len(vars.cardarmor)>0 and tonumber(vars.cardarmor) >= 0) then
+		local mm = minmax_arg(vars.cardarmor, 5)
+		local t = '<div class="armor"><html><a href="/Card_Gallery?types=Creature&armor_min=${min}&armor_max=${max}"></html>${value} Armor<html></a></html></div>'
+		vars.cardstatarmor = interp(t, mm)
+	end
+	if(string.len(vars.cardamber)>0 and tonumber(vars.cardamber) >= 1) then
+		local mm = minmax_arg(vars.cardamber, 4)
+		local t = '<div class="aember"><html><a href="/Card_Gallery?amber_min=${min}&amber_max=${max}"></html>${value} {{Aember}}<html></a></html></div>'
+		vars.cardstatamber = interp(t, mm)
+	end
+	if(vars.cardstatamber.len==0 and vars.cardstatpower==0 and vars.cardstatarmor==0) then
+		vars.cardstatamber = '<div class="spacer"></div>'
+	end
+end
+
+function apply_traits(frame, vars)
+	if(string.len(mw.text.trim(vars.cardtraits))==0) then
+		return
+	end
+	local split = mw.text.split(vars.cardtraits, ' • ')
+	local out = {}
+	for i = 1, #split do
+		out[i] = interp(
+			'<html><a href="https://archonarcana.com/Card_Gallery?traits=${cur}">${cur}</a></html>',
+			{cur=split[i]}
+		)
+		vars.categories[#vars.categories+1] = split[i]
+	end
+	vars.cardtraits = table.concat(out, ' • ')
+end
+
+function apply_categories(frame, vars)
+	for c=1, #vars.categories do
+		if(string.len(mw.text.trim(vars.categories[c]))>0) then
+			vars.categories[c] = interp('[[Category:${c}]]', {c=vars.categories[c]})
+		end
+	end
+	vars.categories = '<includeonly>'..table.concat(vars.categories,'')..'</includeonly>'
+end
+
 function p.viewcard(frame)
 	vars = {
 		cardname = frame.args.cardname,
@@ -101,9 +183,19 @@ function p.viewcard(frame)
 	vars.cardhouse = card_results[1]['House']
 	vars.cardhouse_lower = vars.cardhouse:lower()
 	vars.cardrarity = card_results[1]['Rarity']
-	vars.cardtext = card_results[1]['Text']
+	vars.cardtext_short = wikitext(card_results[1]['Text'])
+	vars.cardtext = vars.cardtext_short
+	vars.cardflavortext = wikitext(card_results[1]['FlavorText'])
 	vars.cardartist = card_results[1]['Artist']
 	vars.cardtype = card_results[1]['Type']
+	vars.cardpower = card_results[1]['Power']
+	vars.cardarmor = card_results[1]['Armor']
+	vars.cardamber = card_results[1]['Amber']
+	vars.cardtraits = card_results[1]['Traits']
+	vars.categories = {vars.cardtype, vars.cardrarity, 'Card'}
+	if(string.find(vars.cardtext,vars.cardname)) then
+		vars.categories[#vars.categories+1] = 'Self-referential'
+	end
     
 	local set_number_results = cargo.query(
 		'SetData,CardData,SetInfo',
@@ -114,26 +206,63 @@ function p.viewcard(frame)
 			orderBy='SetInfo.ReleaseYear, SetInfo.ReleaseMonth'
 		})
 	local cardnumber_short = {}
+	local cardnumber = {}
 	for r = 1, #set_number_results do
 		local result = set_number_results[r]
-		cardnumber_short[r] = ''..shortset(result['SetData.SetName'])..':'..result['SetData.CardNumber']
+		result['short'] = shortset(result['SetData.SetName'])
+		cardnumber_short[r] = interp('${short}:${SetData.CardNumber}', result)
+		cardnumber[r] = interp('<div class="setEntry"><b>${short}</b> ${SetData.CardNumber}</div>', result)
+		vars.categories[#vars.categories+1] = set_category[result['SetData.SetName']]
 	end
-    vars.cardnumber_short = join(',&nbsp;', cardnumber_short)
+	vars.cardnumber_short = table.concat(cardnumber_short, ',&nbsp;')
+	vars.cardnumber = table.concat(cardnumber, '')
 	
 	apply_altart(frame, vars)
+	apply_house(frame, vars)
+	apply_stats(frame, vars)
+	apply_traits(frame, vars)
 
-	if(vars.cardhouse:find('•', 1, true)) then
-		vars.cardhouse_section = 'Multi'
-	else
-		if(vars.cardhouse:find('Anomaly')) then
-			vars.cardhouse_section = '{{House|House=Anomaly|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=Anomaly">Anomaly</a></html>'
+	local errata_results = cargo.query(
+		'CardData, ErrataData',
+		'ErrataData.Text,ErrataData.Version',
+		{
+			join='CardData._pageName=ErrataData._pageName',
+			where='ErrataData._ID is not null AND CardData.Name="'..vars.cardname..'"',
+			orderBy='ErrataData._ID ASC'
+		}
+	)
+	if(#errata_results>0) then
+		vars.original_text=wikitext(errata_results[1]['ErrataData.Text'])
+		vars.errata_text=wikitext(errata_results[#errata_results]['ErrataData.Text'])
+		vars.errata_version = errata_results[#errata_results]['ErrataData.Version']
+		if(string.find(vars.errata_version, 'Rulebook')) then
+			vars.categories[#vars.categories+1] = 'Errata'
 		else
-			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse}]]'
+			vars.categories[#vars.categories+1] = 'Revised Cards'
+		end
+		vars.cardtext = interp([==[
+			<html><ul id="gallery-containerErrata"><div class="horizontalLine"></div>
+  <li class="gallery-itemErrata">
+  	<input checked="checked" type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="1.jpg" id="gallery-item1Errata" />
+		<div class="gallery-fullsizeErrata"></html>${errata_text}<html></div>
+		<label for="gallery-item1Errata" class="gallery-label1Errata">Current Text</label>
+	</li>
+	<li class="gallery-itemErrata">
+		<input type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="2.jpg" id="gallery-item2Errata" />
+    <div class="gallery-fullsizeErrata"></html><i>${cardname} was updated in ${errata_version}. Original card text:</i><p>${original_text}<html></div>
+		<label for="gallery-item2Errata" class="gallery-label2Errata">Original Text</label>
+	</li></ul></html>
+		]==], vars)
+	else
+		if(vars.cardtext=='(Vanilla)') then vars.cardtext=''
+		else
+			vars.cardtext = '<span class="plainlinks">'..wikitext(vars.cardtext)..'</span>'
 		end
 	end
-	vars.cardhouse_section = interp(vars.cardhouse_section, vars)
 
-	text = frame:preprocess(interp(templates.template_base, vars))
+	apply_categories(frame, vars)
+
+	text = frame:preprocess(interp(templates.template_base, vars):gsub('\n',''))
 	return text
 end
 

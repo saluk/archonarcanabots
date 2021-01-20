@@ -4,11 +4,11 @@ local template_base = [==[
 <style type="text/css">
 ${cardstyle}
 </style>
-<span class="pageOverlay">
-${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext} • Artist: ${cardartist} • Card Number: ${cardnumber_short}
-</p></span>
-</html>
 
+<span class="pageOverlay">
+${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_short} • Artist: ${cardartist} • Card Number: ${cardnumber_short}
+</span>
+</html>
 {{Sharing}}
 
 <div class="cardEntry">
@@ -22,79 +22,41 @@ ${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext} �
       <div class="type"><html><a href="https://archonarcana.com/Card_Gallery?types=${cardtype}">${cardtype}</a></html></div>
       <div class="rarity">{{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity}</a></html></div>
     </div>
+
+
+    <div class="creatureRow">
+      ${cardstatpower}
+      ${cardstatarmor}
+      ${cardstatamber}
+    </div>
+
+    <div class="traits">
+    ${cardtraits}
+    </div>
+
+    <div class="cardText">
+    ${cardtext}
+    </div>
+
+    <div class="flavorText">
+    ${cardflavortext}
+    </div>
+
+    <div class="sets">
+    ${cardnumber}
+    </div>
+
+    <div class="artist"><b>Artist</b>: [[${cardartist}]]</div>
   </div>
-
-
-
 </div>
+
+__NOTOC__
+${categories}
+{{SEO}}
 ]==]
 
 local rest = [==[
-{{#ifeq: {{{Type}}}|Creature|<div class="creatureRow"><div class="power">{{#ifexpr: {{{Power}}} > 9 |<html><a href="https://archonarcana.com/Card_Gallery?types=Creature&power_min=10+&power_max=10+"></html>{{{Power}}} Power<html></a></html>|<html><a href="https://archonarcana.com/Card_Gallery?types=Creature&power_min=</html>{{{Power}}}<html>&power_max=</html>{{{Power}}}<html>"></html>{{{Power}}} Power<html></a></html>}}</div>
-    <div class="armor">{{#if: {{{Armor|}}}| {{#ifexpr: {{{Armor}}}>4|<html><a href="https://archonarcana.com/Card_Gallery?types=Creature&armor_min=5+&armor_max=5+"></html>{{{Armor}}} Armor<html></a></html>|<html><a href="https://archonarcana.com/Card_Gallery?types=Creature&armor_min=</html>{{{Armor}}}<html>&armor_max=</html>{{{Armor}}}<html>"></html>{{{Armor}}} Armor<html></a></html>}} |<html><a href="https://archonarcana.com/Card_Gallery?types=Creature&armor_min=0&armor_max=0"></html>0 Armor</html></a></html>}}</div>
-{{#ifeq: {{{Amber}}}|0|| {{#ifexpr: {{{Amber}}} < 4|<div class="aember"><html><a href="https://archonarcana.com/Card_Gallery?amber_min=</html>{{{Amber}}}<html>&amber_max=</html>{{{Amber}}}<html>"></html>{{{Amber}}}{{Aember}}<html></a></html></div>|<div class="aember"><html><a href="https://archonarcana.com/Card_Gallery?amber_min=4+&amber_max=4+"></html>{{{Amber}}}{{Aember}}<html></a></html></div>}} }}</div>
-| {{#ifeq: {{{Amber}}}|0|<div class="spacer"></div>|<div class="creatureRow"><div class="aember">{{#ifexpr: {{{Amber}}} < 4|<html><a href="https://archonarcana.com/Card_Gallery?amber_min=</html>{{{Amber}}}<html>&amber_max=</html>{{{Amber}}}<html>"></html>{{{Amber}}}{{Aember}}<html></a></html>|<html><a href="https://archonarcana.com/Card_Gallery?amber_min=4+&amber_max=4+"></html>{{{Amber}}}{{Aember}}<html></a></html>}}</div></div>}} }}
-  <div class="traits">{{#if: {{{Traits|}}}|{{#vardefine: i | 0 }}{{#while: | {{#ifexpr: {{#var: i }} < 9 | true }} | <nowiki /> {{#vardefine: y |{{#explode:{{{Traits}}}|<nowiki> </nowiki>|{{#var: i }}}} }} {{#if: {{#var: y }}|{{#ifeq: {{#var: y }}|•|•|<html><a href="https://archonarcana.com/Card_Gallery?traits=</html>{{#var: y }}<html>"></html>{{#var: y }}<html></a></html>}}|}}{{#vardefine: i | {{#expr: {{#var: i }} + 1 }} }} }}|}}</div>
-{{Errata Text
-|Name={{{Name}}}
-|CurrentText={{{Text}}}
-|OriginalText={{#cargo_query:
-tables=CardData, ErrataData
-|fields=ErrataData.Text
-|where=ErrataData._ID is not null AND CardData.Name='{{{Name}}}'
-|join on=CardData._pageName=ErrataData._pageName
-|order by=ErrataData._ID ASC
-|limit=1
-|default=
-|more results text=}}
-|Version={{#cargo_query:
-tables=CardData, ErrataData
-|fields=ErrataData.Version
-|where=ErrataData._ID is not null AND CardData.Name='{{{Name}}}'
-|join on=CardData._pageName=ErrataData._pageName
-|order by=ErrataData._ID DESC
-|limit=1
-|default=
-|more results text=}}}}
-  <div class="flavorText">{{{FlavorText|}}}</div>
-{{#cargo_query:
-tables=SetData,CardData,SetInfo
-|fields=SetData.SetName, SetData.CardNumber=, SetInfo.ReleaseYear, SetInfo.ReleaseMonth
-|join on=SetData._pageTitle=CardData.Name,SetData.SetName=SetInfo.SetName
-|where=CardData.Name='{{{Name}}}'
-|format=template
-|template=Card_Sets
-|default=
-|intro=<div class="sets">
-|outro=</div>
-|order by=SetInfo.ReleaseYear, SetInfo.ReleaseMonth
-}}
-  <div class="artist"><b>Artist</b>: [[{{{Artist|}}}]]</div>
-</div>
-</div>
-__NOTOC__{{#cargo_query:
-tables=SetData,CardData
-|fields=SetData.SetName
-|join on=SetData._pageTitle=CardData.Name
-|where=CardData.Name='{{{Name}}}'
-|format=template
-|template=Card_Categories
-}}{{#if: {{{Traits|}}} |{{#if: {{#explode:{{{Traits}}}|<nowiki> </nowiki>|0}}|[[Category:{{#explode:{{{Traits}}}|<nowiki> </nowiki>|0}}]]|}} 
-{{#if: {{#explode:{{{Traits}}}|<nowiki> </nowiki>|2}}|[[Category:{{#explode:{{{Traits}}}|<nowiki> </nowiki>|2}}]]|}} 
-{{#if: {{#explode:{{{Traits}}}|<nowiki> </nowiki>|4}}|[[Category:{{#explode:{{{Traits}}}|<nowiki> </nowiki>|4}}]]|}} 
-{{#if: {{#explode:{{{Traits}}}|<nowiki> </nowiki>|6}}|[[Category:{{#explode:{{{Traits}}}|<nowiki> </nowiki>|6}}]]|}} 
-{{#if: {{#explode:{{{Traits}}}|<nowiki> </nowiki>|8}}|[[Category:{{#explode:{{{Traits}}}|<nowiki> </nowiki>|8}}]]|}} |}}
-{{#if: {{#pos:{{{Text}}}|{{PAGENAME}}|offset}}|[[Category:Self-referential]]|}}
-<includeonly>[[Category:{{{Type}}}]] {{#ifeq: {{#rpos:{{{House}}}|•}}|-1|[[Category:{{{House}}}]]|[[Category:Multi]]}} [[Category:{{{Rarity}}}]] [[Category:Card]] {{SEO}}</includeonly><nowiki>
-
-
-
-
-
-
-
-
-</nowiki>{{#cargo_query:
+  {{#cargo_query:
 tables=RuleData
 |fields=RulesText, RulesType, RulesSource, RulesPages, RulesDate
 |where=((RulesText like '%{{{Name}}}%' AND RulesPages IS NULL) OR (RulesPages like '%•{{{Name}}}•%')) AND RulesType='FAQ'

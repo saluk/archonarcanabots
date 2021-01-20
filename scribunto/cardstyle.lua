@@ -1098,6 +1098,286 @@ background-color: #dedcd3;
     label.gallery-label {
         cursor: pointer;
     }
+
+    /* CSSSECTION errata */
+      @media screen and (max-width:780px) {
+
+        .cardText {
+          box-sizing:border-box;
+        }
+       
+          .cardText .horizontalLine {
+         position:absolute;
+         top:32px;
+         left:0px;
+         height:0px;
+         width:100%;
+         border-bottom:1px solid #c0c0c0;
+         z-index:20;
+         }
+          
+          ul#gallery-containerErrata {
+         position: relative;
+         width: 100%;
+         height: 200px;
+         margin: 0;
+         text-align: left;
+         display: block;
+         background-color:#fafafa;
+         box-sizing:border-box;
+       }
+       
+       li.gallery-itemErrata {
+         display: inline-block;
+         appearance: none;
+         margin-left:0px;
+           box-sizing:border-box;
+       }
+       
+       .gallery-label1Errata {
+         position: absolute;
+         top: 1px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: black;
+         margin-left:0px;
+           left: 0px;
+         padding: 5px 20px 5px 20px;
+           border-top-left-radius:20px;
+         border-top-right-radius:20px;
+       }
+       
+       .gallery-label2Errata {
+         position: absolute;
+         top: 1px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: black;
+         left: 55%;
+         padding: 5px 20px 5px 20px;
+         border-top-left-radius:20px;
+         border-top-right-radius:20px;
+       }
+       
+       .gallery-label3Errata {
+         position: absolute;
+         bottom: 0px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: white;
+         left: 250px;
+         padding: 12px 25px 12px 25px;
+         border-radius: 10px;
+       }
+       
+       .gallery-label1Errata:hover,
+       .gallery-label2Errata:hover,
+       .gallery-label3Errata:hover, input.gallery-selectorErrata:checked~.gallery-label1Errata, input.gallery-selectorErrata:checked~.gallery-label2Errata {
+         background-color: #dedede;
+         background-image:linear-gradient(#dedede 75%,#fafafa);
+         cursor: pointer;
+       }
+       
+       input.gallery-selectorErrata:checked~div.gallery-fullsizeErrata {
+         display: block;
+         opacity: 1;
+         z-index: 10;
+         animation-name: fadeText;
+         animation-duration: .8s;
+         animation-timing-function: ease-in-out;
+             box-sizing:border-box;
+       }
+       
+       }
+       
+       /* phone screens to accommodate magda the rat */
+       
+       @media screen and (max-width: 500px) {
+       
+          ul#gallery-containerErrata {
+         position: relative;
+         width: 100%;
+         height: 250px;
+         margin: 0;
+         text-align: left;
+         display: block;
+         box-sizing:border-box;
+       }
+       
+       }
+       
+       /* makes the buttons smaller */
+       
+       @media screen and (max-width: 380px) {
+       
+       
+       .gallery-label1Errata {
+         position: absolute;
+         top: 1px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: black;
+         margin-left:0px;
+           left: 0px;
+         padding: 5px 10px 5px 10px;
+           border-top-left-radius:20px;
+         border-top-right-radius:20px;
+       }
+       
+       .gallery-label2Errata {
+         position: absolute;
+         top: 1px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: black;
+         left: 55%;
+         padding: 5px 10px 5px 10px;
+         border-top-left-radius:20px;
+         border-top-right-radius:20px;
+       }
+       
+       .gallery-label3Errata {
+         position: absolute;
+         bottom: 0px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: white;
+         left: 250px;
+         padding: 12px 25px 12px 25px;
+         border-radius: 10px;
+       }
+       
+       }
+       
+       
+       /* desktop screens */
+       @media screen and (min-width: 781px) {
+       
+        
+          .cardText .horizontalLine {
+         position:absolute;
+         top:32px;
+         height:1px;
+         width:100%;
+         background-color:#c0c0c0;
+         z-index:20;
+         }
+         
+         ul#gallery-containerErrata {
+         position: relative;
+         width: 100%;
+         height: 180px;
+         max-width:400px;
+         margin: 0;
+         text-align: left;
+         display: block;
+         background-color:#fafafa;
+         box-sizing:border-box;
+       }
+       
+       li.gallery-itemErrata {
+         display: inline-block;
+         appearance: none;
+         margin-left:0px;
+           box-sizing:border-box;
+       }
+       
+       
+       .gallery-label1Errata {
+         position: absolute;
+         top: 1px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: black;
+         left: 0px;
+         margin-left:0px;
+         padding: 5px 20px 5px 20px;
+           border-top-left-radius:20px;
+         border-top-right-radius:20px;
+         transition: background .2s ease-in-out;
+       }
+       
+       .gallery-label2Errata {
+         position: absolute;
+         top: 1px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: black;
+         left: 55%;
+         padding: 5px 20px 5px 20px;
+         border-top-left-radius:20px;
+         border-top-right-radius:20px;
+         transition: background .2s ease-in-out;
+       }
+       
+       .gallery-label3Errata {
+         position: absolute;
+         bottom: 0px;
+         font-weight: 600;
+         background-color: #fafafa;
+         color: white;
+         left: 250px;
+         padding: 12px 25px 12px 25px;
+         border-radius: 10px;
+       }
+       
+       .gallery-label1Errata:hover,
+       .gallery-label2Errata:hover,
+       .gallery-label3Errata:hover, input.gallery-selectorErrata:checked~.gallery-label1Errata, input.gallery-selectorErrata:checked~.gallery-label2Errata {
+         background-color: #dedede;
+         cursor: pointer;
+       }
+       
+       input.gallery-selectorErrata:checked~div.gallery-fullsizeErrata {
+         display: block;
+         opacity: 1;
+         z-index: 10;
+         animation-name: fadeText;
+         animation-duration: .8s;
+         animation-timing-function: ease-in-out;
+             box-sizing:border-box;
+       }
+       
+       }
+       /* end media */
+       
+       
+       
+       
+       div.gallery-fullsizeErrata {
+         position: absolute;
+         top: 32px;
+         left: 0px;
+         display: block;
+         z-index: -1;
+         opacity: 0;
+             padding-top: 16px;
+           padding-bottom: 8px;
+           box-sizing: border-box;
+           line-height: 1.5em;
+           clear:both;
+       }
+       
+       
+       
+       
+       @keyframes fadeText {
+         from {
+           opacity: .4
+         }
+       
+         to {
+           opacity: 1
+         }
+       }
+       
+       input.gallery-selectorErrata {
+         display: none;
+       }
+       
+       ul#gallery-containerErrata, li.gallery-itemErrata {
+         margin-left:0px;
+       }       
     ]==],
     multihouse_style = [==[
         /* CSSSECTION MULTI HOUSE */

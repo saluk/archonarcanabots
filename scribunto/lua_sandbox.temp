@@ -1,4 +1,7 @@
 --User:Saluk/Sandbox/lua
+{{#invoke: luacard | viewcard | cardname=Bait and Switch}}
+{{#invoke: luacard | viewcard | cardname=Dust Pixie}}
+{{#invoke: luacard | viewcard | cardname=Collector Worm}}
 {{#invoke: luacard | viewcard | cardname=Jargogle}}
 {{#invoke: luacard | viewcard | cardname=Orb of Wonder (Anomaly)}}
 {{#invoke: luacard | viewcard | cardname=(REDACTED)}}
