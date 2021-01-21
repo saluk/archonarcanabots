@@ -16,11 +16,11 @@ ${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_sh
 
   <div class="rightSide">
     <div class="topRow">
-      <div class="house ${cardhouse_lower}">
+      <div class="house ${cardhouse_color}">
         ${cardhouse_section}
       </div>
-      <div class="type"><html><a href="https://archonarcana.com/Card_Gallery?types=${cardtype}">${cardtype}</a></html></div>
-      <div class="rarity">{{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity}</a></html></div>
+      <div class="type ${cardhouse_color}"><html><a href="https://archonarcana.com/Card_Gallery?types=${cardtype}">${cardtype}</a></html></div>
+      <div class="rarity ${cardhouse_color}">{{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity}</a></html></div>
     </div>
 
 
@@ -50,83 +50,13 @@ ${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_sh
   </div>
 </div>
 
+  ${ruleofficial}
+  ${rulecommentary}
+  ${ruleoutstanding}
+
 __NOTOC__
 ${categories}
 {{SEO}}
-]==]
-
-local rest = [==[
-  {{#cargo_query:
-tables=RuleData
-|fields=RulesText, RulesType, RulesSource, RulesPages, RulesDate
-|where=((RulesText like '%{{{Name}}}%' AND RulesPages IS NULL) OR (RulesPages like '%•{{{Name}}}•%')) AND RulesType='FAQ'
-|limit=100
-|offset=0
-|format=template
-|template=FAQ_Entry
-|order by=RulesDate ASC
-|group by=RulesText, RulesType, RulesSource, RulesPages, RulesDate
-|named args=yes
-|no html
-|max display chars=10000
-|intro=<h2>FFG Rulings</h2>
-|outro=<includeonly>[[Category:FAQ]]</includeonly>
-|default=
-}}{{#cargo_query:
-tables=RuleData
-|fields=RulesText, RulesType, RulesSource, RulesPages, RulesDate
-|where=((RulesText like '%{{{Name}}}%' AND RulesPages IS NULL) OR (RulesPages like '%•{{{Name}}}•%')) AND RulesType='FFGRuling'
-|limit=100
-|offset=0
-|format=template
-|template=FAQ_Entry
-|order by=RulesDate ASC
-|group by=RulesText, RulesType, RulesSource, RulesPages, RulesDate
-|named args=yes
-|no html
-|max display chars=10000
-|intro={{#cargo_query:
-tables=RuleData
-|fields=CONCAT('')
-|where=((RulesText like '%{{{Name}}}%' AND RulesPages IS NULL) OR (RulesPages like '%•{{{Name}}}•%')) AND RulesType='FAQ'
-|limit=1
-|more results text=
-|default=<h2>FFG Rulings</h2>}} 
-|outro=<includeonly>[[Category:FFG Rulings]]</includeonly>
-|default=
-}}{{#cargo_query:
-tables=RuleData
-|fields=RulesText, RulesType, RulesSource, RulesPages, RulesDate
-|where=((RulesText like '%{{{Name}}}%' AND RulesPages IS NULL) OR (RulesPages like '%•{{{Name}}}•%')) AND RulesType='Commentary'
-|limit=100
-|offset=0
-|format=template
-|template=Commentary_Entry
-|order by=RulesDate ASC
-|group by=RulesText, RulesType, RulesSource, RulesPages, RulesDate
-|named args=yes
-|no html
-|max display chars=10000
-|intro=<h2>Commentary</h2>
-|outro=<includeonly>[[Category:Commentary]]</includeonly>
-|default=
-}}{{#cargo_query:
-tables=RuleData
-|fields=RulesText, RulesType, RulesSource, RulesPages, RulesDate
-|where=(((RulesText like '%{{{Name}}}%' AND RulesPages IS NULL) OR (RulesPages like '%•{{{Name}}}•%')) AND RulesType='OutstandingIssues') AND (RulesText like '%//%')
-|limit=100
-|offset=0
-|format=template
-|template=Commentary_Entry
-|order by=RulesDate ASC
-|group by=RulesText, RulesType, RulesSource, RulesPages, RulesDate
-|named args=yes
-|no html
-|max display chars=10000
-|intro=<h2>Outstanding Issues</h2><div class="aa-box">[[File:Exclamation_flat_icon.svg|20px|class=aa-warning|frameless|link=]]<div class="text">There is an outstanding issue concerning {{{Name}}}. </div></div>
-|outro=<includeonly>[[Category:Commentary]]</includeonly>
-|default=
-}}
 ]==]
 
 local template_altart = [==[

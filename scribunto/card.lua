@@ -10,7 +10,11 @@ function interp(s, tab)
 end
 
 function wikitext(s)
-	return s:gsub('\n', ' '):gsub('<p>','')
+	return s:gsub('\n', ''):gsub('<p>','__PARA__')
+end
+
+function dewikitext(s)
+	return s:gsub('__PARA__', '<p>')
 end
 
 local set_category = {}
@@ -93,8 +97,10 @@ end
 function apply_house(frame, vars)
 	if(vars.cardhouse:find('•', 1, true)) then
 		vars.cardhouse_section = 'Multi'
+		vars.cardhouse_color = ''
 		vars.categories[#vars.categories+1] = 'Multi'
 	else
+		vars.cardhouse_color = vars.cardhouse_lower
 		vars.categories[#vars.categories+1] = vars.cardhouse
 		if(vars.cardhouse:find('Anomaly')) then
 			vars.cardhouse_section = '{{House|House=Anomaly|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=Anomaly">Anomaly</a></html>'
@@ -161,6 +167,70 @@ function apply_categories(frame, vars)
 		end
 	end
 	vars.categories = '<includeonly>'..table.concat(vars.categories,'')..'</includeonly>'
+end
+
+function rulequery(type, cardname)
+	return cargo.query(
+		'RuleData',
+		'RulesText, RulesType, RulesSource, RulesPages, RulesDate',
+		{
+			groupBy='RulesText, RulesType, RulesSource, RulesPages, RulesDate',
+			where="((RulesText like '%"..cardname.."%' AND RulesPages IS NULL) OR (RulesPages like '%•"..cardname.."•%')) AND RulesType='"..type.."'",
+			orderBy='RulesDate ASC'
+		})
+end
+
+function apply_rulings(frame, vars)
+	vars.ruleofficial = ''
+	vars.rulecommentary = ''
+	vars.ruleoutstanding = ''
+
+	local official_results = rulequery('FAQ', vars.cardname)
+	if(#official_results>0) then vars.categories[#vars.categories+1] = 'FAQ' end
+
+	local ruling_results = rulequery('FFGRuling', vars.cardname)
+	if(#ruling_results>0) then vars.categories[#vars.categories+1] = 'FFG Rulings' end
+
+	for _,v in ipairs(ruling_results) do
+		table.insert(official_results, v)
+	end
+
+	local commentary_results = rulequery('Commentary', vars.cardname)
+	local outstanding_results = rulequery('OutstandingIssues', vars.cardname)
+	if(#outstanding_results>0 or #commentary_results>0) then vars.categories[#vars.categories+1] = 'Commentary' end
+
+	if(#official_results>0) then
+		vars.ruleofficial = vars.ruleofficial .. '<h2>FFG Rulings</h2>'
+		for i,v in ipairs(official_results) do
+			vars.ruleofficial = vars.ruleofficial .. frame:expandTemplate{title='FAQ_Entry', args={
+				RulesType=v['RulesType'],
+				RulesText=v['RulesText'],
+				RulesSource=v['RulesSource']
+			}}
+		end
+	end
+	if(#commentary_results>0) then
+		vars.rulecommentary = vars.rulecommentary .. '<h2>Commentary</h2>'
+		for i,v in ipairs(commentary_results) do
+			vars.rulecommentary = vars.rulecommentary .. frame:expandTemplate{title='Commentary_Entry', args={
+				RulesType=v['RulesType'],
+				RulesText=v['RulesText'],
+				RulesSource=v['RulesSource']
+			}}
+		end
+	end
+	if(#outstanding_results>0) then
+		vars.ruleoutstanding = vars.ruleoutstanding .. '<h2>Outstanding Issues</h2><div class="aa-box">[[File:Exclamation_flat_icon.svg|20px|class=aa-warning|frameless|link=]]<div class="text">There is an outstanding issue concerning {{{Name}}}. </div></div>'
+		for i,v in ipairs(outstanding_results) do
+			if(v['RulesText'].find('//')) then
+				vars.ruleoutstanding = vars.ruleoutstanding .. frame:expandTemplate{title='Commentary_Entry', args={
+					RulesType=v['RulesType'],
+					RulesText=v['RulesText'],
+					RulesSource=v['RulesSource']
+				}}
+			end
+		end
+	end
 end
 
 function p.viewcard(frame)
@@ -260,9 +330,11 @@ function p.viewcard(frame)
 		end
 	end
 
+	apply_rulings(frame, vars)
 	apply_categories(frame, vars)
 
 	text = frame:preprocess(interp(templates.template_base, vars):gsub('\n',''))
+	text = dewikitext(text)
 	return text
 end
 
