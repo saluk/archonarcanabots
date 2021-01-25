@@ -39,5 +39,23 @@ def test_topsearch(browser):
     assert found_card and found_deck and found_containing and found_deck_containing, (found_card, found_deck, found_containing, found_deck_containing)
 
 
+def get_visible_image(browser):
+    for img in browser.find_by_css('.gallery-fullsize img'):
+        if img.visible:
+            return img
+
 def test_cards(browser):
-    print(browser)
+    #Dark Amber Vault
+    browser.visit("https://archonarcana.com/Dark_%C3%86mber_Vault")
+    assert browser.find_by_css('.gallery-label2 img.house-logo[alt="Logos.png"]').first
+    assert browser.find_by_css('.cardText a').first.text == 'Mutant'
+    assert browser.find_by_css('.topRow .house').first.text == 'Multi'
+    assert browser.find_by_css('.artist a').first.text == 'Dany Orizio'
+    assert '479-001-Dis.png' in get_visible_image(browser)['src']
+    browser.find_by_css('.house-logo[alt="Logos.png"]').first.click()
+    time.sleep(0.5)
+    assert '479-001-Logos.png' in get_visible_image(browser)['src']
+
+    assert 'Chonkers' in browser.find_by_css('.faqQuestion').first.text
+    assert 'So Chonkers will still only have 1 power this turn' in browser.find_by_css('.faqAnswer').first.text
+    assert browser.find_by_css('#Note').first
