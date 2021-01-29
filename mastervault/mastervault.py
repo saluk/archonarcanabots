@@ -29,6 +29,7 @@ def correlate_deck(deck, cards_by_key, cards_by_key_exp):
         card = {}
         card.update(cards_by_key[card_key])
         card["deck_expansion"] = deck["expansion"]
+        card["is_legacy"] = card_key in deck["set_era_cards"]["Legacy"]
         cards_by_key_exp[(card_key, deck["expansion"])] = card
 
 
@@ -310,8 +311,10 @@ class MasterVault:
                     decks, cards, proxy = self.get_decks_with_cards("", page, locale)
                     update_cards = []
                     for card in cards:
+                        if card["is_legacy"]:
+                            continue
                         en_card = session.query(mv_model.Card).filter(mv_model.Card.key==card["id"]).first()
-                        locale_card = mv_model.LocaleCard(en_name=en_card.name, key=card["id"], data=card, locale=locale)
+                        locale_card = mv_model.LocaleCard(en_name=en_card.name, key=card["id"], data=card, locale=locale, deck_expansion=card["deck_expansion"])
                         update_cards.append(locale_card)
                     print("adding", len(cards))
                     mv_model.postgres_upsert(session, mv_model.LocaleCard, update_cards)
@@ -357,7 +360,7 @@ def daemon():
 
 if __name__ == "__main__":
     print(sys.argv)
-    if sys.argv[1] == "get_deck":
+    if sys.argv[1] == "get_french_locales":
         print(mv.scrape_cards_locale("fr-fr"))
     else:
         daemon()

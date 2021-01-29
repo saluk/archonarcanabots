@@ -79,9 +79,14 @@ def update_reprint_with_errata(ct, errata, card):
     ct.append("ErrataData", {"Text":card["card_text"], "Version":"Mass Mutation"})
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False):
-    latest = wiki_card_db.get_latest_from_card(card)
-    page = wp.page("CardData:" + latest["card_title"])
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False,
+    locale=None):
+    latest_english = wiki_card_db.get_latest_from_card(card)
+    latest = wiki_card_db.get_latest_from_card(card, locale)
+    print(latest)
+    print(latest_english)
+    page = wp.page("CardData:" + latest_english["card_title"] + ("-Locale" if locale else ""))
+    print(page.title)
     ct = wikibase.CargoTable()
     ot = ""
     try:
@@ -89,8 +94,15 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         ct.read_from_text(page.read())
     except Exception:
         pass
+    print(ct.data_types)
     if data_to_update == "carddb":
-        wiki_card_db.get_cargo(card, ct, restricted)
+        wiki_card_db.get_cargo(card, ct, restricted, locale=locale)
+        if locale:
+            print(ct.data_types)
+            ct.update_or_create("CardLocaleData", 0,
+                {"EnglishName": latest_english["card_title"],
+                "Locale": locale})
+            print(ct.data_types)
     elif data_to_update == "insert_search_text":
         wiki_card_db.get_cargo(card, ct, ["SearchText", "SearchFlavorText"])
     elif data_to_update == "relink":
@@ -127,7 +139,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         modified = reprints["edited"].get(latest["card_title"], None)
         if modified:
             ct.get_datas("CardData")[0]["Text"] = modified["new"]
-        wiki_card_db.get_cargo(card, ct, [key for key in ct.get_datas("CardData")[0].keys() if key not in ["Artist"]])            
+        wiki_card_db.get_cargo(card, ct, [key for key in ct.get_datas("CardData")[0].keys() if key not in ["Artist"]])     
     text = ct.output_text()
     if ot==text:
         return
@@ -144,19 +156,21 @@ def update_cards_v2(wp, search_name=None,
                     restricted=[],
                     matching=None,
                     restrict_expansion=None,
-                    upload_image=False):
+                    upload_image=False,
+                    locale=None):
     changed = 0
     started = False
     for i, card_name in enumerate(sorted(wiki_card_db.cards.keys())):
         if not started and (search_name and search_name.lower() not in card_name.lower()):
             continue
-        latest = wiki_card_db.get_latest(card_name)
+        latest = wiki_card_db.get_latest(card_name, locale=locale)
         if matching and matching.lower() not in (latest["flavor_text"]+latest["card_text"]).lower():
             continue
         if restrict_expansion and not latest["expansion"] == restrict_expansion:
             continue
         started = True
         print(i+1, card_name)
+        print(latest)
         if upload_image:
             rp = latest["image_number"]
             lp = "images/"+rp
@@ -176,7 +190,8 @@ def update_cards_v2(wp, search_name=None,
                 wp, wiki_card_db.cards[card_name],
                 update_reason=update_reason,
                 restricted=restricted,
-                data_to_update=data_to_update)
+                data_to_update=data_to_update,
+                locale=locale)
         if text:
             print("changed:", text)
             changed += 1

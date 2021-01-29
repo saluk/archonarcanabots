@@ -2,6 +2,8 @@ import os
 import json
 import re
 from fuzzywuzzy import fuzz
+import sys
+sys.path.append("./")
 import connections
 import util
 from util import SEPARATOR
@@ -160,23 +162,6 @@ def get_keywordvalue_text(text, kw):
     if found:
         return found[0]
     return ""
-
-
-def read_enhanced(text):
-    # Enhancements
-    enhanced = re.match("(Enhance (A*)((PT)*)(D*)(R*))", text)
-    ea=ept=ed=er=0
-    if enhanced:
-        ea = enhanced.group(2).count("A")
-        a = "{{Aember}}" * ea
-        ept = enhanced.group(3).count("PT")
-        pt = "{{Capture}}" * ept
-        ed = enhanced.group(5).count("D")
-        d = "{{Damage}}" * ed
-        er = enhanced.group(6).count("R")
-        r = "{{Draw}}" * er
-        text = text[:enhanced.start()] + "[[Enhance]] " + "".join([a, pt, d, r]) + text[enhanced.end():]
-    return text, {'enhance_amber':ea, 'enhance_capture':ept, 'enhance_damage':ed, 'enhance_draw':er}
 
 
 def modify_search_text(text):
@@ -369,9 +354,12 @@ def get_sets(card):
             yield (nice_set_name(set_num), set_num, card[str(set_num)]["card_number"])
 
 
-def get_latest_from_card(card):
+def get_latest_from_card(card, locale=None):
     for (set_name, set_num, card_num) in reversed(list(get_sets(card))):
-        return card[str(set_num)]
+        latest = card[str(set_num)]
+        if locale:
+            latest = latest["locales"][locale]
+        return latest
     raise Exception("couldn't find a set in", card)
 
 
@@ -428,7 +416,22 @@ def load_from_mv_files(only=None):
     scope = mv_model.UpdateScope()
     for set_id in [479]:
         for card in scope.get_cards(set_id):
-            add_card(card, cards)
+            add_card(card.data, cards)
+    for card in scope.get_locale_cards():
+        translated_card_data = wiki_model.card_data(card.data, card.locale)
+        fixed_data = {"card_title": wiki_model.sanitize_name(card.en_name), "house":card.data["house"], "expansion": card.data["expansion"]}
+        wiki_model.fix_card_data(fixed_data)
+        entry = cards[fixed_data["card_title"]]
+        eng = entry[str(fixed_data['expansion'])]
+        if 'locales' not in eng:
+            eng['locales'] = {}
+        #Don't use english name here
+        del fixed_data["card_title"]
+        translated_card_data.update(fixed_data)
+        translated_card_data["image_number"] = card.locale + "-" + translated_card_data["image_number"]
+        eng['locales'][card.locale] = translated_card_data
+        continue
+        
     for card_title in cards:
         if only and card_title != only:
             continue
@@ -461,10 +464,10 @@ def load_json():
         cards.update(json.loads(f.read()))
 
 
-def get_latest(card_title, fuzzy=False):
+def get_latest(card_title, fuzzy=False, locale=None):
     if fuzzy:
         card_title = fuzzyfind(card_title)
-    card = get_latest_from_card(cards[card_title])
+    card = get_latest_from_card(cards[card_title], locale)
     return card
 
 
@@ -479,12 +482,13 @@ def get_restricted_dict(source, restricted, pre=""):
             rd[key] = source[key]
     return rd
 
-
-def get_cargo(card, ct=None, restricted=[], only_sets=False):
+CARD_FIELDS_FOR_LOCALE = ["EnglishName", "Name", "Image", "Text", "SearchText", "FlavorText", "SearchFlavorText"]
+def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
+    table = "CardData" if not locale else "CardLocaleData"
     if not ct:
         from wikibase import CargoTable
         ct = CargoTable()
-    latest = get_latest_from_card(card)
+    latest = get_latest_from_card(card, locale)
     cardtable = get_restricted_dict({
         "Name": latest["card_title"],
         "Image": latest["image_number"],
@@ -508,12 +512,19 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False):
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
     }, restricted)
+    if locale:
+        for k in list(cardtable.keys()):
+            if k not in CARD_FIELDS_FOR_LOCALE:
+                del cardtable[k]
     assert "Artist" not in restricted
     # TODO This only updates SetData for old cards when we are importing new sets
     if only_sets and len(card)>1 and not latest["card_title"]=="Orb of Wonder":
         pass
     else:
-        ct.update_or_create("CardData", latest["card_title"], cardtable)
+        ct.update_or_create(table, 0, cardtable)
+    if locale:
+        # Don't update sets when updating locale tables
+        return
     card_sets = list(get_sets(card))
     print(card_sets)
     earliest_set = min([s[1] for s in card_sets])

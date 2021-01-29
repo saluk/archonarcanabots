@@ -26,6 +26,7 @@ hard_code = {
 def sanitize_name(name):
     name = bleach.clean(name.replace("[", "(").replace("]", ")"))
     name = util.dequote(name)
+    name = name.strip()
     return name
 
 def sanitize_trait(trait):
@@ -126,21 +127,26 @@ def get_keywordvalue_text(text, kw):
         return found[0]
     return ""
 
-
-def read_enhanced(text):
+enhanced_regex = {
+    None: ("Enhance", "A", "PT", "D", "R"),
+    'fr-fr': ("Don", "A", "PT", "D", "R")
+}
+def read_enhanced(text, locale=None):
     # Enhancements
-    enhanced = re.match("(Enhance (A*)((PT)*)(D*)(R*))", text)
+    t = enhanced_regex[locale]
+    regex = "(%s (%s*)((%s)*)(%s*)(%s*))" % t
+    enhanced = re.match(regex, text)
     ea=ept=ed=er=0
     if enhanced:
-        ea = enhanced.group(2).count("A")
+        ea = enhanced.group(2).count(t[1])
         a = "{{Aember}}" * ea
-        ept = enhanced.group(3).count("PT")
+        ept = enhanced.group(3).count(t[2])
         pt = "{{Capture}}" * ept
-        ed = enhanced.group(5).count("D")
+        ed = enhanced.group(5).count(t[3])
         d = "{{Damage}}" * ed
-        er = enhanced.group(6).count("R")
+        er = enhanced.group(6).count(t[4])
         r = "{{Draw}}" * er
-        text = text[:enhanced.start()] + "[[Enhance]] " + "".join([a, pt, d, r]) + text[enhanced.end():]
+        text = text[:enhanced.start()] + "[[Enhance|%s]] " % t[0] + "".join([a, pt, d, r]) + text[enhanced.end():]
     return text, {'enhance_amber':ea, 'enhance_capture':ept, 'enhance_damage':ed, 'enhance_draw':er}
 
 
@@ -211,8 +217,7 @@ def nice_rarity(rarity):
 def image_number(card):
     return "%s-%s.png" % (card["expansion"], card["card_number"])
 
-
-def card_data(card):
+def fix_card_data(card, locale=None):
     ot = card["card_title"]
     if ot in hard_code:
         commands = hard_code[ot]
@@ -224,6 +229,8 @@ def card_data(card):
             new_name = new_name.replace("%s", ot)
             card["card_title"] = new_name
 
+def card_data(card, locale=None):
+    fix_card_data(card, locale)
     title = sanitize_name(card["card_title"])
     title = safe_name(title)
     card["card_title"] = title
@@ -254,7 +261,7 @@ def card_data(card):
     card["card_text_search"] = card["card_text"]
     card["flavor_text_search"] = card["flavor_text"]
 
-    card["card_text"], enhancements = read_enhanced(card["card_text"])
+    card["card_text"], enhancements = read_enhanced(card["card_text"], locale)
     card.update(enhancements)
 
     card["card_text"] = linking_keywords(modify_card_text(card["card_text"], title))

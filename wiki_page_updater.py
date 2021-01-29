@@ -16,13 +16,21 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("python wiki_page_updater import_cards2 TimeTraveller")
     else:
-        if sys.argv[1] == "import_cards2":
+        if sys.argv[1] == "import_cards":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) >= 3 else None
             restricted = sys.argv[3] if len(sys.argv) >= 4 else ""
             tool_update_cards.update_cards_v2(wp, search, "importing card data (mm)", 
                                               "carddb", restricted.split("|") if restricted else [],
                                               upload_image=False)
+        if sys.argv[1] == "import_cards_fr":
+            import tool_update_cards
+            search = sys.argv[2] if len(sys.argv) >= 3 else None
+            restricted = sys.argv[3] if len(sys.argv) >= 4 else ""
+            tool_update_cards.update_cards_v2(wp, search, "importing card data locale=fr", 
+                                              "carddb", restricted.split("|") if restricted else [],
+                                              upload_image=True,
+                                              locale="fr-fr")
         if sys.argv[1] == "reprint_pull":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) >= 3 else None

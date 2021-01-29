@@ -187,6 +187,7 @@ class UpdateScope(object):
     # 452, 453, 341, 479, 435
 
     def get_cards(self, expansion=None):
+        print("getting cards")
         session = Session()
         cards = session.query(Card).filter(
             Card.data['is_enhanced']=='false',
@@ -194,7 +195,7 @@ class UpdateScope(object):
         if expansion:
             cards = cards.filter(Card.data['expansion']==str(expansion))
         cards = cards.all()
-        # print(len(cards))
+        print(len(cards))
         card_names = {}
         for c in cards:
             #print(c.key)
@@ -209,6 +210,14 @@ class UpdateScope(object):
             card_names[c.name] = c
         # print(sorted(card_names.keys()))
         return card_names.values()
+
+    def get_locale_cards(self, locale=None):
+        print("getting locale")
+        session = Session()
+        cards = session.query(LocaleCard)
+        cards = cards.all()
+        print(len(cards))
+        return cards
 
     # TODO move to migration module, add the index removal part
     def update_add_name_sane(self, batch_size=1000):
@@ -314,10 +323,11 @@ class Card(Base):
 
 
 class LocaleCard(Base):
-    __tablename__ = 'locale-card'
+    __tablename__ = 'locale_card'
     en_name = Column(String, primary_key=True)
     key = Column(String, primary_key=True)
     locale = Column(String, primary_key=True)
+    deck_expansion = Column(Integer)
     data = Column(JSONB)
 
 
