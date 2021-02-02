@@ -129,7 +129,8 @@ def get_keywordvalue_text(text, kw):
 
 enhanced_regex = {
     None: ("Enhance", "A", "PT", "D", "R"),
-    'fr-fr': ("Don", "A", "PT", "D", "R")
+    'fr-fr': ("Don", "A", "PT", "D", "R"),
+    'it-it': ("Potenziamento", "A", "PT", "D", "R")
 }
 def read_enhanced(text, locale=None):
     # Enhancements

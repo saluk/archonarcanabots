@@ -59,8 +59,9 @@ class Section(object):
 
 
 def cargo_index(table_type):
-    return {"CardData": "Name",
-            "SetData": "SetName"}.get(table_type, None)
+    return {"CardData": ["Name"],
+            "CardLocaleData": ["EnglishName", "Locale"],
+            "SetData": ["SetName"]}.get(table_type, "default")
 
 
 def cargo_unique(datatype):
@@ -76,7 +77,7 @@ def cargo_sort(table_type, table):
         return sorted(table, key=sort_function)
     defkey = cargo_index(table_type)
     if defkey:
-        return sorted(table, key=lambda row: row.get(defkey, ''))
+        return sorted(table, key=lambda row: tuple([row.get(k, '') for k in defkey]))
     return table
 
 
@@ -107,7 +108,7 @@ class CargoTable:
                         self.data_types[datatype] = {}
                     index_key = cargo_index(datatype)
                     if index_key:
-                        key = d[index_key]
+                        key = tuple([d[x] for x in index_key])
                     else:
                         key = len(self.data_types[datatype])
                     self.data_types[datatype][key] = d

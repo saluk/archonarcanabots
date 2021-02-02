@@ -266,6 +266,23 @@ function p.viewcard(frame)
 	if(string.find(vars.cardtext,vars.cardname)) then
 		vars.categories[#vars.categories+1] = 'Self-referential'
 	end
+
+	if frame.args.locale then
+		local locale_table_results = cargo.query(
+			'CardLocaleData',
+			'Name,EnglishName,Text,FlavorText,Locale,Image',
+			{
+				where='CardLocaleData.EnglishName="'..frame.args.cardname..'" and CardLocaleData.Locale="'..frame.args.locale..'"'
+			}
+		)
+		for c = 1, #locale_table_results do
+			local cardlocale = locale_table_results[c]
+			vars.cardtext = cardlocale['Text']
+			vars.cardname = cardlocale['Name']
+			vars.cardflavortext = cardlocale['FlavorText']
+			vars.cardimage = cardlocale['Image']
+		end
+	end
     
 	local set_number_results = cargo.query(
 		'SetData,CardData,SetInfo',

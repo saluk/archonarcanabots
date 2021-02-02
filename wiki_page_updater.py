@@ -23,14 +23,13 @@ if __name__ == "__main__":
             tool_update_cards.update_cards_v2(wp, search, "importing card data (mm)", 
                                               "carddb", restricted.split("|") if restricted else [],
                                               upload_image=False)
-        if sys.argv[1] == "import_cards_fr":
+        if sys.argv[1] == "import_cards_locale":
             import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) >= 3 else None
-            restricted = sys.argv[3] if len(sys.argv) >= 4 else ""
-            tool_update_cards.update_cards_v2(wp, search, "importing card data locale=fr", 
-                                              "carddb", restricted.split("|") if restricted else [],
+            locale = sys.argv[2]
+            tool_update_cards.update_cards_v2(wp, "", "importing card data locale="+locale, 
+                                              "carddb", [],
                                               upload_image=True,
-                                              locale="fr-fr")
+                                              locale=locale)
         if sys.argv[1] == "reprint_pull":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) >= 3 else None

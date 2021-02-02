@@ -360,7 +360,7 @@ def daemon():
 
 if __name__ == "__main__":
     print(sys.argv)
-    if sys.argv[1] == "get_french_locales":
-        print(mv.scrape_cards_locale("fr-fr"))
+    if sys.argv[1] == "get_locale":
+        print(mv.scrape_cards_locale(sys.argv[2]))
     else:
         daemon()

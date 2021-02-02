@@ -1,6 +1,13 @@
 --User:Saluk/Sandbox/lua
+<div class="translate-en" style="display:none">
+{{#invoke: luacard | viewcard | cardname=Alaka}}
+</div>
+<div class="translate-fr" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Alaka | locale=fr-fr}}
+</div>
+
+
 {{#invoke: luacard | viewcard | cardname=Bait and Switch}}
-{{#invoke: luacard | viewcard | cardname=Dust Pixie}}
 {{#invoke: luacard | viewcard | cardname=Collector Worm}}
 {{#invoke: luacard | viewcard | cardname=Jargogle}}
 {{#invoke: luacard | viewcard | cardname=Orb of Wonder (Anomaly)}}

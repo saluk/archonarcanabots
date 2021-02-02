@@ -483,8 +483,8 @@ def get_restricted_dict(source, restricted, pre=""):
     return rd
 
 CARD_FIELDS_FOR_LOCALE = ["EnglishName", "Name", "Image", "Text", "SearchText", "FlavorText", "SearchFlavorText"]
-def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
-    table = "CardData" if not locale else "CardLocaleData"
+def get_cargo(card, ct=None, restricted=[], only_sets=False):
+    table = "CardData"
     if not ct:
         from wikibase import CargoTable
         ct = CargoTable()
@@ -512,19 +512,12 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
     }, restricted)
-    if locale:
-        for k in list(cardtable.keys()):
-            if k not in CARD_FIELDS_FOR_LOCALE:
-                del cardtable[k]
     assert "Artist" not in restricted
     # TODO This only updates SetData for old cards when we are importing new sets
     if only_sets and len(card)>1 and not latest["card_title"]=="Orb of Wonder":
         pass
     else:
         ct.update_or_create(table, 0, cardtable)
-    if locale:
-        # Don't update sets when updating locale tables
-        return
     card_sets = list(get_sets(card))
     print(card_sets)
     earliest_set = min([s[1] for s in card_sets])
@@ -538,6 +531,26 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         }, restricted, "SetData")
         ct.update_or_create("SetData", set_name, settable)
         print(settable)
+
+
+def get_cargo_locale(card, ct=None, only_sets=False, locale=None, english_name=None):
+    fieldset_key = (english_name, locale)
+    table = "CardData" if not locale else "CardLocaleData"
+    if not ct:
+        from wikibase import CargoTable
+        ct = CargoTable()
+    latest = get_latest_from_card(card, locale)
+    cardtable = {
+        "Name": latest["card_title"],
+        "Image": latest["image_number"],
+        "Text": latest["card_text"],
+        "SearchText": modify_search_text(latest["card_text_search"]),
+        "FlavorText": latest["flavor_text"],
+        "SearchFlavorText": modify_search_text(latest["flavor_text_search"]),
+        "EnglishName": english_name,
+        "Locale": locale
+    }
+    ct.update_or_create(table, fieldset_key, cardtable)
 
 
 def all_traits():

@@ -96,13 +96,12 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         pass
     print(ct.data_types)
     if data_to_update == "carddb":
-        wiki_card_db.get_cargo(card, ct, restricted, locale=locale)
         if locale:
+            wiki_card_db.get_cargo_locale(card, ct, 
+                locale=locale, english_name=latest_english["card_title"])
             print(ct.data_types)
-            ct.update_or_create("CardLocaleData", 0,
-                {"EnglishName": latest_english["card_title"],
-                "Locale": locale})
-            print(ct.data_types)
+        else:
+            wiki_card_db.get_cargo(card, ct, restricted, locale=locale)
     elif data_to_update == "insert_search_text":
         wiki_card_db.get_cargo(card, ct, ["SearchText", "SearchFlavorText"])
     elif data_to_update == "relink":
