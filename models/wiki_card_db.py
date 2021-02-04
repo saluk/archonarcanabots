@@ -1,7 +1,7 @@
 import os
-import collections
 import json
 import re
+from collections import defaultdict
 from fuzzywuzzy import fuzz
 import sys
 sys.path.append("./")
@@ -565,7 +565,10 @@ def all_traits():
                 traits.add(tt)
     return sorted(traits)
 
-
+translation_winners = {
+    'power': ['puissance'],
+    'ally': ['allié']
+}
 def translate_traits(locale):
     traits = {}
     for card_key in cards:
@@ -579,12 +582,22 @@ def translate_traits(locale):
                 en_trait = en_traits[i]
                 l_trait = l_traits[i]
                 if en_trait not in traits:
-                    traits[en_trait] = collections.defaultdict(lambda: 0)
-                traits[en_trait][l_trait] += 1
+                    traits[en_trait] = defaultdict(lambda:list())
+                traits[en_trait][l_trait].append(card_key)
+    trait_wins = {}
     for t in traits:
         v = traits[t]
-        if len(v.keys()) > 1:
+        if len(v.keys()) == 1:
+            trait_wins[t] = list(v.keys())[0]
+        else:
+            for w in translation_winners.get(t, []):
+                if w in v:
+                    trait_wins[t] = w
             print(t, dict(v))
+            w = sorted(v.keys(), key=lambda k: -len(v[k]))[0]
+            print(w)
+            trait_wins[t] = w
+    return trait_wins
 
 
 if __name__ == "__main__":
