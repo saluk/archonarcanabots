@@ -285,12 +285,14 @@ class MasterVault:
         #Get all cards that need to be updated... all cards
         session = mv_model.Session()
         cards = [card for card in session.query(mv_model.Card).all()
-            if not (card.data["is_anomaly"] or card.data["is_maverick"] or card.data["is_enhanced"])]
+            if not (card.data["is_maverick"] or card.data["is_enhanced"]) or 
+            (card.name in ["Exchange Officer"] and card.data["house"] == "Dis")]
 
         deck_pages = {}
         handled_cards = {}
         #For each card, find a deck that it has and that decks page. 
-        for card in cards:
+        for i,card in enumerate(cards):
+            print(i,"/",len(cards))
             if card.key in handled_cards:
                 continue
             decks = session.query(mv_model.DeckCard).filter(mv_model.DeckCard.card_key==card.key).limit(1)
@@ -304,8 +306,8 @@ class MasterVault:
                     handled_cards[card_id] = 1
 
         #Pull the selected pages from mv and update the cards with the right locale
-        for page in sorted(deck_pages.keys()):
-            print("GET PAGE", page)
+        for i,page in enumerate(sorted(deck_pages.keys())):
+            print("GET PAGE", page, i, '/', len(deck_pages.keys()))
             while 1:
                 try:
                     decks, cards, proxy = self.get_decks_with_cards("", page, locale)

@@ -1,4 +1,5 @@
 import os
+import collections
 import json
 import re
 from fuzzywuzzy import fuzz
@@ -358,6 +359,8 @@ def get_latest_from_card(card, locale=None):
     for (set_name, set_num, card_num) in reversed(list(get_sets(card))):
         latest = card[str(set_num)]
         if locale:
+            if 'locales' not in latest or locale not in latest['locales']:
+                raise Exception("Couldn't find translation for %s" % card)
             latest = latest["locales"][locale]
         return latest
     raise Exception("couldn't find a set in", card)
@@ -561,6 +564,27 @@ def all_traits():
             for tt in ct.split(SEPARATOR):
                 traits.add(tt)
     return sorted(traits)
+
+
+def translate_traits(locale):
+    traits = {}
+    for card_key in cards:
+        card = cards[card_key]
+        en_card = get_latest_from_card(card)
+        lang_card = get_latest_from_card(card, locale)
+        if en_card['traits'] or lang_card['traits']:
+            en_traits, l_traits = [[y.lower() for y in x.split(' • ')] for x in [en_card['traits'], lang_card['traits']]]
+            assert len(en_traits) == len(l_traits)
+            for i in range(len(en_traits)):
+                en_trait = en_traits[i]
+                l_trait = l_traits[i]
+                if en_trait not in traits:
+                    traits[en_trait] = collections.defaultdict(lambda: 0)
+                traits[en_trait][l_trait] += 1
+    for t in traits:
+        v = traits[t]
+        if len(v.keys()) > 1:
+            print(t, dict(v))
 
 
 if __name__ == "__main__":
