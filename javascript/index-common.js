@@ -4,14 +4,10 @@ import {carousel} from './myutils'
 import './share42.js' // share42 sharing module
 import {hookTopSearch} from './TopSearch.js'
 import {deck_counts} from './deck_counts.js'
-import {parseQueryString} from './myutils'
+import {getLocale} from './myutils'
 
 function show_translations() {
-	var locale;
-	locale = parseQueryString('locale')
-	if(!locale)
-		locale = mw.config.get('wgUserLanguage')
-	$('.translate-'+locale).css('display','inline')
+	$('.translate-'+getLocale()).css('display','inline')
 }
 
 var arcana_main = function() {

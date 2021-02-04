@@ -11,6 +11,18 @@ var parseQueryString = function (argument) {
 	}
   }
 
+function getLocale(){
+	var locale;
+	var subdomain = window.location.hostname.split('\.')[0]
+	locale = parseQueryString('locale')
+	if(!locale && subdomain !== 'www' && subdomain !== 'archonarcana') {
+		locale = subdomain
+	} else if(!locale) {
+		locale = mw.config.get('wgUserLanguage')
+	}
+	return locale
+}
+
 function capitalize(s){
 	return s[0].toUpperCase()+s.slice(1)
 }
@@ -249,4 +261,4 @@ function carousel(first_time) {
 
 export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
 	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
-	joined, removePunctuation, getCardImage, updateCardImages}
+	joined, removePunctuation, getCardImage, updateCardImages, getLocale}
