@@ -458,6 +458,14 @@ def load_from_mv_files(only=None):
 
     with open("my_card_db.json", "w") as f:
         f.write(json.dumps(cards, indent=2, sort_keys=True))
+    with open("scribunto/locale_table.lua", "w") as f:
+        f.write("--Module:LocaleTable\nlocale_table={}\ntable['traits']={}\n")
+        for locale in ['pt-pt', 'it-it', 'zh-hant', 'de-de', 'zh-hans', 'th-th', 'ko-ko', 'pl-pl', 'fr-fr', 'es-es']:
+            f.write("locale_table['traits']['%s'] = {}\n" % locale)
+            translations = translate_traits(locale)
+            for en in translations:
+                f.write("table['traits']['%s']['%s'] = '%s'\n" % (locale, en, translations[en]))
+        f.write("return table\n")
     print("saved.")
 
 
@@ -570,14 +578,18 @@ translation_winners = {
     'ally': ['allié']
 }
 def translate_traits(locale):
+    split_re = re.compile(" • | ·|•|,")
     traits = {}
+    errors = []
     for card_key in cards:
         card = cards[card_key]
         en_card = get_latest_from_card(card)
         lang_card = get_latest_from_card(card, locale)
         if en_card['traits'] or lang_card['traits']:
-            en_traits, l_traits = [[y.lower() for y in x.split(' • ')] for x in [en_card['traits'], lang_card['traits']]]
-            assert len(en_traits) == len(l_traits)
+            en_traits, l_traits = [[y.lower().strip() for y in split_re.split(x)] for x in [en_card['traits'], lang_card['traits']]]
+            if not len(en_traits) == len(l_traits):
+                errors.append((locale, card_key, en_traits, l_traits))
+                continue
             for i in range(len(en_traits)):
                 en_trait = en_traits[i]
                 l_trait = l_traits[i]
@@ -593,10 +605,9 @@ def translate_traits(locale):
             for w in translation_winners.get(t, []):
                 if w in v:
                     trait_wins[t] = w
-            print(t, dict(v))
             w = sorted(v.keys(), key=lambda k: -len(v[k]))[0]
-            print(w)
             trait_wins[t] = w
+    print("\n\nErrors - ", errors)
     return trait_wins
 
 

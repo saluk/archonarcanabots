@@ -4,6 +4,7 @@ local cargo = mw.ext.cargo
 
 local templates = require('Module:LuacardTemplates')
 local cardstyle = require('Module:LuacardStyle')
+local translations = require('Module:LocaleTable')
 
 function interp(s, tab)
   return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
@@ -35,6 +36,14 @@ local shortset = function(longset)
 	sets['Dark Tidings']='DT'
 	local args = {longset = longset, shortset=sets[longset]}
 	return interp('[[${longset}|${shortset}]]', args)
+end
+
+local translate = function(frame, type, word)
+	if(frame.args.locale) then
+		return mw.ustring.upper(translations[type][frame.args.locale][mw.ustring.lower(word)])
+	else
+		return word
+	end
 end
 
 local apply_altart = function(frame, vars)
@@ -152,8 +161,11 @@ function apply_traits(frame, vars)
 	local out = {}
 	for i = 1, #split do
 		out[i] = interp(
-			'<html><a href="https://archonarcana.com/Card_Gallery?traits=${cur}">${cur}</a></html>',
-			{cur=split[i]}
+			'<html><a href="https://archonarcana.com/Card_Gallery?traits=${cur}">${name}</a></html>',
+			{
+				cur=split[i],
+				name=translate(frame, 'traits', split[i])
+			}
 		)
 		vars.categories[#vars.categories+1] = split[i]
 	end

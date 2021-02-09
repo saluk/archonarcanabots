@@ -128,26 +128,38 @@ def get_keywordvalue_text(text, kw):
     return ""
 
 enhanced_regex = {
-    None: ("Enhance", "A", "PT", "D", "R"),
-    'fr-fr': ("Don", "A", "PT", "D", "R"),
-    'it-it': ("Potenziamento", "A", "PT", "D", "R")
+    None: "Enhance",
+    'fr-fr': "Don",
+    'it-it': "Potenziamento",
+    'de-de': 'Verbesserung',
+    'es-es': 'Potenciar',
+    'pl-pl': 'Wzmocnienie',
+    'th-th': 'เสริมทัพ',
+    'pt-pt': 'Propagar',
+    'zh-hans': '强化',
+    'zh-hant': '強化',
+    'ko-ko': '강화'
 }
 def read_enhanced(text, locale=None):
     # Enhancements
     t = enhanced_regex[locale]
-    regex = "(%s (%s*)((%s)*)(%s*)(%s*))" % t
+    if locale == 'ko-ko':  # Korean changes the order so we have to special case it
+        regex = "((A*)((PT)*)(D*)(R*) %s)"
+    else:
+        regex = "(%s (A*)((PT)*)(D*)(R*))"
+    regex = regex % (t,)
     enhanced = re.match(regex, text)
     ea=ept=ed=er=0
     if enhanced:
-        ea = enhanced.group(2).count(t[1])
+        ea = enhanced.group(0).count('A')
         a = "{{Aember}}" * ea
-        ept = enhanced.group(3).count(t[2])
+        ept = enhanced.group(0).count('PT')
         pt = "{{Capture}}" * ept
-        ed = enhanced.group(5).count(t[3])
+        ed = enhanced.group(0).count('D')
         d = "{{Damage}}" * ed
-        er = enhanced.group(6).count(t[4])
+        er = enhanced.group(0).count('R')
         r = "{{Draw}}" * er
-        text = text[:enhanced.start()] + "[[Enhance|%s]] " % t[0] + "".join([a, pt, d, r]) + text[enhanced.end():]
+        text = text[:enhanced.start()] + "[[Enhance|%s]] " % t + "".join([a, pt, d, r]) + text[enhanced.end():]
     return text, {'enhance_amber':ea, 'enhance_capture':ept, 'enhance_damage':ed, 'enhance_draw':er}
 
 
