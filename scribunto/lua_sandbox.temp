@@ -5,7 +5,9 @@
 <div class="translate-fr" style="display:none>
 {{#invoke: luacard | viewcard | cardname=Alaka | locale=fr-fr}}
 </div>
-
+<div class="translate-it" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=it-it}}
+</div>
 
 {{#invoke: luacard | viewcard | cardname=Bait and Switch}}
 {{#invoke: luacard | viewcard | cardname=Collector Worm}}

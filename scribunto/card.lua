@@ -6,8 +6,22 @@ local templates = require('Module:LuacardTemplates')
 local cardstyle = require('Module:LuacardStyle')
 local translations = require('Module:LocaleTable')
 
+local translate_table = {}
+
+local translate = function(word)
+	if(translate_table[word]~=nil) then
+		return translate_table[word]
+	else
+		return word
+	end
+end
+
 function interp(s, tab)
-  return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
+	local trans_tab = {}
+	for k,v in pairs(tab) do
+		trans_tab[k..'_t'] = translate(v)
+	end
+	return (s:gsub('($%b{})', function(w) return trans_tab[w:sub(3,-2)] or tab[w:sub(3, -2)] or w end))
 end
 
 function wikitext(s)
@@ -38,11 +52,24 @@ local shortset = function(longset)
 	return interp('[[${longset}|${shortset}]]', args)
 end
 
-local translate = function(frame, type, word)
+local translate_trait = function(frame, type, word)
 	if(frame.args.locale) then
 		return mw.ustring.upper(translations[type][frame.args.locale][mw.ustring.lower(word)])
 	else
 		return word
+	end
+end
+
+local load_translation_table = function(locale)
+	local translate_table_results = cargo.query(
+		'TranslationTable',
+		'EnglishText,Type,TranslatedText',
+		{
+			where='Locale="'..locale..'"'
+		})
+	for r=1, #translate_table_results do
+		local result = translate_table_results[r]
+		translate_table[result.EnglishText] = result.TranslatedText
 	end
 end
 
@@ -111,10 +138,11 @@ function apply_house(frame, vars)
 	else
 		vars.cardhouse_color = vars.cardhouse_lower
 		vars.categories[#vars.categories+1] = vars.cardhouse
+		local size = '25'
 		if(vars.cardhouse:find('Anomaly')) then
-			vars.cardhouse_section = '{{House|House=Anomaly|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=Anomaly">Anomaly</a></html>'
+			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>'
 		else
-			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse}]]'
+			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]'
 		end
 	end
 	vars.cardhouse_section = interp(vars.cardhouse_section, vars)
@@ -135,13 +163,19 @@ function apply_stats(frame, vars)
 	vars.cardstatarmor = ''
 	if(vars.cardtype == 'Creature' and string.len(vars.cardpower)>0 and tonumber(vars.cardpower) >= 0) then
 		local mm = minmax_arg(vars.cardpower, 10)
-		local t = '<div class="power"><html><a href="/Card_Gallery?types=Creature&power_min=${min}&power_max=${max}"></html>${value} Power<html></a></html></div>'
-		vars.cardstatpower = interp(t, mm)
+		vars.min = mm.min
+		vars.max = mm.max
+		vars.value = mm.value
+		local t = '<div class="power"><html><a href="/Card_Gallery?types=Creature&power_min=${min}&power_max=${max}"></html>${value} ${word_power_t}<html></a></html></div>'
+		vars.cardstatpower = interp(t, vars)
 	end
 	if(vars.cardtype == 'Creature' and string.len(vars.cardarmor)>0 and tonumber(vars.cardarmor) >= 0) then
 		local mm = minmax_arg(vars.cardarmor, 5)
-		local t = '<div class="armor"><html><a href="/Card_Gallery?types=Creature&armor_min=${min}&armor_max=${max}"></html>${value} Armor<html></a></html></div>'
-		vars.cardstatarmor = interp(t, mm)
+		vars.min = mm.min
+		vars.max = mm.max
+		vars.value = mm.value
+		local t = '<div class="armor"><html><a href="/Card_Gallery?types=Creature&armor_min=${min}&armor_max=${max}"></html>${value} ${word_armor_t}<html></a></html></div>'
+		vars.cardstatarmor = interp(t, vars)
 	end
 	if(string.len(vars.cardamber)>0 and tonumber(vars.cardamber) >= 1) then
 		local mm = minmax_arg(vars.cardamber, 4)
@@ -164,7 +198,7 @@ function apply_traits(frame, vars)
 			'<html><a href="https://archonarcana.com/Card_Gallery?traits=${cur}">${name}</a></html>',
 			{
 				cur=split[i],
-				name=translate(frame, 'traits', split[i])
+				name=translate_trait(frame, 'traits', split[i])
 			}
 		)
 		vars.categories[#vars.categories+1] = split[i]
@@ -261,6 +295,12 @@ function p.viewcard(frame)
         {
 			where='CardData.Name="'..frame.args.cardname..'"'
 		})
+	if(frame.args.locale) then
+		load_translation_table(frame.args.locale)
+	end
+	vars.word_power = 'Power'
+	vars.word_armor = 'Armor'
+	vars.word_artist = 'Artist'
     vars.cardimage = card_results[1]['Image']
 	vars.cardhouse = card_results[1]['House']
 	vars.cardhouse_lower = vars.cardhouse:lower()

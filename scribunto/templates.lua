@@ -19,8 +19,8 @@ ${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_sh
       <div class="house ${cardhouse_color}">
         ${cardhouse_section}
       </div>
-      <div class="type ${cardhouse_color}"><html><a href="https://archonarcana.com/Card_Gallery?types=${cardtype}">${cardtype}</a></html></div>
-      <div class="rarity ${cardhouse_color}">{{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity}</a></html></div>
+      <div class="type ${cardhouse_color}"><html><a href="https://archonarcana.com/Card_Gallery?types=${cardtype}">${cardtype_t}</a></html></div>
+      <div class="rarity ${cardhouse_color}">{{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity_t}</a></html></div>
     </div>
 
 
@@ -46,7 +46,7 @@ ${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_sh
     ${cardnumber}
     </div>
 
-    <div class="artist"><b>Artist</b>: [[${cardartist}]]</div>
+    <div class="artist"><b>${word_artist_t}</b>: [[${cardartist}]]</div>
   </div>
 </div>
 
