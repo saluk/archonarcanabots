@@ -2,9 +2,16 @@
 local p = {}
 local cargo = mw.ext.cargo
 
+function combine(tableto,tablefrom)
+	for k,v in pairs(tablefrom) do
+		tableto[k] = v
+	end
+end
+
 local templates = require('Module:LuacardTemplates')
 local cardstyle = require('Module:LuacardStyle')
 local translations = require('Module:LocaleTable')
+local luastache = require("Module:luastache")
 
 local translate_table = {}
 
@@ -16,12 +23,38 @@ local translate = function(word)
 	end
 end
 
-function interp(s, tab)
+function insert_translated(tab)
 	local trans_tab = {}
 	for k,v in pairs(tab) do
 		trans_tab[k..'_t'] = translate(v)
 	end
-	return (s:gsub('($%b{})', function(w) return trans_tab[w:sub(3,-2)] or tab[w:sub(3, -2)] or w end))
+	combine(tab, trans_tab)
+end
+
+function interp(s, tab)
+	insert_translated(tab)
+	return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
+end
+
+function stachify(table)
+	local under_tab = {}
+	for k,v in pairs(table) do
+		mw.log('k:'..k..' k_:'..k:gsub('[.]','_'))
+		under_tab[k:gsub('[.]','_')] = v
+	end
+	combine(table, under_tab)
+end
+
+function cargo_results(table)
+	for i,r in ipairs(table) do
+		stachify(r)
+	end
+end
+	
+function stache(s, tab)
+	insert_translated(tab)
+	stachify(tab)
+	return luastache:render(s, tab)
 end
 
 function wikitext(s)
@@ -47,7 +80,7 @@ local shortset = function(longset)
 	sets['Mass Mutation']='MM'
 	sets['Dark Tidings']='DT'
 	local args = {longset = longset, shortset=sets[longset]}
-	return interp('[[${longset}|${shortset_t}]]', args)
+	return stache('[[{{longset}}|{{{shortset_t}}}]]', args)
 end
 
 local translate_trait = function(frame, type, word)
@@ -115,7 +148,11 @@ local apply_altart = function(frame, vars)
 			where='CardData.Name="'..vars.cardname..'"'
 		}
 	)
-	if(#altart_results == 0) then
+	cargo_results(altart_results)
+	vars.altart1 = altart_results
+	vars.altart2 = altart_results
+	vars.cardart = stache(templates.template_art, vars)
+	--[[ if(#altart_results == 0) then
 		vars.cardart = interp(templates.template_art, vars)
 	end
 	for r = 1, #altart_results do
@@ -125,7 +162,7 @@ local apply_altart = function(frame, vars)
 		else
 			vars.cardart = interp(templates.template_art, vars)
 		end
-	end
+	end ]]
 end
 
 function apply_house(frame, vars)
@@ -348,7 +385,8 @@ function p.viewcard(frame)
 		local result = set_number_results[r]
 		result['short'] = shortset(result['SetData.SetName'])
 		cardnumber_short[r] = interp('${short}:${SetData.CardNumber}', result)
-		cardnumber[r] = interp('<div class="setEntry"><b>${short}</b> ${SetData.CardNumber}</div>', result)
+		cardnumber[r] = stache('<div class="setEntry"><b>{{{short}}}</b> {{SetData_CardNumber}}</div>', result)
+		mw.log(cardnumber[r])
 		vars.categories[#vars.categories+1] = set_category[result['SetData.SetName']]
 	end
 	vars.cardnumber_short = table.concat(cardnumber_short, ',&nbsp;')
@@ -400,7 +438,8 @@ function p.viewcard(frame)
 	apply_rulings(frame, vars)
 	apply_categories(frame, vars)
 
-	text = frame:preprocess(interp(templates.template_base, vars):gsub('\n',''))
+	text = interp(templates.template_base, vars):gsub('\n','')
+	text = frame:preprocess(text)
 	text = dewikitext(text)
 	return text
 end

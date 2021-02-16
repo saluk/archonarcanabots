@@ -35,6 +35,7 @@ Ambassador Liu
 {{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=pl-pl}}
 </div>
 
+{{#invoke: luacard | viewcard | cardname=Hock}}
 {{#invoke: luacard | viewcard | cardname=Bait and Switch}}
 {{#invoke: luacard | viewcard | cardname=Collector Worm}}
 {{#invoke: luacard | viewcard | cardname=Jargogle}}
