@@ -1,12 +1,38 @@
 --User:Saluk/Sandbox/lua
+Ambassador Liu
+
 <div class="translate-en" style="display:none">
-{{#invoke: luacard | viewcard | cardname=Alaka}}
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu}}
 </div>
 <div class="translate-fr" style="display:none>
-{{#invoke: luacard | viewcard | cardname=Alaka | locale=fr-fr}}
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=fr-fr}}
 </div>
 <div class="translate-it" style="display:none>
 {{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=it-it}}
+</div>
+<div class="translate-zh-hans" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=zh-hans}}
+</div>
+<div class="translate-zh-hant" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=zh-hant}}
+</div>
+<div class="translate-es" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=es-es}}
+</div>
+<div class="translate-pt" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=pt-pt}}
+</div>
+<div class="translate-de" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=de-de}}
+</div>
+<div class="translate-th" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=th-th}}
+</div>
+<div class="translate-ko" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=ko-ko}}
+</div>
+<div class="translate-pl" style="display:none>
+{{#invoke: luacard | viewcard | cardname=Ambassador Liu | locale=pl-pl}}
 </div>
 
 {{#invoke: luacard | viewcard | cardname=Bait and Switch}}

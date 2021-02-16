@@ -38,8 +38,6 @@ set_category['Age of Ascension']='AoA'
 set_category['Worlds Collide']='WC'
 set_category['Mass Mutation']='MM'
 set_category['Dark Tidings']='DT'
-set_category['Worlds Collide-Anomaly']='WC-A'
-set_category['Anomaly']='WC-A'
 
 local shortset = function(longset)
 	local sets = {}
@@ -49,7 +47,7 @@ local shortset = function(longset)
 	sets['Mass Mutation']='MM'
 	sets['Dark Tidings']='DT'
 	local args = {longset = longset, shortset=sets[longset]}
-	return interp('[[${longset}|${shortset}]]', args)
+	return interp('[[${longset}|${shortset_t}]]', args)
 end
 
 local translate_trait = function(frame, type, word)
