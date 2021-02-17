@@ -5,8 +5,7 @@ local template_base = [==[
 ${cardstyle}
 </style>
 
-<span class="pageOverlay">
-${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_short} • Artist: ${cardartist} • Card Number: ${cardnumber_short}
+<span class="pageOverlay">${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_short} • Artist: </html>${cardartist}<html> • Card Number: ${#cardsets}</html>${shortset_from_name}<html>:${SetData_CardNumber}${#delim},&nbsp;${/delim}${/cardsets}
 </span>
 </html>
 {{Sharing}}
@@ -25,13 +24,36 @@ ${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_sh
 
 
     <div class="creatureRow">
-      ${cardstatpower}
-      ${cardstatarmor}
-      ${cardstatamber}
+      ${#cardstatpower}
+        <div class="power"><html>
+          <a href="/Card_Gallery?types=Creature&power_min=${cardstatpower.min}&power_max=${cardstatpower.max}"></html>
+            ${cardstatpower.value} ${word_power_t}<html>
+          </a>
+        </html></div>
+      ${/cardstatpower}
+
+      ${#cardstatarmor}
+        <div class="armor"><html>
+        <a href="/Card_Gallery?types=Creature&armor_min=${cardstatarmor.min}&armor_max=${cardstatarmor.max}"></html>
+        ${cardstatarmor.value} ${word_armor_t}<html></a></html></div>
+      ${/cardstatarmor}
+
+      ${#cardstatamber}
+        <div class="aember"><html>
+        <a href="/Card_Gallery?amber_min=${cardstatamber.min}&amber_max=${cardstatamber.max}"></html>
+        ${cardstatamber.value} {{Aember}}<html></a></html></div>
+      ${/cardstatamber}
+
+      ${#cardstats}
+        <div class="spacer"></div>
+      ${/cardstats}
     </div>
 
     <div class="traits">
-    ${cardtraits}
+    ${#cardtraits}
+    <html><a href="https://archonarcana.com/Card_Gallery?traits=${.}">${translate_trait}</a></html>
+    ${#delim} • ${/delim}
+    ${/cardtraits}
     </div>
 
     <div class="cardText">
@@ -43,7 +65,9 @@ ${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_sh
     </div>
 
     <div class="sets">
-    ${cardnumber}
+    ${#cardsets}
+      <div class="setEntry"><b>${shortset_from_name}</b> ${SetData_CardNumber}</div>
+    ${/cardsets}
     </div>
 
     <div class="artist"><b>${word_artist_t}</b>: [[${cardartist}]]</div>
@@ -59,37 +83,65 @@ ${categories}
 {{SEO}}
 ]==]
 
+local template_house = [==[
+  ${#is_anomaly}
+    {{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>
+  ${/is_anomaly}
+  
+  ${^is_anomaly}
+    {{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]
+  ${/is_anomaly}
+]==]
+
 local template_art = [==[
   <html>
-  {{^altart1}}
+  ${^altart}
     <div class="image">
-      </html>[[File:{{cardimage}}|300px|frameless|alt={{cardname}}]]<html>
+      </html>[[File:${cardimage}|300px|frameless|alt=${cardname}]]<html>
     </div>
-  {{/altart1}}
+  ${/altart}
 
-  {{#altart2}}
+  ${#altart}
     <div class="largeBackground"><div id="wrap"><ul id="gallery-container">
       <li class="gallery-item">
         <input checked="checked" type="radio" name="gallery-list" class="gallery-selector" value="1.jpg" id="gallery-item1" />
         <div class="gallery-fullsize">
-          </html>[[File:{{CardData_Image}}|300px|frameless|alt={{CardData_Name}} Regular Art]]<html>
+          </html>[[File:${CardData_Image}|300px|frameless|alt=${CardData_Name} Regular Art]]<html>
         </div>
         <label for="gallery-item1" class="gallery-label1">Default</label>
       </li>
       <li class="gallery-item">
         <input type="radio" name="gallery-list" class="gallery-selector" value="2.jpg" id="gallery-item2" />
         <div class="gallery-fullsize">
-          </html>[[File:{{AltArt_File}}|300px|frameless|alt={{CardData_Name}} Alternate Art]]<html>
+          </html>[[File:${AltArt_File}|300px|frameless|alt=${CardData_Name} Alternate Art]]<html>
         </div>
         <label for="gallery-item2" class="gallery-label2">Alt-Art</label>
       </li></ul></div></div>
       </html><includeonly>[[Category:Alternate_Art]]</includeonly><html>
-  {{/altart2}}
+  ${/altart}
   </html>
+]==]
+
+local template_errata = [==[
+<html><ul id="gallery-containerErrata">
+  <div class="horizontalLine"></div>
+  <li class="gallery-itemErrata">
+    <input checked="checked" type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="1.jpg" id="gallery-item1Errata" />
+    <div class="gallery-fullsizeErrata"></html>${errata_text}<html></div>
+    <label for="gallery-item1Errata" class="gallery-label1Errata">Current Text</label>
+  </li>
+  <li class="gallery-itemErrata">
+    <input type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="2.jpg" id="gallery-item2Errata" />
+    <div class="gallery-fullsizeErrata"></html><i>${cardname} was updated in ${errata_version}. Original card text:</i><p>${original_text}<html></div>
+    <label for="gallery-item2Errata" class="gallery-label2Errata">Original Text</label>
+  </li>
+</ul></html>
 ]==]
 
 return {
     template_base = template_base,
     template_altart = template_altart,
-    template_art = template_art
+    template_art = template_art,
+    template_house = template_house,
+    template_errata = template_errata
 }

@@ -297,7 +297,7 @@ function renderer:_name(name, context, escape)
   local str = value == nil and "" or value
   str = tostring(str)
 
-  if escape then
+  if not escape then
     return string_gsub(str, '[&<>"\'/]', function(s) return html_escape_characters[s] end)
   end
 

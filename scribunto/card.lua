@@ -31,11 +31,6 @@ function insert_translated(tab)
 	combine(tab, trans_tab)
 end
 
-function interp(s, tab)
-	insert_translated(tab)
-	return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
-end
-
 function stachify(table)
 	local under_tab = {}
 	for k,v in pairs(table) do
@@ -48,12 +43,16 @@ end
 function cargo_results(table)
 	for i,r in ipairs(table) do
 		stachify(r)
+		if i<#table then
+			r['delim'] = true
+		end
 	end
 end
 	
 function stache(s, tab)
 	insert_translated(tab)
 	stachify(tab)
+	s = '{{=${ }=}}'..s
 	return luastache:render(s, tab)
 end
 
@@ -80,7 +79,7 @@ local shortset = function(longset)
 	sets['Mass Mutation']='MM'
 	sets['Dark Tidings']='DT'
 	local args = {longset = longset, shortset=sets[longset]}
-	return stache('[[{{longset}}|{{{shortset_t}}}]]', args)
+	return stache('[[${longset}|${shortset_t}]]', args)
 end
 
 local translate_trait = function(frame, type, word)
@@ -149,38 +148,27 @@ local apply_altart = function(frame, vars)
 		}
 	)
 	cargo_results(altart_results)
-	vars.altart1 = altart_results
-	vars.altart2 = altart_results
+	vars.altart = altart_results
 	vars.cardart = stache(templates.template_art, vars)
-	--[[ if(#altart_results == 0) then
-		vars.cardart = interp(templates.template_art, vars)
-	end
-	for r = 1, #altart_results do
-		local result=altart_results[r]
-		if(result['AltArt.File'] ~= nil) then
-			vars.cardart = interp(templates.template_altart, result)
-		else
-			vars.cardart = interp(templates.template_art, vars)
-		end
-	end ]]
 end
 
 function apply_house(frame, vars)
-	if(vars.cardhouse:find('•', 1, true)) then
+	vars.is_multi = vars.cardhouse:find('•', 1, true)
+	vars.is_anomaly = vars.cardhouse:find('Anomaly')
+	if(is_multi) then
 		vars.cardhouse_section = 'Multi'
 		vars.cardhouse_color = ''
 		vars.categories[#vars.categories+1] = 'Multi'
 	else
 		vars.cardhouse_color = vars.cardhouse_lower
 		vars.categories[#vars.categories+1] = vars.cardhouse
-		local size = '25'
-		if(vars.cardhouse:find('Anomaly')) then
+		if(is_anomaly) then
 			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>'
 		else
 			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]'
 		end
 	end
-	vars.cardhouse_section = interp(vars.cardhouse_section, vars)
+	vars.cardhouse_section = stache(templates.template_house, vars)
 end
 
 function minmax_arg(value, max)
@@ -193,33 +181,19 @@ function minmax_arg(value, max)
 end
 
 function apply_stats(frame, vars)
-	vars.cardstatamber = ''
-	vars.cardstatpower = ''
-	vars.cardstatarmor = ''
+	vars.cardstatamber = {}
+	vars.cardstatpower = {}
+	vars.cardstatarmor = {}
 	if(vars.cardtype == 'Creature' and string.len(vars.cardpower)>0 and tonumber(vars.cardpower) >= 0) then
-		local mm = minmax_arg(vars.cardpower, 10)
-		vars.min = mm.min
-		vars.max = mm.max
-		vars.value = mm.value
-		local t = '<div class="power"><html><a href="/Card_Gallery?types=Creature&power_min=${min}&power_max=${max}"></html>${value} ${word_power_t}<html></a></html></div>'
-		vars.cardstatpower = interp(t, vars)
+		vars.cardstatpower = minmax_arg(vars.cardpower, 10)
 	end
 	if(vars.cardtype == 'Creature' and string.len(vars.cardarmor)>0 and tonumber(vars.cardarmor) >= 0) then
-		local mm = minmax_arg(vars.cardarmor, 5)
-		vars.min = mm.min
-		vars.max = mm.max
-		vars.value = mm.value
-		local t = '<div class="armor"><html><a href="/Card_Gallery?types=Creature&armor_min=${min}&armor_max=${max}"></html>${value} ${word_armor_t}<html></a></html></div>'
-		vars.cardstatarmor = interp(t, vars)
+		vars.cardstatarmor = minmax_arg(vars.cardarmor, 5)
 	end
 	if(string.len(vars.cardamber)>0 and tonumber(vars.cardamber) >= 1) then
-		local mm = minmax_arg(vars.cardamber, 4)
-		local t = '<div class="aember"><html><a href="/Card_Gallery?amber_min=${min}&amber_max=${max}"></html>${value} {{Aember}}<html></a></html></div>'
-		vars.cardstatamber = interp(t, mm)
+		vars.cardstatamber = minmax_arg(vars.cardamber, 4)
 	end
-	if(vars.cardstatamber.len==0 and vars.cardstatpower==0 and vars.cardstatarmor==0) then
-		vars.cardstatamber = '<div class="spacer"></div>'
-	end
+	vars.cardstats = vars.cardstatamber.len==0 and vars.cardstatpower==0 and vars.cardstatarmor==0
 end
 
 function apply_traits(frame, vars)
@@ -227,24 +201,19 @@ function apply_traits(frame, vars)
 		return
 	end
 	local split = mw.text.split(vars.cardtraits, ' • ')
-	local out = {}
+	vars.cardtraits = split
+	vars.translate_trait = function(self)
+		return translate_trait(frame, 'traits', self)
+	end
 	for i = 1, #split do
-		out[i] = interp(
-			'<html><a href="https://archonarcana.com/Card_Gallery?traits=${cur}">${name}</a></html>',
-			{
-				cur=split[i],
-				name=translate_trait(frame, 'traits', split[i])
-			}
-		)
 		vars.categories[#vars.categories+1] = split[i]
 	end
-	vars.cardtraits = table.concat(out, ' • ')
 end
 
 function apply_categories(frame, vars)
 	for c=1, #vars.categories do
 		if(string.len(mw.text.trim(vars.categories[c]))>0) then
-			vars.categories[c] = interp('[[Category:${c}]]', {c=vars.categories[c]})
+			vars.categories[c] = stache('[[Category:${c}]]', {c=vars.categories[c]})
 		end
 	end
 	vars.categories = '<includeonly>'..table.concat(vars.categories,'')..'</includeonly>'
@@ -379,18 +348,15 @@ function p.viewcard(frame)
 			where='CardData.Name="'..frame.args.cardname..'"',
 			orderBy='SetInfo.ReleaseYear, SetInfo.ReleaseMonth'
 		})
-	local cardnumber_short = {}
-	local cardnumber = {}
+	vars.cardsets = set_number_results
+	cargo_results(vars.cardsets)
 	for r = 1, #set_number_results do
 		local result = set_number_results[r]
-		result['short'] = shortset(result['SetData.SetName'])
-		cardnumber_short[r] = interp('${short}:${SetData.CardNumber}', result)
-		cardnumber[r] = stache('<div class="setEntry"><b>{{{short}}}</b> {{SetData_CardNumber}}</div>', result)
-		mw.log(cardnumber[r])
 		vars.categories[#vars.categories+1] = set_category[result['SetData.SetName']]
 	end
-	vars.cardnumber_short = table.concat(cardnumber_short, ',&nbsp;')
-	vars.cardnumber = table.concat(cardnumber, '')
+	vars.shortset_from_name = function(self)
+		return shortset(self['SetData.SetName'])
+	end
 	
 	apply_altart(frame, vars)
 	apply_house(frame, vars)
@@ -406,6 +372,7 @@ function p.viewcard(frame)
 			orderBy='ErrataData._ID ASC'
 		}
 	)
+	cargo_results(errata_results)
 	if(#errata_results>0) then
 		vars.original_text=wikitext(errata_results[1]['ErrataData.Text'])
 		vars.errata_text=wikitext(errata_results[#errata_results]['ErrataData.Text'])
@@ -415,19 +382,7 @@ function p.viewcard(frame)
 		else
 			vars.categories[#vars.categories+1] = 'Revised Cards'
 		end
-		vars.cardtext = interp([==[
-			<html><ul id="gallery-containerErrata"><div class="horizontalLine"></div>
-  <li class="gallery-itemErrata">
-  	<input checked="checked" type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="1.jpg" id="gallery-item1Errata" />
-		<div class="gallery-fullsizeErrata"></html>${errata_text}<html></div>
-		<label for="gallery-item1Errata" class="gallery-label1Errata">Current Text</label>
-	</li>
-	<li class="gallery-itemErrata">
-		<input type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="2.jpg" id="gallery-item2Errata" />
-    <div class="gallery-fullsizeErrata"></html><i>${cardname} was updated in ${errata_version}. Original card text:</i><p>${original_text}<html></div>
-		<label for="gallery-item2Errata" class="gallery-label2Errata">Original Text</label>
-	</li></ul></html>
-		]==], vars)
+		vars.cardtext = stache(templates.template_errata, vars)
 	else
 		if(vars.cardtext=='(Vanilla)') then vars.cardtext=''
 		else
@@ -438,7 +393,7 @@ function p.viewcard(frame)
 	apply_rulings(frame, vars)
 	apply_categories(frame, vars)
 
-	text = interp(templates.template_base, vars):gsub('\n','')
+	text = stache(templates.template_base, vars):gsub('\n','')
 	text = frame:preprocess(text)
 	text = dewikitext(text)
 	return text
