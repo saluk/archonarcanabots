@@ -172,19 +172,12 @@ function apply_house(frame, vars)
 	vars.is_multi = vars.cardhouse:find('•', 1, true)
 	vars.is_anomaly = vars.cardhouse:find('Anomaly')
 	if(is_multi) then
-		vars.cardhouse_section = 'Multi'
 		vars.cardhouse_color = ''
 		vars.categories[#vars.categories+1] = 'Multi'
 	else
 		vars.cardhouse_color = vars.cardhouse_lower
 		vars.categories[#vars.categories+1] = vars.cardhouse
-		if(is_anomaly) then
-			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>'
-		else
-			vars.cardhouse_section = '{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]'
-		end
 	end
-	vars.cardhouse_section = stache(templates.template_house, vars)
 end
 
 function minmax_arg(value, max)
@@ -223,6 +216,30 @@ function apply_traits(frame, vars)
 	end
 	for i = 1, #split do
 		vars.categories[#vars.categories+1] = split[i]
+	end
+end
+
+function apply_errata(frame, vars)
+	local errata_results = cargo.query(
+		'CardData, ErrataData',
+		'ErrataData.Text,ErrataData.Version',
+		{
+			join='CardData._pageName=ErrataData._pageName',
+			where='ErrataData._ID is not null AND CardData.Name="'..vars.cardname..'"',
+			orderBy='ErrataData._ID ASC'
+		}
+	)
+	cargo_results(errata_results)
+	if(#errata_results>0) then
+		vars.has_carderrata = true
+		vars.original_text=wikitext(errata_results[1]['ErrataData.Text'])
+		vars.errata_text=wikitext(errata_results[#errata_results]['ErrataData.Text'])
+		vars.errata_version = errata_results[#errata_results]['ErrataData.Version']
+		if(string.find(vars.errata_version, 'Rulebook')) then
+			vars.categories[#vars.categories+1] = 'Errata'
+		else
+			vars.categories[#vars.categories+1] = 'Revised Cards'
+		end
 	end
 end
 
@@ -272,6 +289,26 @@ function apply_rulings(frame, vars)
 	end)
 end
 
+function apply_sets(frame, vars)
+	local set_number_results = cargo.query(
+		'SetData,CardData,SetInfo',
+		'SetData.SetName, SetData.CardNumber, SetInfo.ReleaseYear, SetInfo.ReleaseMonth',
+		{
+			join='SetData._pageTitle=CardData.Name,SetData.SetName=SetInfo.SetName',
+			where='CardData.Name="'..frame.args.cardname..'"',
+			orderBy='SetInfo.ReleaseYear, SetInfo.ReleaseMonth'
+		})
+	vars.cardsets = set_number_results
+	cargo_results(vars.cardsets)
+	for r = 1, #set_number_results do
+		local result = set_number_results[r]
+		vars.categories[#vars.categories+1] = set_category[result['SetData.SetName']]
+	end
+	vars.shortset_from_name = function(self)
+		return shortset(self['SetData.SetName'])
+	end
+end
+
 function p.viewcard(frame)
 	vars = {
 		cardname = frame.args.cardname,
@@ -300,6 +337,10 @@ function p.viewcard(frame)
 	vars.cardrarity = card_results[1]['Rarity']
 	vars.cardtext_short = wikitext(card_results[1]['Text'])
 	vars.cardtext = vars.cardtext_short
+	if(vars.cardtext=='(Vanilla)') then vars.cardtext=''
+	else
+		vars.cardtext = '<span class="plainlinks">'..wikitext(vars.cardtext)..'</span>'
+	end
 	vars.cardflavortext = wikitext(card_results[1]['FlavorText'])
 	vars.cardartist = card_results[1]['Artist']
 	vars.cardtype = card_results[1]['Type']
@@ -329,56 +370,12 @@ function p.viewcard(frame)
 		end
 	end
     
-	local set_number_results = cargo.query(
-		'SetData,CardData,SetInfo',
-		'SetData.SetName, SetData.CardNumber, SetInfo.ReleaseYear, SetInfo.ReleaseMonth',
-		{
-			join='SetData._pageTitle=CardData.Name,SetData.SetName=SetInfo.SetName',
-			where='CardData.Name="'..frame.args.cardname..'"',
-			orderBy='SetInfo.ReleaseYear, SetInfo.ReleaseMonth'
-		})
-	vars.cardsets = set_number_results
-	cargo_results(vars.cardsets)
-	for r = 1, #set_number_results do
-		local result = set_number_results[r]
-		vars.categories[#vars.categories+1] = set_category[result['SetData.SetName']]
-	end
-	vars.shortset_from_name = function(self)
-		return shortset(self['SetData.SetName'])
-	end
-	
+	apply_sets(frame, vars)
 	apply_altart(frame, vars)
 	apply_house(frame, vars)
 	apply_stats(frame, vars)
 	apply_traits(frame, vars)
-
-	local errata_results = cargo.query(
-		'CardData, ErrataData',
-		'ErrataData.Text,ErrataData.Version',
-		{
-			join='CardData._pageName=ErrataData._pageName',
-			where='ErrataData._ID is not null AND CardData.Name="'..vars.cardname..'"',
-			orderBy='ErrataData._ID ASC'
-		}
-	)
-	cargo_results(errata_results)
-	if(#errata_results>0) then
-		vars.original_text=wikitext(errata_results[1]['ErrataData.Text'])
-		vars.errata_text=wikitext(errata_results[#errata_results]['ErrataData.Text'])
-		vars.errata_version = errata_results[#errata_results]['ErrataData.Version']
-		if(string.find(vars.errata_version, 'Rulebook')) then
-			vars.categories[#vars.categories+1] = 'Errata'
-		else
-			vars.categories[#vars.categories+1] = 'Revised Cards'
-		end
-		vars.cardtext = stache(templates.template_errata, vars)
-	else
-		if(vars.cardtext=='(Vanilla)') then vars.cardtext=''
-		else
-			vars.cardtext = '<span class="plainlinks">'..wikitext(vars.cardtext)..'</span>'
-		end
-	end
-
+	apply_errata(frame, vars)
 	apply_rulings(frame, vars)
 	apply_categories(frame, vars)
 

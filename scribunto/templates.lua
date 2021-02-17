@@ -16,7 +16,11 @@ ${cardstyle}
   <div class="rightSide">
     <div class="topRow">
       <div class="house ${cardhouse_color}">
-        ${cardhouse_section}
+        ${#is_multi}Multi${/is_multi}
+        ${^is_multi}
+          ${#is_anomaly}{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>${/is_anomaly}
+          ${^is_anomaly}{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]${/is_anomaly}
+        ${/is_multi}
       </div>
       <div class="type ${cardhouse_color}"><html><a href="https://archonarcana.com/Card_Gallery?types=${cardtype}">${cardtype_t}</a></html></div>
       <div class="rarity ${cardhouse_color}">{{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity_t}</a></html></div>
@@ -57,7 +61,25 @@ ${cardstyle}
     </div>
 
     <div class="cardText">
-    ${cardtext}
+    ${^has_carderrata}
+      ${cardtext}
+    ${/has_carderrata}
+
+    ${#has_carderrata}
+      <html><ul id="gallery-containerErrata">
+        <div class="horizontalLine"></div>
+        <li class="gallery-itemErrata">
+          <input checked="checked" type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="1.jpg" id="gallery-item1Errata" />
+          <div class="gallery-fullsizeErrata"></html>${errata_text}<html></div>
+          <label for="gallery-item1Errata" class="gallery-label1Errata">Current Text</label>
+        </li>
+        <li class="gallery-itemErrata">
+          <input type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="2.jpg" id="gallery-item2Errata" />
+          <div class="gallery-fullsizeErrata"></html><i>${cardname} was updated in ${errata_version}. Original card text:</i><p>${original_text}<html></div>
+          <label for="gallery-item2Errata" class="gallery-label2Errata">Original Text</label>
+        </li>
+      </ul></html>
+    ${/has_carderrata}
     </div>
 
     <div class="flavorText">
@@ -79,12 +101,12 @@ ${cardstyle}
   {{ FAQ_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
   ${/ruleofficial}
 
-  ${#has_rulecommentary}<h2><h2>Commentary</h2></h2>${/has_rulecommentary}
+  ${#has_rulecommentary}<h2>Commentary</h2>${/has_rulecommentary}
   ${#rulecommentary}
   {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
   ${/rulecommentary}
 
-  ${#has_ruleoutstanding}<h2><h2>Outstanding Issues</h2></h2>${/has_ruleoutstanding}
+  ${#has_ruleoutstanding}<h2>Outstanding Issues</h2>${/has_ruleoutstanding}
   ${#ruleoutstanding}
     {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
   ${/ruleoutstanding}
@@ -92,16 +114,6 @@ ${cardstyle}
 __NOTOC__
 ${categories}
 {{SEO}}
-]==]
-
-local template_house = [==[
-  ${#is_anomaly}
-    {{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>
-  ${/is_anomaly}
-  
-  ${^is_anomaly}
-    {{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]
-  ${/is_anomaly}
 ]==]
 
 local template_art = [==[
@@ -133,26 +145,7 @@ local template_art = [==[
   </html>
 ]==]
 
-local template_errata = [==[
-<html><ul id="gallery-containerErrata">
-  <div class="horizontalLine"></div>
-  <li class="gallery-itemErrata">
-    <input checked="checked" type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="1.jpg" id="gallery-item1Errata" />
-    <div class="gallery-fullsizeErrata"></html>${errata_text}<html></div>
-    <label for="gallery-item1Errata" class="gallery-label1Errata">Current Text</label>
-  </li>
-  <li class="gallery-itemErrata">
-    <input type="radio" name="gallery-listErrata" class="gallery-selectorErrata" value="2.jpg" id="gallery-item2Errata" />
-    <div class="gallery-fullsizeErrata"></html><i>${cardname} was updated in ${errata_version}. Original card text:</i><p>${original_text}<html></div>
-    <label for="gallery-item2Errata" class="gallery-label2Errata">Original Text</label>
-  </li>
-</ul></html>
-]==]
-
 return {
     template_base = template_base,
-    template_altart = template_altart,
-    template_art = template_art,
-    template_house = template_house,
-    template_errata = template_errata
+    template_art = template_art
 }
