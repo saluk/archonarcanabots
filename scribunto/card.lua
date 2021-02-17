@@ -165,7 +165,6 @@ local apply_altart = function(frame, vars)
 	)
 	cargo_results(altart_results)
 	vars.altart = altart_results
-	vars.cardart = stache(templates.template_art, vars)
 end
 
 function apply_house(frame, vars)

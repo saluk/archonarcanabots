@@ -11,7 +11,32 @@ ${cardstyle}
 {{Sharing}}
 
 <div class="cardEntry">
-  ${cardart}
+  <html>
+  ${^altart}
+    <div class="image">
+      </html>[[File:${cardimage}|300px|frameless|alt=${cardname}]]<html>
+    </div>
+  ${/altart}
+
+  ${#altart}
+    <div class="largeBackground"><div id="wrap"><ul id="gallery-container">
+      <li class="gallery-item">
+        <input checked="checked" type="radio" name="gallery-list" class="gallery-selector" value="1.jpg" id="gallery-item1" />
+        <div class="gallery-fullsize">
+          </html>[[File:${CardData_Image}|300px|frameless|alt=${CardData_Name} Regular Art]]<html>
+        </div>
+        <label for="gallery-item1" class="gallery-label1">Default</label>
+      </li>
+      <li class="gallery-item">
+        <input type="radio" name="gallery-list" class="gallery-selector" value="2.jpg" id="gallery-item2" />
+        <div class="gallery-fullsize">
+          </html>[[File:${AltArt_File}|300px|frameless|alt=${CardData_Name} Alternate Art]]<html>
+        </div>
+        <label for="gallery-item2" class="gallery-label2">Alt-Art</label>
+      </li></ul></div></div>
+      </html><includeonly>[[Category:Alternate_Art]]</includeonly><html>
+  ${/altart}
+  </html>
 
   <div class="rightSide">
     <div class="topRow">
@@ -116,36 +141,6 @@ ${categories}
 {{SEO}}
 ]==]
 
-local template_art = [==[
-  <html>
-  ${^altart}
-    <div class="image">
-      </html>[[File:${cardimage}|300px|frameless|alt=${cardname}]]<html>
-    </div>
-  ${/altart}
-
-  ${#altart}
-    <div class="largeBackground"><div id="wrap"><ul id="gallery-container">
-      <li class="gallery-item">
-        <input checked="checked" type="radio" name="gallery-list" class="gallery-selector" value="1.jpg" id="gallery-item1" />
-        <div class="gallery-fullsize">
-          </html>[[File:${CardData_Image}|300px|frameless|alt=${CardData_Name} Regular Art]]<html>
-        </div>
-        <label for="gallery-item1" class="gallery-label1">Default</label>
-      </li>
-      <li class="gallery-item">
-        <input type="radio" name="gallery-list" class="gallery-selector" value="2.jpg" id="gallery-item2" />
-        <div class="gallery-fullsize">
-          </html>[[File:${AltArt_File}|300px|frameless|alt=${CardData_Name} Alternate Art]]<html>
-        </div>
-        <label for="gallery-item2" class="gallery-label2">Alt-Art</label>
-      </li></ul></div></div>
-      </html><includeonly>[[Category:Alternate_Art]]</includeonly><html>
-  ${/altart}
-  </html>
-]==]
-
 return {
-    template_base = template_base,
-    template_art = template_art
+    template_base = template_base
 }
