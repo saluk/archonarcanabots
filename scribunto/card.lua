@@ -2,10 +2,26 @@
 local p = {}
 local cargo = mw.ext.cargo
 
-function combine(tableto,tablefrom)
+function combine(tableto, tablefrom)
 	for k,v in pairs(tablefrom) do
 		tableto[k] = v
 	end
+end
+
+function map(table, func)
+	for k,v in pairs(table) do
+		table[k] = func(v)
+	end
+	return table
+end
+
+function filter(table, func)
+	local new = {}
+	for k,v in pairs(table) do
+		if func(v) then new[k] = v
+		end
+	end
+	return new
 end
 
 local templates = require('Module:LuacardTemplates')
@@ -231,56 +247,29 @@ function rulequery(type, cardname)
 end
 
 function apply_rulings(frame, vars)
-	vars.ruleofficial = ''
-	vars.rulecommentary = ''
-	vars.ruleoutstanding = ''
-
 	local official_results = rulequery('FAQ', vars.cardname)
 	if(#official_results>0) then vars.categories[#vars.categories+1] = 'FAQ' end
 
 	local ruling_results = rulequery('FFGRuling', vars.cardname)
 	if(#ruling_results>0) then vars.categories[#vars.categories+1] = 'FFG Rulings' end
 
-	for _,v in ipairs(ruling_results) do
-		table.insert(official_results, v)
-	end
+	combine(official_results, ruling_results)
 
 	local commentary_results = rulequery('Commentary', vars.cardname)
 	local outstanding_results = rulequery('OutstandingIssues', vars.cardname)
 	if(#outstanding_results>0 or #commentary_results>0) then vars.categories[#vars.categories+1] = 'Commentary' end
 
-	if(#official_results>0) then
-		vars.ruleofficial = vars.ruleofficial .. '<h2>FFG Rulings</h2>'
-		for i,v in ipairs(official_results) do
-			vars.ruleofficial = vars.ruleofficial .. frame:expandTemplate{title='FAQ_Entry', args={
-				RulesType=v['RulesType'],
-				RulesText=v['RulesText'],
-				RulesSource=v['RulesSource']
-			}}
+	vars.has_ruleofficial = #official_results > 0
+	vars.ruleofficial = official_results
+	vars.has_rulecommentary = #commentary_results > 0
+	vars.rulecommentary = commentary_results
+	vars.has_ruleoutstanding = #outstanding_results > 0
+	vars.ruleoutstanding = filter(outstanding_results, function(ruling)
+		if string.find(ruling['RulesText'], '//') then 
+			return true 
+		else return false 
 		end
-	end
-	if(#commentary_results>0) then
-		vars.rulecommentary = vars.rulecommentary .. '<h2>Commentary</h2>'
-		for i,v in ipairs(commentary_results) do
-			vars.rulecommentary = vars.rulecommentary .. frame:expandTemplate{title='Commentary_Entry', args={
-				RulesType=v['RulesType'],
-				RulesText=v['RulesText'],
-				RulesSource=v['RulesSource']
-			}}
-		end
-	end
-	if(#outstanding_results>0) then
-		vars.ruleoutstanding = vars.ruleoutstanding .. '<h2>Outstanding Issues</h2><div class="aa-box">[[File:Exclamation_flat_icon.svg|20px|class=aa-warning|frameless|link=]]<div class="text">There is an outstanding issue concerning {{{Name}}}. </div></div>'
-		for i,v in ipairs(outstanding_results) do
-			if(v['RulesText'].find('//')) then
-				vars.ruleoutstanding = vars.ruleoutstanding .. frame:expandTemplate{title='Commentary_Entry', args={
-					RulesType=v['RulesType'],
-					RulesText=v['RulesText'],
-					RulesSource=v['RulesSource']
-				}}
-			end
-		end
-	end
+	end)
 end
 
 function p.viewcard(frame)

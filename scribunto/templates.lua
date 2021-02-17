@@ -74,9 +74,20 @@ ${cardstyle}
   </div>
 </div>
 
-  ${ruleofficial}
-  ${rulecommentary}
-  ${ruleoutstanding}
+  ${#has_ruleofficial}<h2>FFG Rulings</h2>${/has_ruleofficial}
+  ${#ruleofficial}
+  {{ FAQ_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
+  ${/ruleofficial}
+
+  ${#has_rulecommentary}<h2><h2>Commentary</h2></h2>${/has_rulecommentary}
+  ${#rulecommentary}
+  {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
+  ${/rulecommentary}
+
+  ${#has_ruleoutstanding}<h2><h2>Outstanding Issues</h2></h2>${/has_ruleoutstanding}
+  ${#ruleoutstanding}
+    {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
+  ${/ruleoutstanding}
 
 __NOTOC__
 ${categories}
