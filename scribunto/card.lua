@@ -137,7 +137,7 @@ local apply_altart = function(frame, vars)
 			where='CardData.Name="'..vars.cardname..'"'
 		}
 	)
-	vars.art_default = not (vars.is_amber_vault or vars.is_its_coming or vars.altart)
+	vars.art_default = not (vars.is_amber_vault or vars.is_its_coming or #vars.altart>0)
 end
 
 function apply_house(frame, vars)
@@ -304,12 +304,7 @@ function p.viewcard(frame)
 	vars.cardhouse = card_results[1]['House']
 	vars.cardhouse_lower = vars.cardhouse:lower()
 	vars.cardrarity = card_results[1]['Rarity']
-	vars.cardtext_short = wikitext(card_results[1]['Text'])
-	vars.cardtext = vars.cardtext_short
-	if(vars.cardtext=='(Vanilla)') then vars.cardtext=''
-	else
-		vars.cardtext = '<span class="plainlinks">'..wikitext(vars.cardtext)..'</span>'
-	end
+	vars.cardtext = wikitext(card_results[1]['Text'])
 	vars.cardflavortext = wikitext(card_results[1]['FlavorText'])
 	vars.cardartist = card_results[1]['Artist']
 	vars.cardtype = card_results[1]['Type']

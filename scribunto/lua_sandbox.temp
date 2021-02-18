@@ -36,6 +36,7 @@ Ambassador Liu
 </div>
 
 {{#invoke: luacard | viewcard | cardname=Hock}}
+{{#invoke: luacard | viewcard | cardname=Dust Pixie}}
 {{#invoke: luacard | viewcard | cardname=Might makes Right}}
 {{#invoke: luacard | viewcard | cardname=Bait and Switch}}
 {{#invoke: luacard | viewcard | cardname=Collector Worm}}
