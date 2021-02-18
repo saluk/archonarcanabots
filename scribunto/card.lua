@@ -50,19 +50,26 @@ end
 function stachify(table)
 	local under_tab = {}
 	for k,v in pairs(table) do
-		mw.log('k:'..k..' k_:'..k:gsub('[.]','_'))
-		under_tab[k:gsub('[.]','_')] = v
+		if string.find(k, '[.]') then
+			local parts = mw.text.split(k, '[.]')
+			if not under_tab[parts[1]] then
+				under_tab[parts[1]] = {}
+			end
+			under_tab[parts[1]][parts[2]] = v
+		end
 	end
 	combine(table, under_tab)
 end
 
-function cargo_results(table)
+function cargo_results(ctable, cfields, cargs)
+	local table = cargo.query(ctable, cfields, cargs)
 	for i,r in ipairs(table) do
 		stachify(r)
 		if i<#table then
 			r['delim'] = true
 		end
 	end
+	return table
 end
 	
 function stache(s, tab)
@@ -107,7 +114,7 @@ local translate_trait = function(frame, type, word)
 end
 
 local load_translation_table = function(locale)
-	local translate_table_results = cargo.query(
+	local translate_table_results = cargo_results(
 		'TranslationTable',
 		'EnglishText,Type,TranslatedText',
 		{
@@ -155,7 +162,7 @@ local apply_altart = function(frame, vars)
 		]==]
 		return
 	end
-	local altart_results = cargo.query(
+	local altart_results = cargo_results(
 		'AltArt,CardData',
 		'AltArt.File,CardData.Image,CardData.Name',
 		{
@@ -163,7 +170,6 @@ local apply_altart = function(frame, vars)
 			where='CardData.Name="'..vars.cardname..'"'
 		}
 	)
-	cargo_results(altart_results)
 	vars.altart = altart_results
 end
 
@@ -219,7 +225,7 @@ function apply_traits(frame, vars)
 end
 
 function apply_errata(frame, vars)
-	local errata_results = cargo.query(
+	local errata_results = cargo_results(
 		'CardData, ErrataData',
 		'ErrataData.Text,ErrataData.Version',
 		{
@@ -228,7 +234,6 @@ function apply_errata(frame, vars)
 			orderBy='ErrataData._ID ASC'
 		}
 	)
-	cargo_results(errata_results)
 	if(#errata_results>0) then
 		vars.has_carderrata = true
 		vars.original_text=wikitext(errata_results[1]['ErrataData.Text'])
@@ -252,7 +257,7 @@ function apply_categories(frame, vars)
 end
 
 function rulequery(type, cardname)
-	return cargo.query(
+	return cargo_results(
 		'RuleData',
 		'RulesText, RulesType, RulesSource, RulesPages, RulesDate',
 		{
@@ -289,7 +294,7 @@ function apply_rulings(frame, vars)
 end
 
 function apply_sets(frame, vars)
-	local set_number_results = cargo.query(
+	vars.cardsets = cargo_results(
 		'SetData,CardData,SetInfo',
 		'SetData.SetName, SetData.CardNumber, SetInfo.ReleaseYear, SetInfo.ReleaseMonth',
 		{
@@ -297,10 +302,8 @@ function apply_sets(frame, vars)
 			where='CardData.Name="'..frame.args.cardname..'"',
 			orderBy='SetInfo.ReleaseYear, SetInfo.ReleaseMonth'
 		})
-	vars.cardsets = set_number_results
-	cargo_results(vars.cardsets)
-	for r = 1, #set_number_results do
-		local result = set_number_results[r]
+	for r = 1, #vars.cardsets do
+		local result = vars.cardsets[r]
 		vars.categories[#vars.categories+1] = set_category[result['SetData.SetName']]
 	end
 	vars.shortset_from_name = function(self)
@@ -318,7 +321,7 @@ function p.viewcard(frame)
 		cardstyle = cardstyle.cardstyle,
 		multihouse_style = cardstyle.multihouse_style
 	}
-	local card_results = cargo.query(
+	local card_results = cargo_results(
 		'CardData',
 		'Name,Image,Artist,Text,FlavorText,Type,Rarity,House,Traits,Power,Armor,Amber',
         {
@@ -353,7 +356,7 @@ function p.viewcard(frame)
 	end
 
 	if frame.args.locale then
-		local locale_table_results = cargo.query(
+		local locale_table_results = cargo_results(
 			'CardLocaleData',
 			'Name,EnglishName,Text,FlavorText,Locale,Image',
 			{

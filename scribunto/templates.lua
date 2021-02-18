@@ -5,7 +5,7 @@ local template_base = [==[
 ${cardstyle}
 </style>
 
-<span class="pageOverlay">${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_short} • Artist: </html>${cardartist}<html> • Card Number: ${#cardsets}</html>${shortset_from_name}<html>:${SetData_CardNumber}${#delim},&nbsp;${/delim}${/cardsets}
+<span class="pageOverlay">${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_short} • Artist: </html>${cardartist}<html> • Card Number: ${#cardsets}</html>${shortset_from_name}<html>:${SetData.CardNumber}${#delim},&nbsp;${/delim}${/cardsets}
 </span>
 </html>
 {{Sharing}}
@@ -23,14 +23,14 @@ ${cardstyle}
       <li class="gallery-item">
         <input checked="checked" type="radio" name="gallery-list" class="gallery-selector" value="1.jpg" id="gallery-item1" />
         <div class="gallery-fullsize">
-          </html>[[File:${CardData_Image}|300px|frameless|alt=${CardData_Name} Regular Art]]<html>
+          </html>[[File:${CardData.Image}|300px|frameless|alt=${CardData.Name} Regular Art]]<html>
         </div>
         <label for="gallery-item1" class="gallery-label1">Default</label>
       </li>
       <li class="gallery-item">
         <input type="radio" name="gallery-list" class="gallery-selector" value="2.jpg" id="gallery-item2" />
         <div class="gallery-fullsize">
-          </html>[[File:${AltArt_File}|300px|frameless|alt=${CardData_Name} Alternate Art]]<html>
+          </html>[[File:${AltArt_File}|300px|frameless|alt=${CardData.Name} Alternate Art]]<html>
         </div>
         <label for="gallery-item2" class="gallery-label2">Alt-Art</label>
       </li></ul></div></div>
@@ -113,7 +113,7 @@ ${cardstyle}
 
     <div class="sets">
     ${#cardsets}
-      <div class="setEntry"><b>${shortset_from_name}</b> ${SetData_CardNumber}</div>
+      <div class="setEntry"><b>${shortset_from_name}</b> ${SetData.CardNumber}</div>
     ${/cardsets}
     </div>
 
