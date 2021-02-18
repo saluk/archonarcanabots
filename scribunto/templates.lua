@@ -1,6 +1,48 @@
 --Module:LuacardTemplates
 
---[[ Variables passed to this template
+--[[ Guidelines for this template:
+
+A note on how it is called:
+This template is rendered by Module:Luacard, which will replace any text
+surrounded by "${}". That text is then rendered as a normal mediawiki template.
+
+Uses a variant of moustache (https://mustache.github.io/mustache.5.html) for
+inserting variables from cargo. The differences from the spec are, you wrap
+variables in ${} instead of {{ }}. This is to enable you to still use 
+{{ }} for mediawiki templates. The other difference is variables are NOT
+html escaped by default. Most of the time, we are outputting html, so it
+didn't make sense to force us to specify that every time we want it.
+
+Examples of handy things from moustache:
+
+  Just render a variable:
+  ${some_variable}
+
+  Rendering a section for each item in a list:
+
+  ${#list}
+    ${item_variable 1}
+    ${item_variable 2}
+  ${/list}
+
+  Similarly, only rendering a section if a boolean is true:
+
+  ${#is_true}
+    Render me only if is_true... is true!
+  ${/is_true}
+
+  You can also render something only if a list is empty or if is_true is false:
+
+  ${^is_true}
+    Render me only if is_true... is false
+  {/is_true}
+
+  ${^empty_list}
+    Looks like there was nothing in that there list
+  ${/empty_list}
+
+
+Variables passed to this template:
 
 cardstyle = imported css from Module:LuacardStyle
 
@@ -8,8 +50,11 @@ card fields
 -----------
 cardname = (translated) name of card
 cardhouse = house of card
+cardhouse_t = translated house of card
 cardtype = type of card
+cardtype_t = translated type of card
 cardrarity = rarity of card
+cardrarity_t = translated rarity of card
 cardtext = base (translated) text of card as its in the mastervault
 cardflavortext = base (translated) text of the card as its in the master vault
 cardartist = english name of artist (don't think we will translate this field?)
