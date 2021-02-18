@@ -1,11 +1,95 @@
 --Module:LuacardTemplates
+
+--[[ Variables passed to this template
+
+cardstyle = imported css from Module:LuacardStyle
+
+card fields
+-----------
+cardname = (translated) name of card
+cardhouse = house of card
+cardtype = type of card
+cardrarity = rarity of card
+cardtext = base (translated) text of card as its in the mastervault
+cardflavortext = base (translated) text of the card as its in the master vault
+cardartist = english name of artist (don't think we will translate this field?)
+cardimage = the base (translated) image
+errata_text = the most recent errata text (todo: not translated)
+errata_version = the version the errata was recently updated in (todo: not translated)
+original_text = the original version of the text (todo: not translated)
+
+terms
+-----
+word_power_t = 'power' for english
+word_armor_t = 'armor' for english
+word_artist_t = 'artist' for english
+
+stylistic variables
+-------------------
+cardhouse_color = blank for multi house, lowercase house name otherwise, used to style the border
+
+some booleans controlling output
+--------------------------------
+artdefault = show the card image in the general case
+is_amber_vault = show "dark amber vault" multihouse image  (todo: the general case could handle these)
+is_its_coming = show "it's coming" multihouse image
+is_multi = card has multiple houses, used for house display
+is_anomaly = used to display the house image for anomalies, because the icon is a different size
+cardstats = if the card has any valid stats to be shown
+has_carderrata = if the card has errata
+has_ruleofficial = has official rulings (faq, or ffgruling) (todo: not translated. todo: combine all rule displays into one template)
+has_rulecommentary = has commentary rulings  (wont be translated)
+has_ruleoutstanding = has outstanding rulings  (wont be translated)
+
+lists of data
+-------------
+note: all lists of data have these special fields:
+delim: true for each item of the list except the last one, used to put text between items
+
+cardsets = list of:
+  shortset_from_name = the abbreviation of the set (MM) or the set logo for translated pages
+  SetData.CardNumber = the number in that set for this card
+altart = list of alternate art images, used to override image display
+  CardData.Image = standard card image  (todo: maybe these should just use cardimage/cardname)
+  CardData.Name = standard card name  (todo: maybe these should just use cardimage/cardname)
+  AltArt.File = image source for the alternate image file
+cardstatpower = shown for creatures with valid power stat
+  min = minimum available power value to link to search (if the card power is too high we have to pass "10+")
+  max = maximum available power value to link to search
+  value = the power value for this card
+cardstatarmor = shown for creatures with valid armor stat
+  min = minimum available power value to link to search (if the card power is too high we have to pass "10+")
+  max = maximum available power value to link to search
+  value = the power value for this card
+cardstatamber = shown for cards with bonus amber
+  min = minimum available power value to link to search (if the card power is too high we have to pass "10+")
+  max = maximum available power value to link to search
+  value = the power value for this card
+cardtraits = list of traits
+  . = the english trait word
+  translate_trait = the translated trait word
+ruleofficial = list of faq or ffg rulings
+  RulesType = ruling type
+  RulesText = rules text
+  RulesSource = rules source
+rulecommentary = list of commentary rulings
+  RulesType = ruling type
+  RulesText = rules text
+  RulesSource = rules source
+ruleoutstanding = list of outstanding issue rulings
+  RulesType = ruling type
+  RulesText = rules text
+  RulesSource = rules source
+--]]
+
+
 local template_base = [==[
 <html>
 <style type="text/css">
 ${cardstyle}
 </style>
 
-<span class="pageOverlay">${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext_short} • Artist: </html>${cardartist}<html> • Card Number: ${#cardsets}</html>${shortset_from_name}<html>:${SetData.CardNumber}${#delim},&nbsp;${/delim}${/cardsets}
+<span class="pageOverlay">${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext} • Artist: </html>${cardartist}<html> • Card Number: ${#cardsets}</html>${shortset_from_name}<html>:${SetData.CardNumber}${#delim},&nbsp;${/delim}${/cardsets}
 </span>
 </html>
 {{Sharing}}
@@ -123,7 +207,9 @@ ${cardstyle}
 
     <div class="cardText">
     ${^has_carderrata}
-      ${cardtext}
+      <span class="plainlinks">
+        ${cardtext}
+      </span>
     ${/has_carderrata}
 
     ${#has_carderrata}
