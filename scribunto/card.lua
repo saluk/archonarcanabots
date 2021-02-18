@@ -127,42 +127,9 @@ local load_translation_table = function(locale)
 end
 
 local apply_altart = function(frame, vars)
-	if(vars.cardname == 'Dark Æmber Vault') then
-		vars.cardart = [==[
-			{{Multi House
-			|Name={{{Name}}}
-			|House1=Dis
-			|Image1=479-001-Dis.png
-			|House2=Logos
-			|Image2=479-001-Logos.png
-			|House3=Sanctum
-			|Image3=479-001-Sanctum.png
-			|House4=Saurian
-			|Image4=479-001-Saurian.png
-			|House5=Shadows
-			|Image5=479-001-Shadows.png
-			|House6=Star Alliance
-			|Image6=479-001-Star_Alliance.png
-			|House7=Untamed
-			|Image7=479-001-Untamed.png
-			}}
-		]==]
-		return
-	elseif(vars.cardname == 'It’s Coming...') then
-		vars.cardart = [==[
-			{{Multi House
-			|Name={{{Name}}}
-			|House1=Logos
-			|Image1=479-117-Logos.png
-			|House2=Saurian
-			|Image2=479-117-Saurian.png
-			|House3=Untamed
-			|Image3=479-117-Untamed.png
-			}}
-		]==]
-		return
-	end
-	local altart_results = cargo_results(
+	vars.is_amber_vault = vars.cardname == 'Dark Æmber Vault'
+	vars.is_its_coming = vars.cardname == 'It’s Coming...'
+	vars.altart = cargo_results(
 		'AltArt,CardData',
 		'AltArt.File,CardData.Image,CardData.Name',
 		{
@@ -170,13 +137,13 @@ local apply_altart = function(frame, vars)
 			where='CardData.Name="'..vars.cardname..'"'
 		}
 	)
-	vars.altart = altart_results
+	vars.art_default = not (vars.is_amber_vault or vars.is_its_coming or vars.altart)
 end
 
 function apply_house(frame, vars)
-	vars.is_multi = vars.cardhouse:find('•', 1, true)
-	vars.is_anomaly = vars.cardhouse:find('Anomaly')
-	if(is_multi) then
+	vars.is_multi = string.find(vars.cardhouse, '•', 1, true)
+	vars.is_anomaly = string.find(vars.cardhouse, 'Anomaly')
+	if(vars.is_multi) then
 		vars.cardhouse_color = ''
 		vars.categories[#vars.categories+1] = 'Multi'
 	else

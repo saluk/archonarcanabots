@@ -12,11 +12,47 @@ ${cardstyle}
 
 <div class="cardEntry">
   <html>
-  ${^altart}
+  ${#art_default}
     <div class="image">
       </html>[[File:${cardimage}|300px|frameless|alt=${cardname}]]<html>
     </div>
-  ${/altart}
+  ${/art_default}
+
+  ${#is_amber_vault}
+      </html>
+      {{Multi House
+      |Name={{{Name}}}
+      |House1=Dis
+      |Image1=479-001-Dis.png
+      |House2=Logos
+      |Image2=479-001-Logos.png
+      |House3=Sanctum
+      |Image3=479-001-Sanctum.png
+      |House4=Saurian
+      |Image4=479-001-Saurian.png
+      |House5=Shadows
+      |Image5=479-001-Shadows.png
+      |House6=Star Alliance
+      |Image6=479-001-Star_Alliance.png
+      |House7=Untamed
+      |Image7=479-001-Untamed.png
+      }}
+      <html>
+  ${/is_amber_vault}
+
+  ${#is_its_coming}
+    </html>
+    {{Multi House
+    |Name={{{Name}}}
+    |House1=Logos
+    |Image1=479-117-Logos.png
+    |House2=Saurian
+    |Image2=479-117-Saurian.png
+    |House3=Untamed
+    |Image3=479-117-Untamed.png
+    }}
+    <html>
+  ${/is_its_coming}
 
   ${#altart}
     <div class="largeBackground"><div id="wrap"><ul id="gallery-container">
