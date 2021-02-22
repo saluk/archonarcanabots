@@ -79,7 +79,7 @@ def update_reprint_with_errata(ct, errata, card):
     ct.append("ErrataData", {"Text":card["card_text"], "Version":"Mass Mutation"})
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False,
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=False, use_csv=False,
     locale=None):
     latest_english = wiki_card_db.get_latest_from_card(card)
     latest = wiki_card_db.get_latest_from_card(card, locale)
