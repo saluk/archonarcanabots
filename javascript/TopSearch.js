@@ -11,7 +11,7 @@
   </a>
   <div class="suggestions-special"></div></div>
 */
-import {unhashThumbImage, unhashImage, removePunctuation} from './myutils'
+import {unhashThumbImage, unhashImage, removePunctuation, getLocale} from './myutils'
 const Bowser = require('bowser')
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
@@ -26,7 +26,7 @@ var more = {
 <div class="special-label">Cards containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
 </a>`,
-    'wiki':`<a class="mw-searchSuggest-link" href="/index.php?search={{ SEARCH }}&title=Special%3ASearch&fulltext=1">
+    'wiki':`<a class="mw-searchSuggest-link" href="/index.php?search={{ SEARCH }}+inlanguage%3A{{ LOCALE }}&title=Special%3ASearch&fulltext=1&advancedSearch-current={%22fields%22%3A{%22inlanguage%22%3A%22{{ LOCALE }}%22}}">
 <div class="suggestions-special" style="display: block;"><div class="special-label">containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
 </a>`
@@ -269,7 +269,10 @@ class Caller {
         }
         for(var group of ['card', 'wiki', 'deck']) {
             if(group==='wiki' || (group==='card' && this.cardsFound >= deckLimit) || (group==='deck' && this.decksFound >= deckLimit)) {
-                $('.suggestions-results').append(more[group].replace(/\{\{ SEARCH \}\}/g, this.searchString))
+                $('.suggestions-results').append(
+                    more[group].replace(/\{\{ SEARCH \}\}/g, this.searchString)
+                    .replace(/\{\{ LOCALE \}\}/g, getLocale())
+                )
             }
         }
         $('.suggestions-special').on('mouseenter', function(evt) {
