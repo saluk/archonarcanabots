@@ -7,16 +7,17 @@ import {deck_counts} from './deck_counts.js'
 import {getLocale} from './myutils'
 
 function show_translations() {
+	$('.translate').css('display','none')
 	$('.translate-'+getLocale()).css('display','inline')
 }
 
 var arcana_main = function() {
+	show_translations()
 	hookTopSearch()
 	deck_counts()
 	choose_random_cards()
 	carousel(true)
 	replace_charts()
-	show_translations()
 }
 
 arcana_main()

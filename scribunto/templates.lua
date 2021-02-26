@@ -49,6 +49,7 @@ cardstyle = imported css from Module:LuacardStyle
 card fields
 -----------
 cardname = (translated) name of card
+cardname_e = english name of card
 cardhouse = house of card
 cardhouse_t = translated house of card
 cardtype = type of card
@@ -134,10 +135,24 @@ local template_base = [==[
 ${cardstyle}
 </style>
 
-<span class="pageOverlay">${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext} • Artist: </html>${cardartist}<html> • Card Number: ${#cardsets}</html>${shortset_from_name}<html>:${SetData.CardNumber}${#delim},&nbsp;${/delim}${/cardsets}
+<span class="pageOverlay">
+</html>
+${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext} • Artist: ${cardartist} • Card Number: ${#cardsets}${shortset_from_name}<html>:${SetData.CardNumber}${#delim},&nbsp;${/delim}</html>${/cardsets}
+<html>
 </span>
 </html>
+
 {{Sharing}}
+
+<html>
+<div style="display:none">
+View in <select name="viewlanguage" onchange="location = this.value;">
+${#locales}
+  <option value="/${cardname_e}${locale}">${locale_name}</option>
+${/locales}
+</select> 
+</div>
+</html>
 
 <div class="cardEntry">
   <html>

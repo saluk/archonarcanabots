@@ -42,10 +42,15 @@ def add_skip(name):
         f.write(json.dumps(skip_status))
 
 
-def update_page(title, page, text, reason, ot, pause=False):
+def update_page(title, page, text, reason, ot, pause=False, read=False):
     if title in skip_status:
         print("skipping", title)
         return
+    if read:
+        try:
+            ot = page.read()
+        except:
+            pass
     if text != ot and pause:
         print("DIFF")
         for l in difflib.context_diff(ot.split("\n"), text.split("\n")):
@@ -63,14 +68,46 @@ def update_page(title, page, text, reason, ot, pause=False):
     return text
 
 
-def put_cargo_on_new_card_page(wp, card_title, update_reason="Put card query on card page", pause=False):
+with open("data/locales.json") as f:
+    locales = json.loads(f.read())
+def update_card_views(wp, card_title, update_reason="Put lua on translated card pages", pause=False):
+    print("update_card_views", card_title, pause)
     page = wp.page(card_title)
-    try:
-        ot = page.read()
-        return
-    except Exception:
-        pass
-    return update_page(card_title, page, "{{Card Query}}", update_reason, "", pause)
+    updates = []
+    updates.append(update_page(
+        card_title,
+        page,
+        "{{#invoke: luacard | viewcard | cardname=%(n)s}}" % {"n": card_title},
+        update_reason,
+        "",
+        pause,
+        read=True
+    ))
+    #langs = []
+    #langs.append('<div class="translate translate-en" style="display:inline">{{#invoke: luacard | viewcard | cardname=%(n)s}}</div>' % 
+    #        {"n": card_title}
+    #)
+    for locale in locales:
+        if locale == "en": continue
+        wiki_locale_short, locale_name = locales[locale][0]
+        page_link = card_title+'/locale/'+wiki_locale_short
+        page = wp.page(page_link)
+        updates.append(update_page(
+            page_link,
+            page,
+            '{{#invoke: luacard | viewcard | cardname=%s | locale=%s}}' % 
+                (card_title, locale),
+            update_reason,
+            "",
+            pause=pause,
+            read=True
+            )
+        )
+        #langs.append('<div class="translate translate-%(ls)s" style="display:none">{{#invoke: luacard | viewcard | cardname=%(n)s | locale=%(l)s}}</div>' % 
+        #        {"n": card_title, "l": locale, "ls": wiki_locale_short}
+        #)
+    #updates.append(update_page(card_title, page, "\n".join(langs), update_reason, "", pause=pause))
+    return updates
 
 
 def update_reprint_with_errata(ct, errata, card):
@@ -146,7 +183,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         csv_changes.write(latest["card_title"]+"\t"+str(latest["expansion"])+"\t"+str(latest["card_number"])+"\t"+ot.replace("\n","\r")+"\t"+text.replace("\n","\r")+"\n")
         csv_changes.flush()
         return
-    return update_page(latest["card_title"], page, text, update_reason, ot, pause)
+    return [update_page(latest["card_title"], page, text, update_reason, ot, pause)]
 
 
 def update_cards_v2(wp, search_name=None,
@@ -182,17 +219,21 @@ def update_cards_v2(wp, search_name=None,
                     shutil.copyfileobj(r.raw, f)
             with open(lp, "rb") as f:
                 print(wp.upload(f, latest["image_number"]))
-        if data_to_update == "cargo_to_card2":
-            text = put_cargo_on_new_card_page(wp, card_name)
+        if data_to_update == "update_card_views":
+            texts = update_card_views(wp, card_name, pause=True)
         else:
-            text = update_card_page_cargo(
+            texts = update_card_page_cargo(
                 wp, wiki_card_db.cards[card_name],
                 update_reason=update_reason,
                 restricted=restricted,
                 data_to_update=data_to_update,
                 locale=locale)
-        if text:
-            print("changed:", text)
-            changed += 1
+        wait = False
+        for text in texts:
+            if text:
+                wait = True
+                print("changed:", text)
+                changed += 1
+        if wait:
             time.sleep(0.05)
     print(changed, "cards changed")

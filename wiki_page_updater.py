@@ -8,7 +8,19 @@ import wikibase
 # TODO - add templates to appropriate pages
 # TODO - create artist pages that list their cards
 
+# Monkeypatch to add a set_page_language to wiki pages
+import mw_api_client
+def set_page_language(self, lang):
+    return self.wiki.post_request(**{
+        'action': 'setpagelanguage',
+        'title': self.title,
+        'token': self.wiki.meta.tokens(),
+        'lang': lang
+    })
+mw_api_client.page.Page.set_page_language = set_page_language
+
 wp = connections.get_wiki()
+
 mwm = wikibase.MediawikiManager(wp)
 
 if __name__ == "__main__":
@@ -45,10 +57,10 @@ if __name__ == "__main__":
             search = sys.argv[2] if len(sys.argv) >= 3 else None
             tool_update_cards.update_cards_v2(wp, search, "inserting search text", 
                                               "insert_search_text")
-        if sys.argv[1] == "cargo_to_card2":
+        if sys.argv[1] == "update_card_views":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None
-            tool_update_cards.update_cards_v2(wp, search, "put card query on card", "cargo_to_card2")
+            tool_update_cards.update_cards_v2(wp, search, "put card query on card", "update_card_views")
         if sys.argv[1] == "relink":
             import tool_update_cards
             search = sys.argv[2] if len(sys.argv) == 3 else None

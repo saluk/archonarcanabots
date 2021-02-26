@@ -1,0 +1,11 @@
+{"pt-pt": [["pt-br", "português do Brasil"], ["pt", "português"]],
+"it-it": [["it", "italiano"]],
+"zh-hant": [["zh-hant", "中文（繁體）"], ["zh-tw", "中文（台灣）"]],
+"de-de": [["de", "Deutsch"], ["de-formal", "Deutsch (Sie-Form)"]],
+"zh-hans": [["zh", "中文"], ["zh-hans", "中文（简体）"]],
+"th-th": [["th", "ไทย"]],
+"ko-ko": [["ko", "한국어"], ["ko-kp", "조선말"]],
+"pl-pl": [["pl", "polski"]],
+"fr-fr": [["fr", "français"], ["frc", "français cadien"]],
+"es-es": [["es", "español"]],
+"en": [["en", "english"]]}

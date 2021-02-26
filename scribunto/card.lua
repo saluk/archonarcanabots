@@ -318,6 +318,19 @@ function p.viewcard(frame)
 	end
 
 	if frame.args.locale then
+		vars.cardname_e = vars.cardname
+		vars.locales = {}
+		vars.locales[1] = {keyforge="pt-pt", locale="/locale/pt-br", locale_name="português do Brasil"}
+		vars.locales[2] = {keyforge="it-it", locale="/locale/it", locale_name="italiano"}
+		vars.locales[3] = {keyforge="zh-hant", locale="/locale/zh-hant", locale_name="中文（繁體）"}
+		vars.locales[4] = {keyforge="de-de", locale="/locale/de", locale_name="Deutsch"}
+		vars.locales[5] = {keyforge="zh-hans", locale="/locale/zh", locale_name="中文"}
+		vars.locales[6] = {keyforge="th-th", locale="/locale/th", locale_name="ไทย"}
+		vars.locales[7] = {keyforge="ko-ko", locale="/locale/ko", locale_name="한국어"}
+		vars.locales[8] = {keyforge="pl-pl", locale="/locale/pl", locale_name="polski"}
+		vars.locales[9] = {keyforge="fr-fr", locale="/locale/fr", locale_name="français"}
+		vars.locales[10] = {keyforge="es-es", locale="/locale/es", locale_name="español"}
+		vars.locales[11] = {keyforge="en-en", locale="", locale_name="english"}
 		local locale_table_results = cargo_results(
 			'CardLocaleData',
 			'Name,EnglishName,Text,FlavorText,Locale,Image',
@@ -341,7 +354,12 @@ function p.viewcard(frame)
 	apply_traits(frame, vars)
 	apply_errata(frame, vars)
 	apply_rulings(frame, vars)
-	apply_categories(frame, vars)
+
+	if not frame.args.locale then
+		apply_categories(frame, vars)
+	else
+		vars.categories = ''
+	end
 
 	text = stache(templates.template_base, vars):gsub('\n','')
 	text = frame:preprocess(text)
