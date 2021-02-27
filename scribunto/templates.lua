@@ -130,29 +130,15 @@ ruleoutstanding = list of outstanding issue rulings
 
 
 local template_base = [==[
-<html>
-<style type="text/css">
-${cardstyle}
-</style>
+<html><style type="text/css">${cardstyle}</style></html>
 
-<span class="pageOverlay">
-</html>
-${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • ${cardtext} • Artist: ${cardartist} • Card Number: ${#cardsets}${shortset_from_name}<html>:${SetData.CardNumber}${#delim},&nbsp;${/delim}</html>${/cardsets}
-<html>
-</span>
-</html>
+${^locale}
+<html><span class="pageOverlay">
+${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • </html>${cardtext}<html> • Artist: ${cardartist} • Card Number: ${#cardsets}</html>${shortset_from_name}<html>:${SetData.CardNumber}${#delim},&nbsp;${/delim}${/cardsets}
+</span></html>
+${/locale}
 
 {{Sharing}}
-
-<html>
-<div style="display:none">
-View in <select name="viewlanguage" onchange="location = this.value;">
-${#locales}
-  <option value="/${cardname_e}${locale}">${locale_name}</option>
-${/locales}
-</select> 
-</div>
-</html>
 
 <div class="cardEntry">
   <html>

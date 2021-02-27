@@ -319,6 +319,7 @@ function p.viewcard(frame)
 
 	if frame.args.locale then
 		vars.cardname_e = vars.cardname
+		vars.locale = frame.args.locale
 		vars.locales = {}
 		vars.locales[1] = {keyforge="pt-pt", locale="/locale/pt-br", locale_name="português do Brasil"}
 		vars.locales[2] = {keyforge="it-it", locale="/locale/it", locale_name="italiano"}
@@ -340,9 +341,9 @@ function p.viewcard(frame)
 		)
 		for c = 1, #locale_table_results do
 			local cardlocale = locale_table_results[c]
-			vars.cardtext = cardlocale['Text']
+			vars.cardtext = wikitext(cardlocale['Text'])
 			vars.cardname = cardlocale['Name']
-			vars.cardflavortext = cardlocale['FlavorText']
+			vars.cardflavortext = wikitext(cardlocale['FlavorText'])
 			vars.cardimage = cardlocale['Image']
 		end
 	end
