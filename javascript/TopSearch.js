@@ -26,7 +26,7 @@ var more = {
 <div class="special-label">Cards containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
 </a>`,
-    'wiki':`<a class="mw-searchSuggest-link" href="/index.php?search={{ SEARCH }}+inlanguage%3A{{ LOCALE }}&title=Special%3ASearch&fulltext=1&advancedSearch-current={%22fields%22%3A{%22inlanguage%22%3A%22{{ LOCALE }}%22}}">
+    'wiki':`<a class="mw-searchSuggest-link" href="/index.php?search={{ SEARCH }}+intitle:{{ LOCALE_SEARCH }}&title=Special%3ASearch&fulltext=1&advancedSearch-current={%22fields%22%3A{%22intitle%22%3A%22{{ LOCALE_SEARCH }}%22}}">
 <div class="suggestions-special" style="display: block;"><div class="special-label">containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
 </a>`
@@ -269,9 +269,14 @@ class Caller {
         }
         for(var group of ['card', 'wiki', 'deck']) {
             if(group==='wiki' || (group==='card' && this.cardsFound >= deckLimit) || (group==='deck' && this.decksFound >= deckLimit)) {
+                if(getLocale()=='en') {
+                    var locale_search = '-locale'
+                } else {
+                    var locale_search = 'locale '+getLocale()
+                }
                 $('.suggestions-results').append(
                     more[group].replace(/\{\{ SEARCH \}\}/g, this.searchString)
-                    .replace(/\{\{ LOCALE \}\}/g, getLocale())
+                    .replace(/\{\{ LOCALE_SEARCH \}\}/g, locale_search)
                 )
             }
         }
