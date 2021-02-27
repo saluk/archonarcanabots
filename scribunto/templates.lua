@@ -130,6 +130,7 @@ ruleoutstanding = list of outstanding issue rulings
 
 
 local template_base = [==[
+<html><div style="display:none"><localetitle>${cardname}</localetitle></div></html>
 <html><style type="text/css">${cardstyle}</style></html>
 
 ${^locale}
