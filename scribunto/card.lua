@@ -127,14 +127,14 @@ local load_translation_table = function(locale)
 end
 
 local apply_altart = function(frame, vars)
-	vars.is_amber_vault = vars.cardname == 'Dark Æmber Vault'
-	vars.is_its_coming = vars.cardname == 'It’s Coming...'
+	vars.is_amber_vault = vars.cardname_e == 'Dark Æmber Vault'
+	vars.is_its_coming = vars.cardname_e == 'It’s Coming...'
 	vars.altart = cargo_results(
 		'AltArt,CardData',
 		'AltArt.File,CardData.Image,CardData.Name',
 		{
 			join='AltArt._pageTitle=CardData.Name',
-			where='CardData.Name="'..vars.cardname..'"'
+			where='CardData.Name="'..vars.cardname_e..'"'
 		}
 	)
 	vars.art_default = not (vars.is_amber_vault or vars.is_its_coming or #vars.altart>0)
@@ -192,6 +192,7 @@ function apply_traits(frame, vars)
 end
 
 function apply_errata(frame, vars)
+	--Use cardname and not cardname_e, because localized errata doesn't exist, we just use the master vault text
 	local errata_results = cargo_results(
 		'CardData, ErrataData',
 		'ErrataData.Text,ErrataData.Version',
@@ -235,16 +236,17 @@ function rulequery(type, cardname)
 end
 
 function apply_rulings(frame, vars)
-	local official_results = rulequery('FAQ', vars.cardname)
+	-- we use cardname_e and just show english rulings
+	local official_results = rulequery('FAQ', vars.cardname_e)
 	if(#official_results>0) then vars.categories[#vars.categories+1] = 'FAQ' end
 
-	local ruling_results = rulequery('FFGRuling', vars.cardname)
+	local ruling_results = rulequery('FFGRuling', vars.cardname_e)
 	if(#ruling_results>0) then vars.categories[#vars.categories+1] = 'FFG Rulings' end
 
 	combine(official_results, ruling_results)
 
-	local commentary_results = rulequery('Commentary', vars.cardname)
-	local outstanding_results = rulequery('OutstandingIssues', vars.cardname)
+	local commentary_results = rulequery('Commentary', vars.cardname_e)
+	local outstanding_results = rulequery('OutstandingIssues', vars.cardname_e)
 	if(#outstanding_results>0 or #commentary_results>0) then vars.categories[#vars.categories+1] = 'Commentary' end
 
 	vars.has_ruleofficial = #official_results > 0
@@ -297,6 +299,7 @@ function p.viewcard(frame)
 	if(frame.args.locale) then
 		load_translation_table(frame.args.locale)
 	end
+	vars.cardname_e = vars.cardname
 	vars.word_power = 'Power'
 	vars.word_armor = 'Armor'
 	vars.word_artist = 'Artist'
@@ -318,7 +321,6 @@ function p.viewcard(frame)
 	end
 
 	if frame.args.locale then
-		vars.cardname_e = vars.cardname
 		vars.locale = frame.args.locale
 		vars.locales = {}
 		vars.locales[1] = {keyforge="pt-pt", locale="/locale/pt-br", locale_name="português do Brasil"}
