@@ -86,3 +86,7 @@ if __name__ == "__main__":
         if sys.argv[1] == "debut_sets":
             import tool_update_cards
             tool_update_cards.update_cards_v2(wp, None, "Adding debut to debut set", "carddb", ["SetData.Meta"])
+        if sys.argv[1] == "merge_translate_spreadsheet":
+            direction = sys.argv[2] # If "up", spreadsheet takes precedence, if "down" cargo takes precedence
+            import tool_merge_db
+            tool_merge_db.merge(wp, direction)

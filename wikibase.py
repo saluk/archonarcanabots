@@ -1,9 +1,45 @@
-import re
+import re, os, difflib, json
 
 category_markup = re.compile(r"\[\[Category:(\w| |-)+\]\]")
 section_header = re.compile(r"^=+([\w ]+)=+", re.MULTILINE)
 wikitable_row = re.compile(r"^\|-", re.MULTILINE)
 wikitable = re.compile(r"\{\|(.|\n)*")
+
+
+skip_status = {}
+if os.path.exists("skips.json"):
+    with open("skips.json") as f:
+        skip_status = json.loads(f.read())
+def add_skip(name):
+    skip_status[name] = {"skipped":True}
+    with open("skips.json", "w") as f:
+        f.write(json.dumps(skip_status))
+
+
+def update_page(title, page, text, reason, ot, pause=False, read=False):
+    if title in skip_status:
+        print("skipping", title)
+        return
+    if read:
+        try:
+            ot = page.read()
+        except:
+            pass
+    if text != ot and pause:
+        print("DIFF")
+        for l in difflib.context_diff(ot.split("\n"), text.split("\n")):
+            print(l)
+        print("Changing", title)
+        cont = input("(k)eep, (upd)ate, or anything else to ask later:")
+        if cont == "k":
+            add_skip(title)
+        if cont != "upd":
+            return
+    if text == ot:
+        return None
+    if "nochange" in page.edit(text, reason).get("edit", {"nochange": ""}):
+        return None
+    return text
 
 
 def to_cat_str(cat):
@@ -61,7 +97,8 @@ class Section(object):
 def cargo_index(table_type):
     return {"CardData": ["Name"],
             "CardLocaleData": ["EnglishName", "Locale"],
-            "SetData": ["SetName"]}.get(table_type, "default")
+            "SetData": ["SetName"],
+            "TranslationTable": ["EnglishText", "Locale"]}.get(table_type, "default")
 
 
 def cargo_unique(datatype):

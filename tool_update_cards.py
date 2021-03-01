@@ -1,7 +1,7 @@
-import difflib
 import time
 from models import wiki_card_db
 import wikibase
+from wikibase import update_page
 import requests
 import os
 import shutil
@@ -31,41 +31,6 @@ with open("data/reprint_update.csv") as f:
 print(reprints["errata"]["Transporter Platform"])
 
 csv_changes = open("changes.csv","w")
-
-skip_status = {}
-if os.path.exists("skips.json"):
-    with open("skips.json") as f:
-        skip_status = json.loads(f.read())
-def add_skip(name):
-    skip_status[name] = {"skipped":True}
-    with open("skips.json", "w") as f:
-        f.write(json.dumps(skip_status))
-
-
-def update_page(title, page, text, reason, ot, pause=False, read=False):
-    if title in skip_status:
-        print("skipping", title)
-        return
-    if read:
-        try:
-            ot = page.read()
-        except:
-            pass
-    if text != ot and pause:
-        print("DIFF")
-        for l in difflib.context_diff(ot.split("\n"), text.split("\n")):
-            print(l)
-        print("Changing", title)
-        cont = input("(k)eep, (upd)ate, or anything else to ask later:")
-        if cont == "k":
-            add_skip(title)
-        if cont != "upd":
-            return
-    if text == ot:
-        return None
-    if "nochange" in page.edit(text, reason).get("edit", {"nochange": ""}):
-        return None
-    return text
 
 
 with open("data/locales.json") as f:
