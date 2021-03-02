@@ -401,7 +401,7 @@ def add_card(card, cards):
     cards[card_data["card_title"]][str(card_data["expansion"])] = card_data
 
 
-def load_from_mv_files(only=None):
+def build_json(only=None):
     cards.clear()
     # sort it so that we get the newest data last
     for card_file in os.listdir("skyjedi"):
@@ -431,7 +431,12 @@ def load_from_mv_files(only=None):
         #Don't use english name here
         del fixed_data["card_title"]
         translated_card_data.update(fixed_data)
-        if card.locale != "ru-ru" or int(card.data['expansion']) >= 479:
+        use_english = False
+        if card.locale == "ru-ru" and not int(card.data['expansion']) >= 479:
+            use_english = True
+        if card.locale == "ko-ko" and not int(card.data['expansion']) > 341:
+            use_english = True
+        if not use_english:
             translated_card_data["image_number"] = card.locale + "-" + translated_card_data["image_number"]
         eng['locales'][card.locale] = translated_card_data
         continue
@@ -459,14 +464,6 @@ def load_from_mv_files(only=None):
 
     with open("my_card_db.json", "w") as f:
         f.write(json.dumps(cards, indent=2, sort_keys=True))
-    with open("scribunto/locale_table.lua", "w") as f:
-        f.write("--Module:LocaleTable\nlocale_table={}\nlocale_table['traits']={}\n")
-        for locale in ['pt-pt', 'it-it', 'zh-hant', 'de-de', 'zh-hans', 'th-th', 'ko-ko', 'pl-pl', 'fr-fr', 'es-es']:
-            f.write("locale_table['traits']['%s'] = {}\n" % locale)
-            translations = translate_traits(locale)
-            for en in translations:
-                f.write("locale_table['traits']['%s']['%s'] = '%s'\n" % (locale, en, translations[en]))
-        f.write("return locale_table\n")
     print("saved.")
 
 
@@ -552,6 +549,9 @@ def get_cargo_locale(card, ct=None, only_sets=False, locale=None, english_name=N
         from wikibase import CargoTable
         ct = CargoTable()
     latest = get_latest_from_card(card, locale)
+    # IF the localized card image is in english, just use the english image
+    if locale and "/en/" in latest["front_image"] and locale in latest["image_number"]:
+        latest["image_number"] = "-".join(latest["image_number"].split("-")[-2:])
     cardtable = {
         "Name": latest["card_title"],
         "Image": latest["image_number"],
@@ -574,6 +574,30 @@ def all_traits():
                 traits.add(tt)
     return sorted(traits)
 
+
+with open("data/locales.json") as f:
+    locale_db = json.loads(f.read())
+
+def translate_all_traits():
+    with open("scribunto/locale_table.lua", "w") as f:
+        f.write("--Module:LocaleTable\nlocale_table={}\nlocale_table['traits']={}\n")
+        for locale in locale_db.keys():
+            if locale == "en": continue
+            f.write("locale_table['traits']['%s'] = {}\n" % locale)
+            translations = translate_traits(locale)
+            for en in translations:
+                f.write("locale_table['traits']['%s']['%s'] = '%s'\n" % (locale, en, translations[en]))
+        f.write("return locale_table\n")
+
+def earliest_locale_expansion(locale):
+    if locale == 'ko-ko':
+        return 479
+    if locale == 'ru-ru':
+        return 479
+    if locale == 'th-th':
+        return 435
+    return 0
+
 translation_winners = {
     'power': ['puissance'],
     'ally': ['allié']
@@ -586,6 +610,8 @@ def translate_traits(locale):
         card = cards[card_key]
         en_card = get_latest_from_card(card)
         lang_card = get_latest_from_card(card, locale)
+        if int(lang_card['expansion']) < earliest_locale_expansion(locale):
+            continue
         if en_card['traits'] or lang_card['traits']:
             en_traits, l_traits = [[y.lower().strip() for y in split_re.split(x)] for x in [en_card['traits'], lang_card['traits']]]
             if not len(en_traits) == len(l_traits):
@@ -612,8 +638,4 @@ def translate_traits(locale):
     return trait_wins
 
 
-if __name__ == "__main__":
-    load_from_mv_files()
-    print(all_traits())
-else:
-    load_json()
+load_json()

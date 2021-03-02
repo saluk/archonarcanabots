@@ -45,7 +45,7 @@ if __name__ == "__main__":
                                             upload_image=False)
     if args.command == "import_cards_locale":
         import tool_update_cards
-        tool_update_cards.update_cards_v2(wp, "", "importing card data locale="+args.locale, 
+        tool_update_cards.update_cards_v2(wp, args.search, "importing card data locale="+args.locale, 
                                             "carddb", [],
                                             upload_image=True,
                                             locale=args.locale,
@@ -94,3 +94,9 @@ if __name__ == "__main__":
         # Gets cards that have extra content in their wikipage besides DB content
         import tool_update_cards
         tool_update_cards.show_cards_with_extra(wp)
+    if args.command == "build_wiki_db":
+        from models import wiki_card_db
+        wiki_card_db.build_json()
+    if args.command == "translate_traits":
+        from models import wiki_card_db
+        wiki_card_db.translate_all_traits()

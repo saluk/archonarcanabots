@@ -284,8 +284,10 @@ def card_data(card, locale=None):
     card["image_number"] = image_number(card)
     card["rarity"] = nice_rarity(card["rarity"])
 
-    if locale == 'ru-ru' and int(card["expansion"])>=479:
-        card["front_image"] = card["front_image"].replace('en', 'ru')
+    # Hack because the russian mastervault doesn't provide russian images, but the russian images exist in the cdn
+    if locale == 'ru-ru':
+        if int(card["expansion"])>=479:
+            card["front_image"] = card["front_image"].replace('en', 'ru')
 
     if card.get("is_anomaly", False):
         card["house"] = "Anomaly"
