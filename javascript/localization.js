@@ -16,6 +16,7 @@ function dumb_locale_menu() {
 	"pl-pl": [["pl", "Polski"]],
 	"fr-fr": [["fr", "Français"], ["frc", "français cadien"]],
 	"es-es": [["es", "Español"]],
+	'ru-ru': [['ru', "Pусский"]],
 	"en": [["en", "English"]]}
 	var locale = ''
 	for(const [loc, value] of Object.entries(locales)) {

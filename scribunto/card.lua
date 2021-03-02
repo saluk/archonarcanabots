@@ -107,6 +107,9 @@ end
 
 local translate_trait = function(frame, type, word)
 	if(frame.args.locale) then
+		if(not translations[type][frame.args.locale]) then
+			return word
+		end
 		return mw.ustring.upper(translations[type][frame.args.locale][mw.ustring.lower(word)])
 	else
 		return word
