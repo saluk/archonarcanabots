@@ -54,6 +54,7 @@ def update_card_views(wp, card_title, update_reason="Put lua on translated card 
     #        {"n": card_title}
     #)
     for locale in locales:
+        print("... updating", card_title, locale)
         if locale == "en": continue
         wiki_locale_short, locale_name = locales[locale][0]
         page_link = card_title+'/locale/'+wiki_locale_short
@@ -69,6 +70,8 @@ def update_card_views(wp, card_title, update_reason="Put lua on translated card 
             read=True
             )
         )
+        if updates[-1]:
+            time.sleep(2)
         #langs.append('<div class="translate translate-%(ls)s" style="display:none">{{#invoke: luacard | viewcard | cardname=%(n)s | locale=%(l)s}}</div>' % 
         #        {"n": card_title, "l": locale, "ls": wiki_locale_short}
         #)
@@ -174,19 +177,26 @@ def update_cards_v2(wp, search_name=None,
             continue
         started = True
         print(i+1, card_name)
-        print(latest)
+        #print(latest)
         if upload_image:
-            rp = latest["image_number"]
-            lp = "images/"+rp
-            if not os.path.exists(lp):
-                print("download", latest["front_image"])
-                with open(lp, "wb") as f:
-                    r = requests.get(latest["front_image"], stream=True)
-                    print(r.status_code)
-                    r.raw.decode_content = True
-                    shutil.copyfileobj(r.raw, f)
-            with open(lp, "rb") as f:
-                print(wp.upload(f, latest["image_number"]))
+            #Don't bother uploading localized images if the image is in english
+            if locale and "/en/" in latest["front_image"]:
+                pass
+            else:
+                rp = latest["image_number"]
+                lp = "images/"+rp
+                print("image path",lp)
+                if not os.path.exists(lp):
+                    print("download", latest["front_image"])
+                    with open(lp, "wb") as f:
+                        r = requests.get(latest["front_image"], stream=True)
+                        print(r.status_code)
+                        r.raw.decode_content = True
+                        shutil.copyfileobj(r.raw, f)
+                with open(lp, "rb") as f:
+                    print("uploading")
+                    result = wp.upload(f, latest["image_number"])
+                    print(result)
         if data_to_update == "update_card_views":
             texts = update_card_views(wp, card_name, pause=pause, locale_only=locale_only)
         else:
