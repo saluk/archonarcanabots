@@ -35,19 +35,20 @@ csv_changes = open("changes.csv","w")
 
 with open("data/locales.json") as f:
     locales = json.loads(f.read())
-def update_card_views(wp, card_title, update_reason="Put lua on translated card pages", pause=False):
+def update_card_views(wp, card_title, update_reason="Put lua on translated card pages", pause=False, locale_only=False):
     print("update_card_views", card_title, pause)
     page = wp.page(card_title)
     updates = []
-    updates.append(update_page(
-        card_title,
-        page,
-        "{{#invoke: luacard | viewcard | cardname=%(n)s}}" % {"n": card_title},
-        update_reason,
-        "",
-        pause,
-        read=True
-    ))
+    if not locale_only:
+        updates.append(update_page(
+            card_title,
+            page,
+            "{{#invoke: luacard | viewcard | cardname=%(n)s}}" % {"n": card_title},
+            update_reason,
+            "",
+            pause,
+            read=True
+        ))
     #langs = []
     #langs.append('<div class="translate translate-en" style="display:inline">{{#invoke: luacard | viewcard | cardname=%(n)s}}</div>' % 
     #        {"n": card_title}
@@ -81,7 +82,7 @@ def update_reprint_with_errata(ct, errata, card):
     ct.append("ErrataData", {"Text":card["card_text"], "Version":"Mass Mutation"})
 
 
-def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=False, use_csv=False,
+def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False,
     locale=None):
     latest_english = wiki_card_db.get_latest_from_card(card)
     latest = wiki_card_db.get_latest_from_card(card, locale)
@@ -158,7 +159,9 @@ def update_cards_v2(wp, search_name=None,
                     matching=None,
                     restrict_expansion=None,
                     upload_image=False,
-                    locale=None):
+                    locale=None,
+                    locale_only=False,
+                    pause=True):
     changed = 0
     started = False
     for i, card_name in enumerate(sorted(wiki_card_db.cards.keys())):
@@ -185,14 +188,15 @@ def update_cards_v2(wp, search_name=None,
             with open(lp, "rb") as f:
                 print(wp.upload(f, latest["image_number"]))
         if data_to_update == "update_card_views":
-            texts = update_card_views(wp, card_name, pause=True)
+            texts = update_card_views(wp, card_name, pause=pause, locale_only=locale_only)
         else:
             texts = update_card_page_cargo(
                 wp, wiki_card_db.cards[card_name],
                 update_reason=update_reason,
                 restricted=restricted,
                 data_to_update=data_to_update,
-                locale=locale)
+                locale=locale,
+                pause=pause)
         texts = texts or []
         wait = False
         for text in texts:

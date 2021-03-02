@@ -4,6 +4,7 @@
 import sys
 import connections
 import wikibase
+import argparse
 
 # TODO - add templates to appropriate pages
 # TODO - create artist pages that list their cards
@@ -23,74 +24,72 @@ wp = connections.get_wiki()
 
 mwm = wikibase.MediawikiManager(wp)
 
+parser = argparse.ArgumentParser(description="A swiss army knife of tools to work with data on Archon Arcana")
+parser.add_argument("command", metavar="command", type=str)
+parser.add_argument("--batch", action="store_true")
+parser.add_argument("--search", type=str)
+parser.add_argument("--restricted", type=str)
+parser.add_argument("--locale", type=str, help="The full two part locale, such as es-es")
+parser.add_argument("--stage", type=str, help="dev or prod for javascript files (not in use", default="dev")
+parser.add_argument("--test", action="store_true", help="For uploading script files, is this a test run")
+parser.add_argument("--locale_only", action="store_true", help="when updating card pages, this will only do updates to /locale/ pages")
+args = parser.parse_args()
+args.pause = not args.batch
+print(vars(args))
+
 if __name__ == "__main__":
-    print(sys.argv)
-    if len(sys.argv) < 2:
-        print("python wiki_page_updater import_cards2 TimeTraveller")
-    else:
-        if sys.argv[1] == "import_cards":
-            import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) >= 3 else None
-            restricted = sys.argv[3] if len(sys.argv) >= 4 else ""
-            tool_update_cards.update_cards_v2(wp, search, "importing card data (mm)", 
-                                              "carddb", restricted.split("|") if restricted else [],
-                                              upload_image=False)
-        if sys.argv[1] == "import_cards_locale":
-            import tool_update_cards
-            locale = sys.argv[2]
-            tool_update_cards.update_cards_v2(wp, "", "importing card data locale="+locale, 
-                                              "carddb", [],
-                                              upload_image=True,
-                                              locale=locale)
-        if sys.argv[1] == "reprint_pull":
-            import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) >= 3 else None
-            tool_update_cards.update_cards_v2(wp, search, "importing card data (mm reprints)", 
-                                              "reprint_pull")
-        if sys.argv[1] == "reprint_write":
-            import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) >= 3 else None
-            tool_update_cards.update_cards_v2(wp, search, "importing card data (mm reprints)", 
-                                              "reprint_write")
-        if sys.argv[1] == "insert_search_text":
-            import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) >= 3 else None
-            tool_update_cards.update_cards_v2(wp, search, "inserting search text", 
-                                              "insert_search_text")
-        if sys.argv[1] == "update_card_views":
-            import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) == 3 else None
-            tool_update_cards.update_cards_v2(wp, search, "put card query on card", "update_card_views")
-        if sys.argv[1] == "relink":
-            import tool_update_cards
-            search = sys.argv[2] if len(sys.argv) == 3 else None
-            tool_update_cards.update_cards_v2(wp, None, "relink card data", "relink", matching=search)
-        if sys.argv[1] == "javascript":
-            from javascript import upload
-            stage = sys.argv[2] if len(sys.argv) > 2 else "dev"
-            test = sys.argv[3] if len(sys.argv) > 3 else None
-            upload.upload(stage, test)
-        if sys.argv[1] == "lua":
-            from scribunto import upload
-            test = sys.argv[2] if len(sys.argv) > 2 else None
-            upload.upload(test)
-        if sys.argv[1] == "delete":
-            for page in wp.allpages(limit=500, namespace=3006):
-                page.delete('Removing all deck pages')
-        if sys.argv[1] == "eventdecks":
-            import tool_update_decks
-            tool_update_decks.update_event_decks(wp)
-        if sys.argv[1] == "table_to_cargo":
-            import tool_read_tables
-            tool_read_tables.write(mwm)
-        if sys.argv[1] == "debut_sets":
-            import tool_update_cards
-            tool_update_cards.update_cards_v2(wp, None, "Adding debut to debut set", "carddb", ["SetData.Meta"])
-        if sys.argv[1] == "merge_translate_spreadsheet":
-            direction = sys.argv[2] # If "up", spreadsheet takes precedence, if "down" cargo takes precedence
-            import tool_merge_db
-            tool_merge_db.merge(wp, direction)
-        if sys.argv[1] == "get_cards_with_extra":
-            # Gets cards that have extra content in their wikipage besides DB content
-            import tool_update_cards
-            tool_update_cards.show_cards_with_extra(wp)
+    if args.command == "import_cards":
+        import tool_update_cards
+        tool_update_cards.update_cards_v2(wp, args.search, "importing card data (mm)", 
+                                            "carddb", args.restricted.split("|") if args.restricted else [],
+                                            upload_image=False)
+    if args.command == "import_cards_locale":
+        import tool_update_cards
+        tool_update_cards.update_cards_v2(wp, "", "importing card data locale="+args.locale, 
+                                            "carddb", [],
+                                            upload_image=True,
+                                            locale=args.locale)
+    if args.command == "reprint_pull":
+        import tool_update_cards
+        tool_update_cards.update_cards_v2(wp, args.search, "importing card data (mm reprints)", 
+                                            "reprint_pull")
+    if args.command == "reprint_write":
+        import tool_update_cards
+        tool_update_cards.update_cards_v2(wp, args.search, "importing card data (mm reprints)", 
+                                            "reprint_write")
+    if args.command == "insert_search_text":
+        import tool_update_cards
+        tool_update_cards.update_cards_v2(wp, args.search, "inserting search text", 
+                                            "insert_search_text")
+    if args.command == "update_card_views":
+        import tool_update_cards
+        tool_update_cards.update_cards_v2(wp, args.search, "put card query on card", "update_card_views", 
+            locale_only=args.locale_only, pause=args.pause)
+    if args.command == "relink":
+        import tool_update_cards
+        tool_update_cards.update_cards_v2(wp, None, "relink card data", "relink", matching=args.search)
+    if args.command == "javascript":
+        from javascript import upload
+        upload.upload(args.stage, args.test)
+    if args.command == "lua":
+        from scribunto import upload
+        upload.upload(args.test)
+    if args.command == "delete":
+        for page in wp.allpages(limit=500, namespace=3006):
+            page.delete('Removing all deck pages')
+    if args.command == "eventdecks":
+        import tool_update_decks
+        tool_update_decks.update_event_decks(wp)
+    if args.command == "table_to_cargo":
+        import tool_read_tables
+        tool_read_tables.write(mwm)
+    if args.command == "debut_sets":
+        import tool_update_cards
+        tool_update_cards.update_cards_v2(wp, None, "Adding debut to debut set", "carddb", ["SetData.Meta"])
+    if args.command == "merge_translate_spreadsheet":
+        import tool_merge_db
+        tool_merge_db.merge(wp, "up")
+    if args.command == "get_cards_with_extra":
+        # Gets cards that have extra content in their wikipage besides DB content
+        import tool_update_cards
+        tool_update_cards.show_cards_with_extra(wp)

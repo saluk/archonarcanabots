@@ -494,7 +494,7 @@ def get_restricted_dict(source, restricted, pre=""):
     return rd
 
 CARD_FIELDS_FOR_LOCALE = ["EnglishName", "Name", "Image", "Text", "SearchText", "FlavorText", "SearchFlavorText"]
-def get_cargo(card, ct=None, restricted=[], only_sets=False):
+def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
     table = "CardData"
     if not ct:
         from wikibase import CargoTable
