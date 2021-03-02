@@ -130,6 +130,10 @@ local load_translation_table = function(locale)
 end
 
 local apply_altart = function(frame, vars)
+	if frame.args.locale then
+		vars.art_default = true
+		return
+	end
 	vars.is_amber_vault = vars.cardname_e == 'Dark Æmber Vault'
 	vars.is_its_coming = vars.cardname_e == 'It’s Coming...'
 	vars.altart = cargo_results(
