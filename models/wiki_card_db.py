@@ -431,7 +431,8 @@ def load_from_mv_files(only=None):
         #Don't use english name here
         del fixed_data["card_title"]
         translated_card_data.update(fixed_data)
-        translated_card_data["image_number"] = card.locale + "-" + translated_card_data["image_number"]
+        if card.locale != "ru-ru" or int(card.data['expansion']) >= 479:
+            translated_card_data["image_number"] = card.locale + "-" + translated_card_data["image_number"]
         eng['locales'][card.locale] = translated_card_data
         continue
         
