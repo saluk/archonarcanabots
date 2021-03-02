@@ -459,13 +459,13 @@ def load_from_mv_files(only=None):
     with open("my_card_db.json", "w") as f:
         f.write(json.dumps(cards, indent=2, sort_keys=True))
     with open("scribunto/locale_table.lua", "w") as f:
-        f.write("--Module:LocaleTable\nlocale_table={}\ntable['traits']={}\n")
+        f.write("--Module:LocaleTable\nlocale_table={}\nlocale_table['traits']={}\n")
         for locale in ['pt-pt', 'it-it', 'zh-hant', 'de-de', 'zh-hans', 'th-th', 'ko-ko', 'pl-pl', 'fr-fr', 'es-es']:
             f.write("locale_table['traits']['%s'] = {}\n" % locale)
             translations = translate_traits(locale)
             for en in translations:
-                f.write("table['traits']['%s']['%s'] = '%s'\n" % (locale, en, translations[en]))
-        f.write("return table\n")
+                f.write("locale_table['traits']['%s']['%s'] = '%s'\n" % (locale, en, translations[en]))
+        f.write("return locale_table\n")
     print("saved.")
 
 

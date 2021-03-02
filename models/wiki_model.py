@@ -138,7 +138,8 @@ enhanced_regex = {
     'pt-pt': 'Propagar',
     'zh-hans': '强化',
     'zh-hant': '強化',
-    'ko-ko': '강화'
+    'ko-ko': '강화',
+    'ru-ru': 'Улучшение'
 }
 def read_enhanced(text, locale=None):
     # Enhancements
@@ -282,6 +283,10 @@ def card_data(card, locale=None):
 
     card["image_number"] = image_number(card)
     card["rarity"] = nice_rarity(card["rarity"])
+
+    if locale == 'ru-ru' and int(card["expansion"])>=479:
+        card["front_image"] = card["front_image"].replace('en', 'ru')
+
     if card.get("is_anomaly", False):
         card["house"] = "Anomaly"
     if card["traits"]:
