@@ -90,3 +90,7 @@ if __name__ == "__main__":
             direction = sys.argv[2] # If "up", spreadsheet takes precedence, if "down" cargo takes precedence
             import tool_merge_db
             tool_merge_db.merge(wp, direction)
+        if sys.argv[1] == "get_cards_with_extra":
+            # Gets cards that have extra content in their wikipage besides DB content
+            import tool_update_cards
+            tool_update_cards.show_cards_with_extra(wp)

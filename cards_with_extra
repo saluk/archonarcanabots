@@ -1,0 +1,2282 @@
+== (REDACTED) ==
+{{#invoke: luacard | viewcard | cardname=(REDACTED)}}
+
+== A. Vinda ==
+{{FlavorText Query}}
+
+== Alaka ==
+{{Appears With
+|Text=Alaka can also appear as:
+|Card1=Mega Alaka
+}}
+
+== Alaka’s Brew ==
+{{Appears With
+|Text=Alaka's Brew always appears in a deck with a:
+|Card1=Mega Alaka
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Chieftain’s Brew
+|Card2=Cowfyne’s Brew
+|Card3=Groke’s Brew
+|Card4=Gron’s Brew
+|Card5=Mogghunter’s Brew
+|Card6=Narp’s Brew
+|Card7=Shorty’s Brew
+|Header=Off
+}}
+
+== Ancient Bear ==
+{{Appears With
+|Text=Ancient Bear sometimes appears in a deck together with:
+|Card1=Bear Flute
+}}
+
+== Angry Mob ==
+==Note==
+There are always at least 2 copies of Angry Mob in a deck.
+
+== Archimedes ==
+{{FlavorText Query}}
+
+== Armsmaster Molina ==
+{{Appears With
+|Text=Armsmaster Molina sometimes appears in a deck together with:
+|Card5=Molina’s Blaster
+}}
+
+== Bad Penny ==
+{{FlavorText Query}}
+
+== Bear Flute ==
+{{Appears With
+|Text=Bear Flute always appears in a deck with at least 1 copy of:
+|Card1=Ancient Bear
+}}
+
+== Beasts’ Bane ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Demons’ Bane
+|Card2=Dinosaurs’ Bane
+|Card3=Humans’ Bane
+|Card4=Scientists’ Bane
+|Card5=Thieves’ Bane
+}}
+
+== Bilgum Avalanche ==
+{{FlavorText Query}}
+
+== Bordan the Redeemed ==
+{{FlavorText Query}}
+
+== Brend the Fanatic ==
+{{FlavorText Query}}
+
+== Brobnar Ambassador ==
+==Note==
+Brobnar Ambassador always appears in a deck with house Brobnar.
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Dis Ambassador
+|Card2=Logos Ambassador
+|Card3=Mars Ambassador
+|Card4=Shadows Ambassador
+|Card5=Untamed Ambassador
+}}
+
+== Brobnar Plant ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Dis Plant
+|Card2=Logos Plant
+|Card3=Saurian Plant
+|Card4=Star Alliance Plant
+|Card5=Untamed Plant
+}}
+==Note==
+Brobnar Plant always appears in a deck with house Brobnar.
+
+== Bronze Key Imp ==
+{{Appears With
+|Text=Other variants of this card are (multiple Key Imps can appear in a deck):
+|Card1=Silver Key Imp
+|Card2=Gold Key Imp
+}}
+
+== Bumblebird ==
+{{FlavorText Query}}
+
+== Burning Glare ==
+{{Card_Query}}
+
+== Captain Val Jericho ==
+{{FlavorText Query}}
+
+== Chain Gang ==
+{{Appears With
+|Text=Chain Gang always appears in a deck with at least 1 copy of:
+|Card1=Subtle Chain
+}}
+
+== Champion Anaphiel ==
+{{FlavorText Query}}
+
+== Chan’s Blaster ==
+{{Appears With
+|Text=Chan's Blaster always appears in a deck with at least 1 copy of:
+|Card1=Commander Chan
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Frane’s Blaster
+|Card2=Garcia’s Blaster
+|Card3=Ingram’s Blaster
+|Card4=Khrkhar’s Blaster
+|Card5=Kirby’s Blaster
+|Card6=Molina’s Blaster
+|Card7=Qincan’s Blaster
+|Card8=Walls’ Blaster
+|Header=Off
+}}
+
+== Charybdis ==
+{{Appears With
+|Text=Charybdis always appears in a deck with:
+|Card1=Scylla
+}}
+
+== Chief Engineer Walls ==
+{{Appears With
+|Text=Chief Engineer Walls sometimes appears in a deck together with:
+|Card5=Walls’ Blaster
+}}
+
+== Chieftain’s Brew ==
+{{Appears With
+|Text=Chieftain's Brew always appears in a deck with a:
+|Card1=Mega Ganger Chieftain
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Alaka’s Brew
+|Card2=Cowfyne’s Brew
+|Card3=Groke’s Brew
+|Card4=Gron’s Brew
+|Card5=Mogghunter’s Brew
+|Card6=Narp’s Brew
+|Card7=Shorty’s Brew
+|Header=Off
+}}
+
+== Citizen Shrix ==
+{{Appears With
+|Text=Citizen Shrix sometimes appears in a deck together with:
+|Card5=Monument to Shrix
+}}
+
+== Com. Officer Kirby ==
+{{Appears With
+|Text=Com. Officer Kirby sometimes appears in a deck together with:
+|Card5=Kirby’s Blaster
+}}
+
+== Commander Chan ==
+{{FlavorText Query}}
+{{Appears With
+|Text=Commander Chan sometimes appears in a deck together with:
+|Card5=Chan’s Blaster
+|Header=Off
+}}
+
+== Consul Primus ==
+{{Appears With
+|Text=Consul Primus sometimes appears in a deck together with:
+|Card5=Monument to Primus
+}}
+
+== Cornicen Octavia ==
+{{Appears With
+|Text=Cornicen Octavia sometimes appears in a deck together with:
+|Card5=Monument to Octavia
+}}
+
+== Cowfyne ==
+{{Appears With
+|Text=Cowfyne can also appear as:
+|Card1=Mega Cowfyne
+}}
+
+== Cowfyne’s Brew ==
+{{Appears With
+|Text=Cowfyne's Brew always appears in a deck with a:
+|Card1=Mega Cowfyne
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Chieftain’s Brew
+|Card2=Alaka’s Brew
+|Card3=Groke’s Brew
+|Card4=Gron’s Brew
+|Card5=Mogghunter’s Brew
+|Card6=Narp’s Brew
+|Card7=Shorty’s Brew
+|Header=Off
+}}
+
+== Crash Muldoon ==
+{{FlavorText Query}}
+
+== Dark Harbinger ==
+{{Appears With
+|Text=Dark Harbinger always appears in a deck with at least one of the Mutations:
+|Card1=Mutation of Instinct
+|Card2=Mutation of Cunning
+|Card3=Mutation of Fury
+}}
+
+== Dark Queen Gloriana ==
+{{FlavorText Query}}
+{{Appears With
+|Text=Dark Queen Gloriana always appears in a deck with at least 1 copy of:
+|Card1=Gloriana’s Attendant
+|Header=Off
+}}
+
+== Dark Æmber Vault ==
+==Note==
+Dark Æmber Vault can appear in any house in [[Mass Mutation]].
+
+== Demons’ Bane ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Beasts’ Bane
+|Card2=Dinosaurs’ Bane
+|Card3=Humans’ Bane
+|Card4=Scientists’ Bane
+|Card5=Thieves’ Bane
+}}
+
+== Desire ==
+{{Appears With
+|Text=Desire always appears in a deck with at least two other Sins:
+|Card1=Gluttony
+|Card2=Wrath
+|Card3=Greed
+|Card4=Sloth
+|Card5=Envy
+|Card6=Pride
+}}
+
+== Deusillus ==
+{{Appears With
+|Text=Deusillus always appears in a deck with a:
+|Card1=It’s Coming...
+}}
+
+== Dextre ==
+{{FlavorText Query}}
+
+== Dexus ==
+{{Appears With
+|Text=A variant of this card (both can appear in a deck together):
+|Card1=Sinestra
+}}
+
+== Dino-Alien ==
+{{Appears With
+|Text=Other "-Alien" variants of this card are:
+|Card1=Dæmo-Alien
+|Card2=Umbra-Alien
+|Card3=Sacro-Alien
+|Card4=Techno-Alien
+|Card5=Umbra-Alien
+}}
+{{Appears With
+|Text=Other "Dino-" variants of this card are:
+|Card1=Dino-Fiend
+|Card2=Dino-Thief
+|Card3=Dino-Bot
+|Card4=Dino-Knight
+|Card5=Dino-Beast
+|Header=Off
+}}
+
+== Dino-Beast ==
+{{Appears With
+|Text=Other "-Beast" variants of this card are:
+|Card1=Dæmo-Beast
+|Card2=Umbra-Beast
+|Card3=Sacro-Beast
+|Card4=Techno-Beast
+|Card5=Xeno-Beast
+}}
+{{Appears With
+|Text=Other "Dino-" variants of this card are:
+|Card1=Dino-Fiend
+|Card2=Dino-Thief
+|Card3=Dino-Bot
+|Card4=Dino-Knight
+|Card5=Dino-Alien
+|Header=Off
+}}
+
+== Dino-Bot ==
+{{Appears With
+|Text=Other "-Bot" variants of this card are:
+|Card1=Dæmo-Bot
+|Card2=Umbra-Bot
+|Card3=Lyco-Bot
+|Card4=Sacro-Bot
+|Card5=Xeno-Bot
+}}
+{{Appears With
+|Text=Other "Dino-" variants of this card are:
+|Card1=Dino-Fiend
+|Card2=Dino-Thief
+|Card3=Dino-Knight
+|Card4=Dino-Beast
+|Card5=Dino-Alien
+|Header=Off
+}}
+
+== Dino-Fiend ==
+{{Appears With
+|Text=Other "-Fiend" variants of this card are:
+|Card1=Lyco-Fiend
+|Card2=Umbra-Fiend
+|Card3=Xeno-Fiend
+|Card4=Techno-Fiend
+|Card5=Sacro-Fiend
+}}
+{{Appears With
+|Text=Other "Dino-" variants of this card are:
+|Card1=Dino-Bot
+|Card2=Dino-Beast
+|Card3=Dino-Knight
+|Card4=Dino-Alien
+|Card5=Dino-Thief
+|Header=Off
+}}
+
+== Dino-Knight ==
+{{Appears With
+|Text=Other "-Knight" variants of this card are:
+|Card1=Dæmo-Knight
+|Card2=Umbra-Knight
+|Card3=Lyco-Knight
+|Card4=Techno-Knight
+|Card5=Xeno-Knight
+}}
+{{Appears With
+|Text=Other "Dino-" variants of this card are:
+|Card1=Dino-Fiend
+|Card2=Dino-Thief
+|Card3=Dino-Bot
+|Card4=Dino-Beast
+|Card5=Dino-Alien
+|Header=Off
+}}
+
+== Dino-Thief ==
+{{Appears With
+|Text=Other "-Thief" variants of this card are:
+|Card1=Dæmo-Thief
+|Card2=Techno-Thief
+|Card3=Lyco-Thief
+|Card4=Sacro-Thief
+|Card5=Xeno-Thief
+}}
+{{Appears With
+|Text=Other "Dino-" variants of this card are:
+|Card1=Dino-Fiend
+|Card2=Dino-Bot
+|Card3=Dino-Knight
+|Card4=Dino-Beast
+|Card5=Dino-Alien
+|Header=Off
+}}
+
+== Dinosaurs’ Bane ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Demons’ Bane
+|Card2=Beasts’ Bane
+|Card3=Humans’ Bane
+|Card4=Scientists’ Bane
+|Card5=Thieves’ Bane
+}}
+
+== Dis Ambassador ==
+==Note==
+Dis Ambassador always appears in a deck with house Dis.
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Brobnar Ambassador
+|Card2=Logos Ambassador
+|Card3=Mars Ambassador
+|Card4=Shadows Ambassador
+|Card5=Untamed Ambassador
+}}
+
+== Dis Plant ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Brobnar Plant
+|Card2=Logos Plant
+|Card3=Saurian Plant
+|Card4=Star Alliance Plant
+|Card5=Untamed Plant
+}}
+==Note==
+Dis Plant always appears in a deck with house Dis.
+
+== Doc Bookton ==
+{{FlavorText Query}}
+
+== Dodger ==
+{{FlavorText Query}}
+
+== Dr. Escotera ==
+{{FlavorText Query}}
+
+== Duma the Martyr ==
+{{FlavorText Query}}
+
+== Dæmo-Alien ==
+{{Appears With
+|Text=Other "-Alien" variants of this card are:
+|Card1=Lyco-Alien
+|Card2=Umbra-Alien
+|Card3=Sacro-Alien
+|Card4=Techno-Alien
+|Card5=Dino-Alien
+}}
+{{Appears With
+|Text=Other "Dæmo-" variants of this card are:
+|Card1=Dæmo-Saurus
+|Card2=Dæmo-Thief
+|Card3=Dæmo-Bot
+|Card4=Dæmo-Knight
+|Card5=Dæmo-Beast
+|Header=Off
+}}
+
+== Dæmo-Beast ==
+{{Appears With
+|Text=Other "-Beast" variants of this card are:
+|Card1=Dino-Beast
+|Card2=Umbra-Beast
+|Card3=Sacro-Beast
+|Card4=Techno-Beast
+|Card5=Xeno-Beast
+}}
+{{Appears With
+|Text=Other "Dæmo-" variants of this card are:
+|Card1=Dæmo-Saurus
+|Card2=Dæmo-Thief
+|Card3=Dæmo-Bot
+|Card4=Dæmo-Knight
+|Card5=Dæmo-Alien
+|Header=Off
+}}
+
+== Dæmo-Bot ==
+{{Appears With
+|Text=Other "-Bot" variants of this card are:
+|Card1=Dino-Bot
+|Card2=Umbra-Bot
+|Card3=Lyco-Bot
+|Card4=Sacro-Bot
+|Card5=Xeno-Bot
+}}
+{{Appears With
+|Text=Other "Dæmo-" variants of this card are:
+|Card1=Dæmo-Saurus
+|Card2=Dæmo-Thief
+|Card3=Dæmo-Knight
+|Card4=Dæmo-Beast
+|Card5=Dæmo-Alien
+|Header=Off
+}}
+
+== Dæmo-Knight ==
+{{Appears With
+|Text=Other "-Knight" variants of this card are:
+|Card1=Dino-Knight
+|Card2=Umbra-Knight
+|Card3=Lyco-Knight
+|Card4=Techno-Knight
+|Card5=Xeno-Knight
+}}
+{{Appears With
+|Text=Other "Dæmo-" variants of this card are:
+|Card1=Dæmo-Saurus
+|Card2=Dæmo-Thief
+|Card3=Dæmo-Bot
+|Card4=Dæmo-Beast
+|Card5=Dæmo-Alien
+|Header=Off
+}}
+
+== Dæmo-Saurus ==
+{{Appears With
+|Text=Other "-Saurus" variants of this card are:
+|Card1=Lyco-Saurus
+|Card2=Umbra-Saurus
+|Card3=Sacro-Saurus
+|Card4=Techno-Saurus
+|Card5=Xeno-Saurus
+}}
+{{Appears With
+|Text=Other "Dæmo-" variants of this card are:
+|Card1=Dæmo-Alien
+|Card2=Dæmo-Thief
+|Card3=Dæmo-Bot
+|Card4=Dæmo-Knight
+|Card5=Dæmo-Beast
+|Header=Off
+}}
+
+== Dæmo-Thief ==
+{{Appears With
+|Text=Other "-Thief" variants of this card are:
+|Card1=Dino-Thief
+|Card2=Techno-Thief
+|Card3=Lyco-Thief
+|Card4=Sacro-Thief
+|Card5=Xeno-Thief
+}}
+{{Appears With
+|Text=Other "Dæmo-" variants of this card are:
+|Card1=Dæmo-Saurus
+|Card2=Dæmo-Bot
+|Card3=Dæmo-Knight
+|Card4=Dæmo-Beast
+|Card5=Dæmo-Alien
+|Header=Off
+}}
+
+== Eldest Bear ==
+{{FlavorText Query}}
+
+== Encounter Suit ==
+{{FlavorText Query}}
+
+== Envy ==
+{{Appears With
+|Text=Envy always appears in a deck with at least two other Sins:
+|Card1=Gluttony
+|Card2=Wrath
+|Card3=Desire
+|Card4=Sloth
+|Card5=Greed
+|Card6=Pride
+}}
+
+== Even Ivan ==
+{{Appears With
+|Text=A variant of this card (both can appear in a deck together):
+|Card1=Odd Clawde
+}}
+
+== Exchange Officer ==
+==Note==
+[[Exchange Officer]] never appears in Star Alliance. Instead, it always appears as a [[Maverick]] in one of the other two houses in the deck, while also forcing a creature from that house to appear as a Maverick in Star Alliance.
+
+== Fangtooth Cavern ==
+{{FlavorText Query}}
+
+== Faust the Great ==
+{{Appears With
+|Text=Faust the Great sometimes appears in a deck together with:
+|Card5=Monument to Faust
+}}
+
+== Faygin ==
+{{Appears With
+|Text=Faygin always appears in a deck with at least 2 copies of:
+|Card1=Urchin
+}}
+
+== First Officer Frane ==
+{{Appears With
+|Text=First Officer Frane sometimes appears in a deck together with:
+|Card5=Frane’s Blaster
+}}
+
+== Frane’s Blaster ==
+{{Appears With
+|Text=Frane's Blaster always appears in a deck with at least 1 copy of:
+|Card1=First Officer Frane
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Chan’s Blaster
+|Card2=Garcia’s Blaster
+|Card3=Ingram’s Blaster
+|Card4=Khrkhar’s Blaster
+|Card5=Kirby’s Blaster
+|Card6=Molina’s Blaster
+|Card7=Qincan’s Blaster
+|Card8=Walls’ Blaster
+|Header=Off
+}}
+
+== Ganger Chieftain ==
+{{Appears With
+|Text=Ganger Chieftain can also appear as:
+|Card1=Mega Ganger Chieftain
+}}
+
+== Garcia’s Blaster ==
+{{Appears With
+|Text=Garcia's Blaster always appears in a deck with at least 1 copy of:
+|Card1=Sensor Chief Garcia
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Frane’s Blaster
+|Card2=Chan’s Blaster
+|Card3=Ingram’s Blaster
+|Card4=Khrkhar’s Blaster
+|Card5=Kirby’s Blaster
+|Card6=Molina’s Blaster
+|Card7=Qincan’s Blaster
+|Card8=Walls’ Blaster
+|Header=Off
+}}
+
+== Glimmer ==
+{{#Related: Alpha}}{{#Related:Omega}}
+
+== Gluttony ==
+{{Appears With
+|Text=Gluttony always appears in a deck with at least two other Sins:
+|Card1=Envy
+|Card2=Wrath
+|Card3=Desire
+|Card4=Sloth
+|Card5=Greed
+|Card6=Pride
+}}
+
+== Gold Key Imp ==
+{{Appears With
+|Text=Other variants of this card are (multiple Key Imps can appear in a deck):
+|Card1=Bronze Key Imp
+|Card2=Silver Key Imp
+}}
+
+== Greed ==
+{{Appears With
+|Text=Greed always appears in a deck with at least two other Sins:
+|Card1=Gluttony
+|Card2=Wrath
+|Card3=Desire
+|Card4=Sloth
+|Card5=Envy
+|Card6=Pride
+}}
+
+== Groke ==
+{{Appears With
+|Text=Groke can also appear as:
+|Card1=Mega Groke
+}}
+
+== Groke’s Brew ==
+{{Appears With
+|Text=Groke's Brew always appears in a deck with a:
+|Card1=Mega Groke
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Chieftain’s Brew
+|Card2=Cowfyne’s Brew
+|Card3=Alaka’s Brew
+|Card4=Gron’s Brew
+|Card5=Mogghunter’s Brew
+|Card6=Narp’s Brew
+|Card7=Shorty’s Brew
+|Header=Off
+}}
+
+== Gron Nine-Toes ==
+{{FlavorText Query}}
+{{Appears With
+|Text=Gron Nine-Toes can also appear as:
+|Card1=Mega Gron Nine-Toes
+|Header=Off
+}}
+
+== Gron’s Brew ==
+{{Appears With
+|Text=Gron's Brew always appears in a deck with a:
+|Card1=Mega Gron Nine-Toes
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Chieftain’s Brew
+|Card2=Cowfyne’s Brew
+|Card3=Groke’s Brew
+|Card4=Alaka’s Brew
+|Card5=Mogghunter’s Brew
+|Card6=Narp’s Brew
+|Card7=Shorty’s Brew
+|Header=Off
+}}
+
+== Grumpus Tamer ==
+{{Appears With
+|Text=Grumpus Tamer always appears in a deck with at least 2 copies of:
+|Card1=War Grumpus
+}}
+
+== Help from Future Self ==
+{{Appears With
+|Text=Help from Future Self always appears in a deck with a:
+|Card1=Timetraveller
+}}
+
+== Horseman of Death ==
+{{Appears With
+|Text=Horseman of Death always appears in a deck with:
+|Card1=Horseman of Pestilence
+|Card2=Horseman of Famine
+|Card3=Horseman of War
+}}
+
+== Horseman of Famine ==
+{{Appears With
+|Text=Horseman of Famine always appears in a deck with:
+|Card1=Horseman of Pestilence
+|Card2=Horseman of War
+|Card3=Horseman of Death
+}}
+
+== Horseman of Pestilence ==
+{{Appears With
+|Text=Horseman of Pestilence always appears in a deck with:
+|Card1=Horseman of War
+|Card2=Horseman of Famine
+|Card3=Horseman of Death
+}}
+
+== Horseman of War ==
+{{Appears With
+|Text=Horseman of War always appears in a deck with:
+|Card1=Horseman of Pestilence
+|Card2=Horseman of Famine
+|Card3=Horseman of Death
+}}
+
+== Humans’ Bane ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Demons’ Bane
+|Card2=Dinosaurs’ Bane
+|Card3=Beasts’ Bane
+|Card4=Scientists’ Bane
+|Card5=Thieves’ Bane
+}}
+
+== Hyde ==
+{{Appears With
+|Text=Hyde always appears in a deck with a:
+|Card1=Velum
+}}
+
+== Igon the Green ==
+{{Appears With
+|Text=Igon the Green always appears in a deck with a:
+|Card1=Igon the Terrible
+}}
+
+== Igon the Terrible ==
+{{Appears With
+|Text=Igon the Terrible always appears in a deck with a:
+|Card1=Igon the Green
+}}
+
+== Imp-losion ==
+[[Category:MM]][[Category:Card]]
+
+== Ingram’s Blaster ==
+{{Appears With
+|Text=Ingram's Blaster always appears in a deck with at least 1 copy of:
+|Card1=Medic Ingram
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Frane’s Blaster
+|Card2=Garcia’s Blaster
+|Card3=Chan’s Blaster
+|Card4=Khrkhar’s Blaster
+|Card5=Kirby’s Blaster
+|Card6=Molina’s Blaster
+|Card7=Qincan’s Blaster
+|Card8=Walls’ Blaster
+|Header=Off
+}}
+
+== Inka the Spider ==
+{{FlavorText Query}}
+
+== It’s Coming... ==
+==Note==
+It's Coming... can appear in [[Logos]], [[Saurian]] and [[Untamed]].
+{{Appears With
+|Text=It's Coming... always appears in a deck with one of the gigantic creatures:
+|Card1=Ultra Gravitron
+|Card2=Deusillus
+|Card3=Niffle Kong
+}}
+
+== J. Vinda ==
+{{FlavorText Query}}
+
+== Jehu the Bureaucrat ==
+{{FlavorText Query}}
+
+== Khrkhar’s Blaster ==
+{{Appears With
+|Text=Khrkhar's Blaster always appears in a deck with at least 1 copy of:
+|Card1=Lieutenant Khrkhar
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Frane’s Blaster
+|Card2=Garcia’s Blaster
+|Card3=Ingram’s Blaster
+|Card4=Chan’s Blaster
+|Card5=Kirby’s Blaster
+|Card6=Molina’s Blaster
+|Card7=Qincan’s Blaster
+|Card8=Walls’ Blaster
+|Header=Off
+}}
+
+== Kirby’s Blaster ==
+{{Appears With
+|Text=Kirby's Blaster always appears in a deck with at least 1 copy of:
+|Card1=Com. Officer Kirby
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Frane’s Blaster
+|Card2=Garcia’s Blaster
+|Card3=Ingram’s Blaster
+|Card4=Khrkhar’s Blaster
+|Card5=Chan’s Blaster
+|Card6=Molina’s Blaster
+|Card7=Qincan’s Blaster
+|Card8=Walls’ Blaster
+|Header=Off
+}}
+
+== Lieutenant Khrkhar ==
+{{FlavorText Query}}
+{{Appears With
+|Text=Lieutenant Khrkhar sometimes appears in a deck together with:
+|Card5=Khrkhar’s Blaster
+|Header=Off
+}}
+
+== Livia the Elder ==
+{{FlavorText Query}}
+
+== Logos Ambassador ==
+==Note==
+Logos Ambassador always appears in a deck with house Logos.
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Brobnar Ambassador
+|Card2=Dis Ambassador
+|Card3=Mars Ambassador
+|Card4=Shadows Ambassador
+|Card5=Untamed Ambassador
+}}
+
+== Logos Plant ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Dis Plant
+|Card2=Brobnar Plant
+|Card3=Saurian Plant
+|Card4=Star Alliance Plant
+|Card5=Untamed Plant
+}}
+==Note==
+Logos Plant always appears in a deck with house Logos.
+
+== Lord Invidius ==
+{{FlavorText Query}}
+
+== Lyco-Alien ==
+{{Appears With
+|Text=Other "-Alien" variants of this card are:
+|Card1=Dæmo-Alien
+|Card2=Umbra-Alien
+|Card3=Sacro-Alien
+|Card4=Techno-Alien
+|Card5=Dino-Alien
+}}
+{{Appears With
+|Text=Other "Lyco-" variants of this card are:
+|Card1=Lyco-Saurus
+|Card2=Lyco-Fiend
+|Card3=Lyco-Bot
+|Card4=Lyco-Knight
+|Card5=Lyco-Thief
+|Header=Off
+}}
+
+== Lyco-Bot ==
+{{Appears With
+|Text=Other "-Bot" variants of this card are:
+|Card1=Dæmo-Bot
+|Card2=Umbra-Bot
+|Card3=Dino-Bot
+|Card4=Sacro-Bot
+|Card5=Xeno-Bot
+}}
+{{Appears With
+|Text=Other "Lyco-" variants of this card are:
+|Card1=Lyco-Fiend
+|Card2=Lyco-Thief
+|Card3=Lyco-Knight
+|Card4=Lyco-Saurus
+|Card5=Lyco-Alien
+|Header=Off
+}}
+
+== Lyco-Fiend ==
+{{Appears With
+|Text=Other "-Fiend" variants of this card are:
+|Card1=Sacro-Fiend
+|Card2=Umbra-Fiend
+|Card3=Xeno-Fiend
+|Card4=Techno-Fiend
+|Card5=Dino-Fiend
+}}
+{{Appears With
+|Text=Other "Lyco-" variants of this card are:
+|Card1=Lyco-Bot
+|Card2=Lyco-Knight
+|Card3=Lyco-Saurus
+|Card4=Lyco-Alien
+|Card5=Lyco-Thief
+|Header=Off
+}}
+
+== Lyco-Knight ==
+{{Appears With
+|Text=Other "-Knight" variants of this card are:
+|Card1=Dæmo-Knight
+|Card2=Umbra-Knight
+|Card3=Dino-Knight
+|Card4=Techno-Knight
+|Card5=Xeno-Knight
+}}
+{{Appears With
+|Text=Other "Lyco-" variants of this card are:
+|Card1=Lyco-Fiend
+|Card2=Lyco-Saurus
+|Card3=Lyco-Bot
+|Card4=Lyco-Thief
+|Card5=Lyco-Alien
+|Header=Off
+}}
+
+== Lyco-Saurus ==
+{{Appears With
+|Text=Other "-Saurus" variants of this card are:
+|Card1=Umbra-Saurus
+|Card2=Dæmo-Saurus
+|Card3=Sacro-Saurus
+|Card4=Techno-Saurus
+|Card5=Xeno-Saurus
+}}
+{{Appears With
+|Text=Other "Lyco-" variants of this card are:
+|Card1=Lyco-Alien
+|Card2=Lyco-Fiend
+|Card3=Lyco-Bot
+|Card4=Lyco-Knight
+|Card5=Lyco-Thief
+|Header=Off
+}}
+
+== Lyco-Thief ==
+{{Appears With
+|Text=Other "-Thief" variants of this card are:
+|Card1=Dæmo-Thief
+|Card2=Techno-Thief
+|Card3=Dino-Thief
+|Card4=Sacro-Thief
+|Card5=Xeno-Thief
+}}
+{{Appears With
+|Text=Other "Lyco-" variants of this card are:
+|Card1=Lyco-Fiend
+|Card2=Lyco-Bot
+|Card3=Lyco-Knight
+|Card4=Lyco-Saurus
+|Card5=Lyco-Alien
+|Header=Off
+}}
+
+== Macis Asp ==
+{{FlavorText Query}}
+
+== Mad Prophet Gizelhart ==
+{{FlavorText Query}}
+
+== Mars Ambassador ==
+==Note==
+Mars Ambassador always appears in a deck with house Mars.
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Brobnar Ambassador
+|Card2=Dis Ambassador
+|Card3=Logos Ambassador
+|Card4=Shadows Ambassador
+|Card5=Untamed Ambassador
+}}
+
+== Master of 1 ==
+{{Appears With
+|Text=Other variants of this card are (only 1 "Master" can appear in a deck):
+|Card1=Master of 2
+|Card2=Master of 3
+}}
+
+== Master of 2 ==
+{{Appears With
+|Text=Other variants of this card are (only 1 "Master" can appear in a deck):
+|Card1=Master of 1
+|Card2=Master of 3
+}}
+
+== Master of 3 ==
+{{Appears With
+|Text=Other variants of this card are (only 1 "Master" can appear in a deck):
+|Card1=Master of 1
+|Card2=Master of 2
+}}
+
+== Medic Ingram ==
+{{FlavorText Query}}
+{{Appears With
+|Text=Medic Ingram sometimes appears in a deck together with:
+|Card5=Ingram’s Blaster
+|Header=Off
+}}
+
+== Mega Alaka ==
+{{Appears With
+|Text=Mega Alaka always appears in a deck with a:
+|Card1=Alaka’s Brew
+}}
+{{Appears With
+|Text=Mega Alaka is a variant of:
+|Card1=Alaka
+|Header=Off
+}}
+
+== Mega Cowfyne ==
+{{Appears With
+|Text=Mega Cowfyne always appears in a deck with a:
+|Card1=Cowfyne’s Brew
+}}
+{{Appears With
+|Text=Mega Cowfyne is a variant of:
+|Card1=Cowfyne
+|Header=Off
+}}
+
+== Mega Ganger Chieftain ==
+{{Appears With
+|Text=Mega Ganger Chieftain always appears in a deck with a:
+|Card1=Chieftain’s Brew
+}}
+{{Appears With
+|Text=Mega Ganger Chieftain is a variant of:
+|Card1=Ganger Chieftain
+|Header=Off
+}}
+
+== Mega Groke ==
+{{Appears With
+|Text=Mega Groke always appears in a deck with a:
+|Card1=Groke’s Brew
+}}
+{{Appears With
+|Text=Mega Groke is a variant of:
+|Card1=Groke
+|Header=Off
+}}
+
+== Mega Gron Nine-Toes ==
+{{Appears With
+|Text=Mega Gron Nine-Toes always appears in a deck with a:
+|Card1=Gron’s Brew
+}}
+{{Appears With
+|Text=Mega Gron Nine-Toes is a variant of:
+|Card1=Gron Nine-Toes
+|Header=Off
+}}
+
+== Mega Mogghunter ==
+{{Appears With
+|Text=Mega Mogghunter always appears in a deck with a:
+|Card1=Mogghunter’s Brew
+}}
+{{Appears With
+|Text=Mega Mogghunter is a variant of:
+|Card1=Mogghunter
+|Header=Off
+}}
+
+== Mega Narp ==
+{{Appears With
+|Text=Mega Narp always appears in a deck with a:
+|Card1=Narp’s Brew
+}}
+{{Appears With
+|Text=Mega Narap is a variant of:
+|Card1=Narp
+|Header=Off
+}}
+
+== Mega Shorty ==
+{{Appears With
+|Text=Mega Shorty always appears in a deck with a:
+|Card1=Shorty’s Brew
+}}
+{{Appears With
+|Text=Mega Shorty is a variant of:
+|Card1=Shorty
+|Header=Off
+}}
+
+== Mercy, Malkin Queen ==
+{{Appears With
+|Text=Mercy, Malkin Queen always appears in a deck with at least 1 of the Cat creatures:
+|Card1=Floomf
+|Card2=Lumilu
+|Card3=Eunoia
+}}
+
+== Mogghunter ==
+{{Appears With
+|Text=Mogghunter can also appear as:
+|Card1=Mega Mogghunter
+}}
+
+== Mogghunter’s Brew ==
+{{Appears With
+|Text=Mogghunter's Brew always appears in a deck with a:
+|Card1=Mega Mogghunter
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Chieftain’s Brew
+|Card2=Cowfyne’s Brew
+|Card3=Groke’s Brew
+|Card4=Gron’s Brew
+|Card5=Alaka’s Brew
+|Card6=Narp’s Brew
+|Card7=Shorty’s Brew
+|Header=Off
+}}
+
+== Molina’s Blaster ==
+{{Appears With
+|Text=Molina's Blaster always appears in a deck with at least 1 copy of:
+|Card1=Armsmaster Molina
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Frane’s Blaster
+|Card2=Garcia’s Blaster
+|Card3=Ingram’s Blaster
+|Card4=Khrkhar’s Blaster
+|Card5=Kirby’s Blaster
+|Card6=Chan’s Blaster
+|Card7=Qincan’s Blaster
+|Card8=Walls’ Blaster
+|Header=Off
+}}
+
+== Monument to Faust ==
+{{Appears With
+|Text=Monument to Faust always appears in a deck with at least 1 copy of:
+|Card1=Faust the Great
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Monument to Ludo
+|Card2=Monument to Shrix
+|Card3=Monument to Octavia
+|Card4=Monument to Primus
+|Header=Off
+}}
+
+== Monument to Ludo ==
+{{Appears With
+|Text=Monument to Ludo always appears in a deck with at least 1 copy of:
+|Card1=Praefectus Ludo
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Monument to Primus
+|Card2=Monument to Shrix
+|Card3=Monument to Octavia
+|Card4=Monument to Faust
+|Header=Off
+}}
+
+== Monument to Octavia ==
+{{Appears With
+|Text=Monument to Octavia always appears in a deck with at least 1 copy of:
+|Card1=Cornicen Octavia
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Monument to Ludo
+|Card2=Monument to Shrix
+|Card3=Monument to Primus
+|Card4=Monument to Faust
+|Header=Off
+}}
+
+== Monument to Primus ==
+{{Appears With
+|Text=Monument to Primus always appears in a deck with at least 1 copy of:
+|Card1=Consul Primus
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Monument to Ludo
+|Card2=Monument to Shrix
+|Card3=Monument to Octavia
+|Card4=Monument to Faust
+|Header=Off
+}}
+
+== Monument to Shrix ==
+{{Appears With
+|Text=Monument to Shrix always appears in a deck with at least 1 copy of:
+|Card1=Citizen Shrix
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Monument to Ludo
+|Card2=Monument to Primus
+|Card3=Monument to Octavia
+|Card4=Monument to Faust
+|Header=Off
+}}
+
+== Moor Wolf ==
+==Note==
+There are always at least 2 copies of Moor Wolf in a deck.
+
+== Murmook ==
+{{FlavorText Query}}
+
+== Mutation of Cunning ==
+{{Appears With
+|Text=Mutation of Cunning always appears in a deck with:
+|Card1=Dark Harbinger
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Mutation of Fury
+|Card2=Mutation of Instinct
+|Header=Off
+}}
+
+== Mutation of Fury ==
+{{Appears With
+|Text=Mutation of Fury always appears in a deck with:
+|Card1=Dark Harbinger
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Mutation of Instinct
+|Card2=Mutation of Cunning
+|Header=Off
+}}
+
+== Mutation of Instinct ==
+{{Appears With
+|Text=Mutation of Instinct always appears in a deck with:
+|Card1=Dark Harbinger
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Mutation of Fury
+|Card2=Mutation of Cunning
+|Header=Off
+}}
+
+== Narp ==
+{{Appears With
+|Text=Narp can also appear as:
+|Card1=Mega Narp
+}}
+
+== Narp’s Brew ==
+{{Appears With
+|Text=Narp's Brew always appears in a deck with a:
+|Card1=Mega Narp
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Chieftain’s Brew
+|Card2=Cowfyne’s Brew
+|Card3=Groke’s Brew
+|Card4=Gron’s Brew
+|Card5=Mogghunter’s Brew
+|Card6=Alaka’s Brew
+|Card7=Shorty’s Brew
+|Header=Off
+}}
+
+== Niffle Kong ==
+{{Appears With
+|Text=Niffle Kong always appears in a deck with:
+|Card1=It’s Coming...
+|Card2=Niffle Ape
+}}
+
+== Niffle Queen ==
+{{Appears With
+|Text=Niffle Queen always appears in a deck with at least 2 copies of:
+|Card1=Niffle Ape
+}}
+
+== Noddy the Thief ==
+{{FlavorText Query}}
+
+== Odd Clawde ==
+{{Appears With
+|Text=A variant of this card (both can appear in a deck together):
+|Card1=Even Ivan
+}}
+
+== Old Bruno ==
+{{FlavorText Query}}
+
+== Orb of Wonder ==
+{{Appears With
+|Text=Orb of Wonder first appeared as an [[Anomaly]] in Worlds Collide:
+|Card1=Orb of Wonder (Anomaly)
+}}
+
+== Orb of Wonder (Anomaly) ==
+{{Appears With
+|Text=Orb of Wonder appears in house Sanctum in Mass Mutation:
+|Card1=Orb of Wonder
+}}
+
+== Ortannu the Chained ==
+{{Appears With
+|Text=Ortannu the Chained always appears in a deck with at least 2 copies of:
+|Card1=Ortannu’s Binding
+}}
+
+== Ortannu’s Binding ==
+{{Appears With
+|Text=Ortannu's Binding always appears in a deck with:
+|Card1=Ortannu the Chained
+}}
+
+== Pingle Who Annoys ==
+{{FlavorText Query}}
+
+== Plague Rat ==
+==Note==
+There are always at least 3 copies of Plague Rat in a deck.
+
+== Praefectus Ludo ==
+{{Appears With
+|Text=Praefectus Ludo sometimes appears in a deck together with:
+|Card5=Monument to Ludo
+}}
+
+== Pride ==
+{{Appears With
+|Text=Pride always appears in a deck with at least two other Sins:
+|Card1=Gluttony
+|Card2=Wrath
+|Card3=Desire
+|Card4=Sloth
+|Card5=Envy
+|Card6=Greed
+}}
+
+== Primus Unguis ==
+{{FlavorText Query}}
+
+== Prince Derric, Unifier ==
+{{FlavorText Query}}
+
+== Project Z.Y.X. ==
+{{Appears With
+|Text=Project Z.Y.X. always appears in a deck with at least 1 copy of each:
+|Card1=Z.Y.X. Researcher
+|Card2=Director of Z.Y.X.
+}}
+
+== Qincan’s Blaster ==
+{{Appears With
+|Text=Qincan's Blaster always appears in a deck with at least 1 copy of:
+|Card1=Sci. Officer Qincan
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Frane’s Blaster
+|Card2=Garcia’s Blaster
+|Card3=Ingram’s Blaster
+|Card4=Khrkhar’s Blaster
+|Card5=Kirby’s Blaster
+|Card6=Molina’s Blaster
+|Card7=Chan’s Blaster
+|Card8=Walls’ Blaster
+|Header=Off
+}}
+
+== Quixo the “Adventurer” ==
+{{FlavorText Query}}
+
+== Routine Job ==
+==Note==
+There are always at least 2 copies of Routine Job in a deck.
+
+== Sacro-Alien ==
+{{Appears With
+|Text=Other "-Alien" variants of this card are:
+|Card1=Lyco-Alien
+|Card2=Dæmo-Alien
+|Card3=Umbra-Alien
+|Card4=Techno-Alien
+|Card5=Dino-Alien
+}}
+{{Appears With
+|Text=Other "Sacro-" variants of this card are:
+|Card1=Sacro-Saurus
+|Card2=Sacro-Fiend
+|Card3=Sacro-Bot
+|Card4=Sacro-Thief
+|Card5=Sacro-Beast
+|Header=Off
+}}
+
+== Sacro-Beast ==
+{{Appears With
+|Text=Other "-Beast" variants of this card are:
+|Card1=Dæmo-Beast
+|Card2=Umbra-Beast
+|Card3=Dino-Beast
+|Card4=Techno-Beast
+|Card5=Xeno-Beast
+}}
+{{Appears With
+|Text=Other "Sacro-" variants of this card are:
+|Card1=Sacro-Fiend
+|Card2=Sacro-Thief
+|Card3=Sacro-Bot
+|Card4=Sacro-Saurus
+|Card5=Sacro-Alien
+|Header=Off
+}}
+
+== Sacro-Bot ==
+{{Appears With
+|Text=Other "-Bot" variants of this card are:
+|Card1=Dæmo-Bot
+|Card2=Umbra-Bot
+|Card3=Lyco-Bot
+|Card4=Dino-Bot
+|Card5=Xeno-Bot
+}}
+{{Appears With
+|Text=Other "Sacro-" variants of this card are:
+|Card1=Sacro-Fiend
+|Card2=Sacro-Thief
+|Card3=Sacro-Saurus
+|Card4=Sacro-Beast
+|Card5=Sacro-Alien
+|Header=Off
+}}
+
+== Sacro-Fiend ==
+{{Appears With
+|Text=Other "-Fiend" variants of this card are:
+|Card1=Lyco-Fiend
+|Card2=Umbra-Fiend
+|Card3=Xeno-Fiend
+|Card4=Techno-Fiend
+|Card5=Dino-Fiend
+}}
+{{Appears With
+|Text=Other "Sacro-" variants of this card are:
+|Card1=Sacro-Bot
+|Card2=Sacro-Beast
+|Card3=Sacro-Saurus
+|Card4=Sacro-Alien
+|Card5=Sacro-Thief
+|Header=Off
+}}
+
+== Sacro-Saurus ==
+{{Appears With
+|Text=Other "-Saurus" variants of this card are:
+|Card1=Lyco-Saurus
+|Card2=Dæmo-Saurus
+|Card3=Umbra-Saurus
+|Card4=Techno-Saurus
+|Card5=Xeno-Saurus
+}}
+{{Appears With
+|Text=Other "Sacro-" variants of this card are:
+|Card1=Sacro-Alien
+|Card2=Sacro-Fiend
+|Card3=Sacro-Bot
+|Card4=Sacro-Thief
+|Card5=Sacro-Beast
+|Header=Off
+}}
+
+== Sacro-Thief ==
+{{Appears With
+|Text=Other "-Thief" variants of this card are:
+|Card1=Dæmo-Thief
+|Card2=Techno-Thief
+|Card3=Lyco-Thief
+|Card4=Dino-Thief
+|Card5=Xeno-Thief
+}}
+{{Appears With
+|Text=Other "Sacro-" variants of this card are:
+|Card1=Sacro-Fiend
+|Card2=Sacro-Bot
+|Card3=Sacro-Saurus
+|Card4=Sacro-Beast
+|Card5=Sacro-Alien
+|Header=Off
+}}
+
+== Saurian Plant ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Dis Plant
+|Card2=Logos Plant
+|Card3=Brobnar Plant
+|Card4=Star Alliance Plant
+|Card5=Untamed Plant
+}}
+==Note==
+Saurian Plant always appears in a deck with house Saurian.
+
+== Saurus Rex ==
+{{FlavorText Query}}
+
+== Sci. Officer Qincan ==
+{{FlavorText Query}}
+{{Appears With
+|Text=Sci. Officer Qincan sometimes appears in a deck together with:
+|Card5=Qincan’s Blaster
+|Header=Off
+}}
+
+== Scientists’ Bane ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Demons’ Bane
+|Card2=Dinosaurs’ Bane
+|Card3=Humans’ Bane
+|Card4=Beasts’ Bane
+|Card5=Thieves’ Bane
+}}
+
+== Screechbomb ==
+{{FlavorText Query}}
+
+== Scylla ==
+{{Appears With
+|Text=Scylla always appears in a deck with:
+|Card1=Charybdis
+}}
+
+== Selwyn the Fence ==
+{{FlavorText Query}}
+
+== Sensor Chief Garcia ==
+{{Appears With
+|Text=Sensor Chief Garcia sometimes appears in a deck together with:
+|Card5=Garcia’s Blaster
+}}
+
+== Shadows Ambassador ==
+==Note==
+Shadows Ambassador always appears in a deck with house Shadows.
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Brobnar Ambassador
+|Card2=Dis Ambassador
+|Card3=Logos Ambassador
+|Card4=Mars Ambassador
+|Card5=Untamed Ambassador
+}}
+
+== Shard of Greed ==
+{{Appears With
+|Text=Shard of Greed always appears in a deck with at least one other Shard:
+|Card1=Shard of Hope
+|Card2=Shard of Hate
+|Card3=Shard of Knowledge
+|Card4=Shard of Life
+|Card5=Shard of Pain
+|Card6=Shard of Strength
+}}
+
+== Shard of Hate ==
+{{Appears With
+|Text=Shard of Hate always appears in a deck with at least one other Shard:
+|Card1=Shard of Hope
+|Card2=Shard of Pain
+|Card3=Shard of Knowledge
+|Card4=Shard of Life
+|Card5=Shard of Greed
+|Card6=Shard of Strength
+}}
+
+== Shard of Hope ==
+{{Appears With
+|Text=Shard of Hope always appears in a deck with at least one other Shard:
+|Card1=Shard of Pain
+|Card2=Shard of Hate
+|Card3=Shard of Knowledge
+|Card4=Shard of Life
+|Card5=Shard of Greed
+|Card6=Shard of Strength
+}}
+
+== Shard of Knowledge ==
+{{Appears With
+|Text=Shard of Knowledge always appears in a deck with at least one other Shard:
+|Card1=Shard of Hope
+|Card2=Shard of Hate
+|Card3=Shard of Pain
+|Card4=Shard of Life
+|Card5=Shard of Greed
+|Card6=Shard of Strength
+}}
+
+== Shard of Life ==
+{{Appears With
+|Text=Shard of Life always appears in a deck with at least one other Shard:
+|Card1=Shard of Hope
+|Card2=Shard of Hate
+|Card3=Shard of Knowledge
+|Card4=Shard of Pain
+|Card5=Shard of Greed
+|Card6=Shard of Strength
+}}
+
+== Shard of Pain ==
+{{Appears With
+|Text=Shard of Pain always appears in a deck with at least one other Shard:
+|Card1=Shard of Hope
+|Card2=Shard of Hate
+|Card3=Shard of Knowledge
+|Card4=Shard of Life
+|Card5=Shard of Greed
+|Card6=Shard of Strength
+}}
+
+== Shard of Strength ==
+{{Appears With
+|Text=Shard of Strength always appears in a deck with at least one other Shard:
+|Card1=Shard of Hope
+|Card2=Shard of Hate
+|Card3=Shard of Knowledge
+|Card4=Shard of Life
+|Card5=Shard of Greed
+|Card6=Shard of Pain
+}}
+
+== Shorty ==
+{{Appears With
+|Text=Shorty can also appear as:
+|Card1=Mega Shorty
+}}
+
+== Shorty’s Brew ==
+{{Appears With
+|Text=Shorty's Brew always appears in a deck with a:
+|Card1=Mega Shorty
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Chieftain’s Brew
+|Card2=Cowfyne’s Brew
+|Card3=Groke’s Brew
+|Card4=Gron’s Brew
+|Card5=Mogghunter’s Brew
+|Card6=Narp’s Brew
+|Card7=Alaka’s Brew
+|Header=Off
+}}
+
+== Silver Key Imp ==
+{{Appears With
+|Text=Other variants of this card are (multiple Key Imps can appear in a deck):
+|Card1=Bronze Key Imp
+|Card2=Gold Key Imp
+}}
+
+== Sinestra ==
+{{Appears With
+|Text=A variant of this card (both can appear in a deck together):
+|Card1=Dexus
+}}
+
+== Sloth ==
+{{Appears With
+|Text=Sloth always appears in a deck with at least two other Sins:
+|Card1=Gluttony
+|Card2=Wrath
+|Card3=Desire
+|Card4=Greed
+|Card5=Envy
+|Card6=Pride
+}}
+
+== Snufflegator ==
+{{FlavorText Query}}
+
+== Squire Alys ==
+{{FlavorText Query}}
+
+== Star Alliance Plant ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Dis Plant
+|Card2=Logos Plant
+|Card3=Saurian Plant
+|Card4=Brobnar Plant
+|Card5=Untamed Plant
+}}
+==Note==
+Star Alliance Plant always appears in a deck with house Star Alliance.
+
+== Subtle Chain ==
+{{Appears With
+|Text=Subtle Chain can appear in a deck together with:
+|Card5=Chain Gang
+}}
+
+== Techno-Alien ==
+{{Appears With
+|Text=Other "-Alien" variants of this card are:
+|Card1=Lyco-Alien
+|Card2=Dæmo-Alien
+|Card3=Sacro-Alien
+|Card4=Umbra-Alien
+|Card5=Dino-Alien
+}}
+{{Appears With
+|Text=Other "Techno-" variants of this card are:
+|Card1=Techno-Saurus
+|Card2=Techno-Fiend
+|Card3=Techno-Thief
+|Card4=Techno-Knight
+|Card5=Techno-Beast
+|Header=Off
+}}
+
+== Techno-Beast ==
+{{Appears With
+|Text=Other "-Beast" variants of this card are:
+|Card1=Dæmo-Beast
+|Card2=Umbra-Beast
+|Card3=Sacro-Beast
+|Card4=Dino-Beast
+|Card5=Xeno-Beast
+}}
+{{Appears With
+|Text=Other "Techno-" variants of this card are:
+|Card1=Techno-Fiend
+|Card2=Techno-Thief
+|Card3=Techno-Saurus
+|Card4=Techno-Knight
+|Card5=Techno-Alien
+|Header=Off
+}}
+
+== Techno-Fiend ==
+{{Appears With
+|Text=Other "-Fiend" variants of this card are:
+|Card1=Lyco-Fiend
+|Card2=Umbra-Fiend
+|Card3=Xeno-Fiend
+|Card4=Sacro-Fiend
+|Card5=Dino-Fiend
+}}
+{{Appears With
+|Text=Other "Techno-" variants of this card are:
+|Card1=Techno-Knight
+|Card2=Techno-Beast
+|Card3=Techno-Saurus
+|Card4=Techno-Alien
+|Card5=Techno-Thief
+|Header=Off
+}}
+
+== Techno-Knight ==
+{{Appears With
+|Text=Other "-Knight" variants of this card are:
+|Card1=Dæmo-Knight
+|Card2=Umbra-Knight
+|Card3=Lyco-Knight
+|Card4=Dino-Knight
+|Card5=Xeno-Knight
+}}
+{{Appears With
+|Text=Other "Techno-" variants of this card are:
+|Card1=Techno-Fiend
+|Card2=Techno-Thief
+|Card3=Techno-Saurus
+|Card4=Techno-Beast
+|Card5=Techno-Alien
+|Header=Off
+}}
+
+== Techno-Saurus ==
+{{Appears With
+|Text=Other "-Saurus" variants of this card are:
+|Card1=Lyco-Saurus
+|Card2=Dæmo-Saurus
+|Card3=Sacro-Saurus
+|Card4=Umbra-Saurus
+|Card5=Xeno-Saurus
+}}
+{{Appears With
+|Text=Other "Techno-" variants of this card are:
+|Card1=Techno-Alien
+|Card2=Techno-Fiend
+|Card3=Techno-Thief
+|Card4=Techno-Knight
+|Card5=Techno-Beast
+|Header=Off
+}}
+
+== Techno-Thief ==
+{{Appears With
+|Text=Other "-Thief" variants of this card are:
+|Card1=Dæmo-Thief
+|Card2=Dino-Thief
+|Card3=Lyco-Thief
+|Card4=Sacro-Thief
+|Card5=Xeno-Thief
+}}
+{{Appears With
+|Text=Other "Techno-" variants of this card are:
+|Card1=Techno-Fiend
+|Card2=Techno-Saurus
+|Card3=Techno-Knight
+|Card4=Techno-Beast
+|Card5=Techno-Alien
+|Header=Off
+}}
+
+== Thieves’ Bane ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Demons’ Bane
+|Card2=Dinosaurs’ Bane
+|Card3=Humans’ Bane
+|Card4=Scientists’ Bane
+|Card5=Beasts’ Bane
+}}
+
+== Timetraveller ==
+{{Appears With
+|Text=Timetraveller always appears in a deck with a:
+|Card1=Help from Future Self
+}}
+
+== Toad ==
+{{FlavorText Query}}
+{{Appears With
+|Text=Toad always appears in a deck with:
+|Card1=Xenos Bloodshadow
+|Header=Off
+}}
+
+== Troop Call ==
+{{Appears With
+|Text=Troop Call always appears in a deck with at least 1 copy of:
+|Card1=Niffle Ape
+}}
+
+== Ultra Gravitron ==
+{{Appears With
+|Text=Ultra Gravitron always appears in a deck with a:
+|Card1=It’s Coming...
+}}
+
+== Ulyq Megamouth ==
+{{FlavorText Query}}
+
+== Umbra-Alien ==
+{{Appears With
+|Text=Other "-Alien" variants of this card are:
+|Card1=Lyco-Alien
+|Card2=Dæmo-Alien
+|Card3=Sacro-Alien
+|Card4=Techno-Alien
+|Card5=Dino-Alien
+}}
+{{Appears With
+|Text=Other "Umbra-" variants of this card are:
+|Card1=Umbra-Saurus
+|Card2=Umbra-Fiend
+|Card3=Umbra-Bot
+|Card4=Umbra-Knight
+|Card5=Umbra-Beast
+|Header=Off
+}}
+
+== Umbra-Beast ==
+{{Appears With
+|Text=Other "-Beast" variants of this card are:
+|Card1=Dæmo-Beast
+|Card2=Dino-Beast
+|Card3=Sacro-Beast
+|Card4=Techno-Beast
+|Card5=Xeno-Beast
+}}
+{{Appears With
+|Text=Other "Umbra-" variants of this card are:
+|Card1=Umbra-Fiend
+|Card2=Umbra-Saurus
+|Card3=Umbra-Bot
+|Card4=Umbra-Knight
+|Card5=Umbra-Alien
+|Header=Off
+}}
+
+== Umbra-Bot ==
+{{Appears With
+|Text=Other "-Bot" variants of this card are:
+|Card1=Dæmo-Bot
+|Card2=Dino-Bot
+|Card3=Lyco-Bot
+|Card4=Sacro-Bot
+|Card5=Xeno-Bot
+}}
+{{Appears With
+|Text=Other "Umbra-" variants of this card are:
+|Card1=Umbra-Fiend
+|Card2=Umbra-Saurus
+|Card3=Umbra-Knight
+|Card4=Umbra-Beast
+|Card5=Umbra-Alien
+|Header=Off
+}}
+
+== Umbra-Fiend ==
+{{Appears With
+|Text=Other "-Fiend" variants of this card are:
+|Card1=Lyco-Fiend
+|Card2=Sacro-Fiend
+|Card3=Xeno-Fiend
+|Card4=Techno-Fiend
+|Card5=Dino-Fiend
+}}
+{{Appears With
+|Text=Other "Umbra-" variants of this card are:
+|Card1=Umbra-Bot
+|Card2=Umbra-Beast
+|Card3=Umbra-Saurus
+|Card4=Umbra-Alien
+|Card5=Umbra-Knight
+|Header=Off
+}}
+
+== Umbra-Knight ==
+{{Appears With
+|Text=Other "-Knight" variants of this card are:
+|Card1=Dæmo-Knight
+|Card2=Dino-Knight
+|Card3=Lyco-Knight
+|Card4=Techno-Knight
+|Card5=Xeno-Knight
+}}
+{{Appears With
+|Text=Other "Umbra-" variants of this card are:
+|Card1=Umbra-Fiend
+|Card2=Umbra-Saurus
+|Card3=Umbra-Bot
+|Card4=Umbra-Beast
+|Card5=Umbra-Alien
+|Header=Off
+}}
+
+== Umbra-Saurus ==
+{{Appears With
+|Text=Other "-Saurus" variants of this card are:
+|Card1=Lyco-Saurus
+|Card2=Dæmo-Saurus
+|Card3=Sacro-Saurus
+|Card4=Techno-Saurus
+|Card5=Xeno-Saurus
+}}
+{{Appears With
+|Text=Other "Umbra-" variants of this card are:
+|Card1=Umbra-Alien
+|Card2=Umbra-Fiend
+|Card3=Umbra-Bot
+|Card4=Umbra-Knight
+|Card5=Umbra-Beast
+|Header=Off
+}}
+
+== Untamed Ambassador ==
+==Note==
+Untamed Ambassador always appears in a deck with house Untamed.
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Brobnar Ambassador
+|Card2=Dis Ambassador
+|Card3=Logos Ambassador
+|Card4=Mars Ambassador
+|Card5=Shadows Ambassador
+}}
+
+== Untamed Plant ==
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Dis Plant
+|Card2=Logos Plant
+|Card3=Saurian Plant
+|Card4=Star Alliance Plant
+|Card5=Brobnar Plant
+}}
+==Note==
+Untamed Plant always appears in a deck with house Untamed.
+
+== Urchin ==
+{{Appears With
+|Text=Urchin sometimes appears in a deck together with:
+|Card1=Faygin
+}}
+
+== Valdr ==
+{{FlavorText Query}}
+
+== Velum ==
+{{Appears With
+|Text=Velum always appears in a deck with a:
+|Card1=Hyde
+}}
+
+== Walls’ Blaster ==
+{{Appears With
+|Text=Walls' Blaster always appears in a deck with at least 1 copy of:
+|Card1=Chief Engineer Walls
+}}
+{{Appears With
+|Text=Other variants of this card are:
+|Card1=Frane’s Blaster
+|Card2=Garcia’s Blaster
+|Card3=Ingram’s Blaster
+|Card4=Khrkhar’s Blaster
+|Card5=Kirby’s Blaster
+|Card6=Molina’s Blaster
+|Card7=Qincan’s Blaster
+|Card8=Chan’s Blaster
+|Header=Off
+}}
+
+== War Grumpus ==
+{{Appears With
+|Text=War Grumpus sometimes appears in a deck together with:
+|Card1=Grumpus Tamer
+}}
+
+== Wrath ==
+{{Appears With
+|Text=Wrath always appears in a deck with at least two other Sins:
+|Card1=Gluttony
+|Card2=Greed
+|Card3=Desire
+|Card4=Sloth
+|Card5=Envy
+|Card6=Pride
+}}
+
+== Xeno-Beast ==
+{{Appears With
+|Text=Other "-Beast" variants of this card are:
+|Card1=Dæmo-Beast
+|Card2=Umbra-Beast
+|Card3=Sacro-Beast
+|Card4=Techno-Beast
+|Card5=Dino-Beast
+}}
+{{Appears With
+|Text=Other "Xeno-" variants of this card are:
+|Card1=Xeno-Fiend
+|Card2=Xeno-Thief
+|Card3=Xeno-Bot
+|Card4=Xeno-Knight
+|Card5=Xeno-Saurus
+|Header=Off
+}}
+
+== Xeno-Bot ==
+{{Appears With
+|Text=Other "-Bot" variants of this card are:
+|Card1=Dæmo-Bot
+|Card2=Umbra-Bot
+|Card3=Lyco-Bot
+|Card4=Sacro-Bot
+|Card5=Dino-Bot
+}}
+{{Appears With
+|Text=Other "Xeno-" variants of this card are:
+|Card1=Xeno-Fiend
+|Card2=Xeno-Thief
+|Card3=Xeno-Knight
+|Card4=Xeno-Beast
+|Card5=Xeno-Saurus
+|Header=Off
+}}
+
+== Xeno-Fiend ==
+{{Appears With
+|Text=Other "-Fiend" variants of this card are:
+|Card1=Lyco-Fiend
+|Card2=Umbra-Fiend
+|Card3=Sacro-Fiend
+|Card4=Techno-Fiend
+|Card5=Dino-Fiend
+}}
+{{Appears With
+|Text=Other "Xeno-" variants of this card are:
+|Card1=Xeno-Bot
+|Card2=Xeno-Beast
+|Card3=Xeno-Saurus
+|Card4=Xeno-Knight
+|Card5=Xeno-Thief
+|Header=Off
+}}
+
+== Xeno-Knight ==
+{{Appears With
+|Text=Other "-Knight" variants of this card are:
+|Card1=Dæmo-Knight
+|Card2=Umbra-Knight
+|Card3=Lyco-Knight
+|Card4=Techno-Knight
+|Card5=Dino-Knight
+}}
+{{Appears With
+|Text=Other "Xeno-" variants of this card are:
+|Card1=Xeno-Fiend
+|Card2=Xeno-Thief
+|Card3=Xeno-Bot
+|Card4=Xeno-Beast
+|Card5=Xeno-Saurus
+|Header=Off
+}}
+
+== Xeno-Saurus ==
+{{Appears With
+|Text=Other "-Saurus" variants of this card are:
+|Card1=Lyco-Saurus
+|Card2=Dæmo-Saurus
+|Card3=Sacro-Saurus
+|Card4=Techno-Saurus
+|Card5=Umbra-Saurus
+}}
+{{Appears With
+|Text=Other "Xeno-" variants of this card are:
+|Card1=Xeno-Thief
+|Card2=Xeno-Fiend
+|Card3=Xeno-Bot
+|Card4=Xeno-Knight
+|Card5=Xeno-Beast
+|Header=Off
+}}
+
+== Xeno-Thief ==
+{{Appears With
+|Text=Other "-Thief" variants of this card are:
+|Card1=Dæmo-Thief
+|Card2=Techno-Thief
+|Card3=Lyco-Thief
+|Card4=Sacro-Thief
+|Card5=Dino-Thief
+}}
+{{Appears With
+|Text=Other "Xeno-" variants of this card are:
+|Card1=Xeno-Fiend
+|Card2=Xeno-Bot
+|Card3=Xeno-Knight
+|Card4=Xeno-Beast
+|Card5=Xeno-Saurus
+|Header=Off
+}}
+
+== Xenos Bloodshadow ==
+{{FlavorText Query}}
+{{Appears With
+|Text=Xenos Bloodshadow always appears in a deck with:
+|Card1=Toad
+|Header=Off
+}}
+
+== Z-Force Agent 14 ==
+{{Appears With
+|Text=Z-Force Agent 14 always appears in a deck with:
+|Card1=Z-Wave Emitter
+|Card2=Z-Ray Blaster
+|Card3=Z-Particle Tracker
+}}
+
+== Z-Particle Tracker ==
+{{Appears With
+|Text=Z-Particle Tracker always appears in a deck with:
+|Card1=Z-Force Agent 14
+|Card2=Z-Ray Blaster
+|Card3=Z-Wave Emitter
+}}
+
+== Z-Ray Blaster ==
+{{Appears With
+|Text=Z-Ray Blaster always appears in a deck with:
+|Card1=Z-Force Agent 14
+|Card2=Z-Wave Emitter
+|Card3=Z-Particle Tracker
+}}
+
+== Z-Wave Emitter ==
+{{Appears With
+|Text=Z-Wave Emitter always appears in a deck with:
+|Card1=Z-Force Agent 14
+|Card2=Z-Ray Blaster
+|Card3=Z-Particle Tracker
+}}
+
+228

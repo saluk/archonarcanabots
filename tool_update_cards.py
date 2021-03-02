@@ -193,6 +193,7 @@ def update_cards_v2(wp, search_name=None,
                 restricted=restricted,
                 data_to_update=data_to_update,
                 locale=locale)
+        texts = texts or []
         wait = False
         for text in texts:
             if text:
@@ -202,3 +203,18 @@ def update_cards_v2(wp, search_name=None,
         if wait:
             time.sleep(0.05)
     print(changed, "cards changed")
+
+def show_cards_with_extra(wp):
+    import re
+    extras = {}
+    for i, card_name in enumerate(sorted(wiki_card_db.cards.keys())):
+        page = wp.page(card_name)
+        text = page.read()
+        extra = re.sub("{{Card Query.*?}}", "", text).strip()
+        if extra:
+            extras[card_name] = extra
+    for card_name in extras:
+        print("== "+card_name+" ==")
+        print(extras[card_name])
+        print("")
+    print(len(extras))
