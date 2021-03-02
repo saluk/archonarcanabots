@@ -48,7 +48,8 @@ if __name__ == "__main__":
         tool_update_cards.update_cards_v2(wp, "", "importing card data locale="+args.locale, 
                                             "carddb", [],
                                             upload_image=True,
-                                            locale=args.locale)
+                                            locale=args.locale,
+                                            pause=args.pause)
     if args.command == "reprint_pull":
         import tool_update_cards
         tool_update_cards.update_cards_v2(wp, args.search, "importing card data (mm reprints)", 
