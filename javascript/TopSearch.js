@@ -68,6 +68,10 @@ function match(search, content) {
     return index
 }
 
+function regexEscape(s) {
+    return s.replace(/\(/g, '\\(').replace(/\)/g, '\\)')
+}
+
 class Caller {
     constructor() {
         this.currentCall = 0
@@ -96,6 +100,9 @@ class Caller {
         var dunno = results[2]
         var searchLinks = results[3]
         for(var i=0; i<searchNames.length; i++) {
+            if(searchNames[i].search(/\/locale\//) >= 0) {
+                continue
+            }
             this.results.push(
                 {
                     name: searchNames[i],
@@ -113,9 +120,10 @@ class Caller {
         for(var i=0; i<results.length; i++) {
             this.cardsFound += 1
             var rank = 0
-            if(results[i]['title']['Name'].toLowerCase().search(this.searchString) < 0) {
+            var searchString = regexEscape(this.searchString)
+            if(results[i]['title']['Name'].toLowerCase().search(searchString) < 0) {
                 rank = -1
-            } else if (results[i]['title']['SearchText'].toLowerCase().search(this.searchString) < 0) {
+            } else if (results[i]['title']['SearchText'].toLowerCase().search(searchString) < 0) {
                 rank = -2
             }
             this.results.push(
@@ -164,7 +172,7 @@ class Caller {
         var s = this.searchString.toLowerCase()
         for(var res of this.results) {
             var n = res.name.toLowerCase()
-            var loc = match(s,n)
+            var loc = match(regexEscape(s),n)
             if(loc==="equal") {
                 res.rank = 100
             }
