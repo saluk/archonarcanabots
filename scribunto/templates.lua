@@ -236,8 +236,9 @@ ${/locale}
 
       ${#cardstatamber}
         <div class="aember"><html>
-        <a href="/Card_Gallery?amber_min=${cardstatamber.min}&amber_max=${cardstatamber.max}"></html>
-        ${cardstatamber.value} {{Aember}}<html></a></html></div>
+        <a href="/Card_Gallery?amber_min=${cardstatamber.min}&amber_max=${cardstatamber.max}">
+        </html>${cardstatamber.value}{{Aember}}<html>
+        </a></html></div>
       ${/cardstatamber}
 
       ${#cardstats}
