@@ -16,8 +16,11 @@ with open("data/Archon Arcana Translations - terms.tsv") as f:
             if not translatedtext:
                 continue
             key = (englishtext,locale,type)
+            key = englishtext+"..."+locale+"..."+type
             spreadsheet[key] = translatedtext
+# TODO export this in a model library so that javascript can use it
 print(spreadsheet)
+print(spreadsheet['note set availability...ru-ru...disclaimer'])
 print([x for x in spreadsheet.keys() if x[1]=='it-it'])
 print([x for x in spreadsheet.keys() if x[1]=='th-th'])
 
@@ -31,7 +34,7 @@ class Merger:
         print(self.cargotable.get_datas("TranslationTable"))
     def merge_up(self):
         for k,v in self.spreadsheet.items():
-            (englishtext, locale, type) = k
+            (englishtext, locale, type) = k.split("...")
             translatedtext = v
             self.cargotable.update_or_create("TranslationTable", (englishtext, locale), {
                 "Type":type, 

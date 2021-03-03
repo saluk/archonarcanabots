@@ -1,10 +1,10 @@
 Type	EnglishText	pt-pt	it-it	zh-hant	de-de	zh-hans	th-th	ko-ko	pl-pl	fr-fr	es-es	ru-ru
 set_name	keyforge					熔钥秘境						
 set_name	Call of the Archons			統御者的呼喚	Ruf der Archonten	统御者的召				l'appel des Archontes	La llamada de los arcontes	
-set_name	Age of Ascension			耀生紀元	Zeitalter des Aufstiegs	神位时代				l'Age de l'Ascension	La era de la ascensión	
+set_name	Age of Ascension		Era dell'Ascensione	耀生紀元	Zeitalter des Aufstiegs	神位时代				l'Age de l'Ascension	La era de la ascensión	
 set_name	Worlds Collide			異界交鋒	Kollidierende Welten	碰撞的世界				Collision des Mondes	Mundos en colisión	
-set_name	Mass Mutation			突變擴散	Massenmutation					Mutation de Masses		
-set_name	Dark Tidings					暗潮汹涌			Mroczny Przypływ	Sombre Marées		
+set_name	Mass Mutation		Mutazione di Massa	突變擴散	Massenmutation			집단 변이		Mutation de Masses		
+set_name	Dark Tidings					暗潮汹涌		어둠의 물결	Mroczny Przypływ	Sombre Marées		
 												
 ShortenedSet	CotA	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	<img src="https://archonarcana.com/images/thumb/0/0d/Cota.png/20px-Cota.png">	
 ShortenedSet	AoA	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	<img src="https://archonarcana.com/images/thumb/a/a9/Aoa.png/20px-Aoa.png">	
@@ -12,31 +12,36 @@ ShortenedSet	WC	<img src="https://archonarcana.com/images/thumb/b/b7/Wc.png/20px
 ShortenedSet	MM	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	<img src="https://archonarcana.com/images/thumb/2/2b/Mm-new.png/20px-Mm-new.png">	
 ShortenedSet	DT	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	<img src="https://archonarcana.com/images/thumb/0/03/Dt.png/20px-Dt.png">	
 												
-House	Brobnar	Brobnar	Brobnar	蠻族	Brobnar	蛮族			Brobnar	Brobnar	Brobnar	
-House	Dis	Dis	Dis	冥府	Dis	冥府			Dis	Dis	Dis	
-House	Logos	Logos	Logos	邏機	Logos	逻机			Logos	Logos	Logos	
-House	Mars	Marte	Marte	火星	Mars	火星			Mars	Mars	Marte	
-House	Sanctum	Santuário	Sanctum	聖堂	Sanctum	圣堂			Sanctum	Sanctum	Sanctum	
-House	Saurian	Sauro	Sauriani	龍邦	Saurianer	蜥族			Rzymozaury	Sauriens	Saurios	
-House	Shadows	Sombras	Ombre	暗影	Schatten	暗影			Cienie	Ombre	Sombras	
-House	Star Alliance	Aliança Estelar	Federazione Stellare	稀有	Sternenallianz	星盟			Gwiezdnego Sojuszu	La Grande Novalliance	Alianza Estelar	
-House	Unfathomable	Insondável	Insondabile	堅不可摧		不可思议的				Insondable		
-House	Untamed	Indomados	Selvaggi	狂獸	Die Ungezähmten	狂兽			Nieokiełznani	Indompté	Indómita	
-House	Anomaly	Anomalia	Anomalia	無種族特	Anomalie	异常			Anomalie	Anomalie	Anomalía	
+House	Brobnar	Brobnar	Brobnar	蠻族	Brobnar	蛮族		브로브나	Brobnar	Brobnar	Brobnar	
+House	Dis	Dis	Dis	冥府	Dis	冥府		디스	Dis	Dis	Dis	
+House	Logos	Logos	Logos	邏機	Logos	逻机		로고스	Logos	Logos	Logos	
+House	Mars	Marte	Marte	火星	Mars	火星		마스	Mars	Mars	Marte	
+House	Sanctum	Santuário	Sanctum	聖堂	Sanctum	圣堂		생텀	Sanctum	Sanctum	Sanctum	
+House	Saurian	Sauro	Sauriani	龍邦	Saurianer	蜥族		사우리안	Rzymozaury	Sauriens	Saurios	
+House	Shadows	Sombras	Ombre	暗影	Schatten	暗影		섀도우	Cienie	Ombre	Sombras	
+House	Star Alliance	Aliança Estelar	Federazione Stellare	稀有	Sternenallianz	星盟		스타 얼라이언스	Gwiezdnego Sojuszu	La Grande Novalliance	Alianza Estelar	
+House	Unfathomable	Insondável	Insondabile	堅不可摧		不可思议的		언패더마블		Insondable		
+House	Untamed	Indomados	Selvaggi	狂獸	Die Ungezähmten	狂兽		언테임드	Nieokiełznani	Indompté	Indómita	
+House	Anomaly	Anomalia	Anomalia	無種族特	Anomalie	异常		아노말리	Anomalie	Anomalie	Anomalía	
 												
 CardType	Action	Ação	Azione	行動	Aktions	行动		액션	Akcji	Action	Acción	
 CardType	Artifact	Artefatos	Artefatti	神器	Artefakte	神器		유물	Artefakt	Artefact	Artefacto	
 CardType	Creature	Criaturas	Creatura	生物	Kreaturen	生物		생명체	Stworzenie	créature	Criatura	
 CardType	Upgrade	Melhorias	Migliorie	升級	Aufwertungs	升级		업그레이드	Ulepszenie	Amelioration	Mejora	
 												
-Rarity	Common	Comum	Commune		Gewöhnlich	普通	커먼		Pospolita	Commune	Común	
+Rarity	Common	Comum	Commune		Gewöhnlich	普通	커먼	커먼	Pospolita	Commune	Común	
 Rarity	Fixed	Fixa	Fisso							Fixe		
-Rarity	Rare	Rara	Rara		Selten	稀有	레어		Rzadka	Rare	Rara	
-Rarity	Special	Especial	Speciale		Spezial	特殊	스페셜		Specjalna	Speciale	Especial	
-Rarity	Uncommon	Incomum	Non Commune		Ungewöhnlich	高级	언커먼		Niepospolita	Peu Commune	Infrecuente	
+Rarity	Rare	Rara	Rara		Selten	稀有	레어	레어	Rzadka	Rare	Rara	
+Rarity	Special	Especial	Speciale		Spezial	特殊	스페셜	스페셜	Specjalna	Speciale	Especial	
+Rarity	Uncommon	Incomum	Non Commune		Ungewöhnlich	高级	언커먼	언커먼	Niepospolita	Peu Commune	Infrecuente	
 Rarity	Variant	Variante	Vario							Variante		
 Rarity	Evil Twin	Gêmea Má	Gemello Cattivo						Złe Bliźniaki			
 												
-Stat	Armor	Armadura	Armatura	護甲	Schilde	护甲	방어력		Pancerz	Armure	Armadura	
-Stat	Artist	Artista	Artista	藝術家	Künstler	画家				Artiste		
-Stat	Power	Poder	Forza	力量	Stärke	力量	공격력		Sila	Puissance	Poder	
+Stat	Armor	Armadura	Armatura	護甲	Schilde	护甲	방어력	방어력	Pancerz	Armure	Armadura	
+Stat	Artist	Artista	Artista	藝術家	Künstler	画家		아티스트		Artiste		
+Stat	Power	Poder	Forza	力量	Stärke	力量	공격력	공격력	Sila	Puissance	Poder	
+												
+disclaimer	note set availability						คำแปลเป็นภาษาไทยจะใช้ได้หลังจากชุดที่ 3 เท่านั้น	한국어 번역은 4 세트 이후에만 가능합니다.				Переводы на русский язык доступны только после версии 4.
+disclaimer	note english editors	Nota: Você está vendo a versão em português da página de um card Archon Arcana. Os editores ingleses do Archon Arcana não podem confirmar a validade das informações nesta página.	Nota: stai visualizzando la versione italiana di una pagina delle carte degli Arconti Arcani. Gli editori inglesi di Archon Arcana non possono confermare la validità delle informazioni su questa pagina.	注意：您正在查看Archon Arcana卡頁面的繁體中文版本。 Archon Arcana上的英語編輯無法確認此頁面上信息的有效性。	Hinweis: Sie sehen die deutsche Version einer Archon Arcana-Kartenseite. Die englischen Redakteure von Archon Arcana können die Gültigkeit der Informationen auf dieser Seite nicht bestätigen.	注意：您正在查看Archon Arcana卡页面的简体中文版本。 Archon Arcana上的英语编辑无法确认此页面上信息的有效性。	หมายเหตุ: คุณกำลังดูหน้าการ์ด Archon Arcana เวอร์ชั่นภาษาไทย บรรณาธิการภาษาอังกฤษของ Archon Arcana ไม่สามารถยืนยันความถูกต้องของข้อมูลในหน้านี้	참고 : Archon Arcana 카드 페이지의 태국어 버전을보고 있습니다. Archon Arcana의 영어 편집자는이 페이지에있는 정보의 유효성을 확인할 수 없습니다.	Uwaga: przeglądasz polską wersję strony karty Archon Arcana. Angielscy redaktorzy Archon Arcana nie mogą potwierdzić aktualności informacji na tej stronie.	Remarque: vous visualisez la version française d'une page de carte Archon Arcana. Les éditeurs anglais sur Archon Arcana ne peuvent pas confirmer la validité des informations sur cette page.	Nota: Estás viendo la versión en español de la página de una tarjeta Archon Arcana. Los editores en inglés de Archon Arcana no pueden confirmar la validez de la información de esta página.	Примечание: Вы просматриваете русскую версию страницы Archon Arcana. Английские редакторы Archon Arcana не могут подтвердить достоверность информации на этой странице.
+disclaimer	note no editor	Você pode usar [este link] para entrar em contato com Archon Arcana se quiser ser um editor de português.	Puoi usare [questo link] per contattare Archon Arcana se vuoi diventare un editore italiano.	如果您想成為繁體中文編輯者，可以使用[此鏈接]與Archon Arcana聯繫。	Sie können [diesen Link] verwenden, um Archon Arcana zu kontaktieren, wenn Sie ein deutscher Redakteur sein möchten.	如果您想成为简体中文编辑者，可以使用[此链接]与Archon Arcana联系。	คุณสามารถใช้ [ลิงค์นี้] เพื่อติดต่อ Archon Arcana หากคุณต้องการเป็นบรรณาธิการภาษาไทย	한국 편집자가되고 싶다면 [이 링크]를 사용하여 Archon Arcana에 연락 할 수 있습니다.	Możesz skorzystać z [tego linku], aby skontaktować się z Archon Arcana, jeśli chcesz zostać polskim redaktorem.	Vous pouvez utiliser [ce lien] pour contacter Archon Arcana si vous souhaitez devenir éditeur français.	Puede utilizar [este enlace] para ponerse en contacto con Archon Arcana si desea ser un editor en español.	Вы можете использовать [эту ссылку], чтобы связаться с Archon Arcana, если вы хотите стать русским редактором.
+disclaimer	note have editor	Você pode usar [este link] para entrar em contato com os editores portugueses a respeito de quaisquer perguntas ou erros.	Puoi usare [questo link] per contattare la redazione italiana in merito a domande o errori.	您可以使用[此鏈接]就任何問題或錯誤與繁體中文編輯聯繫。	Sie können [diesen Link] verwenden, um die deutsche Redaktion bezüglich Fragen oder Fehlern zu kontaktieren.	您可以使用[此链接]就任何问题或错误与简体中文编辑联系。	คุณสามารถใช้ [ลิงค์นี้] เพื่อติดต่อบรรณาธิการชาวไทยเกี่ยวกับคำถามหรือข้อผิดพลาดใด ๆ	질문이나 오류가있는 경우 [이 링크]를 사용하여 한국 편집자에게 연락 할 수 있습니다.	Możesz skorzystać z [tego linku], aby skontaktować się z polskimi redakcjami w sprawie jakichkolwiek pytań lub błędów.	Vous pouvez utiliser [ce lien] pour contacter les éditeurs français pour toute question ou erreur.	Puede utilizar [este enlace] para ponerse en contacto con los editores en español con respecto a cualquier pregunta o error.	Вы можете использовать [эту ссылку], чтобы связаться с российскими редакторами по любым вопросам или ошибкам.
