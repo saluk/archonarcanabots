@@ -1,8 +1,11 @@
+from models.wiki_model import card_data
+from sqlalchemy.engine.base import TwoPhaseTransaction
 import __updir__
-from models import mv_model
+from models import mv_model, shared
 from datetime import datetime, timedelta
 import time
 import logging
+import re
 
 logging.basicConfig(filename="/opt/archonarcanabots/cron.log", level=logging.DEBUG)
 
@@ -18,6 +21,7 @@ class Workers:
         self.timers = []
         for t in self.timers:
             t["next_time"] = time.time()
+
     def thread(self):
         """For each job in timers, run them once at start, then wait for the timer to count up and reset"""
         while 1:
@@ -30,14 +34,59 @@ class Workers:
     def count_decks(self):
         logging.debug("counting decks")
         session = mv_model.Session()
-        self.count_decks_expansion(session)
+        self._count_decks_expansion(session)
         logging.debug("--getting distinct")
         for expansion in session.query(mv_model.Deck.expansion).distinct():
-            self.count_decks_expansion(session, expansion)
+            self._count_decks_expansion(session, expansion)
         session.commit()
         logging.debug(">>decks counted")
 
-    def count_decks_expansion(self, session, expansion=None):
+    def new_cards(self):
+        session = mv_model.Session()
+        recognized_sets = list(shared.get_set_numbers())
+        recognized_sets.remove(479)
+        cardq = session.query(mv_model.Card)
+        cardq = cardq.filter(mv_model.Card.deck_expansion.notin_([str(x) for x in recognized_sets]))
+        cardq = cardq.order_by(mv_model.Card.name,mv_model.Card.key)
+        checked_names = {}
+        duplicated_names = {}
+        print("Checking for new cards:")
+        for card in cardq.all():
+            if not card.is_from_current_set:
+                continue
+            if card.is_anomaly: continue  # TODO Not sure what to do about anomalies
+            if card.is_maverick: continue
+            if card.is_enhanced: continue
+            if card.name in checked_names:
+                duplicated_names[card.name] = 1
+                continue
+            checked_names[card.name] = 1
+            print("doing something with card")
+            print(card.name, card.deck_expansion, card.data)
+            if card.is_eviltwin:
+                print("upload the evil twin")
+            else:
+                print("upload the non evil twin")
+        print("Done", len(checked_names))
+        print("Duplicated", duplicated_names)
+        """
+        for each card in database cards that are new (aything with unrecognized deck_expansion?):
+            check for mavericks, legacy, anomaly, is-enhanced
+            search for evil twin data
+            do we have this card already in a previous set:
+                is this a non-legacy
+                update setdata only
+            if we have a non-maverick, non-legacy, non-anomaly, non-evil twin, non-enhanced:
+                create/update CardData (hide them from searches though)
+                upload translation too?
+                include can-maverick, can-twin
+            if we have an evil twin non-maverick, non-legacy, non-anomaly:
+                create/update CardData for twin
+            check for versions of that card in the database
+            if we have *enough* decks we can probably mark this card as not new
+        """
+
+    def _count_decks_expansion(self, session, expansion=None):
         logging.debug("--counting %s", expansion)
         expansion_label = ""
         if expansion:
@@ -105,3 +154,4 @@ class Workers:
 if __name__ == "__main__":
     w = Workers()
     w.count_decks()
+    w.new_cards()

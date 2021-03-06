@@ -8,33 +8,11 @@ sys.path.append("./")
 import connections
 import util
 from util import SEPARATOR
-from models import mv_model, wiki_model
+from models import shared, mv_model, wiki_model
 import csv
 import bleach
 
 cards = {}
-
-SETS = {452: "WC",
-        453: "WC-A",
-        341: "CotA",
-        435: "AoA",
-        479: "MM"}
-SET_BY_NUMBER = {}
-SET_ORDER = []
-for numerical_set in sorted(SETS.keys()):
-    setname = SETS[numerical_set]
-    SET_ORDER.append(setname)
-    SET_BY_NUMBER[setname] = numerical_set
-
-
-def nice_set_name(num):
-    return {
-        "452": "Worlds Collide",
-        "453": "Worlds Collide",  # Put the anomalies in the same set
-        "341": "Call of the Archons",
-        "435": "Age of Ascension",
-        "479": "Mass Mutation"
-    }[str(num)]
 
 
 hard_code = {
@@ -350,9 +328,9 @@ def image_number(card):
 
 
 def get_sets(card):
-    for set_num in sorted(SETS.keys()):
+    for set_num in sorted(shared.get_set_numbers()):
         if str(set_num) in card:
-            yield (nice_set_name(set_num), set_num, card[str(set_num)]["card_number"])
+            yield (shared.nice_set_name(set_num), set_num, card[str(set_num)]["card_number"])
 
 
 def get_latest_from_card(card, locale=None):
@@ -588,6 +566,11 @@ def translate_all_traits():
             for en in translations:
                 f.write("locale_table['traits']['%s']['%s'] = '%s'\n" % (locale, en, translations[en]))
         f.write("return locale_table\n")
+    for locale in locale_db.keys():
+        if locale == "en": continue
+        with open("data/traits/"+locale+".json", "w") as f:
+            translations = translate_traits(locale)
+            f.write(json.dumps(translations, indent=4))
 
 def earliest_locale_expansion(locale):
     if locale == 'ko-ko':
