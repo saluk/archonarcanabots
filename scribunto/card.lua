@@ -254,19 +254,24 @@ function apply_rulings(frame, vars)
 
 	local commentary_results = rulequery('Commentary', vars.cardname_e)
 	local outstanding_results = rulequery('OutstandingIssues', vars.cardname_e)
-	if(#outstanding_results>0 or #commentary_results>0) then vars.categories[#vars.categories+1] = 'Commentary' end
 
-	vars.has_ruleofficial = #official_results > 0
 	vars.ruleofficial = official_results
-	vars.has_rulecommentary = #commentary_results > 0
+	vars.has_ruleofficial = #vars.ruleofficial > 0
 	vars.rulecommentary = commentary_results
-	vars.has_ruleoutstanding = #outstanding_results > 0
+	vars.has_rulecommentary = #vars.rulecommentary > 0
 	vars.ruleoutstanding = filter(outstanding_results, function(ruling)
 		if string.find(ruling['RulesText'], '//') then 
 			return true 
 		else return false 
 		end
 	end)
+	vars.has_ruleoutstanding = #vars.ruleoutstanding > 0
+
+	if(has_ruleoutstanding or has_rulecommentary) then vars.categories[#vars.categories+1] = 'Commentary' end
+
+	vars.filter_rules_text = function(self)
+		return self['RulesText']:gsub('this card', "'''"..vars.cardname_e.."'''")
+	end
 end
 
 function apply_sets(frame, vars)

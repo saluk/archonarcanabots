@@ -19,6 +19,7 @@ import datetime
 from models import wiki_model
 import re
 import time
+import hashlib
 
 PASSWORD = passwords.MASTERVAULT_PASSWORD
 
@@ -297,6 +298,9 @@ class Deck(Base):
                 c.data['is_legacy'] = c.key in self.data.get('set_era_cards',{}).get('Legacy',[])
                 yield c
 
+    def get_legacy_card_ids(self):
+        return self.data.get('set_era_cards',{}).get('Legacy',[])
+
 # TODO handle indexes
 
 # TODO handle legacies
@@ -312,11 +316,40 @@ class Card(Base):
     deck_expansion = Column(Integer, primary_key=True)
     name = Column(String)
     data = Column(JSONB)
+    decks = relationship("Deck", secondary="deck_cards", lazy="dynamic")
     UniqueConstraint('key', 'deck_expansion')
     
     @property
     def card_type(self):
+        # From mastervault
         return self.data["card_type"]
+
+    @property
+    def is_anomaly(self):
+        # This is stored in the mastervault already
+        return self.data["is_anomaly"]
+
+    @property
+    def is_maverick(self):
+        return self.data["is_maverick"]
+
+    @property
+    def is_eviltwin(self):
+        # TODO set to the right one when we know
+        regex = re.compile("evil.*twin.*", re.IGNORECASE)
+        if regex.findall(self.data["rarity"]): return True
+        for key in self.data:
+            if regex.findall(key) and self.data[key] in [True, "1", "True", "true", "yes"]:
+                return True
+        return False
+
+    @property
+    def is_from_current_set(self):
+        return self.deck_expansion == self.data['expansion']
+
+    @property
+    def is_enhanced(self):
+        return self.data["is_enhanced"]
 
     def aa_format(self):
         return wiki_model.card_data({**self.data})

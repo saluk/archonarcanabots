@@ -26,20 +26,20 @@ House	Anomaly	Anomalia	Anomalia	無種族特	Anomalie	异常		아노말리	Anoma
 												
 CardType	Action	Ação	Azione	行動	Aktions	行动		액션	Akcji	Action	Acción	
 CardType	Artifact	Artefatos	Artefatti	神器	Artefakte	神器		유물	Artefakt	Artefact	Artefacto	
-CardType	Creature	Criaturas	Creatura	生物	Kreaturen	生物		생명체	Stworzenie	créature	Criatura	
+CardType	Creature	Criaturas	Creatura	生物	Kreaturen	生物		생명체	Stworzenie	Créature	Criatura	
 CardType	Upgrade	Melhorias	Migliorie	升級	Aufwertungs	升级		업그레이드	Ulepszenie	Amelioration	Mejora	
 												
-Rarity	Common	Comum	Commune		Gewöhnlich	普通	커먼	커먼	Pospolita	Commune	Común	
+Rarity	Common	Comum	Commune		Gewöhnlich	普通		커먼	Pospolita	Commune	Común	
 Rarity	Fixed	Fixa	Fisso							Fixe		
-Rarity	Rare	Rara	Rara		Selten	稀有	레어	레어	Rzadka	Rare	Rara	
-Rarity	Special	Especial	Speciale		Spezial	特殊	스페셜	스페셜	Specjalna	Speciale	Especial	
-Rarity	Uncommon	Incomum	Non Commune		Ungewöhnlich	高级	언커먼	언커먼	Niepospolita	Peu Commune	Infrecuente	
+Rarity	Rare	Rara	Rara		Selten	稀有		레어	Rzadka	Rare	Rara	
+Rarity	Special	Especial	Speciale		Spezial	特殊		스페셜	Specjalna	Speciale	Especial	
+Rarity	Uncommon	Incomum	Non Commune		Ungewöhnlich	高级		언커먼	Niepospolita	Peu Commune	Infrecuente	
 Rarity	Variant	Variante	Vario							Variante		
 Rarity	Evil Twin	Gêmea Má	Gemello Cattivo						Złe Bliźniaki			
 												
-Stat	Armor	Armadura	Armatura	護甲	Schilde	护甲	방어력	방어력	Pancerz	Armure	Armadura	
+Stat	Armor	Armadura	Armatura	護甲	Schilde	护甲		방어력	Pancerz	Armure	Armadura	
 Stat	Artist	Artista	Artista	藝術家	Künstler	画家		아티스트		Artiste		
-Stat	Power	Poder	Forza	力量	Stärke	力量	공격력	공격력	Sila	Puissance	Poder	
+Stat	Power	Poder	Forza	力量	Stärke	力量		공격력	Sila	Puissance	Poder	
 												
 disclaimer	note set availability						คำแปลเป็นภาษาไทยจะใช้ได้หลังจากชุดที่ 3 เท่านั้น	한국어 번역은 4 세트 이후에만 가능합니다.				Переводы на русский язык доступны только после версии 4.
 disclaimer	note english editors	Nota: Você está vendo a versão em português da página de um card Archon Arcana. Os editores ingleses do Archon Arcana não podem confirmar a validade das informações nesta página.	Nota: stai visualizzando la versione italiana di una pagina delle carte degli Arconti Arcani. Gli editori inglesi di Archon Arcana non possono confermare la validità delle informazioni su questa pagina.	注意：您正在查看Archon Arcana卡頁面的繁體中文版本。 Archon Arcana上的英語編輯無法確認此頁面上信息的有效性。	Hinweis: Sie sehen die deutsche Version einer Archon Arcana-Kartenseite. Die englischen Redakteure von Archon Arcana können die Gültigkeit der Informationen auf dieser Seite nicht bestätigen.	注意：您正在查看Archon Arcana卡页面的简体中文版本。 Archon Arcana上的英语编辑无法确认此页面上信息的有效性。	หมายเหตุ: คุณกำลังดูหน้าการ์ด Archon Arcana เวอร์ชั่นภาษาไทย บรรณาธิการภาษาอังกฤษของ Archon Arcana ไม่สามารถยืนยันความถูกต้องของข้อมูลในหน้านี้	참고 : Archon Arcana 카드 페이지의 태국어 버전을보고 있습니다. Archon Arcana의 영어 편집자는이 페이지에있는 정보의 유효성을 확인할 수 없습니다.	Uwaga: przeglądasz polską wersję strony karty Archon Arcana. Angielscy redaktorzy Archon Arcana nie mogą potwierdzić aktualności informacji na tej stronie.	Remarque: vous visualisez la version française d'une page de carte Archon Arcana. Les éditeurs anglais sur Archon Arcana ne peuvent pas confirmer la validité des informations sur cette page.	Nota: Estás viendo la versión en español de la página de una tarjeta Archon Arcana. Los editores en inglés de Archon Arcana no pueden confirmar la validez de la información de esta página.	Примечание: Вы просматриваете русскую версию страницы Archon Arcana. Английские редакторы Archon Arcana не могут подтвердить достоверность информации на этой странице.

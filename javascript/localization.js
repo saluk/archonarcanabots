@@ -18,6 +18,7 @@ function notice(locale) {
 	var have_editor = locale_table['note have editor...'+locale+'...disclaimer']
 	var availability = locale_table['note set availability...'+locale+'...disclaimer']
 	if(note) {
+		s+='<div style="font-size:12px;">'
 		s += note + '\n'
 		var editor = locale_editors[locale]
 		if(editor){
@@ -27,14 +28,17 @@ function notice(locale) {
 			s += no_editor.replace('[','<a style="color:blue" href="'+editor+'">').replace("]","</a>")
 		}
 		if(availability) {
-			s += availability
+			s += ' '+availability
 		}
+		s += '</div>'
 	}
 	return s
 }
 
 function dumb_locale_menu() {
-	var locales = {"pt-pt": [["pt-br", "Português do Brasil"], ["pt", "português"]],
+	var locales = {
+	"en": [["en", "English"]],
+	"pt-pt": [["pt-br", "Português do Brasil"], ["pt", "português"]],
 	"it-it": [["it", "Italiano"]],
 	"zh-hant": [["zh-hant", "中文（繁體）"], ["zh-tw", "中文（台灣）"]],
 	"de-de": [["de", "Deutsch"], ["de-formal", "Deutsch (Sie-Form)"]],
@@ -44,8 +48,7 @@ function dumb_locale_menu() {
 	"pl-pl": [["pl", "Polski"]],
 	"fr-fr": [["fr", "Français"], ["frc", "français cadien"]],
 	"es-es": [["es", "Español"]],
-	'ru-ru': [['ru', "Pусский"]],
-	"en": [["en", "English"]]}
+	'ru-ru': [['ru', "Pусский"]]}
 	var locale = ''
 	var cur_locale = ''
 	for(const [loc, value] of Object.entries(locales)) {
@@ -65,13 +68,14 @@ function dumb_locale_menu() {
 		locale += `<option value="/${cardname}${path}" ${selected}>${locale_name}</option>`
 	}
 	var base = `<div>
-	View in <select name="viewlanguage" onchange="location = this.value;">
+	<img alt="language" src="https://archonarcana.com/images/5/56/Languageicon.svg" style="width:32px;height:32px;padding-right:4px;">
+	<select name="viewlanguage" onchange="location = this.value;">
 	${locale}
 	</select> 
 	</div>`
-	if($('.cardEntry').length > 0 && window.location.href.search('/locale/')>=0) {
-		$('.mw-parser-output').before(base)
-		$('.mw-parser-output').before(notice(cur_locale))
+	if($('.cardEntry').length > 0) { // && window.location.href.search('/locale/')>=0) {
+		$('.cardEntry').before(base)
+		$('.cardEntry').after(notice(cur_locale))
 	}
 }
 

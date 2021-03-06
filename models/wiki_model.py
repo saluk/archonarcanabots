@@ -34,6 +34,7 @@ def sanitize_trait(trait):
 
 def sanitize_text(text, flavor=False):
     t = re.sub("(?<!\.)\.\.{1}$", ".", text)
+    t = t.replace("_x000D_", '\r')
     t = t.replace("\ufeff", "")
     t = t.replace("\u202f", " ")
     if flavor:
@@ -187,7 +188,14 @@ def modify_card_text(text, card_title, flavor_text=False):
 
     if not flavor_text:
         # bold abilities at the begining of a line or following a new line
+        # locale = en
         text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\:)", r"\1'''\2'''", text)
+        # locale.startswith('zh') - different colon symbol
+        # text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\：)", r"\1'''\2'''", text)
+        # locale == 'th' - maybe wrong \w?
+        # text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\:)", r"\1'''\2'''", text)
+        # locale == 'fr' - extra space between word and quote?
+        # text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\:)", r"\1'''\2'''", text)
 
     # Make returns paragraphs
     text = re.sub(r"(\u000b|\r)", " <p> ", text)

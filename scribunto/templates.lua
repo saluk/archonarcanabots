@@ -117,14 +117,17 @@ cardtraits = list of traits
 ruleofficial = list of faq or ffg rulings
   RulesType = ruling type
   RulesText = rules text
+  filter_rules_text = replaces pagename with card name so the ruling works on other pages
   RulesSource = rules source
 rulecommentary = list of commentary rulings
   RulesType = ruling type
   RulesText = rules text
+  filter_rules_text = replaces pagename with card name so the ruling works on other pages
   RulesSource = rules source
 ruleoutstanding = list of outstanding issue rulings
   RulesType = ruling type
   RulesText = rules text
+  filter_rules_text = replaces pagename with card name so the ruling works on other pages
   RulesSource = rules source
 --]]
 
@@ -293,17 +296,17 @@ ${/locale}
 
   ${#has_ruleofficial}<h2>FFG Rulings</h2>${/has_ruleofficial}
   ${#ruleofficial}
-  {{ FAQ_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
+  {{ FAQ_Entry|RulesType=${RulesType}|RulesText=${filter_rules_text}|RulesSource=${RulesSource} }}
   ${/ruleofficial}
 
   ${#has_rulecommentary}<h2>Commentary</h2>${/has_rulecommentary}
   ${#rulecommentary}
-  {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
+  {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${filter_rules_text}|RulesSource=${RulesSource} }}
   ${/rulecommentary}
 
   ${#has_ruleoutstanding}<h2>Outstanding Issues</h2>${/has_ruleoutstanding}
   ${#ruleoutstanding}
-    {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${RulesText}|RulesSource=${RulesSource} }}
+    {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${filter_rules_text}|RulesSource=${RulesSource} }}
   ${/ruleoutstanding}
 
 __NOTOC__

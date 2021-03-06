@@ -29,7 +29,8 @@ parser.add_argument("command", metavar="command", type=str)
 parser.add_argument("--batch", action="store_true")
 parser.add_argument("--search", type=str)
 parser.add_argument("--restricted", type=str)
-parser.add_argument("--locale", type=str, help="The full two part locale, such as es-es")
+parser.add_argument("--locale", type=str, help="The full two part locale, such as es-es. Multiple can be separated with commas.")
+parser.add_argument("--images", action="store_true", help="For importing CardData, should we upload the images?")
 parser.add_argument("--stage", type=str, help="dev or prod for javascript files (not in use", default="dev")
 parser.add_argument("--test", action="store_true", help="For uploading script files, is this a test run")
 parser.add_argument("--locale_only", action="store_true", help="when updating card pages, this will only do updates to /locale/ pages")
@@ -45,11 +46,12 @@ if __name__ == "__main__":
                                             upload_image=False)
     if args.command == "import_cards_locale":
         import tool_update_cards
-        tool_update_cards.update_cards_v2(wp, args.search, "importing card data locale="+args.locale, 
-                                            "carddb", [],
-                                            upload_image=True,
-                                            locale=args.locale,
-                                            pause=args.pause)
+        for locale in args.locale.split(","):
+            tool_update_cards.update_cards_v2(wp, args.search, "importing card data locale="+args.locale, 
+                                                "carddb", [],
+                                                upload_image=args.images,
+                                                locale=locale,
+                                                pause=args.pause)
     if args.command == "reprint_pull":
         import tool_update_cards
         tool_update_cards.update_cards_v2(wp, args.search, "importing card data (mm reprints)", 
@@ -100,3 +102,7 @@ if __name__ == "__main__":
     if args.command == "translate_traits":
         from models import wiki_card_db
         wiki_card_db.translate_all_traits()
+    if args.command == "new_cards":
+        from mastervault.mastervault_workers import Workers
+        w = Workers()
+        w.new_cards()
