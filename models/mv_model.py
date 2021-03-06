@@ -334,18 +334,8 @@ class Card(Base):
         return self.data["is_maverick"]
 
     @property
-    def is_eviltwin(self):
-        # TODO set to the right one when we know
-        regex = re.compile("evil.*twin.*", re.IGNORECASE)
-        if regex.findall(self.data["rarity"]): return True
-        for key in self.data:
-            if regex.findall(key) and self.data[key] in [True, "1", "True", "true", "yes"]:
-                return True
-        return False
-
-    @property
     def is_from_current_set(self):
-        return self.deck_expansion == self.data['expansion']
+        return self.is_anomaly or self.deck_expansion == self.data['expansion']  #Anomalies get their own expansion so are technically always from their own set
 
     @property
     def is_enhanced(self):
@@ -357,7 +347,7 @@ class Card(Base):
 
 class LocaleCard(Base):
     __tablename__ = 'locale_card'
-    en_name = Column(String, primary_key=True)
+    en_name = Column(String, ForeignKey("cards.name"), primary_key=True)
     key = Column(String, primary_key=True)
     locale = Column(String, primary_key=True)
     deck_expansion = Column(Integer)
@@ -431,14 +421,10 @@ def add_deck_cards():
 
 # Every time we start up, clean up from before
 UpdateScope().clean_scrape()
-# 341, 435, 452, 453, 479
-#for card_set in [341, 435, 452, 453, 479]:
-#    print(card_set, len(UpdateScope().get_cards(card_set)))
 
 
 if __name__ == "__main__":
     scope = UpdateScope()
-    #print(len(scope.get_cards()))
     #scope.add_proxy('http://205.126.14.171:800')
     #scope.add_proxy('http://104.154.143.77:3128')
     holes = []

@@ -15,20 +15,6 @@ import bleach
 cards = {}
 
 
-hard_code = {
-    "Exchange Officer": {
-        "update": {
-            "house": "Star Alliance"
-        }
-    },
-    "Orb of Wonder": {
-        "rename_expansion": {
-            453: "%s (Anomaly)"
-        }
-    }
-}
-
-
 def sanitize_name(name):
     name = bleach.clean(name.replace("[", "(").replace("]", ")"))
     name = util.dequote(name)
@@ -377,38 +363,23 @@ def add_card(card, cards):
     if card_data["card_title"] not in cards:
         cards[card_data["card_title"]] = {}
     cards[card_data["card_title"]][str(card_data["expansion"])] = card_data
+    return card_data
 
 
-def build_json(only=None):
-    cards.clear()
-    # sort it so that we get the newest data last
-    for card_file in os.listdir("skyjedi"):
-        with open("skyjedi/" + card_file) as f:
-            card_name_index = {}
-            this_set_cards = json.loads(f.read())
-            for card in this_set_cards:
-                title = card["card_title"].strip()
-                card["card_title"] = title
-                if title in card_name_index:
-                    print("DUPLICATE:", card["card_title"])
-                card_name_index[title] = card
-                add_card(card, cards)
-
-    scope = mv_model.UpdateScope()
-    for set_id in [479]:
-        for card in scope.get_cards(set_id):
-            add_card(card.data, cards)
+def build_localization(scope, cards):
     for card in scope.get_locale_cards():
         translated_card_data = wiki_model.card_data(card.data, card.locale)
-        fixed_data = {"card_title": wiki_model.sanitize_name(card.en_name), "house":card.data["house"], "expansion": card.data["expansion"]}
-        wiki_model.fix_card_data(fixed_data)
-        entry = cards[fixed_data["card_title"]]
-        eng = entry[str(fixed_data['expansion'])]
+        english_data = {}
+        english_data.update(translated_card_data)
+        english_data["card_title"] = wiki_model.sanitize_name(card.en_name)
+        wiki_model.rename_card_data(english_data)
+        entry = cards[english_data["card_title"]]
+        eng = entry[str(english_data['expansion'])]
         if 'locales' not in eng:
             eng['locales'] = {}
-        #Don't use english name here
-        del fixed_data["card_title"]
-        translated_card_data.update(fixed_data)
+        # #Don't use english name here
+        # del english_data["card_title"]
+        # translated_card_data.update(english_data)
         use_english = False
         if card.locale == "ru-ru" and not int(card.data['expansion']) >= 479:
             use_english = True
@@ -417,19 +388,25 @@ def build_json(only=None):
         if not use_english:
             translated_card_data["image_number"] = card.locale + "-" + translated_card_data["image_number"]
         eng['locales'][card.locale] = translated_card_data
-        continue
-        
+
+
+def build_links(cards, only):
     for card_title in cards:
         if only and card_title != only:
             continue
         card = get_latest(card_title)
+        if card.get("_linking_finished", False):
+            continue
         card["flavor_text"] = link_card_titles(card["flavor_text"], card_title) #leaves behind stitle/etitle tags
         card["card_text"] = link_card_titles(card["card_text"], card_title)  #leaves behind stitle/etitle tags
         link_card_traits(card)  #uses stitle/etitle tags to avoid covering the same ground
         #Clean up stitle/etitle tags
         card["card_text"] = re.sub("(STITLE|ETITLE)", "", card["card_text"])
         card["flavor_text"] = re.sub("(STITLE|ETITLE)", "", card["flavor_text"])
+        card["_linking_finished"] = True
 
+
+def add_artists_from_text(cards):
     with open('data/artists_479.csv') as f:
         header = False
         for line in csv.reader(f):
@@ -440,8 +417,40 @@ def build_json(only=None):
             card = get_card_by_number(int(num), 479)
             get_latest_from_card(card)["artist"] = artist
 
+
+def save_json(cards):
     with open("my_card_db.json", "w") as f:
         f.write(json.dumps(cards, indent=2, sort_keys=True))
+
+
+def clean_fields(cards):
+    ignore_fields = ["deck_expansion"]
+    def clean_fields(data):
+        for key in list(data.keys()):
+            if key.startswith("_") or key in ignore_fields:
+                del data[key]
+    for card_name, set_data in cards.items():
+        for set_name, card_data in set_data.items():
+            clean_fields(card_data)
+            if "locales" not in card_data:
+                continue
+            for locale, locale_data in card_data['locales'].items():
+                clean_fields(locale_data)
+                
+
+def build_json(only=None):
+    cards.clear()
+
+    scope = mv_model.UpdateScope()
+    for set_id in shared.get_set_numbers():
+        for card in scope.get_cards(set_id):
+            add_card(card.data, cards)
+
+    build_localization(scope, cards)
+    build_links(cards, only)
+    add_artists_from_text(cards)
+    clean_fields(cards)
+    save_json(cards)
     print("saved.")
 
 

@@ -7,17 +7,13 @@ import util
 from util import SEPARATOR
 import csv
 import bleach
+from models import shared
 
 
 hard_code = {
     "Exchange Officer": {
         "update": {
             "house": "Star Alliance"
-        }
-    },
-    "Orb of Wonder": {
-        "rename_expansion": {
-            453: "%s (Anomaly)"
         }
     }
 }
@@ -224,12 +220,6 @@ def linking_keywords(text):
     return text
 
 
-def safe_name(name):
-    # if name == "Ortannu’s Binding" or name == "Nature’s Call":
-    #    return name.replace("’", "'")
-    return name
-
-
 def nice_rarity(rarity):
     if rarity == "FIXED":
         return "Fixed"
@@ -239,8 +229,9 @@ def nice_rarity(rarity):
 def image_number(card):
     return "%s-%s.png" % (card["expansion"], card["card_number"])
 
-def fix_card_data(card, locale=None):
-    ot = card["card_title"]
+def rename_card_data(card, locale=None):
+    ot = sanitize_name(card["card_title"])
+
     if ot in hard_code:
         commands = hard_code[ot]
         card.update(commands.get("update", {}))
@@ -249,13 +240,26 @@ def fix_card_data(card, locale=None):
                 continue
             new_name = commands["rename_expansion"][exp]
             new_name = new_name.replace("%s", ot)
-            card["card_title"] = new_name
+            ot = new_name
+
+    title_modifications = []
+    if card.get("is_anomaly", False):
+        card["house"] = "Anomaly"
+        title_modifications.append("Anomaly")
+
+    if shared.is_evil_twin(card):
+        title_modifications.append("Evil Twin")
+
+    if title_modifications:
+        ot += " (%s)" % ", ".join(title_modifications)
+
+    card["card_title"] = ot
+    return card
+
 
 def card_data(card, locale=None):
-    fix_card_data(card, locale)
-    title = sanitize_name(card["card_title"])
-    title = safe_name(title)
-    card["card_title"] = title
+    rename_card_data(card, locale)
+    title = card["card_title"]
     card["keywords"] = get_keywords_text(card["card_text"])
     card.update({"assault": "", "hazardous": "",
                  "enhance_amber": "", "enhance_damage": "",
@@ -297,8 +301,6 @@ def card_data(card, locale=None):
         if int(card["expansion"])>=479:
             card["front_image"] = card["front_image"].replace('en', 'ru')
 
-    if card.get("is_anomaly", False):
-        card["house"] = "Anomaly"
     if card["traits"]:
         card["traits"] = SEPARATOR.join([sanitize_trait(t) for t in card["traits"].split(SEPARATOR)])
 

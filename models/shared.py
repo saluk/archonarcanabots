@@ -20,8 +20,17 @@ def nice_set_name(num):
         "479": "Mass Mutation"
     }[str(num)]
 
-def short_set_name(num):
-    return SETS[num]
 
 def get_set_numbers():
     return SETS.keys()
+
+
+def is_evil_twin(card_data):
+    import re
+    # TODO set to the right one when we know
+    regex = re.compile("evil.*twin.*", re.IGNORECASE)
+    if regex.findall(card_data["rarity"]): return True
+    for key in card_data:
+        if regex.findall(key) and card_data[key] in [True, "1", "True", "true", "yes"]:
+            return True
+    return False

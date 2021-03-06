@@ -1,3 +1,4 @@
+from collections import defaultdict
 from models.wiki_model import card_data
 from sqlalchemy.engine.base import TwoPhaseTransaction
 import __updir__
@@ -21,6 +22,7 @@ class Workers:
         self.timers = []
         for t in self.timers:
             t["next_time"] = time.time()
+        self.realtime_scrape_upload_method = 'full'
 
     def thread(self):
         """For each job in timers, run them once at start, then wait for the timer to count up and reset"""
@@ -41,50 +43,59 @@ class Workers:
         session.commit()
         logging.debug(">>decks counted")
 
-    def new_cards(self):
+    def new_cards(self, cards, savedb=False):
+        from models import wiki_card_db
+        import util
         session = mv_model.Session()
         recognized_sets = list(shared.get_set_numbers())
-        recognized_sets.remove(479)
-        cardq = session.query(mv_model.Card)
-        cardq = cardq.filter(mv_model.Card.deck_expansion.notin_([str(x) for x in recognized_sets]))
-        cardq = cardq.order_by(mv_model.Card.name,mv_model.Card.key)
-        checked_names = {}
-        duplicated_names = {}
+        if not cards:
+            cardq = session.query(mv_model.Card)
+            #cardq = cardq.filter(mv_model.Card.deck_expansion.notin_([str(x) for x in recognized_sets]))
+            # for testing
+            cardq = cardq.filter(mv_model.Card.deck_expansion.in_(["341","452"]))
+            cardq = cardq.order_by(mv_model.Card.name,mv_model.Card.key)
+            cards = cardq.all()
+        process_cards = defaultdict(lambda: [])
         print("Checking for new cards:")
-        for card in cardq.all():
+        for card in cards:
             if not card.is_from_current_set:
                 continue
-            if card.is_anomaly: continue  # TODO Not sure what to do about anomalies
             if card.is_maverick: continue
             if card.is_enhanced: continue
-            if card.name in checked_names:
-                duplicated_names[card.name] = 1
-                continue
-            checked_names[card.name] = 1
-            print("doing something with card")
-            print(card.name, card.deck_expansion, card.data)
-            if card.is_eviltwin:
-                print("upload the evil twin")
+            process_cards[card.data["card_title"]].append(card.data)
+        for card_name, card_datas in process_cards.items():
+            new_card_data = card_datas[0]
+            if len(card_datas) > 1:
+                print("## Do something with card that can transform", card_name)
+                types = set([card["card_type"] for card in card_datas])
+                houses = set([card["house"] for card in card_datas])
+                if len(types) > 1:
+                    if not [x for x in types if x not in ["Creature1", "Creature2"]]:
+                        new_card_data.update([card for card in card_datas if card["card_type"] == "Creature1"][0])
+                        print(" - it's a giant")
+                    else:
+                        raise Exception(f"Unknown type mismatch {card_name} {types}")
+                if new_card_data["is_anomaly"]:
+                    print(" - it's an anomaly")
+                    new_card_data["house"] = "Anomaly"
+                elif len(houses) > 1:
+                    new_card_data["house"] = util.SEPARATOR.join(houses)
+                    print(" - it's multihouse", new_card_data["house"])
+            new_card = wiki_card_db.add_card(new_card_data, wiki_card_db.cards)
+            print(new_card["card_title"], new_card["house"])
+            if len(wiki_card_db.cards[new_card["card_title"]].keys()) > 1:
+                print("> updating old set:", new_card["card_title"], wiki_card_db.cards[new_card["card_title"]].keys())
+                #tool_update_decks.upload_set(card.name)
             else:
-                print("upload the non evil twin")
-        print("Done", len(checked_names))
-        print("Duplicated", duplicated_names)
-        """
-        for each card in database cards that are new (aything with unrecognized deck_expansion?):
-            check for mavericks, legacy, anomaly, is-enhanced
-            search for evil twin data
-            do we have this card already in a previous set:
-                is this a non-legacy
-                update setdata only
-            if we have a non-maverick, non-legacy, non-anomaly, non-evil twin, non-enhanced:
-                create/update CardData (hide them from searches though)
-                upload translation too?
-                include can-maverick, can-twin
-            if we have an evil twin non-maverick, non-legacy, non-anomaly:
-                create/update CardData for twin
-            check for versions of that card in the database
-            if we have *enough* decks we can probably mark this card as not new
-        """
+                print("< create new data", new_card["card_title"])
+                #tool_update_decks.upload(card.name)
+                #if self.realtime_scrape_upload_method == "full":
+                #    tool_update_decks.create_page_view(card.name)
+            # TODO for testing
+            #break
+        if savedb:
+            wiki_card_db.save_json()
+        print("Done", len(process_cards))
 
     def _count_decks_expansion(self, session, expansion=None):
         logging.debug("--counting %s", expansion)
@@ -154,4 +165,3 @@ class Workers:
 if __name__ == "__main__":
     w = Workers()
     w.count_decks()
-    w.new_cards()
