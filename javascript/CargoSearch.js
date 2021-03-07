@@ -34,7 +34,7 @@ var searchFields = [
     {'attach':'div.order-entries', 'combo':true,
     'values':Object.keys(orders)}),
   new EditField('checkbox', 'reprints', 
-      {'values':['New Cards', 'Reprints'], 'basic':true,
+      {'values':['New Cards', 'Reprints', 'Unknown'], 'basic':true,
       'attach':'div.isnew-entries'}),
   /*new EditField('text', 'errata', 
     {'hidden':true, 'attach':'div.card-text-entries'}),
@@ -129,7 +129,7 @@ var CSearch = {
   gigantic: [false],
   exclusiveSet: [false],
   excludeReprints: false,
-  reprints: ['New Cards', 'Reprints'], //Only for spoilers
+  reprints: ['New Cards', 'Reprints', 'Unknown'], //Only for spoilers
   spoilers: false,
   countField: '',
   loadingCards: false,
@@ -318,13 +318,18 @@ var CSearch = {
     if(this.errata[0]){
       clauses.push('ErrataData.Version IS NOT NULL')
     }
-    if(this.spoilers){
+    if(this.spoilers && this.reprints.length>0){
+      var spoilerlimit = []
       if(this.reprints.includes('New Cards')){
-        clauses.push('IsNew=%22yes%22')
+        spoilerlimit.push('IsNew=%22yes%22 AND Name IS NOT NULL')
       }
       if(this.reprints.includes('Reprints')){
-        clauses.push('IsNew IS NULL')
+        spoilerlimit.push('IsNew IS NULL AND Name IS NOT NULL')
       }
+      if(this.reprints.includes('Unknown')){
+        spoilerlimit.push('Name IS NULL OR NAME=""')
+      }
+      clauses.push(joined('', spoilerlimit, '', 'OR'))
     }
     var where = joined('', clauses,
       '', 'AND')
