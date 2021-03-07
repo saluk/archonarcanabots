@@ -137,9 +137,9 @@ local template_base = [==[
 <html><style type="text/css">${cardstyle}</style></html>
 
 ${^locale}
-<html><span class="pageOverlay">
+<html><pre class="pageOverlay">
 ${cardname} • ${cardhouse} • ${cardtype} • ${cardrarity} • </html>${cardtext}<html> • Artist: ${cardartist} • Card Number: ${#cardsets}</html>${shortset_from_name}<html>:${SetData.CardNumber}${#delim},&nbsp;${/delim}${/cardsets}
-</span></html>
+</pre></html>
 ${/locale}
 
 {{Sharing}}

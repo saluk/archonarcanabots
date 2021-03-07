@@ -134,6 +134,10 @@ return {
     background-color: #880514;
     }
 
+    div.topRow .unfathomable {
+      background-color: #ffffff;
+    }
+
     div.topRow .dis {
     background-color: #353833;
     }

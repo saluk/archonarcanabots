@@ -94,17 +94,6 @@ set_category['Worlds Collide']='WC'
 set_category['Mass Mutation']='MM'
 set_category['Dark Tidings']='DT'
 
-local shortset = function(longset)
-	local sets = {}
-	sets['Call of the Archons']='CotA'
-	sets['Age of Ascension']='AoA'
-	sets['Worlds Collide']='WC'
-	sets['Mass Mutation']='MM'
-	sets['Dark Tidings']='DT'
-	local args = {longset = longset, shortset=sets[longset]}
-	return stache('[[${longset}|${shortset_t}]]', args)
-end
-
 local translate_trait = function(frame, type, word)
 	if(frame.args.locale) then
 		if(not translations[type][frame.args.locale]) then
@@ -277,7 +266,7 @@ end
 function apply_sets(frame, vars)
 	vars.cardsets = cargo_results(
 		'SetData,CardData,SetInfo',
-		'SetData.SetName, SetData.CardNumber, SetInfo.ReleaseYear, SetInfo.ReleaseMonth',
+		'SetData.SetName, SetData.CardNumber, SetInfo.ReleaseYear, SetInfo.ReleaseMonth, SetInfo.ShortName',
 		{
 			join='SetData._pageTitle=CardData.Name,SetData.SetName=SetInfo.SetName',
 			where='CardData.Name="'..frame.args.cardname..'"',
@@ -288,7 +277,8 @@ function apply_sets(frame, vars)
 		vars.categories[#vars.categories+1] = set_category[result['SetData.SetName']]
 	end
 	vars.shortset_from_name = function(self)
-		return shortset(self['SetData.SetName'])
+		local args = {longset = self['SetData.SetName'], shortset=self['SetInfo.ShortName']}
+		return stache('[[${longset}|${shortset_t}]]', args)
 	end
 end
 
