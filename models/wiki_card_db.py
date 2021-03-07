@@ -212,6 +212,8 @@ traits_blacklist = [
 ]
 def link_card_traits(card, preload_traits=[]):
     """Must be run after link_card_titles"""
+    #First remove any existing trait links
+    card["card_text"] = re.sub(r"\[http\:\/\/archonarcana.com\/Card_Gallery\?traits\=.+? (.+?)\]", r"\1", card["card_text"])
     if not trait_reg or preload_traits:
         trait_reg.clear()
         if not preload_traits:
@@ -260,6 +262,12 @@ t2 = "After a [http://archonarcana.com/Card_Gallery?traits=Mutant Mutant] creatu
 card = {"card_text": t1}
 t3 = link_card_traits(card, preload_traits=["Mutant"]) 
 assert t3 == t2, t3
+card = {"card_text": t2}
+t4 = link_card_traits(card, preload_traits=["Mutant"])
+assert t3==t4, t4
+t1 = "'''Action:''' A friendly creature captures 1{{Aember}}. If that creature is a [http://archonarcana.com/Card_Gallery?traits=Dinosaur Dinosaur], it captures 2{{Aember}} [[Replacement Effects|instead]]."
+t2 = link_card_traits({"card_text": t1}, preload_traits=["Dinosaur"])
+assert t1==t2, t2
 
 t1 = "After a Mutant creature enters play, [[Enrage|enrage]] STITLEBerinonETITLE.  <p> '''Reap:''' Capture 2{{Aember}}."
 t2 = "After a [http://archonarcana.com/Card_Gallery?traits=Mutant Mutant] creature enters play, [[Enrage|enrage]] STITLEBerinonETITLE.  <p> '''Reap:''' Capture 2{{Aember}}."
@@ -317,9 +325,9 @@ def image_number(card):
 
 
 def get_sets(card_sets):
-    for set_num in sorted(shared.get_set_numbers()):
-        if str(set_num) in card_sets:
-            yield (shared.nice_set_name(set_num), set_num, card_sets[str(set_num)]["card_number"])
+    sets = sorted(int(x) for x in card_sets.keys())
+    for set_num in sets:
+        yield (shared.nice_set_name(set_num), set_num, card_sets[str(set_num)]["card_number"])
 
 
 def get_latest_from_card(card_sets, locale=None):
@@ -528,7 +536,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "Rarity": latest["rarity"]
     }, restricted)
     # TODO This only updates SetData for old cards when we are importing new sets
-    if only_sets and len(card)>1 and not latest["card_title"]=="Orb of Wonder":
+    if only_sets and len(card)>1:
         pass
     else:
         ct.update_or_create(table, cardtable["Name"], cardtable)

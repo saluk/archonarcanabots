@@ -10,6 +10,8 @@ for numerical_set in sorted(SETS.keys()):
     SET_ORDER.append(setname)
     SET_BY_NUMBER[setname] = numerical_set
 
+NEXT_SET = "Dark Tidings"
+
 
 def nice_set_name(num):
     return {
@@ -18,7 +20,7 @@ def nice_set_name(num):
         "341": "Call of the Archons",
         "435": "Age of Ascension",
         "479": "Mass Mutation"
-    }[str(num)]
+    }.get(str(num), NEXT_SET)
 
 
 def get_set_numbers():

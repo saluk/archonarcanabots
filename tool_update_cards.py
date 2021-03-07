@@ -87,7 +87,9 @@ def update_reprint_with_errata(ct, errata, card):
 
 
 def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False,
-    locale=None):
+        only_sets=False,
+        locale=None
+    ):
     latest_english = wiki_card_db.get_latest_from_card(card)
     latest = wiki_card_db.get_latest_from_card(card, locale)
     print(latest)
@@ -108,7 +110,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
                 locale=locale, english_name=latest_english["card_title"])
             print(ct.data_types)
         else:
-            wiki_card_db.get_cargo(card, ct, restricted, locale=locale)
+            wiki_card_db.get_cargo(card, ct, restricted, only_sets, locale=locale)
     elif data_to_update == "insert_search_text":
         wiki_card_db.get_cargo(card, ct, ["SearchText", "SearchFlavorText"])
     elif data_to_update == "relink":

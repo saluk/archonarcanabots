@@ -34,6 +34,7 @@ parser.add_argument("--images", action="store_true", help="For importing CardDat
 parser.add_argument("--stage", type=str, help="dev or prod for javascript files (not in use", default="dev")
 parser.add_argument("--test", action="store_true", help="For uploading script files, is this a test run")
 parser.add_argument("--locale_only", action="store_true", help="when updating card pages, this will only do updates to /locale/ pages")
+parser.add_argument("--testfile", type=str, help="a json of test data to load for functions that take tests")
 args = parser.parse_args()
 args.pause = not args.batch
 print(vars(args))
@@ -105,4 +106,16 @@ if __name__ == "__main__":
     if args.command == "new_cards":
         from mastervault.mastervault_workers import Workers
         w = Workers()
-        w.new_cards()
+        cards = None
+        from models import mv_model
+        if args.testfile:
+            import json
+            cards = []
+            with open(args.testfile) as f:
+                for card_data in json.loads(f.read()):
+                    cards.append(mv_model.Card(
+                        key=card_data["id"], 
+                        deck_expansion=card_data["deck_expansion"],
+                        name=card_data["card_title"],
+                        data=card_data))
+        w.new_cards(cards)
