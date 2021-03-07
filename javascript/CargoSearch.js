@@ -7,6 +7,12 @@ import {parseQueryString, joined,
   isElementInViewport} from './myutils'
 import 'md5'
 
+// TODO - move these to normal data when dark tidings is release
+if(parseQueryString('testjs')=='true') {
+  sets.push('Dark_Tidings')
+  rarities.push("Evil Twin")
+}
+
 var searchFields = [
   new EditField('checkbox', 'houses', 
     {'label':'Houses', 'basic':true, 

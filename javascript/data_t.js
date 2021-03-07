@@ -12,7 +12,8 @@ var set_numbers = [
 	[453, "Worlds Collide"],
 	[341, "Call of the Archons"],
 	[435, "Age of Ascension"],
-	[479, "Mass Mutation"]
+	[479, "Mass Mutation"],
+	[712, "Dark Tidings"]   // TODO - for dark tidings update number
 ]
 var set_name_by_number = function(number) {
 	return set_numbers.filter(function(set){
