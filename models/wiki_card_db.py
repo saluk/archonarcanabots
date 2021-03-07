@@ -13,6 +13,7 @@ import csv
 import bleach
 
 cards = {}
+locales = {}
 
 
 def sanitize_name(name):
@@ -187,6 +188,8 @@ def card_titles_that_link():
 
 
 def link_card_titles(text, original_title):
+    # Clean up original title from tags we added that wouldn't be in the card text
+    original_title = original_title.replace("(Anomaly)","").strip()
     if not card_title_reg:
         card_titles = sorted([x for x in card_titles_that_link() if not x.lower() in blacklist_card_names])
         card_titles = "|".join(card_titles).replace("(", r"\(").replace(")", r"\)")
@@ -313,21 +316,21 @@ def image_number(card):
     return "%s-%s.png" % (card["expansion"], card["card_number"])
 
 
-def get_sets(card):
+def get_sets(card_sets):
     for set_num in sorted(shared.get_set_numbers()):
-        if str(set_num) in card:
-            yield (shared.nice_set_name(set_num), set_num, card[str(set_num)]["card_number"])
+        if str(set_num) in card_sets:
+            yield (shared.nice_set_name(set_num), set_num, card_sets[str(set_num)]["card_number"])
 
 
-def get_latest_from_card(card, locale=None):
-    for (set_name, set_num, card_num) in reversed(list(get_sets(card))):
-        latest = card[str(set_num)]
+def get_latest_from_card(card_sets, locale=None):
+    for (set_name, set_num, card_num) in reversed(list(get_sets(card_sets))):
+        latest = card_sets[str(set_num)]
         if locale:
-            if 'locales' not in latest or locale not in latest['locales']:
-                raise Exception("Couldn't find translation for %s" % card)
-            latest = latest["locales"][locale]
+            if locale not in locales or latest["card_title"] not in locales[locale]:
+                raise Exception("Couldn't find translation for %s" % card_sets)
+            latest = locales[locale][latest["card_title"]]
         return latest
-    raise Exception("couldn't find a set in", card)
+    raise Exception("couldn't find a set in", card_sets)
 
 
 def fuzzyfind(name, threshold=80):
@@ -366,17 +369,21 @@ def add_card(card, cards):
     return card_data
 
 
-def build_localization(scope, cards):
+def build_localization(scope, cards, locales):
+    print("build localization")
     for card in scope.get_locale_cards():
+        print("card data-ify",card.en_name)
         translated_card_data = wiki_model.card_data(card.data, card.locale)
         english_data = {}
         english_data.update(translated_card_data)
+        print("sanitize and rename english name")
         english_data["card_title"] = wiki_model.sanitize_name(card.en_name)
         wiki_model.rename_card_data(english_data)
         entry = cards[english_data["card_title"]]
+        # If there's a higher set version of this card, don't translate it
+        if english_data["expansion"] != list(get_sets(entry))[-1][1]:
+            continue
         eng = entry[str(english_data['expansion'])]
-        if 'locales' not in eng:
-            eng['locales'] = {}
         # #Don't use english name here
         # del english_data["card_title"]
         # translated_card_data.update(english_data)
@@ -387,10 +394,14 @@ def build_localization(scope, cards):
             use_english = True
         if not use_english:
             translated_card_data["image_number"] = card.locale + "-" + translated_card_data["image_number"]
-        eng['locales'][card.locale] = translated_card_data
+        if card.locale not in locales:
+            locales[card.locale] = {}
+        print("add translated data")
+        locales[card.locale][english_data["card_title"]] = translated_card_data
 
 
-def build_links(cards, only):
+def build_links(cards, only=None):
+    print("build links")
     for card_title in cards:
         if only and card_title != only:
             continue
@@ -407,6 +418,7 @@ def build_links(cards, only):
 
 
 def add_artists_from_text(cards):
+    print("add artists")
     with open('data/artists_479.csv') as f:
         header = False
         for line in csv.reader(f):
@@ -418,12 +430,14 @@ def add_artists_from_text(cards):
             get_latest_from_card(card)["artist"] = artist
 
 
-def save_json(cards):
-    with open("my_card_db.json", "w") as f:
+def save_json(cards, locales):
+    with open("data/my_card_db.json", "w") as f:
         f.write(json.dumps(cards, indent=2, sort_keys=True))
+    with open("data/my_card_db_locales.json", "w") as f:
+        f.write(json.dumps(locales, indent=2, sort_keys=True))
 
-
-def clean_fields(cards):
+def clean_fields(cards, locales):
+    print("clean fields")
     ignore_fields = ["deck_expansion"]
     def clean_fields(data):
         for key in list(data.keys()):
@@ -432,32 +446,37 @@ def clean_fields(cards):
     for card_name, set_data in cards.items():
         for set_name, card_data in set_data.items():
             clean_fields(card_data)
-            if "locales" not in card_data:
-                continue
-            for locale, locale_data in card_data['locales'].items():
-                clean_fields(locale_data)
+    for locale, locale_data in locales.items():
+        for english_name, card_data in locale_data.items():
+            clean_fields(card_data)
                 
 
 def build_json(only=None):
     cards.clear()
+    locales.clear()
 
     scope = mv_model.UpdateScope()
     for set_id in shared.get_set_numbers():
         for card in scope.get_cards(set_id):
             add_card(card.data, cards)
 
-    build_localization(scope, cards)
+    build_localization(scope, cards, locales)
     build_links(cards, only)
     add_artists_from_text(cards)
-    clean_fields(cards)
-    save_json(cards)
+    clean_fields(cards, locales)
+    save_json(cards, locales)
     print("saved.")
 
 
 def load_json():
     cards.clear()
-    with open("my_card_db.json") as f:
-        cards.update(json.loads(f.read()))
+    locales.clear()
+    if os.path.exists("data/my_card_db.json"):
+        with open("data/my_card_db.json") as f:
+            cards.update(json.loads(f.read()))
+    if os.path.exists("data/my_card_db_locales.json"):
+        with open("data/my_card_db_locales.json") as f:
+            locales.update(json.loads(f.read()))
 
 
 def get_latest(card_title, fuzzy=False, locale=None):
@@ -488,7 +507,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
     cardtable = get_restricted_dict({
         "Name": latest["card_title"],
         "Image": latest["image_number"],
-        "Artist": latest.get("artist", ""),
+        #"Artist": latest.get("artist", ""),
         "Text": latest["card_text"],
         "SearchText": modify_search_text(latest["card_text_search"]),
         "Keywords": SEPARATOR.join(latest["keywords"]),
@@ -508,12 +527,11 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
     }, restricted)
-    assert "Artist" not in restricted
     # TODO This only updates SetData for old cards when we are importing new sets
     if only_sets and len(card)>1 and not latest["card_title"]=="Orb of Wonder":
         pass
     else:
-        ct.update_or_create(table, 0, cardtable)
+        ct.update_or_create(table, cardtable["Name"], cardtable)
     card_sets = list(get_sets(card))
     print(card_sets)
     earliest_set = min([s[1] for s in card_sets])

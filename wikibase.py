@@ -146,6 +146,8 @@ class CargoTable:
                     index_key = cargo_index(datatype)
                     if index_key:
                         key = tuple([d[x] for x in index_key])
+                        if len(key) == 1:
+                            key = key[0]
                     else:
                         key = len(self.data_types[datatype])
                     self.data_types[datatype][key] = d
@@ -153,6 +155,7 @@ class CargoTable:
                     mode = TYPE
 
     def output_text(self):
+        print("before output:", self.data_types)
         def write_item(item, datatype):
             t = "{{%s\n" % datatype
             for k in item:

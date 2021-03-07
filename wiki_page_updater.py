@@ -41,7 +41,7 @@ print(vars(args))
 if __name__ == "__main__":
     if args.command == "import_cards":
         import tool_update_cards
-        tool_update_cards.update_cards_v2(wp, args.search, "importing card data (mm)", 
+        tool_update_cards.update_cards_v2(wp, args.search, "importing card data", 
                                             "carddb", args.restricted.split("|") if args.restricted else [],
                                             upload_image=False)
     if args.command == "import_cards_locale":

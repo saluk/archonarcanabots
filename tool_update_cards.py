@@ -6,6 +6,7 @@ import requests
 import os
 import shutil
 import json
+import re
 
 reprints = {"edited":{}, "errata":{}}
 with open("data/reprint_update.csv") as f:
@@ -146,6 +147,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
             ct.get_datas("CardData")[0]["Text"] = modified["new"]
         wiki_card_db.get_cargo(card, ct, [key for key in ct.get_datas("CardData")[0].keys() if key not in ["Artist"]])     
     text = ct.output_text()
+    print("--------\n",text,"\n--------")
     if ot==text:
         return
     if use_csv:
@@ -168,7 +170,7 @@ def update_cards_v2(wp, search_name=None,
     changed = 0
     started = False
     for i, card_name in enumerate(sorted(wiki_card_db.cards.keys())):
-        if not started and (search_name and search_name.lower() not in card_name.lower()):
+        if not re.findall(search_name, card_name):
             continue
         latest = wiki_card_db.get_latest(card_name, locale=locale)
         if matching and matching.lower() not in (latest["flavor_text"]+latest["card_text"]).lower():

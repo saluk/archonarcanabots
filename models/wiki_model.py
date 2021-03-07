@@ -8,6 +8,7 @@ from util import SEPARATOR
 import csv
 import bleach
 from models import shared
+import re
 
 
 hard_code = {
@@ -102,6 +103,9 @@ remove_links = [
     "return",
     "archive",
     "archives"
+]
+remove_links_regex = [
+    re.compile(r"\[\[[^]]*?\|{0,1}("+kw+r")\]\]", re.IGNORECASE) for kw in remove_links
 ]
 
 
@@ -202,8 +206,8 @@ def modify_card_text(text, card_title, flavor_text=False):
 
 
 def linking_keywords(text):
-    for kw in remove_links:
-        text = re.sub(r"\[\[[^]]*?\|{0,1}("+kw+r")\]\]", r"\1", text, flags=re.IGNORECASE)
+    for kwr in remove_links_regex:
+        text = kwr.sub(r"\1", text)
     for kw in sorted(replacement_links, key=lambda s: -len(s)):
         debracket = re.split(r"(\[\[.*?\]\])", text)
         rep = not debracket[0].startswith("[[")
