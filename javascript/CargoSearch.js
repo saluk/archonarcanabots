@@ -34,7 +34,7 @@ var searchFields = [
     {'attach':'div.order-entries', 'combo':true,
     'values':Object.keys(orders)}),
   new EditField('checkbox', 'reprints', 
-      {'values':['New Cards', 'Reprints', 'Unknown'], 'basic':true,
+      {'values':['New Cards', 'Reprints'], 'basic':true,
       'attach':'div.isnew-entries'}),
   /*new EditField('text', 'errata', 
     {'hidden':true, 'attach':'div.card-text-entries'}),
@@ -129,7 +129,7 @@ var CSearch = {
   gigantic: [false],
   exclusiveSet: [false],
   excludeReprints: false,
-  reprints: ['New Cards', 'Reprints', 'Unknown'], //Only for spoilers
+  reprints: ['New Cards', 'Reprints'], //Only for spoilers
   spoilers: false,
   countField: '',
   loadingCards: false,
@@ -324,9 +324,6 @@ var CSearch = {
       }
       if(this.reprints.includes('Reprints')){
         clauses.push('IsNew IS NULL')
-      }
-      if(!this.reprints.includes('Unknown')){
-        clauses.push('Name!=""')
       }
     }
     var where = joined('', clauses,
