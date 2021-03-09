@@ -377,9 +377,12 @@ def add_card(card, cards):
     return card_data
 
 
-def build_localization(scope, cards, locales):
+def build_localization(scope, cards, locales, from_cards=None):
     print("build localization")
-    for card in scope.get_locale_cards():
+    if from_cards is None:
+        from_cards = list(scope.get_locale_cards())
+    print(len(from_cards))
+    for card in from_cards:
         print("card data-ify",card.en_name)
         translated_card_data = wiki_model.card_data(card.data, card.locale)
         english_data = {}

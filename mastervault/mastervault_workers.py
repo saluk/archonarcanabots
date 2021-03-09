@@ -3,7 +3,7 @@ from collections import defaultdict
 from sqlalchemy.engine.base import TwoPhaseTransaction
 from sqlalchemy import or_
 import __updir__
-from models import mv_model, shared
+from models import mv_model, shared, wiki_card_db
 from datetime import datetime, timedelta
 import time
 import logging
@@ -43,10 +43,10 @@ class Workers:
 
     def new_cards(self, cards=None, savedb=True, only_new_edits=True):
         # TODO refactor this method into a class/module
-        from models import wiki_card_db
         import util
         import tool_update_cards
         import connections
+        scope = mv_model.UpdateScope()
         session = mv_model.Session()
         recognized_sets = list(shared.get_set_numbers())
         if not cards:
@@ -78,7 +78,19 @@ class Workers:
                 #tool_update_cards.update_card_page_cargo(wp, card, "updating reprint with new sets", "carddb", only_sets=True, pause=False)
             else:
                 logging.debug("< create new data %s", new_card["card_title"])
+                # Look for locale
+                self._update_locales(new_card["card_title"])
+                wiki_card_db.build_localization(
+                    scope, 
+                    wiki_card_db.cards, 
+                    wiki_card_db.locales, 
+                    from_cards=session.query(mv_model.LocaleCard).filter(mv_model.LocaleCard.en_name==new_card["card_title"]).all()
+                )
                 tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False, only_new_edits=only_new_edits)
+                for locale in wiki_card_db.locale_db:
+                    if locale=="en": continue
+                    if new_card["card_title"] in wiki_card_db.locales[locale]:
+                        tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False, locale=locale, only_new_edits=only_new_edits)
                 tool_update_cards.update_cards_v2(
                     wp, 
                     card_name=new_card["card_title"], 
@@ -99,6 +111,15 @@ class Workers:
             wiki_card_db.clean_fields(wiki_card_db.cards, {})
             wiki_card_db.save_json(wiki_card_db.cards, wiki_card_db.locales)
         logging.debug("Done: %s", len(card_datas))
+
+    def _update_locales(self, card_title):
+        from mastervault.mastervault import MasterVault
+        mv = MasterVault()
+        for locale in wiki_card_db.locale_db:
+            try:
+                locale_card = wiki_card_db.get_latest(card_title, locale=locale)
+            except:
+                mv.scrape_cards_locale(locale, card_title=card_title)
 
     def _count_decks_expansion(self, session, expansion=None):
         logging.debug("--counting %s", expansion)

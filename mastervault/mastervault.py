@@ -280,13 +280,22 @@ class MasterVault:
             wait(1)
         return True
     
-    def scrape_cards_locale(self, locale):
+    def scrape_cards_locale(self, locale, card_title=None, rescrape=False):
         """Updates card definitions by retriving the decks that contain the cards using the given locale"""
         #Get all cards that need to be updated... all cards
         session = mv_model.Session()
-        cards = [card for card in session.query(mv_model.Card).all()
-            if not (card.data["is_maverick"] or card.data["is_enhanced"]) or 
-            (card.name in ["Exchange Officer"] and card.data["house"] == "Dis")]
+        query = session.query(mv_model.Card, mv_model.LocaleCard)
+        if card_title:
+            query = query.filter(mv_model.Card.name==card_title)
+        if not rescrape:
+            query = query.outerjoin(mv_model.LocaleCard, mv_model.LocaleCard.en_name==mv_model.Card.name).filter(mv_model.LocaleCard.locale==locale)
+        cards = [row[0] for row in query.all()
+            if not row[1] and
+            (
+                not (row[0].data["is_maverick"] or row[0].data["is_enhanced"]) or 
+                (row[0].name in ["Exchange Officer"] and row[0].data["house"] == "Dis")
+            )
+        ]
 
         deck_pages = {}
         handled_cards = {}
