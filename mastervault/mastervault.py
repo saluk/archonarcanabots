@@ -101,6 +101,7 @@ class MasterVault:
         self.scope = mv_model.UpdateScope()
         self.thread_states = {}
         self.insert_lock = threading.Lock()
+        self.last_locale_call = None
 
     def proxyget(self, *args, **kwargs):
         lastexc = None
@@ -319,6 +320,9 @@ class MasterVault:
             print("GET PAGE", page, i, '/', len(deck_pages.keys()))
             while 1:
                 try:
+                    while self.last_locale_call and time.time()-self.last_locale_call < 10:
+                        time.sleep(1)
+                    self.last_locale_call = time.time()
                     decks, cards, proxy = self.get_decks_with_cards("", page, locale)
                     update_cards = []
                     for card in cards:
@@ -337,7 +341,7 @@ class MasterVault:
 
 
 mv = MasterVault()
-workers = mastervault_workers.Workers()
+#workers = mastervault_workers.Workers()
 
 
 def master_vault_lookup(deck_name):

@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 import time
 import logging
 import re
+from mastervault.mastervault import MasterVault
 
 logging.basicConfig(
     filename="/opt/archonarcanabots/cron.log",
@@ -30,6 +31,7 @@ class Workers:
         for t in self.timers:
             t["next_time"] = time.time()
         self.realtime_scrape_upload_method = 'full'
+        self.mv = MasterVault()
 
     def count_decks(self):
         logging.debug("counting decks")
@@ -113,13 +115,11 @@ class Workers:
         logging.debug("Done: %s", len(card_datas))
 
     def _update_locales(self, card_title):
-        from mastervault.mastervault import MasterVault
-        mv = MasterVault()
         for locale in wiki_card_db.locale_db:
             try:
                 locale_card = wiki_card_db.get_latest(card_title, locale=locale)
             except:
-                mv.scrape_cards_locale(locale, card_title=card_title)
+                self.mv.scrape_cards_locale(locale, card_title=card_title)
 
     def _count_decks_expansion(self, session, expansion=None):
         logging.debug("--counting %s", expansion)
