@@ -6,7 +6,7 @@ import sys
 import time
 import requests
 import util
-from mastervault import mastervault_workers
+#from mastervault import mastervault_workers
 from models import mv_model
 import threading
 from hanging_threads import start_monitoring

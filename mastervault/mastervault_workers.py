@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 import time
 import logging
 import re
-from mastervault.mastervault import MasterVault
 
 logging.basicConfig(
     filename="/opt/archonarcanabots/cron.log",
@@ -31,6 +30,7 @@ class Workers:
         for t in self.timers:
             t["next_time"] = time.time()
         self.realtime_scrape_upload_method = 'full'
+        from mastervault.mastervault import MasterVault
         self.mv = MasterVault()
 
     def count_decks(self):
