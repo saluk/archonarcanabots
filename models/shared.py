@@ -3,6 +3,7 @@ SETS = {452: "WC",
         341: "CotA",
         435: "AoA",
         479: "MM"}
+NEW_SETS = [712]
 SET_BY_NUMBER = {}
 SET_ORDER = []
 for numerical_set in sorted(SETS.keys()):
