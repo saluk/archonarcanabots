@@ -168,11 +168,15 @@ def update_cards_v2(wp, search_name=None,
                     upload_image=False,
                     locale=None,
                     locale_only=False,
-                    pause=True):
+                    pause=True,
+                    card_name=False):
     changed = 0
     started = False
-    for i, card_name in enumerate(sorted(wiki_card_db.cards.keys())):
-        if not re.findall(search_name, card_name):
+    search_cards = sorted(wiki_card_db.cards.keys())
+    if card_name:
+        search_cards = [card_name]
+    for i, card_name in enumerate(search_cards):
+        if search_name and not re.findall(search_name, card_name):
             continue
         latest = wiki_card_db.get_latest(card_name, locale=locale)
         if matching and matching.lower() not in (latest["flavor_text"]+latest["card_text"]).lower():

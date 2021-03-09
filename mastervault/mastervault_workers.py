@@ -112,7 +112,7 @@ class Workers:
                     tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False)
                     tool_update_cards.update_cards_v2(
                         wp, 
-                        new_card["card_title"], 
+                        card_name=new_card["card_title"], 
                         update_reason="add card view for new card", 
                         data_to_update="update_card_views",
                         upload_image=True,
