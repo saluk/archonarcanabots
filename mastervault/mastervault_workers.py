@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 import time
 import logging
 import re
+from twilio.rest import Client
 
 logging.basicConfig(
     filename="/opt/archonarcanabots/cron.log",
@@ -32,6 +33,27 @@ class Workers:
         self.realtime_scrape_upload_method = 'full'
         from mastervault.mastervault import MasterVault
         self.mv = MasterVault()
+
+    def text_alert(self, msg):
+        import passwords
+        client = Client(passwords.TWILIO_ACCOUNT_SID, passwords.TWILIO_AUTH_TOKEN)
+        message = client.messages.create(
+            body=msg,
+            from_='(469) 405-3249',
+            to='12063835762'
+        )
+        logging.debug("twilio.send %s", msg)
+
+    def discord_alert(self, msg):
+        import passwords
+        import requests
+        r = requests.post(passwords.DISCORD_WEBHOOK, json={"content": msg})
+
+    def alert(self, msg, methods=[]):
+        if 'text' in methods:
+            self.text_alert(msg)
+        if 'discord' in methods:
+            self.discord_alert(msg)
 
     def count_decks(self):
         logging.debug("counting decks")
@@ -71,13 +93,18 @@ class Workers:
         card_datas = wiki_card_db.process_mv_card_batch(card_batch)
         wp = connections.get_wiki()
         processed_cards = {}
+        changes = []
         for new_card_data in card_datas:
             new_card = wiki_card_db.add_card(new_card_data, wiki_card_db.cards)
             card = processed_cards[new_card["card_title"]] = wiki_card_db.cards[new_card["card_title"]]
             logging.debug("%s - %s", new_card["card_title"], new_card["house"])
             if len(wiki_card_db.cards[new_card["card_title"]].keys()) > 1:
                 logging.debug("> updating old set: %s, %s", new_card["card_title"], wiki_card_db.cards[new_card["card_title"]].keys())
-                #tool_update_cards.update_card_page_cargo(wp, card, "updating reprint with new sets", "carddb", only_sets=True, pause=False)
+                if tool_update_cards.update_card_page_cargo(
+                    wp, card, "updating reprint with new sets", "carddb", only_sets=True, 
+                    pause=False
+                ):
+                    changes.append(("reprint", new_card["card_title"]))
             else:
                 logging.debug("< create new data %s", new_card["card_title"])
                 # Look for locale
@@ -88,12 +115,17 @@ class Workers:
                     wiki_card_db.locales, 
                     from_cards=session.query(mv_model.LocaleCard).filter(mv_model.LocaleCard.en_name==new_card["card_title"]).all()
                 )
-                tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False, only_new_edits=only_new_edits)
+                any_changes = 0
+                if tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False, only_new_edits=only_new_edits):
+                    any_changes += 1
                 for locale in wiki_card_db.locale_db:
                     if locale=="en": continue
                     if new_card["card_title"] in wiki_card_db.locales[locale]:
-                        tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False, locale=locale, only_new_edits=only_new_edits)
-                tool_update_cards.update_cards_v2(
+                        if tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", 
+                            pause=False, locale=locale, only_new_edits=only_new_edits
+                        ):
+                            any_changes += 1
+                if tool_update_cards.update_cards_v2(
                     wp, 
                     card_name=new_card["card_title"], 
                     update_reason="add card view for new card", 
@@ -101,18 +133,25 @@ class Workers:
                     upload_image=True,
                     pause=False,
                     only_new_edits=only_new_edits
-                )
-                #tool_update_decks.upload(card.name)
-                #if self.realtime_scrape_upload_method == "full":
-                #    tool_update_decks.create_page_view(card.name)
-            # TODO for testing
-            #break
+                ):
+                    any_changes += 1
+                if any_changes:
+                    changes.append(("new", new_card["card_title"]))
         if savedb:
             wiki_card_db.build_links(processed_cards)
             #wiki_card_db.add_artists_from_text(wiki_card_db.cards)
             wiki_card_db.clean_fields(wiki_card_db.cards, {})
             wiki_card_db.save_json(wiki_card_db.cards, wiki_card_db.locales)
         logging.debug("Done: %s", len(card_datas))
+        if changes:
+            self.text_alert("Worker changed cards - Reprints: %s, New: %s" %
+                ([x[1] for x in changes if x[0]=="reprint"],
+                [x[1] for x in changes if x[0]=="new"])
+            )
+            self.discord_alert("Worker changed cards - Reprints: %s, New: %s" %
+                (['https://archonarcana.com/%s' % (x[1].replace(" ","_")) for x in changes if x[0]=="reprint"],
+                ['https://archonarcana.com/%s' % (x[1].replace(" ","_")) for x in changes if x[0]=="new"])
+            )
 
     def _update_locales(self, card_title):
         for locale in wiki_card_db.locale_db:

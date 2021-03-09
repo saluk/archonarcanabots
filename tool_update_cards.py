@@ -161,7 +161,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         csv_changes.write(latest["card_title"]+"\t"+str(latest["expansion"])+"\t"+str(latest["card_number"])+"\t"+ot.replace("\n","\r")+"\t"+text.replace("\n","\r")+"\n")
         csv_changes.flush()
         return
-    return [update_page(latest["card_title"], page, text, update_reason, ot, pause)]
+    return update_page(latest["card_title"], page, text, update_reason, ot, pause)
 
 
 def update_cards_v2(wp, search_name=None,
@@ -214,14 +214,14 @@ def update_cards_v2(wp, search_name=None,
         if data_to_update == "update_card_views":
             texts = update_card_views(wp, card_name, pause=pause, locale_only=locale_only, only_new_edits=only_new_edits)
         else:
-            texts = update_card_page_cargo(
+            texts = [update_card_page_cargo(
                 wp, wiki_card_db.cards[card_name],
                 update_reason=update_reason,
                 restricted=restricted,
                 data_to_update=data_to_update,
                 locale=locale,
                 pause=pause,
-                only_new_edits=only_new_edits)
+                only_new_edits=only_new_edits)]
         texts = texts or []
         wait = False
         for text in texts:
@@ -232,6 +232,7 @@ def update_cards_v2(wp, search_name=None,
         if wait:
             time.sleep(0.05)
     print(changed, "cards changed")
+    return changed
 
 def show_cards_with_extra(wp):
     import re
