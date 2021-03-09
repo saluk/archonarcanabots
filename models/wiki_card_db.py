@@ -457,6 +457,60 @@ def clean_fields(cards, locales):
     for locale, locale_data in locales.items():
         for english_name, card_data in locale_data.items():
             clean_fields(card_data)
+
+
+def process_mv_card_batch(card_batch: list) -> list:
+    """For a set of cards that we pulled from the database, isolate them into the list of cards
+    we want to put onto Archon Arcana as individual card pages. Some cards with the same name in the db
+    will be merged into one card (such as a card that can appear in multiple houses), while others will be
+    separated into multiple cards (Anomaly version of a card and the non-Anomaly version of the card)
+    Returns a list of card data dictionaries that something else can process"""
+    # TODO clean up when we refactor card db stuff to a class
+    import logging
+    process_cards = defaultdict(lambda: [])
+    for card in card_batch:
+        if not card.is_from_current_set:
+            continue
+        if card.is_maverick: continue
+        if card.is_enhanced: continue
+        process_cards[card.data["card_title"]].append(card.data)
+    logging.debug(process_cards)
+    def bifurcate_data(card_datas):
+        if len(card_datas) == 1:
+            return card_datas
+        card_title = card_datas[0]["card_title"]
+        logging.debug("## Do something with card that can transform: %s", card_title)
+        types = set([card["card_type"] for card in card_datas])
+        houses = set([card["house"] for card in card_datas])
+        if len(types) > 1:
+            if not [x for x in types if x not in ["Creature1", "Creature2"]]:
+                logging.debug(" - it's a giant")
+                return bifurcate_data([[card for card in card_datas if card["card_type"] == "Creature1"][0]])
+            else:
+                raise Exception(f"Unknown type mismatch {card_title} {types}")
+        anomalies = []
+        other = []
+        for data in card_datas:
+            if data.get("is_anomaly", False):
+                anomalies.append(data)
+            else:
+                other.append(data)
+        if anomalies:
+            logging.debug(" - it's an anomaly")
+            return anomalies + bifurcate_data(other)
+        if len(houses) > 1:
+            new_data = {}
+            new_data.update(card_datas[0])
+            new_data["house"] = util.SEPARATOR.join(houses)
+            logging.debug(" - it's multihouse: %s", new_data["house"])
+            return [new_data]
+        logging.debug(" - we'll add all of them")
+        return card_datas
+    card_datas = []
+    for _card_datas in process_cards.values():
+        card_datas.extend(bifurcate_data(_card_datas))
+    logging.debug([card["card_title"] for card in card_datas])
+    return card_datas
                 
 
 def build_json(only=None):
@@ -464,10 +518,10 @@ def build_json(only=None):
     locales.clear()
 
     scope = mv_model.UpdateScope()
-    for set_id in shared.get_set_numbers():
-        for card in scope.get_cards(set_id):
-            add_card(card.data, cards)
-
+    card_batch = scope.get_cards()
+    card_datas = process_mv_card_batch(card_batch)
+    [add_card(card_data, cards) for card_data in card_datas]
+    
     build_localization(scope, cards, locales)
     build_links(cards, only)
     add_artists_from_text(cards)

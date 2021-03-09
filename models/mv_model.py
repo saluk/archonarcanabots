@@ -196,6 +196,7 @@ class UpdateScope(object):
         if expansion:
             cards = cards.filter(Card.data['expansion']==str(expansion))
         cards = cards.all()
+        return cards
         print(len(cards))
         card_names = {}
         for c in cards:

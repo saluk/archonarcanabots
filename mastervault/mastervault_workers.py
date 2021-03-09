@@ -41,7 +41,7 @@ class Workers:
         session.commit()
         logging.debug(">>decks counted")
 
-    def new_cards(self, cards=None, savedb=True):
+    def new_cards(self, cards=None, savedb=True, only_new_edits=True):
         # TODO refactor this method into a class/module
         from models import wiki_card_db
         import util
@@ -59,77 +59,46 @@ class Workers:
             #cardq = cardq.filter(mv_model.Card.deck_expansion.in_(["341","452"]))
             cardq = cardq.order_by(mv_model.Card.name,mv_model.Card.key)
             cards = cardq.all()
-        process_cards = defaultdict(lambda: [])
-        logging.debug("Checking for new cards:")
-        for card in cards:
-            if not card.is_from_current_set:
-                continue
-            if card.is_maverick: continue
-            if card.is_enhanced: continue
-            process_cards[card.data["card_title"]].append(card.data)
-        logging.debug(process_cards)
-        processed_cards = {}
-        def bifurcate_data(card_datas):
-            if len(card_datas) == 1:
-                return card_datas
-            logging.debug("## Do something with card that can transform: %s", card_name)
-            types = set([card["card_type"] for card in card_datas])
-            houses = set([card["house"] for card in card_datas])
-            if len(types) > 1:
-                if not [x for x in types if x not in ["Creature1", "Creature2"]]:
-                    logging.debug(" - it's a giant")
-                    return bifurcate_data([[card for card in card_datas if card["card_type"] == "Creature1"][0]])
-                else:
-                    raise Exception(f"Unknown type mismatch {card_name} {types}")
-            anomalies = []
-            other = []
-            for data in card_datas:
-                if data.get("is_anomaly", False):
-                    anomalies.append(data)
-                else:
-                    other.append(data)
-            if anomalies:
-                logging.debug(" - it's an anomaly")
-                return anomalies + bifurcate_data(other)
-            if len(houses) > 1:
-                new_data = {}
-                new_data.update(card_datas[0])
-                new_data["house"] = util.SEPARATOR.join(houses)
-                logging.debug(" - it's multihouse: %s", new_data["house"])
-                return [new_data]
-            return card_datas
+        logging.debug("\nChecking for new cards:\n")
+        card_batch = [card for card in cards if (
+            card.is_from_current_set and
+            not card.is_maverick and
+            not card.is_enhanced
+        )]
+        logging.debug([card.name for card in card_batch])
+        card_datas = wiki_card_db.process_mv_card_batch(card_batch)
         wp = connections.get_wiki()
-        for card_name, card_datas in process_cards.items():
-            card_datas = bifurcate_data(card_datas)
-            for new_card_data in card_datas:
-                new_card = wiki_card_db.add_card(new_card_data, wiki_card_db.cards)
-                card = processed_cards[new_card["card_title"]] = wiki_card_db.cards[new_card["card_title"]]
-                logging.debug("%s - %s", new_card["card_title"], new_card["house"])
-                if len(wiki_card_db.cards[new_card["card_title"]].keys()) > 1:
-                    logging.debug("> updating old set: %s", new_card["card_title"], wiki_card_db.cards[new_card["card_title"]].keys())
-                    #tool_update_cards.update_card_page_cargo(wp, card, "updating reprint with new sets", "carddb", only_sets=True, pause=False)
-                else:
-                    logging.debug("< create new data %s", new_card["card_title"])
-                    tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False)
-                    tool_update_cards.update_cards_v2(
-                        wp, 
-                        card_name=new_card["card_title"], 
-                        update_reason="add card view for new card", 
-                        data_to_update="update_card_views",
-                        upload_image=True,
-                        pause=False
-                    )
-                    #tool_update_decks.upload(card.name)
-                    #if self.realtime_scrape_upload_method == "full":
-                    #    tool_update_decks.create_page_view(card.name)
-                # TODO for testing
-                #break
+        processed_cards = {}
+        for new_card_data in card_datas:
+            new_card = wiki_card_db.add_card(new_card_data, wiki_card_db.cards)
+            card = processed_cards[new_card["card_title"]] = wiki_card_db.cards[new_card["card_title"]]
+            logging.debug("%s - %s", new_card["card_title"], new_card["house"])
+            if len(wiki_card_db.cards[new_card["card_title"]].keys()) > 1:
+                logging.debug("> updating old set: %s, %s", new_card["card_title"], wiki_card_db.cards[new_card["card_title"]].keys())
+                #tool_update_cards.update_card_page_cargo(wp, card, "updating reprint with new sets", "carddb", only_sets=True, pause=False)
+            else:
+                logging.debug("< create new data %s", new_card["card_title"])
+                tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False, only_new_edits=only_new_edits)
+                tool_update_cards.update_cards_v2(
+                    wp, 
+                    card_name=new_card["card_title"], 
+                    update_reason="add card view for new card", 
+                    data_to_update="update_card_views",
+                    upload_image=True,
+                    pause=False,
+                    only_new_edits=only_new_edits
+                )
+                #tool_update_decks.upload(card.name)
+                #if self.realtime_scrape_upload_method == "full":
+                #    tool_update_decks.create_page_view(card.name)
+            # TODO for testing
+            #break
         if savedb:
             wiki_card_db.build_links(processed_cards)
             #wiki_card_db.add_artists_from_text(wiki_card_db.cards)
             wiki_card_db.clean_fields(wiki_card_db.cards, {})
-            #wiki_card_db.save_json(wiki_card_db.cards, wiki_card_db.locales)
-        logging.debug("Done: %s", len(process_cards))
+            wiki_card_db.save_json(wiki_card_db.cards, wiki_card_db.locales)
+        logging.debug("Done: %s", len(card_datas))
 
     def _count_decks_expansion(self, session, expansion=None):
         logging.debug("--counting %s", expansion)

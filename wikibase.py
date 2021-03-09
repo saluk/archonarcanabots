@@ -16,13 +16,15 @@ def add_skip(name):
         f.write(json.dumps(skip_status))
 
 
-def update_page(title, page, text, reason, ot, pause=False, read=False):
+def update_page(title, page, text, reason, ot, pause=False, read=False, only_new_edits=False):
     if title in skip_status:
         print("skipping", title)
         return
-    if read:
+    if read or only_new_edits:
         try:
             ot = page.read()
+            if only_new_edits:
+                return
         except:
             pass
     if text != ot and pause:

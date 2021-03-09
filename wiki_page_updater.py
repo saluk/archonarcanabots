@@ -118,4 +118,4 @@ if __name__ == "__main__":
                         deck_expansion=card_data["deck_expansion"],
                         name=card_data["card_title"],
                         data=card_data))
-        w.new_cards(cards)
+        w.new_cards(cards, savedb=False)
