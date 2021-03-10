@@ -15,6 +15,7 @@ import {unhashThumbImage, unhashImage, removePunctuation, getLocale} from './myu
 const Bowser = require('bowser')
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
+var advanced_search_href = `/index.php?search={{ SEARCH }}+intitle:{{ LOCALE_SEARCH }}&title=Special%3ASearch&fulltext=1&advancedSearch-current={%22fields%22%3A{%22intitle%22%3A%22{{ LOCALE_SEARCH }}%22}}`
 var more = {
     'deck':`<a class="mw-searchSuggest-link" href="/Deck Search?deckName={{ SEARCH }}">
 <div class="suggestions-special" style="display: block;">
@@ -26,10 +27,20 @@ var more = {
 <div class="special-label">Cards containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
 </a>`,
-    'wiki':`<a class="mw-searchSuggest-link" href="/index.php?search={{ SEARCH }}+intitle:{{ LOCALE_SEARCH }}&title=Special%3ASearch&fulltext=1&advancedSearch-current={%22fields%22%3A{%22intitle%22%3A%22{{ LOCALE_SEARCH }}%22}}">
+    'wiki':`<a class="mw-searchSuggest-link" href="${advanced_search_href}">
 <div class="suggestions-special" style="display: block;"><div class="special-label">containing...</div>
 <div class="special-query">{{ SEARCH }}</div></div>
 </a>`
+}
+function replace_search_href(text, search) {
+    if(getLocale()=='en') {
+        var locale_search = '-locale'
+    } else {
+        var locale_search = 'locale '+getLocale()
+    }
+    return text
+        .replace(/\{\{ SEARCH \}\}/g, search)
+        .replace(/\{\{ LOCALE_SEARCH \}\}/g, locale_search)
 }
 var webkit = Bowser.parse(navigator.userAgent)['browser']['name'] === 'Safari' ? 'position:relative' : ''
 var resultshtml = `<div 
@@ -277,14 +288,8 @@ class Caller {
         }
         for(var group of ['card', 'wiki', 'deck']) {
             if(group==='wiki' || (group==='card' && this.cardsFound >= deckLimit) || (group==='deck' && this.decksFound >= deckLimit)) {
-                if(getLocale()=='en') {
-                    var locale_search = '-locale'
-                } else {
-                    var locale_search = 'locale '+getLocale()
-                }
                 $('.suggestions-results').append(
-                    more[group].replace(/\{\{ SEARCH \}\}/g, this.searchString)
-                    .replace(/\{\{ LOCALE_SEARCH \}\}/g, locale_search)
+                    more[group] = replace_search_href(more[group], this.searchString)
                 )
             }
         }
@@ -325,6 +330,10 @@ function hookTopSearch() {
     $(selector).replaceWith(
         '<input type="search" name="search" placeholder="Search Archon Arcana" title="Search Archon Arcana [Alt+Shift+f]" accesskey="f" id="searchInput" class="webfonts-changed" autocomplete="off">'
     )
+    $('form#searchform').on('submit', function(event) {
+        event.preventDefault()
+        window.location.href = replace_search_href(advanced_search_href, $('input#searchInput')[0].value)
+    })
     $(selector).on("input", function ontype(evt) {
         var search = this.value
         var searchNoPunc = removePunctuation(this.value)
