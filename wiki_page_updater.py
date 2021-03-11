@@ -90,9 +90,9 @@ if __name__ == "__main__":
     if args.command == "debut_sets":
         import tool_update_cards
         tool_update_cards.update_cards_v2(wp, None, "Adding debut to debut set", "carddb", ["SetData.Meta"])
-    if args.command == "merge_translate_spreadsheet":
+    if args.command == "merge_spreadsheets":
         import tool_merge_db
-        tool_merge_db.merge(wp, "up")
+        tool_merge_db.merge(wp)
     if args.command == "get_cards_with_extra":
         # Gets cards that have extra content in their wikipage besides DB content
         import tool_update_cards
