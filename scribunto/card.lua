@@ -1,4 +1,8 @@
 --Module:Luacard
+--canstage
+--Usage: english - {{#invoke luacard | viewcard | cardname=Angry Mob}} 
+--       other language {{#invoke luacard | viewcard | cardname=Angry Mob | locale=fr-fr}}   (language codes are all 2 part)
+--Debug: print(p.viewcard({args={cardname='Angry Mob', debug=true}}))
 local p = {}
 local cargo = mw.ext.cargo
 
@@ -9,6 +13,7 @@ function combine(tableto, tablefrom)
 end
 
 function map(table, func)
+	if table==nil then return table end
 	for k,v in pairs(table) do
 		table[k] = func(v)
 	end
@@ -16,6 +21,7 @@ function map(table, func)
 end
 
 function filter(table, func)
+	if table==nil then return table end
 	local new = {}
 	for k,v in pairs(table) do
 		if func(v) then new[k] = v
@@ -24,10 +30,15 @@ function filter(table, func)
 	return new
 end
 
+function append(table, value)
+	table[#table+1] = value
+	return table
+end
+
 local templates = require('Module:LuacardTemplates')
 local cardstyle = require('Module:LuacardStyle')
-local translations = require('Module:LocaleTable')
-local luastache = require("Module:luastache")
+local translations = require("Module:LocaleTable") -- double quotes to not stage
+local luastache = require("Module:luastache")  -- double quotes to not stage
 
 local translate_table = {}
 
@@ -141,10 +152,10 @@ function apply_house(frame, vars)
 	vars.is_anomaly = string.find(vars.cardhouse, 'Anomaly')
 	if(vars.is_multi) then
 		vars.cardhouse_color = ''
-		vars.categories[#vars.categories+1] = 'Multi'
+		append(vars.categories, 'Multi')
 	else
 		vars.cardhouse_color = vars.cardhouse_lower
-		vars.categories[#vars.categories+1] = vars.cardhouse
+		append(vars.categories, vars.cardhouse)
 	end
 end
 
@@ -183,7 +194,7 @@ function apply_traits(frame, vars)
 		return translate_trait(frame, 'traits', self)
 	end
 	for i = 1, #split do
-		vars.categories[#vars.categories+1] = split[i]
+		append(vars.categories, split[i])
 	end
 end
 
@@ -204,9 +215,9 @@ function apply_errata(frame, vars)
 		vars.errata_text=wikitext(errata_results[#errata_results]['ErrataData.Text'])
 		vars.errata_version = errata_results[#errata_results]['ErrataData.Version']
 		if(string.find(vars.errata_version, 'Rulebook')) then
-			vars.categories[#vars.categories+1] = 'Errata'
+			append(vars.categories, 'Errata')
 		else
-			vars.categories[#vars.categories+1] = 'Revised Cards'
+			append(vars.categories, 'Revised Cards')
 		end
 	end
 end
@@ -234,10 +245,10 @@ end
 function apply_rulings(frame, vars)
 	-- we use cardname_e and just show english rulings
 	local official_results = rulequery('FAQ', vars.cardname_e)
-	if(#official_results>0) then vars.categories[#vars.categories+1] = 'FAQ' end
+	if(#official_results>0) then append(vars.categories, 'FAQ') end
 
 	local ruling_results = rulequery('FFGRuling', vars.cardname_e)
-	if(#ruling_results>0) then vars.categories[#vars.categories+1] = 'FFG Rulings' end
+	if(#ruling_results>0) then append(vars.categories, 'FFG Rulings') end
 
 	combine(official_results, ruling_results)
 
@@ -256,11 +267,93 @@ function apply_rulings(frame, vars)
 	end)
 	vars.has_ruleoutstanding = #vars.ruleoutstanding > 0
 
-	if(has_ruleoutstanding or has_rulecommentary) then vars.categories[#vars.categories+1] = 'Commentary' end
+	if(has_ruleoutstanding or has_rulecommentary) then append(vars.categories, 'Commentary') end
 
 	vars.filter_rules_text = function(self)
 		return self['RulesText']:gsub('this card', "'''"..vars.cardname_e.."'''")
 	end
+end
+
+function relatedquery(cardname)
+	return cargo_results(
+		'CardRelatedData',
+		'Pages, Text, Cards, Type',
+		{
+			groupBy='Pages, Text, Cards, Type',
+			where="(Pages like '%•"..cardname.."•%' OR (pages IS null AND Cards like '%•"..cardname.."•%')) AND Type!='Twin'",
+			orderBy='Text ASC'
+		})
+end
+
+function twinquery(cardname)
+	local searchname = cardname
+	if string.find(cardname, 'Evil Twin') ~= nil then
+		searchname = cardname:gsub(' %(Evil Twin%)', ' ')
+		mw.log('search for not evil twin '..searchname)
+	else
+		searchname = cardname..' (Evil Twin)'
+		mw.log('search for the evil twin '..searchname)
+	end
+	return cargo_results(
+		'CardData',
+		'Name',
+		{
+			groupBy='Name',
+			where="Name='"..searchname.."'"
+		})
+end
+
+function get_related_cards(cardname, related_row)
+	local cards = {}
+	local card_names = related_row['Cards']
+	for name, _ in string.gmatch(card_names, '[^•]+') do
+		mw.log(name..', '..cardname)
+		if name~=cardname then
+			local card_results = cargo_results(
+				'CardData',
+				'Name,Image,Artist,Text,FlavorText,Type,Rarity,House,Traits,Power,Armor,Amber',
+				{
+					where='CardData.Name="'..name..'"'
+				})
+			append(cards, card_results[1])
+		end
+	end
+	return cards
+end
+
+function apply_related(frame, vars)
+	-- we use cardname_e and just show english related
+	local related_set = relatedquery(vars.cardname_e)
+	local twin_set = twinquery(vars.cardname_e)
+	map(twin_set, function(item)
+		local twin_name = 'an Evil Twin'
+		if item["Name"]:find('Evil Twin')==nil then twin_name = 'a non-Evil Twin' end
+		append(related_set, {
+			Pages = "•"..vars.cardname_e.."•",
+			Text = "this card has "..twin_name.." version:",
+			Cards = "•"..item["Name"].."•"
+		})
+	end)
+	map(related_set, function(item)
+		item['Text'] = item['Text']:gsub('this card', "'''"..vars.cardname_e.."'''")
+		mw.log('Fetch cards for '..item['Cards'])
+		item['Cards'] = get_related_cards(frame.args.cardname, item)
+		return item
+	end)
+	vars.related = {}
+	vars.cardnotes = {}
+	for _,row in pairs(related_set) do
+		mw.log(row)
+		if #row['Cards']>0 then
+			append(vars.related, row)
+			mw.log('have related')
+		else
+			append(vars.cardnotes, row)
+			mw.log('have notes')
+		end
+	end
+	if(#vars.related>0) then vars.has_related = true end
+	if(#vars.cardnotes>0) then vars.has_notes = true end
 end
 
 function apply_sets(frame, vars)
@@ -274,7 +367,7 @@ function apply_sets(frame, vars)
 		})
 	for r = 1, #vars.cardsets do
 		local result = vars.cardsets[r]
-		vars.categories[#vars.categories+1] = set_category[result['SetData.SetName']]
+		append(vars.categories, set_category[result['SetData.SetName']])
 	end
 	vars.shortset_from_name = function(self)
 		local args = {longset = self['SetData.SetName'], shortset=self['SetInfo.ShortName']}
@@ -319,7 +412,7 @@ function p.viewcard(frame)
 	vars.cardtraits = card_results[1]['Traits']
 	vars.categories = {vars.cardtype, vars.cardrarity, 'Card'}
 	if(string.find(vars.cardtext,vars.cardname)) then
-		vars.categories[#vars.categories+1] = 'Self-referential'
+		append(vars.categories, 'Self-referential')
 	end
 
 	if frame.args.locale then
@@ -359,6 +452,7 @@ function p.viewcard(frame)
 	apply_traits(frame, vars)
 	apply_errata(frame, vars)
 	apply_rulings(frame, vars)
+	apply_related(frame, vars)
 
 	if not frame.args.locale then
 		apply_categories(frame, vars)
@@ -367,7 +461,9 @@ function p.viewcard(frame)
 	end
 
 	text = stache(templates.template_base, vars):gsub('\n','')
-	text = frame:preprocess(text)
+	if(frame.args.debug==nil) then
+		text = frame:preprocess(text)
+	end
 	text = dewikitext(text)
 	return text
 end

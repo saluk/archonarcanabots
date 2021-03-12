@@ -77,7 +77,7 @@ if __name__ == "__main__":
         upload.upload(args.stage, args.test)
     if args.command == "lua":
         from scribunto import upload
-        upload.upload(args.test)
+        upload.upload(args.test, args.stage)
     if args.command == "delete":
         for page in wp.allpages(limit=500, namespace=3006):
             page.delete('Removing all deck pages')

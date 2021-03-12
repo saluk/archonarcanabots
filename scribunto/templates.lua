@@ -1,4 +1,5 @@
 --Module:LuacardTemplates
+--canstage
 
 --[[ Guidelines for this template:
 
@@ -308,6 +309,26 @@ ${/locale}
   ${#ruleoutstanding}
     {{ Commentary_Entry|RulesType=${RulesType}|RulesText=${filter_rules_text}|RulesSource=${RulesSource} }}
   ${/ruleoutstanding}
+
+  ${#has_related}<h2>Related Cards</h2>
+  <templatestyles src="Template:Thumbnail_Gallery/styles.css" />
+  ${/has_related}
+  ${#related}
+    ${Text}
+    <div class="thumbnailWrap">
+    ${#Cards}
+      <div class="thumbnailImg">
+      [[File:${Image}|100px|frameless|link=${Name}|alt=${Name}]]<br>[[${Name}]]
+      </div>
+    ${/Cards}
+    </div>
+  ${/related}
+
+  ${#has_notes}<h2>Notes</h2>
+  ${/has_notes}
+  ${#cardnotes}
+    ${Text}
+  ${/cardnotes}
 
 __NOTOC__
 ${categories}
