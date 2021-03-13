@@ -1,4 +1,4 @@
-import {getLocale} from './myutils'
+import {getLocale, locales} from './myutils'
 
 function show_translations() {
 	$('.translate').css('display','none')
@@ -36,19 +36,6 @@ function notice(locale) {
 }
 
 function dumb_locale_menu() {
-	var locales = {
-	"en": [["en", "English"]],
-	"pt-pt": [["pt-br", "Português do Brasil"], ["pt", "português"]],
-	"it-it": [["it", "Italiano"]],
-	"zh-hant": [["zh-hant", "中文（繁體）"], ["zh-tw", "中文（台灣）"]],
-	"de-de": [["de", "Deutsch"], ["de-formal", "Deutsch (Sie-Form)"]],
-	"zh-hans": [["zh", "中文"], ["zh-hans", "中文（简体）"]],
-	"th-th": [["th", "ไทย"]],
-	"ko-ko": [["ko", "한국어"], ["ko-kp", "조선말"]],
-	"pl-pl": [["pl", "Polski"]],
-	"fr-fr": [["fr", "Français"], ["frc", "français cadien"]],
-	"es-es": [["es", "Español"]],
-	'ru-ru': [['ru', "Pусский"]]}
 	var locale = ''
 	var cur_locale = ''
 	for(const [loc, value] of Object.entries(locales)) {

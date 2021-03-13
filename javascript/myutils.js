@@ -11,6 +11,21 @@ var parseQueryString = function (argument) {
 	}
   }
 
+var locales = {
+	"en": [["en", "English"]],
+	"pt-pt": [["pt-br", "Português do Brasil"], ["pt", "português"]],
+	"it-it": [["it", "Italiano"]],
+	"zh-hant": [["zh-hant", "中文（繁體）"], ["zh-tw", "中文（台灣）"]],
+	"de-de": [["de", "Deutsch"], ["de-formal", "Deutsch (Sie-Form)"]],
+	"zh-hans": [["zh", "中文"], ["zh-hans", "中文（简体）"]],
+	"th-th": [["th", "ไทย"]],
+	"ko-ko": [["ko", "한국어"], ["ko-kp", "조선말"]],
+	"pl-pl": [["pl", "Polski"]],
+	"fr-fr": [["fr", "Français"], ["frc", "français cadien"]],
+	"es-es": [["es", "Español"]],
+	'ru-ru': [['ru', "Pусский"]]
+}
+
 function getLocale(){
 	var locale;
 	var subdomain = window.location.hostname.split('\.')[0]
@@ -20,7 +35,28 @@ function getLocale(){
 	} else if(!locale) {
 		locale = mw.config.get('wgUserLanguage')
 	}
+	var full = _to_full(locale)
+	if(full=='en') return 'en'
 	return locale
+}
+
+function _to_full(locale) {
+	for(const [loc, val] of Object.entries(locales)) {
+		function has_locale(locale) {
+			return function(item) {
+				return item[0] == locale
+			}
+		}
+		if(val.filter(has_locale(locale)).length>0){
+			return loc
+		}
+	}
+	return 'en'
+}
+
+function getFullLocale() {
+	var locale = getLocale()
+	return _to_full(locale)
 }
 
 function capitalize(s){
@@ -261,4 +297,5 @@ function carousel(first_time) {
 
 export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
 	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
-	joined, removePunctuation, getCardImage, updateCardImages, getLocale}
+	joined, removePunctuation, getCardImage, updateCardImages, 
+	getLocale, locales, getFullLocale}

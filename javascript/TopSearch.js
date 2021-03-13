@@ -11,7 +11,7 @@
   </a>
   <div class="suggestions-special"></div></div>
 */
-import {unhashThumbImage, unhashImage, removePunctuation, getLocale} from './myutils'
+import {unhashThumbImage, unhashImage, removePunctuation, getLocale, getFullLocale} from './myutils'
 const Bowser = require('bowser')
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
@@ -105,7 +105,6 @@ class Caller {
             this.loadingDecks.abort()
     }
     addWikiResults(results) {
-        console.log(results)
         var searchString = results[0]
         var searchNames = results[1]
         var dunno = results[2]
@@ -134,20 +133,23 @@ class Caller {
             var searchString = regexEscape(this.searchString)
             if(results[i]['title']['Name'].toLowerCase().search(searchString) < 0) {
                 rank = -1
-            } else if (results[i]['title']['SearchText'].toLowerCase().search(searchString) < 0) {
+            } else if (results[i]['title']['SearchText'] && results[i]['title']['SearchText'].toLowerCase().search(searchString) < 0) {
                 rank = -2
+            }
+            var link = '/' + results[i]['title']["Name"]
+            if(results[i]['title']['EnglishName'] && results[i]['title']['EnglishName'].length>0) {
+                link = `/${results[i]['title']['EnglishName']}/locale/${getLocale()}`
             }
             this.results.push(
                 {
                     name: results[i]['title']["Name"],
-                    link: '/' + results[i]['title']["Name"],
+                    link: link,
                     image: miniImage(results[i]['title']['Image']),
                     source: 'card',
                     rank: rank
                 }
             )
         }
-        console.log(this.results)
         this.cardResults = true
         this.finalize()
     }
@@ -171,7 +173,6 @@ class Caller {
             )
         }
         this.deckResults = true
-        console.log(this.results)
         this.finalize()
     }
     finalize() {
@@ -346,7 +347,6 @@ function hookTopSearch() {
         caller.loadingWiki = $.ajax(wikisearch.replace("{{ SEARCH }}", search),
         {
             success: function (data, status, xhr) {
-                console.log(call, caller.currentCall)
                 if(call!=caller.currentCall)
                     return
                 caller.addWikiResults(data)
@@ -354,19 +354,25 @@ function hookTopSearch() {
         })
 
         var start = '/api.php?action=cargoquery&format=json'
-        var tables = '&tables=CardData'
-        var fields = '&fields=CardData.SearchText%2CCardData.SearchFlavorText%2CCardData.Name%2CCardData.Image'
-        var limit = '&limit=' + cardLimit
-        var where = '&where=' + 
-            'CardData.Name%20LIKE%20%22%25' + searchNoPunc + '%25%22'/* + ' OR ' +
-            'CardData.SearchText%20LIKE%20%22%25' + search + '%25%22' + ' OR ' +
-            'CardData.SearchFlavorText%20LIKE%20%22%25' + search + '%25%22'*/
+        if(getLocale() == 'en') {
+            var tables = '&tables=CardData'
+            var fields = '&fields=CardData.SearchText%2CCardData.SearchFlavorText%2CCardData.Name%2CCardData.Image'
+            var limit = '&limit=' + cardLimit
+            var where = '&where=' + 
+                'CardData.Name%20LIKE%20%22%25' + searchNoPunc + '%25%22'/* + ' OR ' +
+                'CardData.SearchText%20LIKE%20%22%25' + search + '%25%22' + ' OR ' +
+                'CardData.SearchFlavorText%20LIKE%20%22%25' + search + '%25%22'*/
+        } else {
+            var tables = '&tables=CardLocaleData'
+            var fields = '&fields=CardLocaleData.Name%2CCardLocaleData.Image%2CCardLocaleData.Locale%2CCardLocaleData.EnglishName'
+            var limit = '&limit=' + cardLimit
+            var where = `&where=CardLocaleData.Name%20LIKE%20%22%25${searchNoPunc}%25%22 AND CardLocaleData.Locale="${getFullLocale()}"`
+        }
         caller.loadingCards = $.ajax(
             start + tables + fields + where + limit, {
             success: function (data, status, xhr) {
                 if(call!=caller.currentCall)
                     return
-                console.log(data)
                 caller.addCardResults(data.cargoquery)
             },
         })
@@ -377,7 +383,6 @@ function hookTopSearch() {
                 success: function (data, status, xhr) {
                     if(call!=caller.currentCall)
                         return
-                    console.log(data)
                     caller.addDeckResults(data.decks)
                 },
             }
