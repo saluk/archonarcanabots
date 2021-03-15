@@ -36,7 +36,22 @@ def sanitize_text(text, flavor=False):
     t = t.replace("\u202f", " ")
     if flavor:
         t = re.sub(" *(\n|\r\n) *", " ", t)
-    return t
+    # Hack because of dust pixie and virtuous works
+    if t.strip() in ["(Vanilla)", "0"]:
+        t = ""
+    print(f"santized text {text} to {t}")
+    return t.strip()
+
+
+def test_sanitize():
+    assert sanitize_text("blah.") == "blah.", sanitize_text("blah.")
+    assert sanitize_text("blah..") == "blah.", repr(sanitize_text("blah.."))
+    assert sanitize_text("blah") == "blah"
+    assert sanitize_text("blah... something") == "blah... something"
+    assert sanitize_text("blah...") == "blah...", sanitize_text("blah...")
+    assert sanitize_text("'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]].\ufeff\ufeff") == "'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]]."
+    assert sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True) == "\u201cThe Red Shroud will defend the Crucible from the threat of dark \u00e6mber.\u201d", repr(sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True))
+    assert sanitize_text("something    \n    something else", flavor=True)=="something something else"
 
 
 # TODO pull this direct from the site
@@ -93,7 +108,8 @@ replacement_links = {
     "forging keys": "Forge",
     "take control": "Control",
     "control": "Control",
-    "for each": "For each"
+    "for each": "For each",
+    "tide": "Tide"
     # TODO - ready and fight
 }
 for kw in keywords:
@@ -144,7 +160,7 @@ enhanced_regex = {
 }
 def read_enhanced(text, locale=None):
     # Enhancements
-    t = enhanced_regex[locale]
+    t = enhanced_regex.get(locale, enhanced_regex[None])
     if locale == 'ko-ko':  # Korean changes the order so we have to special case it
         regex = "((A*)((PT)*)(D*)(R*) %s)"
     else:
@@ -200,6 +216,18 @@ def modify_card_text(text, card_title, flavor_text=False):
     # Make returns paragraphs
     text = re.sub(r"(\u000b|\r)", " <p> ", text)
 
+    # Replace trailing <p> and spaces
+    text = re.sub(r"(<p>| )+$", "", text)
+    return text
+
+
+def modify_search_text(text):
+    # Clean up carriage returns
+    text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
+    # Clean up spaces
+    text = re.sub("\u202f", " ", text)
+    # Make returns paragraphs
+    text = re.sub(r"(\u000b|\r)", " <p> ", text)
     # Replace trailing <p> and spaces
     text = re.sub(r"(<p>| )+$", "", text)
     return text
@@ -288,8 +316,8 @@ def card_data(card, locale=None):
     card["card_text"] = sanitize_text(card["card_text"] or "")
     card["flavor_text"] = sanitize_text(card["flavor_text"] or "", flavor=True)
 
-    card["card_text_search"] = card["card_text"]
-    card["flavor_text_search"] = card["flavor_text"]
+    card["card_text_search"] = modify_search_text(card["card_text"])
+    card["flavor_text_search"] = modify_search_text(card["flavor_text"])
 
     card["card_text"], enhancements = read_enhanced(card["card_text"], locale)
     card.update(enhancements)

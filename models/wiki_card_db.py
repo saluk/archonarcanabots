@@ -24,157 +24,6 @@ def sanitize_name(name):
 def sanitize_trait(trait):
     return trait.replace("[","").replace("]","")
 
-def sanitize_text(text, flavor=False):
-    t = re.sub("(?<!\.)\.\.{1}$", ".", text)
-    t = t.replace("\ufeff", "")
-    t = t.replace("\u202f", " ")
-    if flavor:
-        t = re.sub(" *(\n|\r\n) *", " ", t)
-    return t
-
-assert sanitize_text("blah.") == "blah.", sanitize_text("blah.")
-assert sanitize_text("blah..") == "blah.", repr(sanitize_text("blah.."))
-assert sanitize_text("blah") == "blah"
-assert sanitize_text("blah... something") == "blah... something"
-assert sanitize_text("blah...") == "blah...", sanitize_text("blah...")
-assert sanitize_text("'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]].\ufeff\ufeff") == "'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]]."
-assert sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True) == "\u201cThe Red Shroud will defend the Crucible from the threat of dark \u00e6mber.\u201d", repr(sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True))
-assert sanitize_text("something    \n    something else", flavor=True)=="something something else"
-
-
-
-# TODO pull this direct from the site
-# Enhance is handled custom
-keywords = """Alpha
-Assault
-Deploy
-Elusive
-Hazardous
-Invulnerable
-Omega
-Poison
-Skirmish
-Taunt""".split("\n")
-keywords = [x for x in keywords if x.strip()]
-
-# TODO - as if it were yours, if you do, center of the battleline, preceding, instead and splash
-replacement_links = {
-    "ward": "Ward",
-    "enrage": "Enrage",
-    "exalt": "Exalt",
-    "pay": "Pay",
-    "move": "Move",
-    "unforge": "Unforge",
-    "tide": "Tide",
-    "swap": "Swap",
-    "stun": "Stun",
-    "splash": "Splash",
-    "search": "Search",
-    "repeat": "Repeat",
-    "repeats": "Repeat",
-    "preceding": "Preceding",
-    "preceding effect": "Preceding",
-    "repeat the preceding effect": "Preceding",
-    "purge": "Purge",
-    "purged": "Purge",
-    "graft": "Graft",
-    "grafted": "Graft",
-    "heal": "Heal",
-    "flank": "Flank",
-    "sacrifice": "Sacrifice",
-    "put into play": "Put Into Play",
-    "invulnerable": "Invulnerable",
-    "pay": "Pay",
-    "as if it were yours": "as if it were yours",
-    "if you do": "if you do",
-    "Center of your Battleline": "Center of the Battleline",
-    "instead": "Replacement Effects",
-    "forge a key": "Timing_Chart#Forge_a_Key",
-    "current cost": "Cost",
-    "cost": "Cost",
-    "spent": "Forge",
-    "spend": "Forge",
-    "forging keys": "Forge",
-    "take control": "Control",
-    "control": "Control",
-    "for each": "For each"
-    # TODO - ready and fight
-}
-for kw in keywords:
-    replacement_links[kw.lower()] = kw.capitalize()
-
-remove_links = [
-    "return",
-    "archive",
-    "archives"
-]
-
-
-def get_keywords_text(text):
-    """Return a list of keywords found on the card (ignore keyword values like the '2' in 'Assault 2')"""
-    found = []
-    words = text.replace("\r", ". ").split(".")
-    for w in words:
-        for kw in keywords:
-            if w.lower().strip().startswith(kw.lower()):
-                found.append(kw)
-                break
-    return found
-
-
-def get_keywordvalue_text(text, kw):
-    """Returns the value of a specific keyword, like the '2' in 'Assault 2'"""
-    found = re.findall(r'%s *(\d+|x)' % kw, text, re.IGNORECASE)
-    if found:
-        return found[0]
-    return ""
-
-
-def modify_search_text(text):
-    # Clean up carriage returns
-    text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
-    # Clean up spaces
-    text = re.sub("\u202f", " ", text)
-    # Make returns paragraphs
-    text = re.sub(r"(\u000b|\r)", " <p> ", text)
-    # Replace trailing <p> and spaces
-    text = re.sub(r"(<p>| )+$", "", text)
-    return text
-
-
-def modify_card_text(text, card_title, flavor_text=False):
-    # Clean up carriage returns
-    text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
-    # Clean up spaces
-    text = re.sub("\u202f", " ", text)
-
-    # If there is an "A" at the begining of a sentance, don't replace it
-    # Po's Pixies has an aember symbol at the begining of a sentance
-    if card_title not in ["Po’s Pixies", "Sack of Coins"]:
-        text = re.sub(r"(^|: |\. |\r)A", r"\1$A$", text)
-
-    # Turn <A> or something A or 1A or +A or -A into {{Aember}} or {{Aember}} or 1{{Aember}}
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}A\>{0,1}( |$|\.|\,)", r"\1\2{{Aember}}\3", text)
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}D\>{0,1}( |$|\.|\,)", r"\1\2{{Damage}}\3", text)
-    # Bonus icon PT's and R's
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}PT\>{0,1}( |$|\.|\,)", r"\1\2{{Capture}}\3", text)
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}R\>{0,1}( |$|\.|\,)", r"\1\2{{Draw}}\3", text)
-
-    # Replace A's at the begining of the sentance again
-    text = re.sub(r"\$A\$", "A", text)
-
-    if not flavor_text:
-        # bold abilities at the begining of a line or following a new line
-        text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\:)", r"\1'''\2'''", text)
-
-    # Make returns paragraphs
-    text = re.sub(r"(\u000b|\r)", " <p> ", text)
-
-    # Replace trailing <p> and spaces
-    text = re.sub(r"(<p>| )+$", "", text)
-    return text
-
-
 card_title_reg = []
 trait_reg = []
 
@@ -289,25 +138,6 @@ def get_unidentified_characters():
     return [p.title for p in unidentified.categorymembers()]
 
 
-def linking_keywords(text):
-    for kw in remove_links:
-        text = re.sub(r"\[\[[^]]*?\|{0,1}("+kw+r")\]\]", r"\1", text, flags=re.IGNORECASE)
-    for kw in sorted(replacement_links, key=lambda s: -len(s)):
-        debracket = re.split(r"(\[\[.*?\]\])", text)
-        rep = not debracket[0].startswith("[[")
-        for i in range(len(debracket)):
-            if rep:
-                debracket[i] = re.sub(
-                    r"(^|[^\|a-z])(%s)([^\|a-z]|$)" % kw, r"\1[[%s|\2]]\3" % replacement_links[kw],
-                    debracket[i],
-                    count=1,
-                    flags=re.IGNORECASE
-                )
-            rep = not rep
-        text = "".join(debracket)
-    return text
-
-
 def safe_name(name):
     # if name == "Ortannu’s Binding" or name == "Nature’s Call":
     #    return name.replace("’", "'")
@@ -383,11 +213,11 @@ def build_localization(scope, cards, locales, from_cards=None):
         from_cards = list(scope.get_locale_cards())
     print(len(from_cards))
     for card in from_cards:
-        print("card data-ify",card.en_name)
+        #print("card data-ify",card.en_name)
         translated_card_data = wiki_model.card_data(card.data, card.locale)
         english_data = {}
         english_data.update(translated_card_data)
-        print("sanitize and rename english name")
+        #print("sanitize and rename english name")
         english_data["card_title"] = wiki_model.sanitize_name(card.en_name)
         wiki_model.rename_card_data(english_data)
         entry = cards[english_data["card_title"]]
@@ -407,7 +237,7 @@ def build_localization(scope, cards, locales, from_cards=None):
             translated_card_data["image_number"] = card.locale + "-" + translated_card_data["image_number"]
         if card.locale not in locales:
             locales[card.locale] = {}
-        print("add translated data")
+        #print("add translated data")
         locales[card.locale][english_data["card_title"]] = translated_card_data
 
 
@@ -469,6 +299,7 @@ def process_mv_card_batch(card_batch: list) -> list:
     separated into multiple cards (Anomaly version of a card and the non-Anomaly version of the card)
     Returns a list of card data dictionaries that something else can process"""
     # TODO clean up when we refactor card db stuff to a class
+    # TODO - note, to combine houses, this method requires the batch to include the complete set of cards of a given name
     import logging
     process_cards = defaultdict(lambda: [])
     for card in card_batch:
@@ -574,10 +405,10 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "Image": latest["image_number"],
         #"Artist": latest.get("artist", ""),
         "Text": latest["card_text"],
-        "SearchText": modify_search_text(latest["card_text_search"]),
+        "SearchText": latest["card_text_search"],
         "Keywords": SEPARATOR.join(latest["keywords"]),
         "FlavorText": latest["flavor_text"],
-        "SearchFlavorText": modify_search_text(latest["flavor_text_search"]),
+        "SearchFlavorText": latest["flavor_text_search"],
         "Power": latest["power"],
         "Armor": latest["armor"],
         "Amber": latest["amber"],
@@ -626,9 +457,9 @@ def get_cargo_locale(card, ct=None, only_sets=False, locale=None, english_name=N
         "Name": latest["card_title"],
         "Image": latest["image_number"],
         "Text": latest["card_text"],
-        "SearchText": modify_search_text(latest["card_text_search"]),
+        "SearchText": latest["card_text_search"],
         "FlavorText": latest["flavor_text"],
-        "SearchFlavorText": modify_search_text(latest["flavor_text_search"]),
+        "SearchFlavorText": latest["flavor_text_search"],
         "EnglishName": english_name,
         "Locale": locale
     }

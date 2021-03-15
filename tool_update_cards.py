@@ -1,5 +1,5 @@
 import time
-from models import wiki_card_db
+from models import wiki_card_db, wiki_model
 import wikibase
 from wikibase import update_page
 import requests
@@ -125,7 +125,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         for field in ["Text", "FlavorText"]:
             t = data[field]
             if field != "FlavorText":
-                t = wiki_card_db.linking_keywords(t)
+                t = wiki_model.linking_keywords(t)
             t = wiki_card_db.link_card_titles(t, latest["card_title"])
             data[field] = t
         print(data)
