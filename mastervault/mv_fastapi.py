@@ -335,7 +335,9 @@ def get_aa_deck_data(key:str=None):
         deck_query = deck_query.filter(mv_model.Deck.key==key)
     deck = deck_query.first()
     # Return data
-    return deck_writer.DeckWriter(deck).deck_json()
+    if deck:
+        return deck_writer.DeckWriter(deck).deck_json()
+    raise HTTPException(status_code=404, detail="No deck found by that ID")
 
 
 @mvapi.get("/deck_query", tags=["aa-api"])

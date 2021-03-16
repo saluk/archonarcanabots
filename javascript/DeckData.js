@@ -1194,6 +1194,12 @@ function pull_deck_data(deck_key) {
         {
             success: function (deck, status, xhr) {
                 write_deck_data(deck)
+            },
+            error: function (xhr, status, thrownError) {
+                $('title').empty().append("404: Deck not found in Master Vault")
+                $('#mw-content-text').empty().append("<h2>404 - Deck Not Found</h2>").append(
+                  "This deck is not available on Archon Arcana. Please double check that the ID is correct. If you recently scanned this deck into the Master Vault, you may need to wait 5 minutes and try again."
+                )
             }
         }
     )
