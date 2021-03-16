@@ -423,10 +423,8 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
     }, restricted)
-    # TODO This only updates SetData for old cards when we are importing new sets
-    if only_sets and len(card)>1:
-        pass
-    else:
+    # TODO This only updates SetData for old cards when we are importing new 
+    if not only_sets:
         ct.update_or_create(table, cardtable["Name"], cardtable)
     card_sets = list(get_sets(card))
     print(card_sets)

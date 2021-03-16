@@ -39,7 +39,8 @@ def update_page(title, page, text, reason, ot, pause=False, read=False, only_new
             return
     if text == ot:
         return None
-    if "nochange" in page.edit(text, reason).get("edit", {"nochange": ""}):
+    update = page.edit(text, reason).get("edit", {"nochange": ""})
+    if "nochange" in update:
         return None
     return text
 
@@ -146,7 +147,7 @@ class CargoTable:
                     if datatype not in self.data_types:
                         self.data_types[datatype] = {}
                     index_key = cargo_index(datatype)
-                    if index_key:
+                    if index_key != "default":
                         key = tuple([d[x] for x in index_key])
                         if len(key) == 1:
                             key = key[0]

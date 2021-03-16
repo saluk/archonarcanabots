@@ -98,7 +98,7 @@ class Workers:
             new_card = wiki_card_db.add_card(new_card_data, wiki_card_db.cards)
             card = processed_cards[new_card["card_title"]] = wiki_card_db.cards[new_card["card_title"]]
             logging.debug("%s - %s", new_card["card_title"], new_card["house"])
-            if len(wiki_card_db.cards[new_card["card_title"]].keys()) > 1:
+            if [new_set for new_set in wiki_card_db.cards[new_card["card_title"]] if new_set not in recognized_sets]:
                 logging.debug("> updating old set: %s, %s", new_card["card_title"], wiki_card_db.cards[new_card["card_title"]].keys())
                 if tool_update_cards.update_card_page_cargo(
                     wp, card, "updating reprint with new sets", "carddb", only_sets=True, 
