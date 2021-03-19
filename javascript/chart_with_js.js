@@ -1,3 +1,5 @@
+import Chart from 'chart.js'
+
 function replace_charts() {
 	var divs = $('.genchart')
 	divs.map(function(id){

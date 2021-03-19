@@ -4,7 +4,7 @@
         "armor": 0,
         "assault": "",
         "card_number": "311",
-        "card_text": "<img src=\"https://archonarcana.com/images/2/25/Tide-icon.png\" width=\"20px\"> <b>Reap:</b> If the tide is high, exhaust an enemy creature and your opponent discards a random card from their hand.",
+        "card_text": "{{Tide}} <b>Reap:</b> If the tide is high, exhaust an enemy creature and your opponent discards a random card from their hand.",
         "card_title": "Tomwa of the Glow",
         "card_type": "Creature",
         "expansion": 712,
