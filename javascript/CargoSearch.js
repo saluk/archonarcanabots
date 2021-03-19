@@ -7,10 +7,13 @@ import {parseQueryString, joined,
   isElementInViewport} from './myutils'
 import 'md5'
 
+var use_locale = false
+
 // TODO - move these to normal data when dark tidings is release
 if(parseQueryString('testjs')=='true') {
   sets.push('Dark_Tidings')
   rarities.push("Evil Twin")
+  use_locale = true
 }
 
 var searchFields = [
@@ -403,12 +406,18 @@ var CSearch = {
     return q
   },
   outputImageResult(self,cardData) {
+    var image_number = cardData.Image
+    var link = cardData.Name
+    if(use_locale) {
+      image_number = 'Pt-pt-'+cardData.Image
+      link = cardData.Name+'/locale/pt-br'
+    }
     return `
 <div class="gallery-image" style="position:relative;text-align:center">
-<a href="${cardData.Name}">
+<a href="${link}">
 ${getCardImage({
   card_title: cardData.Name,
-  image_number: cardData.Image,
+  image_number: image_number,
   house: cardData.House.split(" • ").filter(function(house){
     return (self.houses.length == 0) || (self.houses.includes(house.replace(' ', '_')))
   })[0]
