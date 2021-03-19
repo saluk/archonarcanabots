@@ -6,7 +6,7 @@ import sys
 import time
 import requests
 import util
-#from mastervault import mastervault_workers
+import re
 from models import mv_model
 import threading
 from hanging_threads import start_monitoring
@@ -92,6 +92,17 @@ def sslproxy():
         return FreeProxy(rand=True).get()
     except Exception:
         return None
+
+
+# TODO - the scraper itself could record this from its normal api calls
+def get_mastervault_deck_count():
+    """This is how we can detect how far off in the scrape we are"""
+    r = requests.get("https://www.keyforgegame.com/api/decks/count", headers={
+        "Accept": "application/json",
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0"
+    })
+    count = r.json()['count']
+    return count
 
 
 class MasterVault:
@@ -341,7 +352,6 @@ class MasterVault:
 
 
 mv = MasterVault()
-#workers = mastervault_workers.Workers()
 
 
 def master_vault_lookup(deck_name):
@@ -366,9 +376,9 @@ def daemon():
         t = threading.Thread(target=mv_thread)
         threads.append(t)
         t.start()
-    t = threading.Thread(target=workers.thread)
-    threads.append(t)
-    t.start()
+    #t = threading.Thread(target=workers.thread)
+    #threads.append(t)
+    #t.start()
     print("start monitoring")
     monitoring_thread = start_monitoring(seconds_frozen=30)
 

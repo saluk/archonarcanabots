@@ -55,6 +55,17 @@ class Workers:
         if 'discord' in methods:
             self.discord_alert(msg)
 
+    def deck_scrape_lag(self):
+        from mastervault import mastervault
+        session = mv_model.Session()
+        deckq = session.query(mv_model.Deck)
+        total_scraped = deckq.count()
+        total_official = mastervault.get_mastervault_deck_count()
+        lag = total_official-total_scraped + 1
+        print(f"{total_official} {total_scraped} {lag}")
+        if lag > 25:
+            self.discord_alert(f"(Test) Deck scrape is {lag} decks behind. Official count: {total_official} Scrape count: {total_scraped}")
+
     def count_decks(self):
         logging.debug("counting decks")
         session = mv_model.Session()
@@ -138,6 +149,7 @@ class Workers:
                 if any_changes:
                     changes.append(("new", new_card["card_title"]))
         if savedb:
+            print("Saving json")
             wiki_card_db.build_links(processed_cards)
             #wiki_card_db.add_artists_from_text(wiki_card_db.cards)
             wiki_card_db.clean_fields(wiki_card_db.cards, {})

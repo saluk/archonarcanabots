@@ -118,4 +118,13 @@ if __name__ == "__main__":
                         deck_expansion=card_data["deck_expansion"],
                         name=card_data["card_title"],
                         data=card_data))
+        if args.search:
+            session = mv_model.Session()
+            query = session.query(mv_model.Card).filter(mv_model.Card.name.like(args.search))
+            cards = query.all()
         w.new_cards(cards, savedb=False)
+        #w.new_cards(cards, savedb=True, only_new_edits=False)
+    if args.command == "deck_scrape_lag":
+        from mastervault.mastervault_workers import Workers
+        w = Workers()
+        w.deck_scrape_lag()
