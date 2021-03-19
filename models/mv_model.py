@@ -62,8 +62,14 @@ class UpdateScope(object):
         kwargs["scrape_date"] = datetime.datetime.now()
         deck = Deck(*args, **kwargs)
         self.decks.append(deck)
-        for card_key in deck.data["_links"]["cards"]:
-            self.deck_cards.append(DeckCard(deck_key=deck.key, card_key=card_key, card_deck_expansion=deck.expansion))
+        card_keys = set([card_key for card_key in deck.data["_links"]["cards"]])
+        for card_key in card_keys:
+            self.deck_cards.append(DeckCard(
+                deck_key=deck.key,
+                card_key=card_key,
+                card_deck_expansion=deck.expansion,
+                count=deck.count(card_key)
+            ))
 
     def add_card(self, *args, **kwargs):
         card = Card(*args, **kwargs)
@@ -197,21 +203,6 @@ class UpdateScope(object):
             cards = cards.filter(Card.data['expansion']==str(expansion))
         cards = cards.all()
         return cards
-        print(len(cards))
-        card_names = {}
-        for c in cards:
-            #print(c.key)
-            if c.data["card_type"]=="Creature2":
-                continue
-            if c.name in card_names:
-                if card_names[c.name].data['house'] != c.data['house']:
-                    card_names[c.name].data['house'] += util.SEPARATOR + c.data['house']
-                continue
-            if c.data['expansion'] != expansion:
-                continue
-            card_names[c.name] = c
-        # print(sorted(card_names.keys()))
-        return card_names.values()
 
     def get_locale_cards(self, locale=None):
         print("getting locale")
@@ -292,6 +283,9 @@ class Deck(Base):
     def houses(self):
         return sorted(self.data['_links']['houses'])
 
+    def get_unique_card_keys(self):
+        return set(self.data['_links']['cards'])
+
     def get_cards(self):
         """Returns all cards including duplicates, also tags is_legacy for legacy cards"""
         for c in sorted(self.cards, key=lambda card: card.data['house']):
@@ -301,6 +295,9 @@ class Deck(Base):
 
     def get_legacy_card_ids(self):
         return self.data.get('set_era_cards',{}).get('Legacy',[])
+
+    def count(self, card_key):
+        return self.data["_links"]["cards"].count(card_key)
 
 # TODO handle indexes
 
@@ -357,6 +354,7 @@ class LocaleCard(Base):
 
 class DeckCard(Base):
     __tablename__ = 'deck_cards'
+    #id = Column(Integer, Sequence('deck_cards_id_seq'), unique=True)
     deck_key = Column(String, ForeignKey(Deck.key), primary_key=True)
     card_key = Column(String, primary_key=True)
     card_deck_expansion = Column(Integer, primary_key=True)
@@ -390,6 +388,18 @@ class Counts(Base):
     label = Column(String, primary_key=True)
     count = Column(Integer)
     meta = Column(JSONB)
+
+
+class CardCounts(Base):
+    __tablename__ = "card_counts"
+    name = Column(String, primary_key=True)
+    deck_expansion = Column(Integer, primary_key=True)
+    data = Column(JSONB)
+
+class DeckStatCounted(Base):
+    """ This is just a record of the most recent deck that we have added into our stats """
+    __tablename__ = "deck_stat_counted"
+    start = Column(Integer, primary_key=True) # deck.page * 24 + deck.index
 
 
 print("before create")

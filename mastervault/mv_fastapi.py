@@ -10,7 +10,7 @@ from jose import jwt,JWTError
 from datetime import datetime, timedelta
 import sys, os, traceback
 import base64
-from models import mv_model
+from models import mv_model, card_stats
 from sqlalchemy import or_, and_
 import util
 import passwords
@@ -256,6 +256,43 @@ def card_query(
             card.aa_format()["card_title"]
             for card in cards
         ]}
+
+
+@mvapi.get("/card_stats", tags=["aa-api"])
+def get_card_stats(card_name:str):
+    session = Session()
+    counts = session.query(mv_model.CardCounts).filter(mv_model.CardCounts.name==card_name).all()
+    if not counts:
+        raise HTTPException(status_code=404, detail="No card stats found for that name")
+    # TODO - should count legacies separately in the db
+    query = session.query(mv_model.Card)
+    card_variants = card_stats.query_card_versions(card_name, query).all()
+    expansions = set()
+    legacy_expansions = set()
+    for c in card_variants:
+        if c.is_from_current_set:
+            expansions.add(c.deck_expansion)
+    for c in card_variants:
+        if c.deck_expansion not in expansions:
+            legacy_expansions.add(c.deck_expansion)
+    count_expansions = {}
+    count_legacy = {}
+    for count in counts:
+        if count.deck_expansion in expansions:
+            count_expansions[count.deck_expansion] = count.data
+        else:
+            count_legacy[count.deck_expansion] = count.data
+    count_mavericks = {}
+    count_mavericks = card_stats.calc_mavericks({"card_title": card_name})
+    count_legacy_mavericks = card_stats.calc_legacy_maverick({"card_title": card_name}, expansions)
+    return {
+        "counts": count_expansions,
+        "mavericks": count_mavericks,
+        "legacy": count_legacy,
+        "legacy_maverick": count_legacy_mavericks,
+        "expansions": expansions,
+        "legacy_expansions": legacy_expansions
+    }
 
 @mvapi.post('/user/create', tags=["user-operation"])
 def create_user(admin_key:str, email:str, password:str):
