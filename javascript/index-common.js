@@ -1,4 +1,4 @@
-import {replace_charts} from './chart_with_js'
+//import {replace_charts} from './chart_with_js'
 import {choose_random_cards} from './randomcard'
 import {carousel} from './myutils'
 import './share42.js' // share42 sharing module
@@ -13,7 +13,7 @@ var arcana_main = function() {
 	deck_counts()
 	choose_random_cards()
 	carousel(true)
-	replace_charts()
+//	replace_charts()
 }
 
 arcana_main()

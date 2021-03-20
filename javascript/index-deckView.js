@@ -1,4 +1,4 @@
-import {replace_charts} from './chart_with_js'
+//import {replace_charts} from './chart_with_js'
 import {gen_deck_data} from './DeckData'
 import './share42.js' // share42 sharing module
 import {hookTopSearch} from './TopSearch.js'
