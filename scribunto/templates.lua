@@ -201,7 +201,7 @@ ${/locale}
       <li class="gallery-item">
         <input type="radio" name="gallery-list" class="gallery-selector" value="2.jpg" id="gallery-item2" />
         <div class="gallery-fullsize">
-          </html>[[File:${AltArt_File}|300px|frameless|alt=${CardData.Name} Alternate Art]]<html>
+          </html>[[File:${AltArt.File}|300px|frameless|alt=${CardData.Name} Alternate Art]]<html>
         </div>
         <label for="gallery-item2" class="gallery-label2">Alt-Art</label>
       </li></ul></div></div>
