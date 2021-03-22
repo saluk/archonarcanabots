@@ -87,6 +87,8 @@ has_carderrata = if the card has errata
 has_ruleofficial = has official rulings (faq, or ffgruling) (todo: not translated. todo: combine all rule displays into one template)
 has_rulecommentary = has commentary rulings  (wont be translated)
 has_ruleoutstanding = has outstanding rulings  (wont be translated)
+has_related = has related card data
+has_notes = has related card notes
 
 lists of data
 -------------
@@ -130,6 +132,13 @@ ruleoutstanding = list of outstanding issue rulings
   RulesText = rules text
   filter_rules_text = replaces pagename with card name so the ruling works on other pages
   RulesSource = rules source
+related = list of related card information
+  Text = The type of relationship
+  Cards = list of related cards for this relationship
+      Image = the card image
+      Name = the card name
+cardnotes = list of notes about this card
+  Text = the text of the note
 --]]
 
 
