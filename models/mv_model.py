@@ -299,6 +299,9 @@ class Deck(Base):
     def count(self, card_key):
         return self.data["_links"]["cards"].count(card_key)
 
+    def get_houses(self):
+        return self.data['_links']['houses']
+
 # TODO handle indexes
 
 # TODO handle legacies
@@ -396,10 +399,19 @@ class CardCounts(Base):
     deck_expansion = Column(Integer, primary_key=True)
     data = Column(JSONB)
 
+
+class HouseCounts(Base):
+    __tablename__ = 'house_counts'
+    name = Column(String, primary_key=True)
+    deck_expansion = Column(Integer, primary_key=True)
+    count = Column(Integer)
+
+
 class DeckStatCounted(Base):
     """ This is just a record of the most recent deck that we have added into our stats """
     __tablename__ = "deck_stat_counted"
-    start = Column(Integer, primary_key=True) # deck.page * 24 + deck.index
+    label = Column(String, primary_key=True)
+    start = Column(Integer) # deck.page * 24 + deck.index
 
 
 print("before create")

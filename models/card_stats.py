@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import collections
 
 from sqlalchemy.sql.expression import bindparam
@@ -58,6 +59,17 @@ def calc_legacy_maverick(card_data, expansions):
                 deck_ids.append(deckcount.deck_key)
     return {"houses":counts, "decks": deck_ids}
 
+def expansion_totals():
+    exp_totals = {}
+    counts = session.query(mv_model.Counts).filter(mv_model.Counts.label.like('total_%')).all()
+    for c in counts:
+        if c.label == 'total_deck_count':
+            continue
+        exp = c.label.rsplit('_', 1)[1]
+        exp_totals[int(exp)] = c.count
+    return exp_totals
+
+
 # Get count data from db first
 count_data = {}
 data_changed = set()
@@ -72,7 +84,7 @@ for count in session.query(mv_model.CardCounts).all():
         dat[int(key)] = count.data[key]
     count_data[count.name][exp] = dat
 
-def do_stats(deck):
+def do_card_counts(deck):
     for card in deck.cards:
         renamed = wiki_model.rename_card_data(card.data)
         data_changed.add(renamed["card_title"])
@@ -85,15 +97,42 @@ def do_stats(deck):
             dat[expansion][count] = 0
         dat[expansion][count] += 1
 
-if __name__ == "__main__":
-    import time
+def commit_card_counts():
+    print("merge", data_changed)
+    for name in data_changed:
+        for expansion in count_data[name]:
+            #print('merge', name, expansion, count_data[name][expansion])
+            session.merge(mv_model.CardCounts(name=name, deck_expansion=expansion, data=count_data[name][expansion]))
+    print('commmit')
+    data_changed.clear()
 
+house_counts = {}
+for count in session.query(mv_model.HouseCounts).all():
+    exp = int(count.deck_expansion)
+    if exp not in house_counts:
+        house_counts[exp] = {}
+    house_counts[exp][count.name] = count.count
+    
+def do_house_counts(deck):
+    if deck.expansion not in house_counts:
+        house_counts[deck.expansion] = {}
+    for house in deck.get_houses():
+        if house not in house_counts[deck.expansion]:
+            house_counts[deck.expansion][house] = 0
+        house_counts[deck.expansion][house] += 1
+
+def commit_house_counts():
+    for exp,v in house_counts.items():
+        for house, count in v.items():
+            session.merge(mv_model.HouseCounts(name=house, deck_expansion=exp, count=count))
+
+def count_decks(label, stat_func, commit_func):
     batch_size = 1000
     # Get starting page/index from DeckStatCounted
-    stat_count = session.query(mv_model.DeckStatCounted)
+    stat_count = session.query(mv_model.DeckStatCounted).filter(mv_model.DeckStatCounted.label==label)
     dsc = stat_count.first()
     if not dsc:
-        dsc = mv_model.DeckStatCounted(start=0)
+        dsc = mv_model.DeckStatCounted(label=label, start=0)
     while 1:
         print(f"batch starting with {dsc.start}")
         start = time.time()
@@ -113,18 +152,12 @@ if __name__ == "__main__":
         deck = next_batch[0]
         print(deck.key, deck.page, deck.index)
         for deck in next_batch:
-            do_stats(deck)
+            stat_func(deck)
         dsc.start = (deck.page-1)*24 + (deck.index) + 1
         print("adding", dsc, dsc.start)
         session.add(dsc)
-        print("merge", data_changed)
-        for name in data_changed:
-            for expansion in count_data[name]:
-                #print('merge', name, expansion, count_data[name][expansion])
-                session.merge(mv_model.CardCounts(name=name, deck_expansion=expansion, data=count_data[name][expansion]))
-        print('commmit')
+        commit_func()
         session.commit()
-        data_changed.clear()
         duration = time.time()-start
         amt = float(batch_size)
         per_sec = amt/duration
@@ -132,38 +165,8 @@ if __name__ == "__main__":
         start = time.time()
 
     print(count_data)
-
-
-    # for card_name in sorted(wiki_card_db.cards):
-    #     print(card_name)
-    #     query = session.query(mv_model.Card)
-    #     query = query_card_versions({"card_title":"Blood Money"}, query)
-    #     counts = collections.defaultdict(lambda: 0)
-    #     total_decks = 0
-    #     for variant in query.execution_options(stream_results=True).yield_per(100):
-    #         print("lookup variant", variant.key, variant.deck_expansion)
-    #         countq = session.query(mv_model.DeckCard).filter(and_(
-    #             mv_model.DeckCard.card_key==variant.key, 
-    #             mv_model.DeckCard.card_deck_expansion==variant.deck_expansion))
-    #         for count in countq.all():
-    #             counts[int(count.count)] += 1
-    #             total_decks += 1
-    #             if total_decks % 1000 == 0:
-    #                 time.sleep(0.02)
-    #     session.merge(mv_model.CardCounts(name=card_name, data=counts))
-    #     session.commit()
-    #     time.sleep(1)
-        
-    # query = session.query(mv_model.DeckCard, mv_model.Card).filter(and_(
-    #     mv_model.DeckCard.card_key==mv_model.Card.key, mv_model.DeckCard.card_deck_expansion==mv_model.Card.deck_expansion))
-    # print("start querying!")
-    # count = 0
-    # offset = 0
-    # step = 100
-    # for deck_card in query.execution_options(stream_results=True).yield_per(step):
-    #     count += 1
-    #     if count == 1000000:
-    #         break
-    #     if count % 10000 == 0:
-    #         time.sleep(0.02)
     print(time.time()-start)
+
+if __name__ == "__main__":
+    #count_decks('card_counts', do_card_counts, commit_card_counts)
+    count_decks('house_counts', do_house_counts, commit_house_counts)

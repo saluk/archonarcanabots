@@ -269,9 +269,12 @@ def get_card_stats(card_name:str):
     card_variants = card_stats.query_card_versions(card_name, query).all()
     expansions = set()
     legacy_expansions = set()
+    houses = []
     for c in card_variants:
         if c.is_from_current_set:
             expansions.add(c.deck_expansion)
+        if not c.is_maverick:
+            houses.append(c.data["house"])
     for c in card_variants:
         if c.deck_expansion not in expansions:
             legacy_expansions.add(c.deck_expansion)
@@ -285,8 +288,24 @@ def get_card_stats(card_name:str):
     count_mavericks = {}
     count_mavericks = card_stats.calc_mavericks({"card_title": card_name})
     count_legacy_mavericks = card_stats.calc_legacy_maverick({"card_title": card_name}, expansions)
+    #      Also: for each set that the card exists in, what is the percentage of decks that have that house that also contain that card? [Different stats per set] 
+    #- for sets that don't contain that card, but come after its original printing, what percentage of decks have that card as a legacy? [Different stats per set]
+    # Number of copies of that card by set?
+    total_decks = card_stats.expansion_totals()
+    print(total_decks)
+    percent_expansions = {}
+    for exp, counts in count_expansions.items():
+        total = sum(counts.values())
+        percent_expansions[exp] = total/total_decks[exp] * 100
+    percent_expansions_in_house = {}
+    if len(houses)==1:  #Just ignore this stat for cards that regularly multi-house
+        for exp in expansions:
+            total = sum(count_expansions[exp].values())
+            percent_expansions_in_house[exp] = total/card_stats.house_counts[exp][houses[0]] * 100
     return {
         "counts": count_expansions,
+        "percent_expansions": percent_expansions,
+        "percent_expansions_inhouse": percent_expansions_in_house,
         "mavericks": count_mavericks,
         "legacy": count_legacy,
         "legacy_maverick": count_legacy_mavericks,
