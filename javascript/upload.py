@@ -101,7 +101,8 @@ def upload(stage="dev", test=False):
         "main.indexCommon.js",
         "main.indexDeckSearch.js",
         "main.indexDeckView.js",
-        "main.indexGallery.js"
+        "main.indexGallery.js",
+        "main.indexQuick.js"
     ]:
         os.system("scp javascript/{} saluk@archonarcana.com:/var/www/html/aa-en/extensions/AADeckView/resources/ext.aaDeckView".format(
             bundle

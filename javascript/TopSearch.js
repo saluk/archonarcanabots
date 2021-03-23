@@ -12,6 +12,9 @@
   <div class="suggestions-special"></div></div>
 */
 import {unhashThumbImage, unhashImage, removePunctuation, getLocale, getFullLocale} from './myutils'
+import $ from 'jquery';
+//window.jQuery = $;
+//window.$ = $;
 const Bowser = require('bowser')
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
@@ -328,8 +331,10 @@ function hookTopSearch() {
     var selector = 'input#searchInput'
     console.log('hooking top search')
     var caller = new Caller()
+    var placeholder = $(selector)[0].getAttribute('placeholder')
+    var currentText = $(selector)[0].value
     $(selector).replaceWith(
-        '<input type="search" name="search" placeholder="Search Archon Arcana" title="Search Archon Arcana [Alt+Shift+f]" accesskey="f" id="searchInput" class="webfonts-changed" autocomplete="off">'
+        `<input type="search" name="search" placeholder="${placeholder}" title="Search Archon Arcana [Alt+Shift+f]" accesskey="f" id="searchInput" class="webfonts-changed" autocomplete="off">`
     )
     $('form#searchform').on('submit', function(event) {
         event.preventDefault()
@@ -389,6 +394,7 @@ function hookTopSearch() {
         )
         console.log('done setting up calls')
     })
+    $(selector)[0].value = currentText
 }
 
 export {hookTopSearch}

@@ -5,7 +5,8 @@ module.exports = {
     indexCommon: './javascript/index-common.js',
     indexDeckView: './javascript/index-deckView.js',
     indexGallery: './javascript/index-gallery.js',
-    indexDeckSearch: './javascript/index-deckSearch.js'
+    indexDeckSearch: './javascript/index-deckSearch.js',
+    indexQuick: './javascript/index-quick.js'
   },
   output: {
     filename: './main.[name].js',
