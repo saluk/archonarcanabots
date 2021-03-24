@@ -11,7 +11,7 @@
   </a>
   <div class="suggestions-special"></div></div>
 */
-import {unhashThumbImage, unhashImage, removePunctuation, getLocale, getFullLocale} from './myutils'
+import {unhashThumbImage, unhashImage, removePunctuation, getLocale, getFullLocale, parseQueryString} from './myutils'
 import $ from 'jquery';
 //window.jQuery = $;
 //window.$ = $;
@@ -326,7 +326,22 @@ class Caller {
     }
 }
 
+function selectLast() {
+    var elements = $('.mw-searchSuggest-link')
+    var last = elements[elements.length-1]
+    last.focus()
+}
+
+function selectFirst() {
+    var elements = $('.mw-searchSuggest-link')
+    var first = elements[0]
+    first.focus()
+}
+
 function hookTopSearch() {
+    if(parseQueryString('oldsearch')==='true') {
+        return;
+    }
     //var selector = '.overridesearch #searchInput2'
     var selector = 'input#searchInput'
     console.log('hooking top search')
@@ -339,6 +354,19 @@ function hookTopSearch() {
     $('form#searchform').on('submit', function(event) {
         event.preventDefault()
         window.location.href = replace_search_href(advanced_search_href, $('input#searchInput')[0].value)
+    })
+    $(document).on("keypress", function (evt){
+        console.log(evt)
+        if($(selector).is(':focus')) {
+            switch(evt.which) {
+                case 38:
+                    selectLast();
+                    break;
+                case 40:
+                    selectFirst();
+                    break;
+            }
+        }
     })
     $(selector).on("input", function ontype(evt) {
         var search = this.value
