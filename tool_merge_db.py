@@ -3,6 +3,7 @@ from wikibase import CargoTable, update_page
 import json
 import requests
 import re
+from util import cargo_query
 
 def read_spreadsheet(sheet_url):
     r = requests.get(sheet_url)
@@ -115,10 +116,29 @@ class Merger:
 
 def merge(wp):
     with open('data/spreadsheets.json') as f:
-        spreadsheets = json.loads(f.read())
+        spreadsheets = json.loads(f.read())['google_links']
     for sheet, url in spreadsheets.items():
         if sheet == "translated_terms":
             LocaleMerger(url).to_page(wp)
         else:
             Merger(url).to_page(wp)
+
+def access_table(table, fields):
+    search = {
+        "tables": table,
+        "fields": ','.join(fields)
+    }
+    return [result['title'] for result in cargo_query(search)['cargoquery']]
             
+def export(table):
+    with open('data/spreadsheets.json') as f:
+        spreadsheets = json.loads(f.read())
+    fields = spreadsheets.get('table_fields').get(table)
+    with open(f'data/table_{table}.csv','w') as f:
+        f.write('\t'.join(fields)+'\n')
+        for row in access_table(table, fields):
+            print(row)
+            field_results = []
+            for field in fields:
+                field_results.append(row[field].replace('\n','\\n'))
+            f.write('\t'.join(field_results)+'\n')
