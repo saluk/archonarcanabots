@@ -90,8 +90,6 @@ class Workers:
                 mv_model.Card.deck_expansion.notin_([str(x) for x in recognized_sets]),
                 mv_model.Card.deck_expansion.in_([str(x) for x in shared.NEW_SETS])
             ))
-            # for testing
-            #cardq = cardq.filter(mv_model.Card.deck_expansion.in_(["341","452"]))
             cardq = cardq.order_by(mv_model.Card.name,mv_model.Card.key)
             cards = cardq.all()
         logging.debug("\nChecking for new cards:\n")
@@ -236,6 +234,11 @@ class Workers:
         prev_week_count = mv_model.Counts(label="prev_week_deck_count"+expansion_label, count=week_prev)
         session.merge(prev_week_count)
         logging.debug("--merged")
+
+    def update_card_stats(self):
+        from models import card_stats
+        card_stats.count_decks('card_counts', card_stats.do_card_counts, card_stats.commit_card_counts, 2)
+        card_stats.count_decks('house_counts', card_stats.do_house_counts, card_stats.commit_house_counts, 2)
 
 if __name__ == "__main__":
     w = Workers()

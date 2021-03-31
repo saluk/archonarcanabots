@@ -126,13 +126,14 @@ def commit_house_counts():
         for house, count in v.items():
             session.merge(mv_model.HouseCounts(name=house, deck_expansion=exp, count=count))
 
-def count_decks(label, stat_func, commit_func):
+def count_decks(label, stat_func, commit_func, max_batches=None):
     batch_size = 1000
     # Get starting page/index from DeckStatCounted
     stat_count = session.query(mv_model.DeckStatCounted).filter(mv_model.DeckStatCounted.label==label)
     dsc = stat_count.first()
     if not dsc:
         dsc = mv_model.DeckStatCounted(label=label, start=0)
+    batch = 0
     while 1:
         print(f"batch starting with {dsc.start}")
         start = time.time()
@@ -163,6 +164,9 @@ def count_decks(label, stat_func, commit_func):
         per_sec = amt/duration
         print(f'Batch finished. Rate={per_sec} Finish={((2201280-dsc.start)/per_sec)/60/60} hrs')
         start = time.time()
+        batch += 1
+        if max_batches and batch > max_batches:
+            break
 
     print(count_data)
     print(time.time()-start)
