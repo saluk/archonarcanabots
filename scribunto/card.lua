@@ -35,6 +35,12 @@ function append(table, value)
 	return table
 end
 
+function extend(table1, table2)
+	for k,v in pairs(table2) do
+		append(table1, v)
+	end
+end
+
 local templates = require('Module:LuacardTemplates')
 local cardstyle = require('Module:LuacardStyle')
 local translations = require("Module:LocaleTable") -- double quotes to not stage
@@ -250,7 +256,7 @@ function apply_rulings(frame, vars)
 	local ruling_results = rulequery('FFGRuling', vars.cardname_e)
 	if(#ruling_results>0) then append(vars.categories, 'FFG Rulings') end
 
-	combine(official_results, ruling_results)
+	extend(official_results, ruling_results)
 
 	local commentary_results = rulequery('Commentary', vars.cardname_e)
 	local outstanding_results = rulequery('OutstandingIssues', vars.cardname_e)
