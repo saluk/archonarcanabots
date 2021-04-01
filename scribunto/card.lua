@@ -97,7 +97,11 @@ function stache(s, tab)
 end
 
 function wikitext(s)
-	return s:gsub('\n', ''):gsub('<p>','__PARA__')
+	if s==nil then
+		return ''
+	else
+		return s:gsub('\n', ''):gsub('<p>','__PARA__')
+	end
 end
 
 function dewikitext(s)
@@ -191,6 +195,9 @@ function apply_stats(frame, vars)
 end
 
 function apply_traits(frame, vars)
+	if vars.cardtraits==nil then
+		return
+	end
 	if(string.len(mw.text.trim(vars.cardtraits))==0) then
 		return
 	end
@@ -312,6 +319,7 @@ end
 function get_related_cards(cardname, related_row)
 	local cards = {}
 	local card_names = related_row['Cards']
+	if card_names==nil then return cards end
 	for name, _ in string.gmatch(card_names, '[^•]+') do
 		mw.log(name..', '..cardname)
 		if name~=cardname then
@@ -342,7 +350,6 @@ function apply_related(frame, vars)
 	end)
 	map(related_set, function(item)
 		item['Text'] = item['Text']:gsub('this card', "'''"..vars.cardname_e.."'''")
-		mw.log('Fetch cards for '..item['Cards'])
 		item['Cards'] = get_related_cards(frame.args.cardname, item)
 		return item
 	end)
