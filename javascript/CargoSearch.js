@@ -73,7 +73,9 @@ var getSearchField = function(field) {
 
 function htmlDecode(input){
   var e = document.createElement('div')
-  e.innerHTML = input
+  if(input) {
+    e.innerHTML = input
+  }
   return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue
 }
 
@@ -468,13 +470,13 @@ ${getCardImage({
         el+='<div class="reprint">reprint</div>'
       }
       el += '<div class="cardInfo">'
-      if(cardData.Power!= "" || cardData.Armor!=""){
+      if((cardData.Power && cardData.Power!= "") || (cardData.Armor && cardData.Armor!="")){
         el += ' POWER power - ARMOR armor '
       }
-      if(cardData.Amber!=""){
+      if(cardData.Amber && cardData.Amber!=""){
         el += ' AMBER <img src="https://archonarcana.com/images/f/fb/Enhance_aember.png" width="18px"> '
       }
-      if(cardData.Power!= "" || cardData.Armor!="" || cardData.Amber){
+      if((cardData.Power && cardData.Power!= "") || (cardData.Armor && cardData.Armor!="") || cardData.Amber){
         el += '<br>'
       }
       el += '<i>TRAITS</i><p>'

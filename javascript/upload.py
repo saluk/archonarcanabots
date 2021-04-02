@@ -22,6 +22,8 @@ def gen_artists(tables):
     }
     artists = []
     for result in cargo_query(search)['cargoquery']:
+        if not result['title'] or not 'Artist' in result['title']:
+            continue
         a = result['title']['Artist'].replace("?","").strip()
         if not a or a in artists:
             continue
@@ -38,6 +40,8 @@ def gen_traits(tables):
     }
     traits = []
     for result in cargo_query(search)['cargoquery']:
+        if not result['title'] or not 'Traits' in result['title']:
+            continue
         for t in result['title']['Traits'].split(" • "):
             t = t.replace('?','').strip()
             if not t or t in traits:
