@@ -817,6 +817,7 @@ function perform_errata_lookup(deckdata) {
         'tables=ErrataData',
         'fields=ErrataData.Text, CONCAT(_pageTitle)=title',
         'where=Tag="latest" OR Version<>""',
+        'order by="ErrataData._ID DESC"',
         'limit=500'
     ]
     var url = encodeURI(base+'&'+params.join('&'))
@@ -844,8 +845,8 @@ function cards_in_text(thecards, result, rule_types) {
         }
         if (
             (
-                (result['RulesText'].includes(name) && !result['RulesPages']) ||
-                (result['RulesPages'].includes('•'+name+'•'))
+                ((result['RulesText'] && result['RulesText'].includes(name)) && !result['RulesPages']) ||
+                ((result['RulesPages'] && result['RulesPages'].includes('•'+name+'•')))
             ) && (rule_types.includes(result['RulesType']))
         ) {
             return true;
@@ -884,11 +885,16 @@ function correlate_rules_by_card(cargo_results, cards, section) {
 }
 
 function write_errata(cargo_results, cards) {
+    var written = {}
     var div = $('.deck_errata')
     var errata_text = ''
     for(var card of cards) {
         for(var result of cargo_results) {
+            if(written[card.card_title]){
+              continue
+            }
             if(result.title === card.card_title) {
+                written[card.card_title] = true
                 errata_text += '<dt>'
                 errata_text += '<li>' + gen_rule_card_image(card, 40, 60)+card.card_title + '</li>'
                 errata_text += '</dt>'
@@ -936,6 +942,9 @@ function write_rules(cargo_results, cards, section) {
         </dt>
         `
         for(var result of texts[card_set]) {
+            if(!result['RulesText']){
+              continue
+            }
             var q_a = result['RulesText'].split('//')
             rule_text += q_a.map(function(text) {
                 return `<dd>${renderWikitextToHtml(
