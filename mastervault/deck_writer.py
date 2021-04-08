@@ -1,6 +1,7 @@
 import json
 
 from util import cargo_query
+from models import wiki_model
 
 COMMENTARY = """
 <templatestyles src="Template:Card/styles.css" /><templatestyles src="Template:FAQ_Entry/styles.css" />
@@ -127,23 +128,28 @@ def thumb(filename, size):
 
 class DeckWriter:
 
-    def __init__(self, deck):
+    def __init__(self, deck, locale, session):
         self.deck = deck
+        self.locale = locale
+        self.session = session
 
     def deck_json(self):
         def cd(card):
-            d = card.aa_format()
+            d = wiki_model.card_data(card.data) if self.locale=='en' else wiki_model.card_data(card.data, self.locale)
             d.update({
                 "house": card.data["house"],
                 "card_type": card.data["card_type"],
                 "front_image": card.data["front_image"]
             })
+            if self.locale != 'en':
+                d['image_number'] = self.locale.capitalize()+'-'+d['image_number']
             return d
+        cards = self.deck.get_cards() if self.locale=='en' else self.deck.get_locale_cards(self.session, self.locale)
         d = {
             'name': self.deck.name,
             'key': self.deck.key,
             'expansion': self.deck.expansion,
-            'cards': [cd(card) for card in self.deck.get_cards()]
+            'cards': [cd(card) for card in cards]
         }
         return d
 

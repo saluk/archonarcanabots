@@ -383,7 +383,7 @@ def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:Backgro
 
 
 @mvapi.get('/get_aa_deck_data', tags=["aa-api"])
-def get_aa_deck_data(key:str=None):
+def get_aa_deck_data(key:str=None,locale:str='en'):
     # Get deck
     session = Session()
     deck_query = session.query(mv_model.Deck)
@@ -392,7 +392,7 @@ def get_aa_deck_data(key:str=None):
     deck = deck_query.first()
     # Return data
     if deck:
-        return deck_writer.DeckWriter(deck).deck_json()
+        return deck_writer.DeckWriter(deck, locale, session).deck_json()
     raise HTTPException(status_code=404, detail="No deck found by that ID")
 
 

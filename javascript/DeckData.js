@@ -1,4 +1,4 @@
-import {getCardImage, updateCardImages, unhashImage, uniques, renderWikitextToHtml, collapsible_block} from './myutils'
+import {getCardImage, updateCardImages, unhashImage, uniques, renderWikitextToHtml, collapsible_block, getLocaleFromSubdomain} from './myutils'
 import {cardCombos, images, set_name_by_number} from './data'
 
 var rulingSectionNames = {
@@ -698,23 +698,6 @@ dt a:hover {
   <link href='https://fonts.googleapis.com/css?family=Zilla Slab' rel='stylesheet'>
 `
 
-function perform_page_create(deck_key, div) {
-    div.append('<div class="loader">Importing deck...</div>')
-    $.ajax(
-        'https://keyforge.tinycrease.com/generate_aa_deck_page?key='+deck_key,
-        {
-            success: function (data, status, xhr) {
-                setTimeout(
-                    function() {
-                        //location.replace('https://archonarcana.com/Deck:'+deck_key+'?testjs=true')
-                    },
-                    2000
-                )
-            }
-        }
-    )
-}
-
 function perform_rule_lookup(deckdata) {
     var base = '/api.php?action=cargoquery&format=json'
     var params = [
@@ -1198,8 +1181,9 @@ function read_wiki_deck_data() {
 }
 
 function pull_deck_data(deck_key) {
+    var locale = getLocaleFromSubdomain()
     $.ajax(
-        'https://keyforge.tinycrease.com/get_aa_deck_data?key='+deck_key,
+        'https://keyforge.tinycrease.com/get_aa_deck_data?key='+deck_key+'&locale='+locale,
         {
             success: function (deck, status, xhr) {
                 write_deck_data(deck)

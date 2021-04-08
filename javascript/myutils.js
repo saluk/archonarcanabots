@@ -26,6 +26,15 @@ var locales = {
 	'ru-ru': [['ru', "Pусский"]]
 }
 
+function getLocaleFromSubdomain() {
+	var host = window.location.host
+	var subdomain = host.split('.')[0]
+	if(subdomain === 'www' || subdomain === 'archonarcana') {
+		return 'en'
+	}
+	return _to_full(subdomain)
+  }
+
 function getLocale(){
 	var locale;
 	var subdomain = window.location.hostname.split('\.')[0]
@@ -298,4 +307,4 @@ function carousel(first_time) {
 export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
 	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
 	joined, removePunctuation, getCardImage, updateCardImages, 
-	getLocale, locales, getFullLocale}
+	getLocale, locales, getFullLocale, getLocaleFromSubdomain}

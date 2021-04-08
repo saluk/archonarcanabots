@@ -293,6 +293,15 @@ class Deck(Base):
                 c.data['is_legacy'] = c.key in self.data.get('set_era_cards',{}).get('Legacy',[])
                 yield c
 
+    def get_locale_cards(self, session, locale):
+        i = 0
+        for card in self.get_cards():
+            for locale_card in session.query(LocaleCard).filter(LocaleCard.en_name==card.name, LocaleCard.locale==locale, LocaleCard.key==card.key):
+                i += 1
+                if i>100:
+                    break
+                yield locale_card
+
     def get_legacy_card_ids(self):
         return self.data.get('set_era_cards',{}).get('Legacy',[])
 
