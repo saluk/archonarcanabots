@@ -162,24 +162,28 @@ def read_enhanced(text, locale=None):
     # Enhancements
     t = enhanced_regex.get(locale, enhanced_regex[None])
     if locale == 'ko-ko':  # Korean changes the order so we have to special case it
-        regex = "((A*)((PT)*)(D*)(R*) %s)"
+        regex = "((A|\uf360|PT|\uf565|D|\uf361|R|\uf36e)* %s)"
     else:
-        regex = "(%s (A*)((PT)*)(D*)(R*))"
+        regex = "(%s (A|\uf360|PT|\uf565|D|\uf361|R|\uf36e)*)"
     regex = regex % (t,)
+    print(regex, locale)
     enhanced = re.match(regex, text)
     ea=ept=ed=er=0
     if enhanced:
-        ea = enhanced.group(0).count('A')
+        print(enhanced)
+        ea = enhanced.group(0).count('A')+enhanced.group(0).count('\uf360')
         a = "{{Aember}}" * ea
-        ept = enhanced.group(0).count('PT')
+        ept = enhanced.group(0).count('PT')+enhanced.group(0).count('\uf565')
         pt = "{{Capture}}" * ept
-        ed = enhanced.group(0).count('D')
+        ed = enhanced.group(0).count('D')+enhanced.group(0).count('\uf361')
         d = "{{Damage}}" * ed
-        er = enhanced.group(0).count('R')
+        er = enhanced.group(0).count('R')+enhanced.group(0).count('\uf36e')
         r = "{{Draw}}" * er
         text = text[:enhanced.start()] + "[[Enhance|%s]] " % t + "".join([a, pt, d, r]) + text[enhanced.end():]
     return text, {'enhance_amber':ea, 'enhance_capture':ept, 'enhance_damage':ed, 'enhance_draw':er}
 
+print(read_enhanced("Enhance \uf360\uf360\uf360\uf36e\uf361\uf361\uf565\uf565\uf565\uf565"))
+print(read_enhanced("\uf360\uf360\uf360\uf36e\uf361\uf361\uf565\uf565\uf565\uf565 강화", "ko-ko"))
 
 def modify_card_text(text, card_title, flavor_text=False):
     # Clean up carriage returns
@@ -193,19 +197,21 @@ def modify_card_text(text, card_title, flavor_text=False):
         text = re.sub(r"(^|: |\. |\r)A", r"\1$A$", text)
 
     # Turn <A> or something A or 1A or +A or -A into {{Aember}} or {{Aember}} or 1{{Aember}}
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}A\>{0,1}( |$|\.|\,)", r"\1\2{{Aember}}\3", text)
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}D\>{0,1}( |$|\.|\,)", r"\1\2{{Damage}}\3", text)
+    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}(A|\uf360)\>{0,1}( |$|\.|\,)", r"\1\2{{Aember}}\4", text)
+    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}(D|\uf361)\>{0,1}( |$|\.|\,)", r"\1\2{{Damage}}\4", text)
     # Bonus icon PT's and R's
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}PT\>{0,1}( |$|\.|\,)", r"\1\2{{Capture}}\3", text)
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}R\>{0,1}( |$|\.|\,)", r"\1\2{{Draw}}\3", text)
+    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}(PT|\uf565)\>{0,1}( |$|\.|\,)", r"\1\2{{Capture}}\4", text)
+    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}(R|\uf36e)\>{0,1}( |$|\.|\,)", r"\1\2{{Draw}}\4", text)
+    # Tide icon
+    text = re.sub(r"\uf566", r"{{Tide}}", text)
 
     # Replace A's at the begining of the sentance again
     text = re.sub(r"\$A\$", "A", text)
 
     if not flavor_text:
-        # bold abilities at the begining of a line or following a new line
+        # bold abilities at the begining of a line or following a new line, or following a tide icon
         # locale = en
-        text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\:)", r"\1'''\2'''", text)
+        text = re.sub(r"(^|\r|“|‘| *{{Tide}} *)((\w|\/| )+\:)", r"\1'''\2'''", text)
         # locale.startswith('zh') - different colon symbol
         # text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\：)", r"\1'''\2'''", text)
         # locale == 'th' - maybe wrong \w?
@@ -220,6 +226,8 @@ def modify_card_text(text, card_title, flavor_text=False):
     text = re.sub(r"(<p>| )+$", "", text)
     return text
 
+print(modify_card_text("'''Play:''' Give \u00c6mberfin Shark three +1 power counters. <p> At the end of your turn, remove a +1 power counter from \u00c6mberfin Shark. [[if you do|If you do]], each player gains 1\uf360.","Amberfin Shark"))
+print(modify_card_text("\uf566 Reap: Deal 2\uf361 to a creature. If this damage destroys that creature, raise the [[Tide|tide]].", 'Austeralis Seaborg'))
 
 def modify_search_text(text):
     # Clean up carriage returns
@@ -237,8 +245,9 @@ def linking_keywords(text):
     for kwr in remove_links_regex:
         text = kwr.sub(r"\1", text)
     for kw in sorted(replacement_links, key=lambda s: -len(s)):
-        debracket = re.split(r"(\[\[.*?\]\])", text)
-        rep = not debracket[0].startswith("[[")
+        debracket = re.split(r"(\[\[.*?\]\]|\{\{.*?\}\})", text)
+        print(debracket)
+        rep = not (debracket[0].startswith("[[") or debracket[0].startswith("{{"))
         for i in range(len(debracket)):
             if rep:
                 debracket[i] = re.sub(
@@ -250,6 +259,9 @@ def linking_keywords(text):
             rep = not rep
         text = "".join(debracket)
     return text
+
+
+print(linking_keywords("{{Tide}} Raise the Tide"))
 
 
 def nice_rarity(rarity):

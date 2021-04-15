@@ -76,7 +76,7 @@ class Workers:
         session.commit()
         logging.debug(">>decks counted")
 
-    def new_cards(self, cards=None, savedb=True, only_new_edits=True):
+    def new_cards(self, cards=None, savedb=True, only_new_edits=False):
         # TODO refactor this method into a class/module
         import util
         import tool_update_cards
