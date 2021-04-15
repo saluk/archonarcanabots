@@ -91,6 +91,8 @@ class Merger:
         keys, rows = self.rows[0], self.rows[1:]
         keys = [col for col in keys if col.strip()]
         for rowi, row in enumerate(rows):
+            if not [x for x in row if x]:
+                continue
             ob = {}
             for i, key in enumerate(keys):
                 ob[key] = row[i]
