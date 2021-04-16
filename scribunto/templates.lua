@@ -115,7 +115,7 @@ cardstatamber = shown for cards with bonus amber
   max = maximum available power value to link to search
   value = the power value for this card
 cardtraits = list of traits
-  . = the english trait word
+  trait = the english trait word
   translate_trait = the translated trait word
 ruleofficial = list of faq or ffg rulings
   RulesType = ruling type
@@ -261,7 +261,7 @@ ${/locale}
 
     <div class="traits">
     ${#cardtraits}
-    <html><a href="https://archonarcana.com/Card_Gallery?traits=${.}">${translate_trait}</a></html>
+    <html><a href="https://archonarcana.com/Card_Gallery?traits=${trait}">${translate_trait}</a></html>
     ${#delim} • ${/delim}
     ${/cardtraits}
     </div>
