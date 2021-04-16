@@ -30,16 +30,19 @@ def sanitize_trait(trait):
     return trait.replace("[","").replace("]","")
 
 def sanitize_text(text, flavor=False):
+    print("sanitize: start with",text)
     t = re.sub("(?<!\.)\.\.{1}$", ".", text)
     t = t.replace("_x000D_", '\r')
     t = t.replace("\ufeff", "")
     t = t.replace("\u202f", " ")
+    t = t.replace("<softreturn>", "\r")
+    t = t.replace("<nonbreak>", " ")
     if flavor:
         t = re.sub(" *(\n|\r\n) *", " ", t)
     # Hack because of dust pixie and virtuous works
     if t.strip() in ["(Vanilla)", "0"]:
         t = ""
-    print(f"santized text {text} to {t}")
+    print("end with", repr(t))
     return t.strip()
 
 
@@ -52,7 +55,9 @@ def test_sanitize():
     assert sanitize_text("'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]].\ufeff\ufeff") == "'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]]."
     assert sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True) == "\u201cThe Red Shroud will defend the Crucible from the threat of dark \u00e6mber.\u201d", repr(sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True))
     assert sanitize_text("something    \n    something else", flavor=True)=="something something else"
+    assert sanitize_text("\u201cThe sky\u2019s the limit...for now.\u201d <softreturn>\u2014Dr.<nonbreak>Verokter", flavor=True) == "\u201cThe sky\u2019s the limit...for now.\u201d \r\u2014Dr. Verokter"
 
+test_sanitize()
 
 # TODO pull this direct from the site
 # Enhance is handled custom
@@ -212,7 +217,7 @@ def modify_card_text(text, card_title, flavor_text=False):
     if not flavor_text:
         # bold abilities at the begining of a line or following a new line, or following a tide icon
         # locale = en
-        text = re.sub(r"(^|\r|“|‘| *{{Tide}} *)((\w|\/| )+\:)", r"\1'''\2'''", text)
+        text = re.sub(r"(^|\r|“|‘|\"| *{{Tide}} *)((\w|\/| )+\:)", r"\1'''\2'''", text)
         # locale.startswith('zh') - different colon symbol
         # text = re.sub(r"(^|\r|“|‘)((\w|\/| )+\：)", r"\1'''\2'''", text)
         # locale == 'th' - maybe wrong \w?
@@ -229,6 +234,7 @@ def modify_card_text(text, card_title, flavor_text=False):
 
 print(modify_card_text("'''Play:''' Give \u00c6mberfin Shark three +1 power counters. <p> At the end of your turn, remove a +1 power counter from \u00c6mberfin Shark. [[if you do|If you do]], each player gains 1\uf360.","Amberfin Shark"))
 print(modify_card_text("\uf566 Reap: Deal 2\uf361 to a creature. If this damage destroys that creature, raise the [[Tide|tide]].", 'Austeralis Seaborg'))
+print(modify_card_text("This creature gains, \"Reap: Play the top card of your deck.\"", 'Austeralis Seaborg'))
 
 def modify_search_text(text):
     # Clean up carriage returns
@@ -247,7 +253,6 @@ def linking_keywords(text):
         text = kwr.sub(r"\1", text)
     for kw in sorted(replacement_links, key=lambda s: -len(s)):
         debracket = re.split(r"(\[\[.*?\]\]|\{\{.*?\}\})", text)
-        print(debracket)
         rep = not (debracket[0].startswith("[[") or debracket[0].startswith("{{"))
         for i in range(len(debracket)):
             if rep:

@@ -2,8 +2,9 @@ SETS = {452: "WC",
         453: "WC-A",
         341: "CotA",
         435: "AoA",
-        479: "MM"}
-NEW_SETS = [712]
+        479: "MM",
+        496: "DT"}
+NEW_SETS = [496]
 SET_BY_NUMBER = {}
 SET_ORDER = []
 for numerical_set in sorted(SETS.keys()):
@@ -11,7 +12,7 @@ for numerical_set in sorted(SETS.keys()):
     SET_ORDER.append(setname)
     SET_BY_NUMBER[setname] = numerical_set
 
-NEXT_SET = "Dark Tidings"
+NEXT_SET = "Set 6"
 
 
 def nice_set_name(num):
@@ -20,7 +21,8 @@ def nice_set_name(num):
         "453": "Worlds Collide",  # Put the anomalies in the same set
         "341": "Call of the Archons",
         "435": "Age of Ascension",
-        "479": "Mass Mutation"
+        "479": "Mass Mutation",
+        "496": "Dark Tidings"
     }.get(str(num), NEXT_SET)
 
 

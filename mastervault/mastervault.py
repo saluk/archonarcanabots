@@ -165,7 +165,7 @@ class MasterVault:
         assert endpoint in ['decks']
         url = "https://www.keyforgegame.com/api/%s/" % endpoint
         key = url+";params:"+json.dumps(args, sort_keys=True)
-        return self.proxyget(url, params=args, headers={"Accept-Language": lang})
+        return self.proxyget(url, params=args, headers={"Accept-Language": lang}, cookies={"lang":lang})
 
     def get_deck(self, deck_name):
         args = {
@@ -296,18 +296,25 @@ class MasterVault:
         """Updates card definitions by retriving the decks that contain the cards using the given locale"""
         #Get all cards that need to be updated... all cards
         session = mv_model.Session()
-        query = session.query(mv_model.Card, mv_model.LocaleCard)
+        if rescrape:
+            query = session.query(mv_model.Card)
+        else:
+            query = session.query(mv_model.Card, mv_model.LocaleCard)
         if card_title:
             query = query.filter(mv_model.Card.name==card_title)
-        if not rescrape:
-            query = query.outerjoin(mv_model.LocaleCard, mv_model.LocaleCard.en_name==mv_model.Card.name).filter(mv_model.LocaleCard.locale==locale)
-        cards = [row[0] for row in query.all()
-            if not row[1] and
-            (
-                not (row[0].data["is_maverick"] or row[0].data["is_enhanced"]) or 
-                (row[0].name in ["Exchange Officer"] and row[0].data["house"] == "Dis")
+        def lookat_card(card):
+            return (
+                not (card.data["is_maverick"] or card.data["is_enhanced"]) or 
+                (card.name in ["Exchange Officer"] and card.data["house"] == "Dis")
             )
-        ]
+        if not rescrape:
+            query = query.outerjoin(mv_model.LocaleCard, and_(mv_model.LocaleCard.en_name==mv_model.Card.name,mv_model.LocaleCard.locale==locale))
+            print(query)
+            cards = [row[0] for row in query.all()
+                if not row[1] and lookat_card(row[0])
+            ]
+        else:
+            cards = [card for card in query.all() if lookat_card(card)]
 
         deck_pages = {}
         handled_cards = {}

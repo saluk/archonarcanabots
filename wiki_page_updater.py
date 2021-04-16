@@ -122,7 +122,9 @@ if __name__ == "__main__":
             session = mv_model.Session()
             query = session.query(mv_model.Card).filter(mv_model.Card.name.like(args.search))
             cards = query.all()
-        w.new_cards(cards, savedb=False)
+            print(f"search found cards {len(cards)}")
+
+        w.new_cards(cards, savedb=True)
         #w.new_cards(cards, savedb=True, only_new_edits=False)
     if args.command == "deck_scrape_lag":
         from mastervault.mastervault_workers import Workers

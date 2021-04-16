@@ -204,6 +204,8 @@ def add_card(card, cards):
     if card_data["card_title"] not in cards:
         cards[card_data["card_title"]] = {}
     cards[card_data["card_title"]][str(card_data["expansion"])] = card_data
+    # TODO may also need to run the linking functions after each card
+    add_artists_from_text(cards)
     return card_data
 
 
@@ -260,15 +262,22 @@ def build_links(cards, only=None):
 
 def add_artists_from_text(cards):
     print("add artists")
-    with open('data/artists_479.csv') as f:
-        header = False
-        for line in csv.reader(f):
-            if not header:
-                header = True
-                continue
-            num, artist = line
-            card = get_card_by_number(int(num), 479)
-            get_latest_from_card(card)["artist"] = artist
+    for setn in shared.get_set_numbers():
+        fn = f"data/artists_{setn}.csv"
+        if not os.path.exists(fn):
+            continue
+        with open(fn) as f:
+            header = False
+            for line in csv.reader(f):
+                if not header:
+                    header = True
+                    continue
+                num, artist = line
+                try:
+                    card = get_card_by_number(int(num), setn)
+                except:
+                    continue
+                card[str(setn)]["artist"] = artist
 
 
 def save_json(cards, locales):
@@ -403,7 +412,6 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
     cardtable = get_restricted_dict({
         "Name": latest["card_title"],
         "Image": latest["image_number"],
-        #"Artist": latest.get("artist", ""),
         "Text": latest["card_text"],
         "SearchText": latest["card_text_search"],
         "Keywords": SEPARATOR.join(latest["keywords"]),
@@ -423,6 +431,8 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
     }, restricted)
+    if latest.get("artist", ""):
+        cardtable["Artist"] = latest["artist"]
     # TODO This only updates SetData for old cards when we are importing new 
     if not only_sets:
         ct.update_or_create(table, cardtable["Name"], cardtable)
