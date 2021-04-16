@@ -1,4 +1,4 @@
-var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation']
+var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings']
 var spoiler_sets = ['Dark_Tidings']
 var houses_by_set = {
 	'Call_of_the_Archons': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
@@ -47,7 +47,7 @@ var houses = getHouses(sets)
 var spoilerhouses = getHouses(spoiler_sets)
 
 var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
-var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special']
+var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special', 'Evil Twin']
 var set5rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special', 'Evil Twin']
 var orders = {"Name":"Name","House":"House","Number":"CardNumber","Rarity":"Rarity","Power":"Power"}
 var keywords = ['Alpha',
