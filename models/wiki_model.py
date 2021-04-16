@@ -162,9 +162,9 @@ def read_enhanced(text, locale=None):
     # Enhancements
     t = enhanced_regex.get(locale, enhanced_regex[None])
     if locale == 'ko-ko':  # Korean changes the order so we have to special case it
-        regex = "((A|\uf360|PT|\uf565|D|\uf361|R|\uf36e)* %s)"
+        regex = "(\(*(A|\uf360|PT|\uf565|D|\uf361|R|\uf36e)*\)* %s)"
     else:
-        regex = "(%s (A|\uf360|PT|\uf565|D|\uf361|R|\uf36e)*)"
+        regex = "(%s \(*(A|\uf360|PT|\uf565|D|\uf361|R|\uf36e)*\)*)"
     regex = regex % (t,)
     print(regex, locale)
     enhanced = re.match(regex, text)
@@ -184,6 +184,7 @@ def read_enhanced(text, locale=None):
 
 print(read_enhanced("Enhance \uf360\uf360\uf360\uf36e\uf361\uf361\uf565\uf565\uf565\uf565"))
 print(read_enhanced("\uf360\uf360\uf360\uf36e\uf361\uf361\uf565\uf565\uf565\uf565 강화", "ko-ko"))
+print(read_enhanced("Enhance (\uf565\uf565). (These icons have already been added to cards in your deck.) <p> Reap: Exhaust a creature."))
 
 def modify_card_text(text, card_title, flavor_text=False):
     # Clean up carriage returns
