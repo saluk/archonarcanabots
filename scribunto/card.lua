@@ -120,6 +120,9 @@ local translate_trait = function(frame, type, word)
 		if(not translations[type][frame.args.locale]) then
 			return word
 		end
+		if(not translations[type][frame.args.locale][mw.ustring.lower(word)]) then
+			return word
+		end
 		return mw.ustring.upper(translations[type][frame.args.locale][mw.ustring.lower(word)])
 	else
 		return word
@@ -202,12 +205,18 @@ function apply_traits(frame, vars)
 		return
 	end
 	local split = mw.text.split(vars.cardtraits, ' • ')
-	vars.cardtraits = split
+	vars.cardtraits = {}
 	vars.translate_trait = function(self)
-		return translate_trait(frame, 'traits', self)
+		return translate_trait(frame, 'traits', self.trait)
 	end
 	for i = 1, #split do
 		append(vars.categories, split[i])
+		local ob = {}
+		ob.trait = split[i]
+		if i<#split then
+			ob.delim = true
+		end
+		append(vars.cardtraits, ob)
 	end
 end
 
@@ -442,6 +451,7 @@ function p.viewcard(frame)
 		vars.locales[9] = {keyforge="fr-fr", locale="/locale/fr", locale_name="français"}
 		vars.locales[10] = {keyforge="es-es", locale="/locale/es", locale_name="español"}
 		vars.locales[11] = {keyforge="en-en", locale="", locale_name="english"}
+		vars.locales[12] = {keyforge="ru-ru", locale="/locale/ru", locale_name="Pусский"}
 		local locale_table_results = cargo_results(
 			'CardLocaleData',
 			'Name,EnglishName,Text,FlavorText,Locale,Image',
