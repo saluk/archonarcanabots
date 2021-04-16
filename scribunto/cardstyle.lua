@@ -459,7 +459,7 @@ background-color: #dedcd3;
 
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 380px) {
   .topRow img {
       display:none;
   }
