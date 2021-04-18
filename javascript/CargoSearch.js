@@ -408,6 +408,9 @@ var CSearch = {
     return q
   },
   outputImageResult(self,cardData) {
+    if(!cardData.House) {
+      cardData.House = ''
+    }
     var image_number = cardData.Image
     var link = cardData.Name
     if(use_locale) {
