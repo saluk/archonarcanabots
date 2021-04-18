@@ -81,6 +81,8 @@ artdefault = show the card image in the general case
 is_amber_vault = show "dark amber vault" multihouse image  (todo: the general case could handle these)
 is_its_coming = show "it's coming" multihouse image
 is_multi = card has multiple houses, used for house display
+has_no_house = card is houseless, like the tide card
+has_no_rarity = card has empty rarity, like the tide case
 is_anomaly = used to display the house image for anomalies, because the icon is a different size
 cardstats = if the card has any valid stats to be shown
 has_carderrata = if the card has errata
@@ -221,14 +223,20 @@ ${/locale}
   <div class="rightSide">
     <div class="topRow">
       <div class="house ${cardhouse_color}">
-        ${#is_multi}Multi${/is_multi}
-        ${^is_multi}
-          ${#is_anomaly}{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>${/is_anomaly}
-          ${^is_anomaly}{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]${/is_anomaly}
-        ${/is_multi}
+        ${^has_no_house}
+          ${#is_multi}Multi${/is_multi}
+          ${^is_multi}
+            ${#is_anomaly}{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>${/is_anomaly}
+            ${^is_anomaly}{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]${/is_anomaly}
+          ${/is_multi}
+        ${/has_no_house}
       </div>
       <div class="type ${cardhouse_color}"><html><a href="https://archonarcana.com/Card_Gallery?types=${cardtype}">${cardtype_t}</a></html></div>
-      <div class="rarity ${cardhouse_color}">{{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity_t}</a></html></div>
+      <div class="rarity ${cardhouse_color}">
+        ${^has_no_rarity}
+          {{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity_t}</a></html>
+        ${/has_no_rarity}
+      </div> 
     </div>
 
 

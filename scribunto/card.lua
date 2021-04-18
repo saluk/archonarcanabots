@@ -67,6 +67,10 @@ end
 function stachify(table)
 	local under_tab = {}
 	for k,v in pairs(table) do
+		if v==nil then
+			table[k] = ''
+			v = ''
+		end
 		if string.find(k, '[.]') then
 			local parts = mw.text.split(k, '[.]')
 			if not under_tab[parts[1]] then
@@ -90,8 +94,8 @@ function cargo_results(ctable, cfields, cargs)
 end
 	
 function stache(s, tab)
-	insert_translated(tab)
 	stachify(tab)
+	insert_translated(tab)
 	s = '{{=${ }=}}'..s
 	return luastache:render(s, tab)
 end
@@ -105,6 +109,9 @@ function wikitext(s)
 end
 
 function dewikitext(s)
+	if s==nil then
+		return ''
+	end
 	return s:gsub('__PARA__', '<p>')
 end
 
@@ -161,8 +168,10 @@ local apply_altart = function(frame, vars)
 end
 
 function apply_house(frame, vars)
-	vars.is_multi = string.find(vars.cardhouse, '•', 1, true)
-	vars.is_anomaly = string.find(vars.cardhouse, 'Anomaly')
+	if vars.cardhouse ~= nil then
+		vars.is_multi = string.find(vars.cardhouse, '•', 1, true)
+		vars.is_anomaly = string.find(vars.cardhouse, 'Anomaly')
+	end
 	if(vars.is_multi) then
 		vars.cardhouse_color = ''
 		append(vars.categories, 'Multi')
@@ -422,7 +431,6 @@ function p.viewcard(frame)
 	vars.word_artist = 'Artist'
     vars.cardimage = card_results[1]['Image']
 	vars.cardhouse = card_results[1]['House']
-	vars.cardhouse_lower = vars.cardhouse:lower()
 	vars.cardrarity = card_results[1]['Rarity']
 	vars.cardtext = wikitext(card_results[1]['Text'])
 	vars.cardflavortext = wikitext(card_results[1]['FlavorText'])
@@ -432,6 +440,16 @@ function p.viewcard(frame)
 	vars.cardarmor = card_results[1]['Armor']
 	vars.cardamber = card_results[1]['Amber']
 	vars.cardtraits = card_results[1]['Traits']
+	if vars.cardhouse == nil then 
+		vars.cardhouse = ''
+		vars.has_no_house = true
+	end
+	if vars.cardtype == nil then vars.cardtype = '' end
+	if vars.cardrarity == nil then 
+		vars.cardrarity = ''
+		vars.has_no_rarity = true
+	end
+	vars.cardhouse_lower = vars.cardhouse:lower()
 	vars.categories = {vars.cardtype, vars.cardrarity, 'Card'}
 	if(string.find(vars.cardtext,vars.cardname)) then
 		append(vars.categories, 'Self-referential')
