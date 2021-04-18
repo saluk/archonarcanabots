@@ -454,6 +454,8 @@ function p.viewcard(frame)
 		load_translation_table(frame.args.locale)
 	end
 	vars.cardname_e = vars.cardname
+	vars.cardname_stripped = mw.ustring.gsub(vars.cardname_e, " %(Evil Twin%)", "")
+	vars.cardname_stripped = mw.ustring.gsub(vars.cardname_stripped, " %(Anomaly%)", "")
 	vars.word_power = 'Power'
 	vars.word_armor = 'Armor'
 	vars.word_artist = 'Artist'
@@ -479,7 +481,7 @@ function p.viewcard(frame)
 	end
 	vars.cardhouse_lower = vars.cardhouse:lower()
 	vars.categories = {vars.cardtype, vars.cardrarity, 'Card'}
-	if(string.find(vars.cardtext,vars.cardname)) then
+	if(string.find(vars.cardtext,vars.cardname_stripped)) then
 		append(vars.categories, 'Self-referential')
 	end
 
