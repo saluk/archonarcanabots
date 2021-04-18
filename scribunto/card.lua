@@ -347,7 +347,9 @@ function get_related_cards(cardname, related_row)
 				{
 					where='CardData.Name="'..name..'"'
 				})
-			card_results[1]["Name_br"] = mw.ustring.gsub(card_results[1]["Name"], "%(", "<br>(")
+			if card_results[1] ~= nil then
+				card_results[1]["Name_br"] = mw.ustring.gsub(card_results[1]["Name"], "%(", "<br>(")
+			end
 			append(cards, card_results[1])
 		end
 	end
