@@ -316,6 +316,16 @@ function relatedquery(cardname)
 		})
 end
 
+function relatedflavorquery(cardname)
+	return cargo_results(
+		'CardData',
+		'Name, FlavorText',
+		{
+			where="CardData.FlavorText LIKE '%"..cardname.."%'",
+			orderBy='CardData.Name ASC'
+		})
+end
+
 function twinquery(cardname)
 	local searchname = cardname
 	if string.find(cardname, 'Evil Twin') ~= nil then
@@ -358,10 +368,12 @@ end
 
 function apply_related(frame, vars)
 	-- we use cardname_e and just show english related
-	local related_set = relatedquery(vars.cardname_e)
-	local twin_set = twinquery(vars.cardname_e)
-	mw.logObject(twin_set)
-	map(twin_set, function(item)
+	local related_set = {}
+	local related_cards_set = relatedquery(vars.cardname_e)
+	local related_flavor_set = relatedflavorquery(vars.cardname_e)
+	local related_twin_set = twinquery(vars.cardname_e)
+	mw.logObject(related_twin_set)
+	map(related_twin_set, function(item)
 		local twin_name = 'an Evil Twin'
 		if item["Name"]:find('Evil Twin')==nil then twin_name = 'a non-Evil Twin' end
 		append(related_set, {
@@ -370,6 +382,18 @@ function apply_related(frame, vars)
 			Cards = "•"..item["Name"].."•"
 		})
 	end)
+	if #related_flavor_set > 0 then
+		local flavor_card_names = ""
+		for i=1, #related_flavor_set do
+			flavor_card_names = flavor_card_names .. "•"..related_flavor_set[i]["Name"].."•"
+		end
+		append(related_set, {
+			Pages = "•"..vars.cardname_e.."•",
+			Text = "this card is featured in the flavor text of the following cards:",
+			Cards = flavor_card_names
+		})
+	end
+	extend(related_set, related_cards_set)
 	map(related_set, function(item)
 		item['Text'] = item['Text']:gsub('this card', "'''"..vars.cardname_e.."'''")
 		item['Cards'] = get_related_cards(frame.args.cardname, item)
