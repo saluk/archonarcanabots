@@ -25,6 +25,7 @@ def sanitize_trait(trait):
     return trait.replace("[","").replace("]","")
 
 card_title_reg = []
+card_title_reg_2 = {}
 trait_reg = []
 
 
@@ -38,7 +39,7 @@ def card_titles_that_link():
 
 def link_card_titles(text, original_title):
     # Clean up original title from tags we added that wouldn't be in the card text
-    original_title = original_title.replace("(Anomaly)","").strip()
+    original_title = original_title.replace("(Anomaly)","").replace("(Evil Twin)","").strip()
     if not card_title_reg:
         card_titles = sorted([x for x in card_titles_that_link() if not x.lower() in blacklist_card_names])
         card_titles = "|".join(card_titles).replace("(", r"\(").replace(")", r"\)")
@@ -47,13 +48,26 @@ def link_card_titles(text, original_title):
         card_title_reg.append(
             re.compile(r, flags=re.IGNORECASE)
         )
-    crazy_reg = card_title_reg[0]
-    # Replace card titles with link
-    text = re.sub(crazy_reg, r"\1[[STITLE\2ETITLE]]\3", text)
-    # Replace remaining matches with STITLE/ETITLE tags
-    text = re.sub(crazy_reg, r"\1STITLE\2ETITLE\3", text)
+    card_titles = sorted([x for x in card_titles_that_link() if not x.lower() in blacklist_card_names])
+    for t in card_titles:
+        t = re.sub("\(.*?\)","", t).strip()
+        if not t:
+            continue
+        if t in card_title_reg_2:
+            continue
+        r = r"(^|[^[a-z\-])("+re.sub('["””“]', ".", t)+r")([^\]a-z]|$)"
+        r = re.compile(r, flags=re.IGNORECASE)
+        card_title_reg_2[t] = r
+    #print(card_title_reg_2)
+    print("text:", repr(text))
     # Replace self-referential card title with no link
-    text = re.sub(r"\[\[STITLE(%s)ETITLE\]\]" % original_title, r"STITLE\1ETITLE", text, flags=re.IGNORECASE)
+    text = re.sub(r"(^|[^[a-z\-])("+original_title+r")([^\]a-z]|$)", r"\1STITLE\2ETITLE\3", text, flags=re.IGNORECASE)
+    print("self ref text", repr(text))
+    for (t, r) in card_title_reg_2.items():
+        # Replace card titles with link
+        text = re.sub(r, r"\1[[STITLE"+t+r"|\2ETITLE]]\3", text)
+        # Replace remaining matches with STITLE/ETITLE tags
+        text = re.sub(r, r"\1STITLE\2ETITLE\3", text)
     return text
 
 traits_blacklist = [
@@ -204,8 +218,9 @@ def add_card(card, cards):
     if card_data["card_title"] not in cards:
         cards[card_data["card_title"]] = {}
     cards[card_data["card_title"]][str(card_data["expansion"])] = card_data
-    # TODO may also need to run the linking functions after each card
     add_artists_from_text(cards)
+    build_links([card_data["card_title"]])
+    clean_fields_data(card_data)
     return card_data
 
 
@@ -253,11 +268,14 @@ def build_links(cards, only=None):
             continue
         card["flavor_text"] = link_card_titles(card["flavor_text"], card_title) #leaves behind stitle/etitle tags
         card["card_text"] = link_card_titles(card["card_text"], card_title)  #leaves behind stitle/etitle tags
+        print("LINKED", card["card_text"], card["flavor_text"])
         link_card_traits(card)  #uses stitle/etitle tags to avoid covering the same ground
+        print("TRAITS", card["card_text"], card["flavor_text"])
         #Clean up stitle/etitle tags
         card["card_text"] = re.sub("(STITLE|ETITLE)", "", card["card_text"])
         card["flavor_text"] = re.sub("(STITLE|ETITLE)", "", card["flavor_text"])
         card["_linking_finished"] = True
+        print("CLEAN", card["card_text"], card["flavor_text"])
 
 
 def add_artists_from_text(cards):
@@ -286,19 +304,20 @@ def save_json(cards, locales):
     with open("data/my_card_db_locales.json", "w") as f:
         f.write(json.dumps(locales, indent=2, sort_keys=True))
 
-def clean_fields(cards, locales):
-    print("clean fields")
-    ignore_fields = ["deck_expansion"]
-    def clean_fields(data):
+ignore_fields = ["deck_expansion"]
+def clean_fields_data(data):
         for key in list(data.keys()):
             if key.startswith("_") or key in ignore_fields:
                 del data[key]
+
+def clean_fields(cards, locales):
+    print("clean fields")
     for card_name, set_data in cards.items():
         for set_name, card_data in set_data.items():
-            clean_fields(card_data)
+            clean_fields_data(card_data)
     for locale, locale_data in locales.items():
         for english_name, card_data in locale_data.items():
-            clean_fields(card_data)
+            clean_fields_data(card_data)
 
 
 def process_mv_card_batch(card_batch: list) -> list:
