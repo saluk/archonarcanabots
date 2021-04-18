@@ -330,7 +330,7 @@ function twinquery(cardname)
 		'Name',
 		{
 			groupBy='Name',
-			where="Name='"..searchname.."'"
+			where='Name="'..searchname..'"'
 		})
 end
 
@@ -338,7 +338,7 @@ function get_related_cards(cardname, related_row)
 	local cards = {}
 	local card_names = related_row['Cards']
 	if card_names==nil then return cards end
-	for name, _ in string.gmatch(card_names, '[^•]+') do
+	for name, _ in mw.ustring.gmatch(card_names, '[^•]+') do
 		mw.log(name..', '..cardname)
 		if name~=cardname then
 			local card_results = cargo_results(
@@ -347,6 +347,7 @@ function get_related_cards(cardname, related_row)
 				{
 					where='CardData.Name="'..name..'"'
 				})
+			card_results[1]["Name_br"] = mw.ustring.gsub(card_results[1]["Name"], "%(", "<br>(")
 			append(cards, card_results[1])
 		end
 	end
@@ -357,6 +358,7 @@ function apply_related(frame, vars)
 	-- we use cardname_e and just show english related
 	local related_set = relatedquery(vars.cardname_e)
 	local twin_set = twinquery(vars.cardname_e)
+	mw.logObject(twin_set)
 	map(twin_set, function(item)
 		local twin_name = 'an Evil Twin'
 		if item["Name"]:find('Evil Twin')==nil then twin_name = 'a non-Evil Twin' end

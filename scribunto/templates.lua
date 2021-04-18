@@ -139,6 +139,7 @@ related = list of related card information
   Cards = list of related cards for this relationship
       Image = the card image
       Name = the card name
+      Name_br = the card name with a break before parenthesis
 cardnotes = list of notes about this card
   Text = the text of the note
 --]]
@@ -335,7 +336,7 @@ ${/locale}
     <div class="thumbnailWrap">
     ${#Cards}
       <div class="thumbnailImg">
-      [[File:${Image}|100px|frameless|link=${Name}|alt=${Name}]]<br>[[${Name}]]
+      [[File:${Image}|100px|frameless|link=${Name}|alt=${Name}]]<br>[[${Name}|${Name_br}]]
       </div>
     ${/Cards}
     </div>
