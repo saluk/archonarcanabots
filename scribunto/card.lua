@@ -242,8 +242,8 @@ function apply_errata(frame, vars)
 	)
 	if(#errata_results>0) then
 		vars.has_carderrata = true
-		vars.original_text=wikitext(errata_results[1]['ErrataData.Text'])
-		vars.errata_text=wikitext(errata_results[#errata_results]['ErrataData.Text'])
+		vars.original_text=errata_results[1]['ErrataData.Text']
+		vars.errata_text=errata_results[#errata_results]['ErrataData.Text']
 		vars.errata_version = errata_results[#errata_results]['ErrataData.Version']
 		if(string.find(vars.errata_version, 'Rulebook')) then
 			append(vars.categories, 'Errata')
@@ -287,6 +287,7 @@ function apply_rulings(frame, vars)
 	local outstanding_results = rulequery('OutstandingIssues', vars.cardname_e)
 
 	vars.ruleofficial = official_results
+	mw.logObject(ruleofficial)
 	vars.has_ruleofficial = #vars.ruleofficial > 0
 	vars.rulecommentary = commentary_results
 	vars.has_rulecommentary = #vars.rulecommentary > 0
@@ -531,7 +532,7 @@ function p.viewcard(frame)
 		vars.categories = ''
 	end
 
-	text = stache(templates.template_base, vars):gsub('\n','')
+	text = stache(templates.template_base:gsub('\n',''), vars)
 	if(frame.args.debug==nil) then
 		text = frame:preprocess(text)
 	end
