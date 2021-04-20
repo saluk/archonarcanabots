@@ -416,8 +416,11 @@ def get_restricted_dict(source, restricted, pre=""):
         return source
     print("restricted",restricted, "pre", pre)
     rd= {}
+    if pre:
+        pre = pre+"."
     for key in source:
-        if pre+"."+key in restricted:
+        print(restricted, pre+key)
+        if pre+key in restricted:
             rd[key] = source[key]
     return rd
 

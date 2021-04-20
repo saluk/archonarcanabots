@@ -203,11 +203,11 @@ def modify_card_text(text, card_title, flavor_text=False):
         text = re.sub(r"(^|: |\. |\r)A", r"\1$A$", text)
 
     # Turn <A> or something A or 1A or +A or -A into {{Aember}} or {{Aember}} or 1{{Aember}}
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}(A|\uf360)\>{0,1}( |$|\.|\,)", r"\1\2{{Aember}}\4", text)
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}(D|\uf361)\>{0,1}( |$|\.|\,)", r"\1\2{{Damage}}\4", text)
+    text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}(A|\uf360)\>{0,1}( |$|\.|\,)", r"\1\2{{Aember}}\4", text)
+    text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}(D|\uf361)\>{0,1}( |$|\.|\,)", r"\1\2{{Damage}}\4", text)
     # Bonus icon PT's and R's
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}(PT|\uf565)\>{0,1}( |$|\.|\,)", r"\1\2{{Capture}}\4", text)
-    text = re.sub(r"( |\+|\-|–|\r)(\d+)*\<{0,1}(R|\uf36e)\>{0,1}( |$|\.|\,)", r"\1\2{{Draw}}\4", text)
+    text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}(PT|\uf565)\>{0,1}( |$|\.|\,)", r"\1\2{{Capture}}\4", text)
+    text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}(R|\uf36e)\>{0,1}( |$|\.|\,)", r"\1\2{{Draw}}\4", text)
     # Tide icon
     text = re.sub(r"\uf566", r"{{Tide}}", text)
 
@@ -231,10 +231,6 @@ def modify_card_text(text, card_title, flavor_text=False):
     # Replace trailing <p> and spaces
     text = re.sub(r"(<p>| )+$", "", text)
     return text
-
-print(modify_card_text("'''Play:''' Give \u00c6mberfin Shark three +1 power counters. <p> At the end of your turn, remove a +1 power counter from \u00c6mberfin Shark. [[if you do|If you do]], each player gains 1\uf360.","Amberfin Shark"))
-print(modify_card_text("\uf566 Reap: Deal 2\uf361 to a creature. If this damage destroys that creature, raise the [[Tide|tide]].", 'Austeralis Seaborg'))
-print(modify_card_text("This creature gains, \"Reap: Play the top card of your deck.\"", 'Austeralis Seaborg'))
 
 def modify_search_text(text):
     # Clean up carriage returns

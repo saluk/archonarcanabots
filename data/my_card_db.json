@@ -33815,7 +33815,7 @@
       "artist": "Adam Vehige",
       "assault": 0,
       "card_number": "421",
-      "card_text": "Your opponent's keys [[Cost|cost]] +X\uf360, where X is Mookling's power.",
+      "card_text": "Your opponent's keys [[Cost|cost]] +X{{Aember}}, where X is Mookling's power.",
       "card_text_search": "Your opponent's keys cost +X\uf360, where X is Mookling's power.",
       "card_title": "Mookling",
       "card_type": "Creature",

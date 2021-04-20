@@ -229,6 +229,12 @@ def update_cards_v2(wp, search_name=None,
                 wait = True
                 print("changed:", text)
                 changed += 1
+        if texts[0]:
+            import alerts
+            alerts.discord_alert("Updated card %s with fields %s." % (
+                'https://archonarcana.com/%s' % (card_name.replace(" ","_")),
+                restricted or "ALL",
+            ))
         if wait:
             time.sleep(0.05)
     print(changed, "cards changed")

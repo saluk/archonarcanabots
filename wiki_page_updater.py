@@ -44,7 +44,8 @@ if __name__ == "__main__":
         import tool_update_cards
         tool_update_cards.update_cards_v2(wp, args.search, "importing card data", 
                                             "carddb", args.restricted.split("|") if args.restricted else [],
-                                            upload_image=False)
+                                            upload_image=False,
+                                            pause=args.pause)
     if args.command == "import_cards_locale":
         import tool_update_cards
         for locale in args.locale.split(","):
