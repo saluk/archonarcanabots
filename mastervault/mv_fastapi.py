@@ -459,6 +459,16 @@ def deck_count():
     return resp
 
 
+@mvapi.put("/spreadsheet", tags=["aa-api"])
+def put_spreadsheet(name:str):
+    import tool_merge_db
+    wp = connections.get_wiki()
+    changed = tool_merge_db.merge(wp, name, False)
+    return {
+        "changed_sheets": changed
+    }
+
+
 @mvapi.put('/generate_event_decks', tags=["aa-maintenance"])
 def generate_event_decks(current_user: UserInDB = Depends(get_current_user)):
     wp = connections.get_wiki()

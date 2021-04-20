@@ -107,7 +107,7 @@ class Merger:
             self.merge_object_keys()
         else:
             raise Exception("Unknown row/column format")
-    def to_page(self, wp):
+    def to_page(self, wp, pause):
         page = wp.page(self.title)
         #self.parse_cargo(page)
         self.merge()
@@ -117,19 +117,26 @@ class Merger:
             f"<noinclude>This data was populated from {self.edit_url} - edits may later be overwritten.</noinclude>\n" + self.cargotable.output_text(),
             f"updating {self.title} from spreadsheet",
             "",
-            pause=True,
+            pause=pause,
             read=True
         ):
             alerts.discord_alert(f"Cargo table {self.title} updated from spreadsheet {self.edit_url}")
+            return True
 
-def merge(wp):
+def merge(wp, sheet_name=None, pause=True):
     with open('data/spreadsheets.json') as f:
         spreadsheets = json.loads(f.read())['google_links']
+    changed = []
     for sheet, url in spreadsheets.items():
+        if sheet_name and not sheet == sheet_name:
+            continue
         if sheet == "translated_terms":
-            LocaleMerger(url).to_page(wp)
+            success = LocaleMerger(url).to_page(wp, pause)
         else:
-            Merger(url).to_page(wp)
+            success = Merger(url).to_page(wp, pause)
+        if success:
+            changed.append(sheet)
+    return changed
 
 def access_table(table, fields):
     search = {
