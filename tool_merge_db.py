@@ -4,6 +4,7 @@ import json
 import requests
 import re
 from util import cargo_query
+import alerts
 
 def read_spreadsheet(sheet_url):
     r = requests.get(sheet_url)
@@ -72,11 +73,15 @@ class LocaleMerger:
 
 class Merger:
     def __init__(self, sheet_url):
+        self.sheet_url = sheet_url
         self.rows = read_spreadsheet(sheet_url)
         self.title = None
         self.read_meta()
         self.filter_rows()
         self.cargotable = CargoTable()
+    @property
+    def edit_url(self):
+        return self.sheet_url.rsplit('/', 1)[0]+'/edit?usp=sharing'
     def read_meta(self):
         if self.rows[0][0]!='meta':
             raise Exception("No meta defined")
@@ -106,15 +111,16 @@ class Merger:
         page = wp.page(self.title)
         #self.parse_cargo(page)
         self.merge()
-        update_page(
+        if update_page(
             self.title,
             page,
-            self.cargotable.output_text(),
+            f"<noinclude>This data was populated from {self.edit_url} - edits may later be overwritten.</noinclude>\n" + self.cargotable.output_text(),
             f"updating {self.title} from spreadsheet",
             "",
             pause=True,
             read=True
-        )
+        ):
+            alerts.discord_alert(f"Cargo table {self.title} updated from spreadsheet {self.edit_url}")
 
 def merge(wp):
     with open('data/spreadsheets.json') as f:
