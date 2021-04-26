@@ -176,11 +176,9 @@ function apply_house(frame, vars)
 	if(vars.is_multi) then
 		vars.cardhouse_color = ''
 		append(vars.categories, 'Multi')
-	elseif(vars.is_starAlliance) then
-		vars.cardhouse_color = 'starAlliance'
-		append(vars.categories, vars.cardhouse)
 	else
-		vars.cardhouse_color = vars.cardhouse_lower
+		vars.cardhouse_color = mw.ustring.gsub(vars.cardhouse, '%s', '')
+		vars.cardhouse_color = mw.ustring.sub(vars.cardhouse_color, 1, 1):lower() .. mw.ustring.sub(vars.cardhouse_color, 2)
 		append(vars.categories, vars.cardhouse)
 	end
 end
@@ -485,7 +483,6 @@ function p.viewcard(frame)
 		vars.cardrarity = ''
 		vars.has_no_rarity = true
 	end
-	vars.cardhouse_lower = vars.cardhouse:lower()
 	vars.categories = {vars.cardtype, vars.cardrarity, 'Card'}
 	if(string.find(vars.cardtext,vars.cardname_stripped)) then
 		append(vars.categories, 'Self-referential')
