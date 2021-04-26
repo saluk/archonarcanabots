@@ -6,7 +6,8 @@ var houses_by_set = {
 	'Age_of_Ascension': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
 	'Worlds_Collide': new Set(['Dis','Logos','Saurian','Star_Alliance','Shadows','Untamed','Anomaly', 'Brobnar']),
 	'Mass_Mutation': new Set(['Dis','Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed']),
-	'Dark_Tidings': new Set(['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed', 'Unfathomable'])
+	'Dark_Tidings': new Set(['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed', 'Unfathomable']),
+	'Rise_of_the_Keyraken': new Set(['The Keyraken'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -84,7 +85,7 @@ var traits = ['AI', 'Agent', 'Alien', 'Ally', 'Angel', 'Aquan', 'Arm', 'Assassin
 var set5traits = ['AI', 'Alien', 'Angel', 'Aquan', 'Beast', 'Cat', 'Cyborg', 'Dinosaur', 'Dragon', 'Elf', 'Fisher', 'Fungus', 'Handuhan', 'Human', 'Insect', 'Item', 'Knight', 'Krxix', 'Law', 'Leader', 'Location', 'Monk', 'Mutant', 'Philosopher', 'Pilot', 'Politician', 'Power', 'Priest', 'Proximan', 'Quest', 'Robot', 'Scientist', 'Ship', 'Soldier', 'Specter', 'Spirit', 'Thief', 'Treasure', 'Weapon', 'Witch']
 var cardCombos = []
 
-export {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
+export {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets, kfa_sets,
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
 		multiHouseCards,
 		types, rarities, set5rarities, orders, keywords, features, getHouses, getDeckHouses,

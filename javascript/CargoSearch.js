@@ -1,5 +1,5 @@
 import {EditField, minmax} from './FormElements'
-import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets,
+import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets, kfa_sets,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
   types, rarities, set5rarities, orders, keywords, features, getHouses, images} from './data'
 import {parseQueryString, joined, 
@@ -159,6 +159,7 @@ var CSearch = {
     this.element = element;
     this.spoilers = this.element.attr('data-spoilers')!=null;
     this.countField = this.spoilers? 'CardNumber': 'Name'
+    this.format = parseQueryString('format')
     if(this.spoilers){
       getSearchField('houses').values = spoilerhouses
       getSearchField('rarities').values = set5rarities
@@ -177,6 +178,9 @@ var CSearch = {
         }
         return true
       })
+    }
+    if(this.format=="KFA") {
+      getSearchField('sets').values = kfa_sets
     }
     window.addEventListener("scroll", function() {
       self.listenScroll()
@@ -314,8 +318,9 @@ var CSearch = {
       joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
     ]
     var lsets = this.sets
-    if (lsets.length == 0)
+    if (this.format !== 'kfa' && lsets.length == 0) {
       lsets = sets
+    }
     if(!this.exclusiveSet[0]) {
       clauses.push(joined('SetName=%22', lsets, '%22', 'OR'))
     }
