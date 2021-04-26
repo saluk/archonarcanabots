@@ -171,15 +171,20 @@ function apply_house(frame, vars)
 	if vars.cardhouse ~= nil then
 		vars.is_multi = string.find(vars.cardhouse, '•', 1, true)
 		vars.is_anomaly = string.find(vars.cardhouse, 'Anomaly')
+		vars.is_starAlliance = string.find(vars.cardhouse, 'Star Alliance')
 	end
 	if(vars.is_multi) then
 		vars.cardhouse_color = ''
 		append(vars.categories, 'Multi')
+	elseif(vars.is_starAlliance) then
+		vars.cardhouse_color = 'starAlliance'
+		append(vars.categories, vars.cardhouse)
 	else
 		vars.cardhouse_color = vars.cardhouse_lower
 		append(vars.categories, vars.cardhouse)
 	end
 end
+
 
 function minmax_arg(value, max)
 	value = tonumber(value)
@@ -318,13 +323,13 @@ function relatedquery(cardname)
 end
 
 function relatedflavorquery(cardname)
-	return cargo_results(
-		'CardData',
-		'Name, FlavorText',
-		{
-			where="CardData.FlavorText LIKE '%"..cardname.."%'",
-			orderBy='CardData.Name ASC'
-		})
+    return cargo_results(
+        'CardData',
+        'Name, FlavorText',
+        {
+            where="(CardData.FlavorText LIKE '%"..cardname.."%') AND (CardData.Name NOT LIKE '%"..cardname.."%')",
+            orderBy='CardData.Name ASC'
+        })
 end
 
 function twinquery(cardname)
