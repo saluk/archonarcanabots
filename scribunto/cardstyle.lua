@@ -1,4 +1,4 @@
---Module:LuacardStyle
+--Module:LuacardStyleKFA
 --canstage
 return {
   cardstyle = [==[

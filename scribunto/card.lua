@@ -1,4 +1,4 @@
---Module:Luacard
+--Module:LuacardKFA
 --canstage
 --Usage: english - {{#invoke luacard | viewcard | cardname=Angry Mob}} 
 --       other language {{#invoke luacard | viewcard | cardname=Angry Mob | locale=fr-fr}}   (language codes are all 2 part)
@@ -257,11 +257,14 @@ function apply_errata(frame, vars)
 end
 
 function apply_categories(frame, vars)
+	mw.log(vars.category_prefix)
 	for c=1, #vars.categories do
+		vars.categories[c] = vars.category_prefix .. vars.categories[c]
 		if(string.len(mw.text.trim(vars.categories[c]))>0) then
 			vars.categories[c] = stache('[[Category:${c}]]', {c=vars.categories[c]})
 		end
 	end
+	mw.logObject(vars.categories)
 	vars.categories = '<includeonly>'..table.concat(vars.categories,'')..'</includeonly>'
 end
 
@@ -422,7 +425,7 @@ end
 function apply_sets(frame, vars)
 	vars.cardsets = cargo_results(
 		'SetData,CardData,SetInfo',
-		'SetData.SetName, SetData.CardNumber, SetInfo.ReleaseYear, SetInfo.ReleaseMonth, SetInfo.ShortName',
+		'SetData.SetName, SetData.CardNumber, SetInfo.ReleaseYear, SetInfo.ReleaseMonth, SetInfo.ShortName, SetInfo.SetNumber',
 		{
 			join='SetData._pageTitle=CardData.Name,SetData.SetName=SetInfo.SetName',
 			where='CardData.Name="'..frame.args.cardname..'"',
@@ -430,6 +433,11 @@ function apply_sets(frame, vars)
 		})
 	for r = 1, #vars.cardsets do
 		local result = vars.cardsets[r]
+		mw.log(result['SetInfo.SetNumber'])
+		if mw.ustring.find(result['SetInfo.SetNumber'], 'KFA.*') ~= nil then
+			vars.category_prefix = 'KFA '
+		end
+		mw.log(vars.category_prefix)
 		append(vars.categories, set_category[result['SetData.SetName']])
 	end
 	vars.shortset_from_name = function(self)
@@ -472,8 +480,9 @@ function p.viewcard(frame)
 	vars.cardtype = card_results[1]['Type']
 	vars.cardpower = card_results[1]['Power']
 	vars.cardarmor = card_results[1]['Armor']
-	vars.cardamber = card_results[1]['Amber']
+	vars.cardamber = card_results[1]['Amber'] or '0'
 	vars.cardtraits = card_results[1]['Traits']
+	vars.category_prefix = ''
 	if vars.cardhouse == nil then 
 		vars.cardhouse = ''
 		vars.has_no_house = true
