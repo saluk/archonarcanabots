@@ -142,6 +142,7 @@ var CSearch = {
   excludeReprints: false,
   reprints: ['New Cards', 'Reprints', 'Unknown'], //Only for spoilers
   spoilers: false,
+  format: '', // blank = standard, KFA = adventures
   countField: '',
   loadingCards: false,
   loadingCount: false,
@@ -312,8 +313,11 @@ var CSearch = {
       joined(card_db+'.SearchText%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
       joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
     ]
+    var lsets = this.sets
+    if (lsets.length == 0)
+      lsets = sets
     if(!this.exclusiveSet[0]) {
-      clauses.push(joined('SetName=%22', this.sets, '%22', 'OR'))
+      clauses.push(joined('SetName=%22', lsets, '%22', 'OR'))
     }
     // New exclude reprints option
     if(join_sets && this.excludeReprints) {
@@ -387,9 +391,9 @@ var CSearch = {
     }
     if(this.exclusiveSet[0]) {
       var each_set = []
-      this.sets.map((set)=>{
+      lsets.map((set)=>{
         var this_set = []
-          for(const prevSet of sets){
+          for(const prevSet of lsets){
             if(prevSet===set){
               break
             }

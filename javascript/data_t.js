@@ -1,4 +1,5 @@
 var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings']
+var kfa_sets = ['Rise_of_the_Keyraken']
 var spoiler_sets = ['Dark_Tidings']
 var houses_by_set = {
 	'Call_of_the_Archons': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
