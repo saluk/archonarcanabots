@@ -66,9 +66,9 @@ var CSearchRandom = {
         return Math.floor(Math.random() * Math.floor(max)) + 1;
     }
     for(var i=0;i<this.numCards;i++){
-        this.cardnumber.push("" + getRandomInt(422))
+        this.cardnumber.push("" + getRandomInt(429))
     }
-    this.sets = ["Mass Mutation"]
+    this.sets = ["Dark Tidings"]
     this.pageSize = this.numCards
     var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
