@@ -40,8 +40,12 @@ def cargo_query(search_params):
     key = cache_key("https://archonarcana.com/api.php", params)
     if key in cargo_cache:
         return cargo_cache[key]
-    r = requests.get("https://archonarcana.com/api.php", params=params)
+    r = requests.Request("GET", "https://archonarcana.com/api.php", params=params)
+    prep = r.prepare()
+    print(prep.method+prep.url)
+    r = requests.Session().send(prep)
     j = r.json()
+    print(r)
     print(j)
     print(j['cargoquery'])
     cargo_cache[key] = j

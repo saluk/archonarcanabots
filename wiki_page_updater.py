@@ -35,6 +35,7 @@ parser.add_argument("--stage", type=str, help="dev or prod for javascript files 
 parser.add_argument("--test", action="store_true", help="For uploading script files, is this a test run")
 parser.add_argument("--locale_only", action="store_true", help="when updating card pages, this will only do updates to /locale/ pages")
 parser.add_argument("--testfile", type=str, help="a json of test data to load for functions that take tests")
+parser.add_argument("--sheet", type=str, help="The spreadsheet name to merge")
 args = parser.parse_args()
 args.pause = not args.batch
 print(vars(args))
@@ -93,7 +94,7 @@ if __name__ == "__main__":
         tool_update_cards.update_cards_v2(wp, None, "Adding debut to debut set", "carddb", ["SetData.Meta"])
     if args.command == "merge_spreadsheets":
         import tool_merge_db
-        tool_merge_db.merge(wp)
+        tool_merge_db.merge(wp, args.sheet)
     if args.command == "get_cards_with_extra":
         # Gets cards that have extra content in their wikipage besides DB content
         import tool_update_cards

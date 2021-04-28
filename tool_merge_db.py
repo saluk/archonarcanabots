@@ -76,9 +76,11 @@ class Merger:
         self.sheet_url = sheet_url
         self.rows = read_spreadsheet(sheet_url)
         self.title = None
+        self.title_key = None
+        self.make_page = False
         self.read_meta()
         self.filter_rows()
-        self.cargotable = CargoTable()
+        self.cargotables = {}
     @property
     def edit_url(self):
         return self.sheet_url.rsplit('/', 1)[0]+'/edit?usp=sharing'
@@ -86,35 +88,50 @@ class Merger:
         if self.rows[0][0]!='meta':
             raise Exception("No meta defined")
         meta, self.rows = self.rows[0], self.rows[1:]
-        self.title = meta[1]
-        self.table = meta[2]
-        self.row_model = meta[3]
-        self.col_model = meta[4]
+        for m in meta:
+            if ":" in m:
+                k,v = m.split(":", 1)
+                setattr(self,k,v)
     def filter_rows(self):
         self.rows = [x for x in self.rows if [y for y in x if y.strip()]]
-    def merge_object_keys(self):
+    def merge_single(self):
+        current = CargoTable()
         keys, rows = self.rows[0], self.rows[1:]
         keys = [col for col in keys if col.strip()]
         for rowi, row in enumerate(rows):
-            if not [x for x in row if x]:
-                continue
             ob = {}
             for i, key in enumerate(keys):
                 ob[key] = row[i]
-            self.cargotable.update_or_create(self.table, rowi, ob)
-    def merge(self):
-        if self.row_model=="row:OBJECT" and self.col_model == "col:KEY":
-            self.merge_object_keys()
-        else:
-            raise Exception("Unknown row/column format")
+            current.update_or_create(self.table, rowi, ob)
+        self.cargotables[self.title] = current
+    def merge_multiple(self):
+        tables, keys, rows = self.rows[0], self.rows[1], self.rows[2:]
+        print(keys, tables)
+        title = None
+        for rowi, row in enumerate(rows):
+            obs = {}
+            for i, key in enumerate(keys):
+                table = tables[i]
+                if not table.strip() or not key.strip():
+                    continue
+                if table not in obs:
+                    obs[table] = {}
+                obs[table][key] = row[i]
+                if self.title_key == key:
+                    title = row[i]
+            if not title:
+                raise Exception(f"No title found for {self.title_key}")
+            current = CargoTable()
+            for table in obs:
+                current.update_or_create(table, rowi, obs[table])
+            self.cargotables[title] = current
     def to_page(self, wp, pause):
-        page = wp.page(self.title)
-        #self.parse_cargo(page)
-        self.merge()
+        self.merge_single()
+        cargotable = self.cargotables[self.title]
         if update_page(
             self.title,
-            page,
-            f"<noinclude>This data was populated from {self.edit_url} - edits may later be overwritten.</noinclude>\n" + self.cargotable.output_text(),
+            wp.page(self.title),
+            f"<noinclude>This data was populated from {self.edit_url} - edits may later be overwritten.</noinclude>\n" + cargotable.output_text(),
             f"updating {self.title} from spreadsheet",
             "",
             pause=pause,
@@ -122,6 +139,41 @@ class Merger:
         ):
             alerts.discord_alert(f"Cargo table {self.title} updated from spreadsheet {self.edit_url}")
             return True
+    def to_pages(self, wp, pause):
+        if not self.title and not self.title_key:
+            raise Exception("Spreadsheet meta must include a title or a title_key")
+        if self.title and not self.title_key:
+            return self.to_page(wp, pause)
+        self.merge_multiple()
+        changes = []
+        for title, cargotable in self.cargotables.items():
+            change = update_page(
+                self.title_prefix+":"+title,
+                wp.page(self.title_prefix+":"+title),
+                f"<noinclude>This data was populated from {self.edit_url} - edits may later be overwritten.</noinclude>\n" + cargotable.output_text(),
+                f"updating {title} from spreadsheet",
+                "",
+                pause=pause,
+                read=True
+            )
+            if change:
+                alerts.discord_alert(f"Cargo table {title} updated from spreadsheet {self.edit_url}")
+            changes.append(change)
+            if self.make_page:
+                change = update_page(
+                    title,
+                    wp.page(title),
+                    self.make_page % {"title": title},
+                    f"updating {title} from spreadsheet with make page",
+                    "",
+                    pause=pause,
+                    read=True
+                )
+                if change:
+                    alerts.discord_alert(f"Page {title} updated from spreadsheet {self.edit_url}")
+                changes.append(change)
+        return changes
+                
 
 def merge(wp, sheet_name=None, pause=True):
     with open('data/spreadsheets.json') as f:
@@ -131,9 +183,9 @@ def merge(wp, sheet_name=None, pause=True):
         if sheet_name and not sheet == sheet_name:
             continue
         if sheet == "translated_terms":
-            success = LocaleMerger(url).to_page(wp, pause)
+            success = LocaleMerger(url).to_pages(wp, pause)
         else:
-            success = Merger(url).to_page(wp, pause)
+            success = Merger(url).to_pages(wp, pause)
         if success:
             changed.append(sheet)
     return changed

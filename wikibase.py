@@ -110,7 +110,7 @@ def cargo_unique(datatype):
 
 def cargo_sort(table_type, table):
     sort_function = {
-        "SetData": lambda row: int(row["SetNumber"]) if row["SetNumber"] else 0,
+        "SetData": lambda row: int(row["SetNumber"]) if row.get("SetNumber","") else 0,
         "AltArt": lambda row: (int(row["Year"]), row["File"])
     }.get(table_type, None)
     if sort_function:
