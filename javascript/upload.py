@@ -14,12 +14,23 @@ if os.path.exists("cache/lasthash.json"):
         except Exception:
             pass
 
-def gen_artists(tables):
+def make_search_kfa(search, kfa):
+    if "CardData" in search["tables"]:
+        search["tables"] += ",SetData,SetInfo"
+        search["join_on"] = "SetData.Setname=SetInfo.Setname, SetData._pageName=CardData._pageName"
+        #search["fields"] += ",SetInfo.SetNumber"
+        if kfa:
+            search["where"] = "SetInfo.SetNumber like '%KFA%'"
+        else:
+            search["where"] = "SetInfo.SetNumber not like '%KFA%'"
+
+def gen_artists(tables, kfa=False):
     search = {
         "tables": tables,
         "fields": "Artist",
         "group_by": "Artist"
     }
+    make_search_kfa(search, kfa)
     artists = []
     for result in cargo_query(search)['cargoquery']:
         if not result['title'] or not 'Artist' in result['title']:
@@ -32,12 +43,13 @@ def gen_artists(tables):
     return artists
 
 
-def gen_traits(tables):
+def gen_traits(tables, kfa=False):
     search = {
         "tables": tables,
         "fields": "Traits",
         "group_by": "Traits"
     }
+    make_search_kfa(search, kfa)
     traits = []
     for result in cargo_query(search)['cargoquery']:
         if not result['title'] or not 'Traits' in result['title']:
@@ -89,7 +101,9 @@ def upload(stage="dev", test=False):
         reps = {
             "//ARTISTS": "var artists = %s" % repr(gen_artists("CardData")),
             "//SET5ARTISTS": "var set5artists = %s" % repr(gen_artists("SpoilerData")),
+            "//KFAARTISTS": "var kfa_artists = %s" % repr(gen_artists("CardData", True)),
             "//TRAITS": "var traits = %s" % repr(gen_traits("CardData")),
+            "//KFATRAITS": "var kfa_traits = %s" % repr(gen_traits("CardData", True)),
             "//SET5TRAITS": "var set5traits = %s" % repr(gen_traits("SpoilerData")),
             "//CARDCOMBOS": "var cardCombos = %s" % "[]" # repr(gen_card_combos())
         }

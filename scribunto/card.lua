@@ -476,12 +476,12 @@ function p.viewcard(frame)
 	vars.cardrarity = card_results[1]['Rarity']
 	vars.cardtext = wikitext(card_results[1]['Text'])
 	vars.cardflavortext = wikitext(card_results[1]['FlavorText'])
-	vars.cardartist = card_results[1]['Artist']
+	vars.cardartist = card_results[1]['Artist'] or ''
 	vars.cardtype = card_results[1]['Type']
-	vars.cardpower = card_results[1]['Power']
-	vars.cardarmor = card_results[1]['Armor']
+	vars.cardpower = card_results[1]['Power'] or '0'
+	vars.cardarmor = card_results[1]['Armor'] or '0'
 	vars.cardamber = card_results[1]['Amber'] or '0'
-	vars.cardtraits = card_results[1]['Traits']
+	vars.cardtraits = card_results[1]['Traits'] or ''
 	vars.category_prefix = ''
 	if vars.cardhouse == nil then 
 		vars.cardhouse = ''

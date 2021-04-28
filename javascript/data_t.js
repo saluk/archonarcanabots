@@ -81,8 +81,10 @@ var images = {
 
 //ARTISTS
 //SET5ARTISTS
+//KFAARTISTS
 //TRAITS
 //SET5TRAITS
+//KFATRAITS
 //CARDCOMBOS
 
 export {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets, kfa_sets,
