@@ -259,8 +259,8 @@ end
 function apply_categories(frame, vars)
 	mw.log(vars.category_prefix)
 	for c=1, #vars.categories do
-		vars.categories[c] = vars.category_prefix .. vars.categories[c]
 		if(string.len(mw.text.trim(vars.categories[c]))>0) then
+			vars.categories[c] = vars.category_prefix .. vars.categories[c]
 			vars.categories[c] = stache('[[Category:${c}]]', {c=vars.categories[c]})
 		end
 	end
