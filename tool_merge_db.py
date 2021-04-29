@@ -147,7 +147,7 @@ class Merger:
         self.merge_multiple()
         changes = []
         for title, cargotable in self.cargotables.items():
-            change = update_page(
+            data_change = update_page(
                 self.title_prefix+":"+title,
                 wp.page(self.title_prefix+":"+title),
                 f"<noinclude>This data was populated from {self.edit_url} - edits may later be overwritten.</noinclude>\n" + cargotable.output_text(),
@@ -156,9 +156,9 @@ class Merger:
                 pause=pause,
                 read=True
             )
-            if change:
+            if data_change:
                 alerts.discord_alert(f"Cargo table {title} updated from spreadsheet {self.edit_url}")
-            changes.append(change)
+            changes.append(data_change)
             if self.make_page:
                 change = update_page(
                     title,
@@ -172,6 +172,8 @@ class Merger:
                 if change:
                     alerts.discord_alert(f"Page {title} updated from spreadsheet {self.edit_url}")
                 changes.append(change)
+                if data_change:
+                    wp.page(title).purge()
         return changes
                 
 
