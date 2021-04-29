@@ -60,6 +60,9 @@ function dumb_locale_menu() {
 	${locale}
 	</select> 
 	</div>`
+	if($("a[href='/Rise_of_the_Keyraken']").length > 0) {
+		return
+	}
 	if($('.cardEntry').length > 0) { // && window.location.href.search('/locale/')>=0) {
 		$('.cardEntry').before(base)
 		$('.cardEntry').after(notice(cur_locale))
