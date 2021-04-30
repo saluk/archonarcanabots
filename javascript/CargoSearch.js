@@ -1,5 +1,5 @@
 import {EditField, minmax} from './FormElements'
-import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets, kfa_sets,
+import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets, kfa_sets, kfa_artists, kfa_traits,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
   types, rarities, set5rarities, orders, keywords, features, getHouses, images} from './data'
 import {parseQueryString, joined, 
@@ -104,6 +104,7 @@ var padnum = function(number){
 }
 
 var CSearch = {
+  mode: 'main',
   element: undefined,
   offset: 0,
   offsetActual: 0,
@@ -157,9 +158,16 @@ var CSearch = {
     this.offsetActual = 0
     this.pageSize = Number.parseInt(pageSize)
     this.element = element;
+    if(this.element.attr('data-mode')) {
+      this.mode = this.element.attr('data-mode')
+    }
     this.spoilers = this.element.attr('data-spoilers')!=null;
     this.countField = this.spoilers? 'CardNumber': 'Name'
     this.format = parseQueryString('format')
+    if(this.mode !== 'main') {
+      getSearchField('traits').values = kfa_traits
+      getSearchField('artists').values = kfa_artists
+    }
     if(this.spoilers){
       getSearchField('houses').values = spoilerhouses
       getSearchField('rarities').values = set5rarities
@@ -179,7 +187,7 @@ var CSearch = {
         return true
       })
     }
-    if(this.format=="KFA") {
+    if(this.format==="KFA") {
       getSearchField('sets').values = kfa_sets
     }
     window.addEventListener("scroll", function() {
@@ -207,6 +215,9 @@ var CSearch = {
     if(this.spoilers){
       root_url = '/Spoilers'
     }
+    if(this.mode !== 'main'){
+      root_url = '/' + this.mode
+    }
     history.replaceState({}, document.title, root_url+elements)
   },
   initForm: function(self) {
@@ -232,6 +243,10 @@ var CSearch = {
       self.excludeReprints = true
     }
 
+    if(self.mode !== 'main') {
+      self.sets = [self.mode]
+    }
+
     // Update house selection based on sets
     var setField = getSearchField('sets')
     if(setField){
@@ -247,6 +262,24 @@ var CSearch = {
       getSearchField('houses').listener(self.initForm, self)
       getSearchField('houses').assignData(self)
     }
+
+    if(self.mode !== 'main') {
+      $('.house-row').remove()
+      $('.set-row').remove()
+      $('.rarity-row').remove()
+      var a = $('.trait-row:contains(Traits)')
+      //a.remove()
+      var b = $('.trait-row:contains(Artists)')
+      b.remove()
+      var c = $('.trait-row:contains(Keywords)')
+      //c.remove()
+      $('.armor-row:contains(Enhance)').remove()
+      //$('.third-row').empty()
+      //$('.third-row').append(a)
+      $('.third-row').append(b)
+      //$('.third-row').append(c)
+    }
+
     self.newSearch()
   },
   initElement: function(self) {

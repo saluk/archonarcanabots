@@ -7,7 +7,7 @@ var houses_by_set = {
 	'Worlds_Collide': new Set(['Dis','Logos','Saurian','Star_Alliance','Shadows','Untamed','Anomaly', 'Brobnar']),
 	'Mass_Mutation': new Set(['Dis','Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed']),
 	'Dark_Tidings': new Set(['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed', 'Unfathomable']),
-	'Rise_of_the_Keyraken': new Set(['The Keyraken'])
+	'Rise_of_the_Keyraken': new Set(['Keyraken'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -87,7 +87,7 @@ var set5traits = ['AI', 'Alien', 'Angel', 'Aquan', 'Beast', 'Cat', 'Cyborg', 'Di
 var kfa_traits = ['Arm', 'Beast', 'Tentacle']
 var cardCombos = []
 
-export {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets, kfa_sets,
+export {artists, set5artists, kfa_artists, traits, set5traits, kfa_traits, sets, houses, spoiler_sets, kfa_sets,
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
 		multiHouseCards,
 		types, rarities, set5rarities, orders, keywords, features, getHouses, getDeckHouses,

@@ -204,6 +204,9 @@ class EditField {
 	  return undefined
 	}
 	assignData(ob) {
+	  if(!this.getElement()) {
+		  return
+	  }
 	  var d = this.getData()
 	  if(d!==undefined) {
 		ob[this.field] = d
