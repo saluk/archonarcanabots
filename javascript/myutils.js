@@ -11,6 +11,10 @@ var parseQueryString = function (argument) {
 	}
   }
 
+var pageTitle = function() {
+	return decodeURIComponent(window.location.href.match(/\/\/.*?\/(.*?)($|\#|\?)/)[1]).replace(/\_/g, ' ')
+}
+
 var locales = {
 	"en": [["en", "English"]],
 	"pt-pt": [["pt-br", "Português do Brasil"], ["pt", "português"]],
@@ -304,7 +308,7 @@ function carousel(first_time) {
   }
 }
 
-export {parseQueryString, unhashImage, unhashThumbImage, renderWikitextToHtml,
+export {parseQueryString, pageTitle, unhashImage, unhashThumbImage, renderWikitextToHtml,
 	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
 	joined, removePunctuation, getCardImage, updateCardImages, 
 	getLocale, locales, getFullLocale, getLocaleFromSubdomain}
