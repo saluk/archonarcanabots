@@ -36,7 +36,7 @@ function getLocaleFromSubdomain() {
 	if(subdomain === 'www' || subdomain === 'archonarcana') {
 		return 'en'
 	}
-	return _to_full(subdomain)
+	return to_full(subdomain)
   }
 
 function getLocale(){
@@ -48,12 +48,12 @@ function getLocale(){
 	} else if(!locale) {
 		locale = mw.config.get('wgUserLanguage')
 	}
-	var full = _to_full(locale)
+	var full = to_full(locale)
 	if(full=='en') return 'en'
 	return locale
 }
 
-function _to_full(locale) {
+function to_full(locale) {
 	for(const [loc, val] of Object.entries(locales)) {
 		function has_locale(locale) {
 			return function(item) {
@@ -69,7 +69,7 @@ function _to_full(locale) {
 
 function getFullLocale() {
 	var locale = getLocale()
-	return _to_full(locale)
+	return to_full(locale)
 }
 
 function capitalize(s){
@@ -311,4 +311,4 @@ function carousel(first_time) {
 export {parseQueryString, pageTitle, unhashImage, unhashThumbImage, renderWikitextToHtml,
 	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
 	joined, removePunctuation, getCardImage, updateCardImages, 
-	getLocale, locales, getFullLocale, getLocaleFromSubdomain}
+	getLocale, locales, getFullLocale, to_full, getLocaleFromSubdomain}
