@@ -148,6 +148,7 @@ class Caller {
                     name: results[i]['title']["Name"],
                     link: link,
                     image: miniImage(results[i]['title']['Image']),
+                    kfa: results[i]['title']['Image'].search('KFA') >= 0,
                     source: 'card',
                     rank: rank
                 }
@@ -258,12 +259,17 @@ class Caller {
     writeResult(result) {
         var NAME_HIGHLIGHT = ''
         var NAME_AFTER_HIGHLIGHT = result.name
+        var IMAGE = result.image
+        if(result.kfa) {
+            //IMAGE = IMAGE + ' <span style="font-size: 8pt;border-width: 1px;border-color: black;background-color: lightcyan;border-style: solid;padding: 1px;margin-left:6px">KFA</span>' 
+            NAME_AFTER_HIGHLIGHT = NAME_AFTER_HIGHLIGHT + ' (KFA) '
+        }
         var html = resulthtml
             .replace('{{ LINK }}', result.link)
             .replace('{{ NAME }}', result.name)
             .replace('{{ NAME_HIGHLIGHT }}',NAME_HIGHLIGHT)
             .replace('{{ NAME_AFTER_HIGHLIGHT }}', NAME_AFTER_HIGHLIGHT)
-            .replace('{{ IMAGE }}', result.image)
+            .replace('{{ IMAGE }}', IMAGE)
         $('.suggestions-results').append(html)
     }
     renderResults() {
