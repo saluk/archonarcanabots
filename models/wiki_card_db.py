@@ -336,7 +336,7 @@ def process_mv_card_batch(card_batch: list) -> list:
         if card.is_maverick: continue
         if card.is_enhanced: continue
         process_cards[card.data["card_title"]].append(card.data)
-    logging.debug(process_cards)
+    logging.debug(len(process_cards))
     def bifurcate_data(card_datas):
         if len(card_datas) == 1:
             return card_datas

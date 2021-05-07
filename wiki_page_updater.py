@@ -132,3 +132,9 @@ if __name__ == "__main__":
         from mastervault.mastervault_workers import Workers
         w = Workers()
         w.deck_scrape_lag()
+    if args.command == "find_no_image":
+        from models import wiki_card_db
+        for locale in wiki_card_db.locales:
+            for card_name in wiki_card_db.locales[locale]:
+                if wiki_card_db.locales[locale][card_name]['front_image'].find('/en/') >= 0:
+                    print(locale, card_name, wiki_card_db.locales[locale][card_name]['front_image'])

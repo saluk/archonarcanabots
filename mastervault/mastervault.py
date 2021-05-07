@@ -7,6 +7,7 @@ import time
 import requests
 import util
 import re
+from sqlalchemy import and_
 from models import mv_model
 import threading
 from hanging_threads import start_monitoring
@@ -94,6 +95,12 @@ def sslproxy():
         return None
 
 
+def blazingproxy():
+    with open("data/blazing_proxy.txt") as f:
+        urls = f.read().split("\n")
+        return random.choice(urls)
+
+
 # TODO - the scraper itself could record this from its normal api calls
 def get_mastervault_deck_count():
     """This is how we can detect how far off in the scrape we are"""
@@ -119,7 +126,7 @@ class MasterVault:
         timeout=5
         def good_proxy():
             return self.scope.get_proxy()
-        methods = []#(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
+        methods = [(blazingproxy, 2)]#(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
         random.shuffle(methods)
         for method, tries in methods:
             proxy = {"method": method.__name__}

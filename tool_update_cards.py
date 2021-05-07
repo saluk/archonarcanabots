@@ -164,6 +164,34 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
     return update_page(latest["card_title"], page, text, update_reason, ot, pause)
 
 
+def upload_image_for_card(wp, locale, card):
+    #Don't bother uploading localized images if the image is in english
+    if locale and "/en/" in card["front_image"]:
+        return False
+    else:
+        rp = card["image_number"]
+        lp = "images/"+rp
+        print("image path",lp)
+        if not os.path.exists(lp):
+            print("download", card["front_image"])
+            with open(lp, "wb") as f:
+                r = requests.get(card["front_image"], stream=True)
+                print(r.status_code)
+                r.raw.decode_content = True
+                shutil.copyfileobj(r.raw, f)
+        with open(lp, "rb") as f:
+            print("uploading")
+            try:
+                result = wp.upload(f, card["image_number"])
+            except Exception:
+                print("Exception uploading image ",card["image_number"])
+                return False
+            print(result)
+            if result.get('upload',{}).get('result','') == "Warning":
+                return False
+            return result
+
+
 def update_cards_v2(wp, search_name=None,
                     update_reason="phase 2 test",
                     data_to_update="carddb",
@@ -192,36 +220,20 @@ def update_cards_v2(wp, search_name=None,
         started = True
         print(i+1, card_name)
         #print(latest)
+        texts = []
         if upload_image:
-            #Don't bother uploading localized images if the image is in english
-            if locale and "/en/" in latest["front_image"]:
-                pass
-            else:
-                rp = latest["image_number"]
-                lp = "images/"+rp
-                print("image path",lp)
-                if not os.path.exists(lp):
-                    print("download", latest["front_image"])
-                    with open(lp, "wb") as f:
-                        r = requests.get(latest["front_image"], stream=True)
-                        print(r.status_code)
-                        r.raw.decode_content = True
-                        shutil.copyfileobj(r.raw, f)
-                with open(lp, "rb") as f:
-                    print("uploading")
-                    result = wp.upload(f, latest["image_number"])
-                    print(result)
+            texts.append(upload_image_for_card(wp, locale, latest))
         if data_to_update == "update_card_views":
-            texts = update_card_views(wp, card_name, pause=pause, locale_only=locale_only, only_new_edits=only_new_edits)
+            texts.append(update_card_views(wp, card_name, pause=pause, locale_only=locale_only, only_new_edits=only_new_edits))
         else:
-            texts = [update_card_page_cargo(
+            texts.append(update_card_page_cargo(
                 wp, wiki_card_db.cards[card_name],
                 update_reason=update_reason,
                 restricted=restricted,
                 data_to_update=data_to_update,
                 locale=locale,
                 pause=pause,
-                only_new_edits=only_new_edits)]
+                only_new_edits=only_new_edits))
         texts = texts or []
         wait = False
         for text in texts:

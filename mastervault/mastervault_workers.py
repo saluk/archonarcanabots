@@ -108,44 +108,53 @@ class Workers:
             card = processed_cards[new_card["card_title"]] = wiki_card_db.cards[new_card["card_title"]]
             logging.debug("%s - %s", new_card["card_title"], new_card["house"])
             if [new_set for new_set in card if new_set not in recognized_sets] and len(card)>1:
+                print("old set")
                 logging.debug("> updating old set: %s, %s", new_card["card_title"], card.keys())
                 if tool_update_cards.update_card_page_cargo(
                     wp, card, "updating reprint with new sets", "carddb", only_sets=True, 
                     pause=False
                 ):
                     changes.append(("reprint", new_card["card_title"]))
+                    self.alert("Worker updated reprint %s" % new_card["card_title"], ['discord'])
             else:
+                print("new set")
                 logging.debug("< create new data %s", new_card["card_title"])
                 # Look for locale
-                #self._update_locales(new_card["card_title"])
-                #wiki_card_db.build_localization(
-                #    scope, 
-                #    wiki_card_db.cards, 
-                #    wiki_card_db.locales, 
-                #    from_cards=session.query(mv_model.LocaleCard).filter(mv_model.LocaleCard.en_name==new_card["card_title"]).all()
-                #)
+                self._update_locales(new_card["card_title"])
+                wiki_card_db.build_localization(
+                    scope, 
+                    wiki_card_db.cards, 
+                    wiki_card_db.locales, 
+                    from_cards=session.query(mv_model.LocaleCard).filter(mv_model.LocaleCard.en_name==new_card["card_title"]).all()
+                )
                 any_changes = 0
                 if tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", pause=False, only_new_edits=only_new_edits):
                     any_changes += 1
-                #for locale in wiki_card_db.locale_db:
-                #    if locale=="en": continue
-                #    if new_card["card_title"] in wiki_card_db.locales[locale]:
-                #        if tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", 
-                #            pause=False, locale=locale, only_new_edits=only_new_edits
-                #        ):
-                #            any_changes += 1
-                if tool_update_cards.update_cards_v2(
-                    wp, 
-                    card_name=new_card["card_title"], 
-                    update_reason="add card view for new card", 
-                    data_to_update="update_card_views",
-                    upload_image=True,
-                    pause=False,
-                    only_new_edits=only_new_edits
-                ):
-                    any_changes += 1
+                # TODO CardLocaleData is all on one page, its inefficient to try and edit the page 11 times
+                for locale in wiki_card_db.locale_db:
+                    if locale=="en": continue
+                    if new_card["card_title"] in wiki_card_db.locales[locale]:
+                        locale_card = wiki_card_db.locales[locale][new_card["card_title"]]
+                        card = wiki_card_db.cards[new_card["card_title"]]
+                        if tool_update_cards.upload_image_for_card(wp, locale, locale_card):
+                            any_changes += 1
+                        if tool_update_cards.update_card_page_cargo(wp, card, "updating new card", "carddb", 
+                            pause=False, locale=locale, only_new_edits=only_new_edits
+                        ):
+                            any_changes += 1
+                #if tool_update_cards.update_cards_v2(
+                #    wp, 
+                #    card_name=new_card["card_title"], 
+                #    update_reason="add card view for new card", 
+                #    data_to_update="update_card_views",
+                #    upload_image=True,
+                #    pause=False,
+                #    only_new_edits=only_new_edits
+                #):
+                #    any_changes += 1
                 if any_changes:
                     changes.append(("new", new_card["card_title"]))
+                    self.alert("Worker updated new card %s" % new_card["card_title"], ['discord'])
         if savedb:
             print("Saving json")
             wiki_card_db.build_links(processed_cards)
@@ -153,28 +162,16 @@ class Workers:
             wiki_card_db.clean_fields(wiki_card_db.cards, {})
             wiki_card_db.save_json(wiki_card_db.cards, wiki_card_db.locales)
         logging.debug("Done: %s", len(card_datas))
-        if changes:
-            self.text_alert("Worker changed cards - Reprints: %s, New: %s" %
-                ([x[1] for x in changes if x[0]=="reprint"],
-                [x[1] for x in changes if x[0]=="new"])
-            )
-            self.discord_alert("Worker changed cards - Reprints: %s, New: %s" %
-                (['https://archonarcana.com/%s' % (x[1].replace(" ","_")) for x in changes if x[0]=="reprint"],
-                ['https://archonarcana.com/%s' % (x[1].replace(" ","_")) for x in changes if x[0]=="new"])
-            )
 
     def _update_locales(self, card_title):
-        #Don't do localization just yet
-        return
         for locale in wiki_card_db.locale_db:
             print(f"updating locale {locale} for {card_title}")
             try:
-                crash
                 locale_card = wiki_card_db.get_latest(card_title, locale=locale)
                 print(f"  got card")
             except:
                 print(f"  scraping locale")
-                self.mv.scrape_cards_locale(locale, card_title=card_title, rescrape=True)
+                self.mv.scrape_cards_locale(locale, card_title=card_title, rescrape=False)
 
     def _count_decks_expansion(self, session, expansion=None):
         logging.debug("--counting %s", expansion)
