@@ -18,7 +18,7 @@ import $ from 'jquery';
 const Bowser = require('bowser')
 
 var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
-var advanced_search_href = `/index.php?search={{ SEARCH }}+intitle:{{ LOCALE_SEARCH }}&title=Special%3ASearch&fulltext=1&advancedSearch-current={%22fields%22%3A{%22intitle%22%3A%22{{ LOCALE_SEARCH }}%22}}`
+var advanced_search_href = `/index.php?search={{ SEARCH }}&title=Special%3ASearch&fulltext=1`
 var more = {
     'deck':`<a class="mw-searchSuggest-link" href="/Deck Search?deckName={{ SEARCH }}">
 <div class="suggestions-special" style="display: block;">
@@ -330,6 +330,15 @@ class Caller {
             $('.suggestions').show()
         })
     }
+    visitMatchedResult(fallback) {
+        for(var result of this.results) {
+            return this.visitResult(result)
+        }
+        window.location.href = replace_search_href(advanced_search_href, fallback)
+    }
+    visitResult(result) {
+        window.location.href = result.link
+    }
 }
 
 function selectLast() {
@@ -359,7 +368,7 @@ function hookTopSearch() {
     )
     $('form#searchform').on('submit', function(event) {
         event.preventDefault()
-        window.location.href = replace_search_href(advanced_search_href, $('input#searchInput')[0].value)
+        caller.visitMatchedResult($('input#searchInput')[0].value)
     })
     $(document).on("keypress", function (evt){
         console.log(evt)
@@ -393,7 +402,8 @@ function hookTopSearch() {
         })
 
         var start = '/api.php?action=cargoquery&format=json'
-        if(getLocale() == 'en') {
+        // TODO: Not localizing search at the moment
+        if(getLocale() == 'en' || 1) {
             var tables = '&tables=CardData'
             var fields = '&fields=CardData.SearchText%2CCardData.SearchFlavorText%2CCardData.Name%2CCardData.Image'
             var limit = '&limit=' + cardLimit
