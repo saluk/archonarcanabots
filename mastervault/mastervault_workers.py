@@ -242,6 +242,7 @@ class Workers:
         from models import card_stats
         card_stats.count_decks('card_counts', card_stats.do_card_counts, card_stats.commit_card_counts, 2)
         card_stats.count_decks('house_counts', card_stats.do_house_counts, card_stats.commit_house_counts, 2)
+        card_stats.count_decks('evil_twins', card_stats.do_evil_twin, card_stats.commit_evil_twin, 2)
 
 if __name__ == "__main__":
     w = Workers()

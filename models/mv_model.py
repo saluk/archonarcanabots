@@ -16,7 +16,7 @@ from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy import Table, ForeignKey, UniqueConstraint, ForeignKeyConstraint, Sequence
 import datetime
-from models import wiki_model
+from models import wiki_model, shared
 import re
 import time
 import hashlib
@@ -310,6 +310,13 @@ class Deck(Base):
 
     def get_houses(self):
         return self.data['_links']['houses']
+
+
+class TwinDeck(Base):
+    __tablename__ = "twin_decks"
+    evil_key = Column(String, ForeignKey(Deck.key), primary_key=True)
+    standard_key = Column(String, ForeignKey(Deck.key), unique=True)
+        
 
 # TODO handle indexes
 

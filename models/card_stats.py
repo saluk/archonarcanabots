@@ -168,9 +168,26 @@ def count_decks(label, stat_func, commit_func, max_batches=None):
         if max_batches and batch > max_batches:
             break
 
-    print(count_data)
+    #print(count_data)
     print(time.time()-start)
+
+twin_batch = []
+
+first_dt_deck = 2235480
+
+def do_evil_twin(deck):
+    """Marks decks which have evil twin cards as the evil twin in the TwinDecks table"""
+    if not deck.expansion == 496:
+        return
+    for card in deck.cards:
+        if shared.is_evil_twin(card.data):
+            twin_batch.append(deck.key)
+
+def commit_evil_twin():
+    for b in twin_batch:
+        session.merge(mv_model.TwinDeck(evil_key=b))
 
 if __name__ == "__main__":
     #count_decks('card_counts', do_card_counts, commit_card_counts)
-    count_decks('house_counts', do_house_counts, commit_house_counts)
+    #count_decks('house_counts', do_house_counts, commit_house_counts)
+    count_decks('evil_twins', do_evil_twin, commit_evil_twin)
