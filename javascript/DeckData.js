@@ -1056,6 +1056,8 @@ function deck_stats(data) {
         links: get_links(data),
         houses: uniques(data.cards, 'house').map(function(card){
             return card.house
+        }).filter(function(house){
+            return house !== 'The Tide'
         }),
         actions: data.cards.filter(function(card){
             return card.card_type.match(/action/i)
