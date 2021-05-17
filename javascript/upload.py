@@ -5,6 +5,7 @@ from util import cargo_query
 import requests
 import re
 import json
+from models import shared
 
 lasthashes = {}
 if os.path.exists("cache/lasthash.json"):
@@ -14,23 +15,23 @@ if os.path.exists("cache/lasthash.json"):
         except Exception:
             pass
 
-def make_search_kfa(search, kfa):
+def make_search_kfa(search, limit_set):
     if "CardData" in search["tables"]:
         search["tables"] += ",SetData,SetInfo"
         search["join_on"] = "SetData.Setname=SetInfo.Setname, SetData._pageName=CardData._pageName"
         #search["fields"] += ",SetInfo.SetNumber"
-        if kfa:
-            search["where"] = "SetInfo.SetNumber like '%KFA%'"
+        if limit_set:
+            search["where"] = f"SetInfo.SetName = '{limit_set}'"
         else:
             search["where"] = "SetInfo.SetNumber not like '%KFA%'"
 
-def gen_artists(tables, kfa=False):
+def gen_artists(tables, limit_set=None):
     search = {
         "tables": tables,
         "fields": "Artist",
         "group_by": "Artist"
     }
-    make_search_kfa(search, kfa)
+    make_search_kfa(search, limit_set)
     artists = []
     for result in cargo_query(search)['cargoquery']:
         if not result['title'] or not 'Artist' in result['title']:
@@ -42,14 +43,13 @@ def gen_artists(tables, kfa=False):
     artists.sort()
     return artists
 
-
-def gen_traits(tables, kfa=False):
+def gen_traits(tables, limit_set=None):
     search = {
         "tables": tables,
         "fields": "Traits",
         "group_by": "Traits"
     }
-    make_search_kfa(search, kfa)
+    make_search_kfa(search, limit_set)
     traits = []
     for result in cargo_query(search)['cargoquery']:
         if not result['title'] or not 'Traits' in result['title']:
@@ -61,6 +61,34 @@ def gen_traits(tables, kfa=False):
             traits.append(t)
     traits.sort()
     return traits
+
+
+def get_kfa_sets():
+    search = {
+        "tables": "SetInfo",
+        "fields": "SetInfo.SetName",
+        "where": "SetInfo.SetNumber like '%KFA%'"
+    }
+    for result in cargo_query(search)['cargoquery']:
+        yield result['title']['SetName']
+kfa_sets = list(get_kfa_sets())
+
+
+def gen_artists_kfa():
+    artists_by_set = {}
+    for s in kfa_sets:
+        artists_by_set[s.replace(" ","_")] = gen_artists("CardData", s)
+    return json.dumps(artists_by_set)
+artists_kfa = gen_artists_kfa()
+
+
+def gen_traits_kfa():
+    traits_by_set = {}
+    print(kfa_sets)
+    for s in kfa_sets:
+        traits_by_set[s.replace(" ","_")] = gen_traits("CardData", s)
+    return json.dumps(traits_by_set)
+traits_kfa = gen_traits_kfa()
 
 
 def gen_card_combos():
@@ -101,9 +129,9 @@ def upload(stage="dev", test=False):
         reps = {
             "//ARTISTS": "var artists = %s" % repr(gen_artists("CardData")),
             "//SET5ARTISTS": "var set5artists = %s" % repr(gen_artists("SpoilerData")),
-            "//KFAARTISTS": "var kfa_artists = %s" % repr(gen_artists("CardData", True)),
+            "//KFAARTISTS": "var kfa_artists = %s" % repr(artists_kfa),
             "//TRAITS": "var traits = %s" % repr(gen_traits("CardData")),
-            "//KFATRAITS": "var kfa_traits = %s" % repr(gen_traits("CardData", True)),
+            "//KFATRAITS": "var kfa_traits = %s" % repr(traits_kfa),
             "//SET5TRAITS": "var set5traits = %s" % repr(gen_traits("SpoilerData")),
             "//CARDCOMBOS": "var cardCombos = %s" % "[]" # repr(gen_card_combos())
         }

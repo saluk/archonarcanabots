@@ -7,7 +7,8 @@ var houses_by_set = {
 	'Worlds_Collide': new Set(['Dis','Logos','Saurian','Star_Alliance','Shadows','Untamed','Anomaly', 'Brobnar']),
 	'Mass_Mutation': new Set(['Dis','Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed']),
 	'Dark_Tidings': new Set(['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed', 'Unfathomable']),
-	'Rise_of_the_Keyraken': new Set(['Keyraken'])
+	'Rise_of_the_Keyraken': new Set(['Keyraken']),
+	'Abyssal_Conspiracy': new Set(['Abyssal'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -82,9 +83,11 @@ var images = {
 //ARTISTS
 //SET5ARTISTS
 //KFAARTISTS
+var kfa_artists = JSON.parse(kfa_artists)
 //TRAITS
 //SET5TRAITS
 //KFATRAITS
+var kfa_traits = JSON.parse(kfa_traits)
 //CARDCOMBOS
 
 export {artists, set5artists, kfa_artists, traits, set5traits, kfa_traits, sets, houses, spoiler_sets, kfa_sets,

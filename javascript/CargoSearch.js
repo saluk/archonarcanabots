@@ -165,8 +165,8 @@ var CSearch = {
     this.countField = this.spoilers? 'CardNumber': 'Name'
     this.format = parseQueryString('format')
     if(this.mode !== 'main') {
-      getSearchField('traits').values = kfa_traits
-      getSearchField('artists').values = kfa_artists
+      getSearchField('traits').values = kfa_traits[this.mode]
+      getSearchField('artists').values = kfa_artists[this.mode]
     }
     if(this.spoilers){
       getSearchField('houses').values = spoilerhouses
