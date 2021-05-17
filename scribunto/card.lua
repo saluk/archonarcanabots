@@ -41,7 +41,7 @@ function extend(table1, table2)
 	end
 end
 
-local templates = require('Module:LuacardTemplates')
+local templates = require('Module:LuacardTemplatesKFA')
 local cardstyle = require('Module:LuacardStyle')
 local translations = require("Module:LocaleTable") -- double quotes to not stage
 local luastache = require("Module:luastache")  -- double quotes to not stage
@@ -436,6 +436,8 @@ function apply_sets(frame, vars)
 		mw.log(result['SetInfo.SetNumber'])
 		if mw.ustring.find(result['SetInfo.SetNumber'], 'KFA.*') ~= nil then
 			vars.category_prefix = 'KFA '
+			-- We use a different gallery link for each KFA set
+			vars.root_gallery = result['SetData.SetName']
 		end
 		mw.log(vars.category_prefix)
 		append(vars.categories, set_category[result['SetData.SetName']])
@@ -465,6 +467,7 @@ function p.viewcard(frame)
 	if(frame.args.locale) then
 		load_translation_table(frame.args.locale)
 	end
+	vars.root_gallery = 'Card_Gallery'
 	vars.cardname_e = vars.cardname
 	vars.cardname_stripped = mw.ustring.gsub(vars.cardname_e, " %(Evil Twin%)", "")
 	vars.cardname_stripped = mw.ustring.gsub(vars.cardname_stripped, " %(Anomaly%)", "")

@@ -1,4 +1,4 @@
---Module:LuacardTemplates
+--Module:LuacardTemplatesKFA
 --canstage
 
 --[[ Guidelines for this template:
@@ -227,15 +227,15 @@ ${/locale}
         ${^has_no_house}
           ${#is_multi}Multi${/is_multi}
           ${^is_multi}
-            ${#is_anomaly}{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?houses=${cardhouse}">${cardhouse_t}</a></html>${/is_anomaly}
+            ${#is_anomaly}{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/${root_gallery}?houses=${cardhouse}">${cardhouse_t}</a></html>${/is_anomaly}
             ${^is_anomaly}{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]${/is_anomaly}
           ${/is_multi}
         ${/has_no_house}
       </div>
-      <div class="type ${cardhouse_color}"><html><a href="https://archonarcana.com/Card_Gallery?types=${cardtype}">${cardtype_t}</a></html></div>
+      <div class="type ${cardhouse_color}"><html><a href="https://archonarcana.com/${root_gallery}?types=${cardtype}">${cardtype_t}</a></html></div>
       <div class="rarity ${cardhouse_color}">
         ${^has_no_rarity}
-          {{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/Card_Gallery?rarities=${cardrarity}">${cardrarity_t}</a></html>
+          {{Rarity|Rarity=${cardrarity}|Size=20px}} <html><a href="https://archonarcana.com/${root_gallery}?rarities=${cardrarity}">${cardrarity_t}</a></html>
         ${/has_no_rarity}
       </div> 
     </div>
@@ -244,7 +244,7 @@ ${/locale}
     <div class="creatureRow">
       ${#cardstatpower}
         <div class="power"><html>
-          <a href="/Card_Gallery?types=Creature&power_min=${cardstatpower.min}&power_max=${cardstatpower.max}"></html>
+          <a href="/${root_gallery}?types=Creature&power_min=${cardstatpower.min}&power_max=${cardstatpower.max}"></html>
             ${cardstatpower.value} ${word_power_t}<html>
           </a>
         </html></div>
@@ -252,13 +252,13 @@ ${/locale}
 
       ${#cardstatarmor}
         <div class="armor"><html>
-        <a href="/Card_Gallery?types=Creature&armor_min=${cardstatarmor.min}&armor_max=${cardstatarmor.max}"></html>
+        <a href="/${root_gallery}?types=Creature&armor_min=${cardstatarmor.min}&armor_max=${cardstatarmor.max}"></html>
         ${cardstatarmor.value} ${word_armor_t}<html></a></html></div>
       ${/cardstatarmor}
 
       ${#cardstatamber}
         <div class="aember"><html>
-        <a href="/Card_Gallery?amber_min=${cardstatamber.min}&amber_max=${cardstatamber.max}">
+        <a href="/${root_gallery}?amber_min=${cardstatamber.min}&amber_max=${cardstatamber.max}">
         </html>${cardstatamber.value}{{Aember}}<html>
         </a></html></div>
       ${/cardstatamber}
@@ -270,7 +270,7 @@ ${/locale}
 
     <div class="traits">
     ${#cardtraits}
-    <html><a href="https://archonarcana.com/Card_Gallery?traits=${trait}">${translate_trait}</a></html>
+    <html><a href="https://archonarcana.com/${root_gallery}?traits=${trait}">${translate_trait}</a></html>
     ${#delim} • ${/delim}
     ${/cardtraits}
     </div>
