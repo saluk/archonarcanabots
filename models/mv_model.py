@@ -9,6 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import backref
 from sqlalchemy.inspection import inspect
 from sqlalchemy.sql.expression import text, func, update, bindparam
 from sqlalchemy.sql import exists
@@ -316,6 +317,8 @@ class TwinDeck(Base):
     __tablename__ = "twin_decks"
     evil_key = Column(String, ForeignKey(Deck.key), primary_key=True)
     standard_key = Column(String, ForeignKey(Deck.key), unique=True)
+    evil_deck = relationship('Deck', foreign_keys=[evil_key], backref=backref('evil', lazy='dynamic'))
+    standard_deck = relationship('Deck', foreign_keys=[standard_key], backref=backref('standard', lazy='dynamic'))
         
 
 # TODO handle indexes

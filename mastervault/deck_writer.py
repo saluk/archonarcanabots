@@ -151,6 +151,22 @@ class DeckWriter:
             'expansion': self.deck.expansion,
             'cards': [cd(card) for card in cards]
         }
+        evil_twin = self.deck.evil.first()
+        if evil_twin and evil_twin.standard_deck:
+            d['twin'] = {
+                'type': 'evil',
+                'other_name': evil_twin.standard_deck.name,
+                'other_key': evil_twin.standard_deck.key
+            }
+        else:
+            standard_twin = self.deck.standard.first()
+            if standard_twin and standard_twin.evil_deck:
+                d['twin'] = {
+                    'type': 'standard',
+                    'other_name': standard_twin.evil_deck.name,
+                    'other_key': standard_twin.evil_deck.key
+                }
+        
         return d
 
     def decklist(self):

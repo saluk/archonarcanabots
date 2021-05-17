@@ -1100,7 +1100,11 @@ function deck_stats(data) {
         }, 0),
         enhanceDraw: data.cards.reduce(function(total, card) {
             return total + (card.enhance_draw? card.enhance_draw : 0)
-        }, 0)
+        }, 0),
+        twin: data.twin? `
+        <a href="/Deck:${data.twin.other_key}">
+        <img src="https://archonarcana.com/images/thumb/4/42/Evil-twin.png/40px-Evil-twin.png">
+        </a>` : ''
     }
 }
 
@@ -1123,7 +1127,9 @@ function gen_deck_databox(data) {
     var s = `
     <div class="decklist-viewer">
       ${gen_deck_image(data)}
-      <div class="decklist-title">${data.name}</div>
+      <div class="decklist-title">${data.name}
+      <div class="twin">${stats.twin}</div>
+      </div>
       <div class="set-name">${set_name_by_number(data.expansion)}</div>
       <div class="set-houses">${houses}</div>
       <div class="deck-info">

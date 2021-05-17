@@ -2,6 +2,7 @@ import sys
 from collections import defaultdict
 from sqlalchemy.engine.base import TwoPhaseTransaction
 from sqlalchemy import or_
+from sqlalchemy.sql.functions import concat
 import __updir__
 from models import mv_model, shared, wiki_card_db
 from datetime import datetime, timedelta
@@ -243,6 +244,31 @@ class Workers:
         card_stats.count_decks('card_counts', card_stats.do_card_counts, card_stats.commit_card_counts, 2)
         card_stats.count_decks('house_counts', card_stats.do_house_counts, card_stats.commit_house_counts, 2)
         card_stats.count_decks('evil_twins', card_stats.do_evil_twin, card_stats.commit_evil_twin, 2)
+
+    def find_nice_twins(self):
+        session = mv_model.Session()
+        open_twins = list(session.query(mv_model.TwinDeck).filter(mv_model.TwinDeck.standard_key==None))
+        print(f"Analyzing {len(open_twins)} twin decks")
+        for potential_twin in open_twins:
+            potential_twin_deck = potential_twin.evil_deck
+            house_decks = session.query(mv_model.Deck).filter(mv_model.Deck.expansion==496)
+            house_decks = house_decks.filter(
+                concat(potential_twin_deck.name).like(
+                    concat('%', mv_model.Deck.name, '%')
+                )
+            )
+            for d in house_decks:
+                if d.name == potential_twin_deck.name: continue
+                print("found!", potential_twin_deck.name, '-', d.name)
+                pt_card_names = sorted([c.name for c in potential_twin_deck.cards])
+                t_card_names = sorted([c.name for c in d.cards])
+                if pt_card_names == t_card_names:
+                    print(" - matching cards")
+                    potential_twin.standard_key = d.key
+                    session.add(potential_twin)
+                    session.commit()
+                    self.alert(f'Found twin: {potential_twin.standard_key}, {potential_twin.evil_key}', ['discord'])
+                    break
 
 if __name__ == "__main__":
     w = Workers()
