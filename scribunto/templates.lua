@@ -46,6 +46,7 @@ Examples of handy things from moustache:
 Variables passed to this template:
 
 cardstyle = imported css from Module:LuacardStyle
+root_gallery = which gallery page to link to for gallery links
 
 card fields
 -----------
@@ -64,6 +65,7 @@ cardimage = the base (translated) image
 errata_text = the most recent errata text (todo: not translated)
 errata_version = the version the errata was recently updated in (todo: not translated)
 original_text = the original version of the text (todo: not translated)
+is_kfa = true if the card is from a kfa set
 
 terms
 -----
@@ -228,7 +230,14 @@ ${/locale}
           ${#is_multi}Multi${/is_multi}
           ${^is_multi}
             ${#is_anomaly}{{House|House=${cardhouse}|Size=20px}} <html><a href="https://archonarcana.com/${root_gallery}?houses=${cardhouse}">${cardhouse_t}</a></html>${/is_anomaly}
-            ${^is_anomaly}{{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]${/is_anomaly}
+            ${^is_anomaly}
+              ${#is_kfa}
+                {{House|House=${cardhouse}|Size=25px}} <html><a href="https://archonarcana.com/${root_gallery}?houses=${cardhouse}">${cardhouse_t}</a>
+              ${/is_kfa}
+              ${^is_kfa}
+                {{House|House=${cardhouse}|Size=25px}} [[Houses#${cardhouse}|${cardhouse_t}]]
+              ${/is_kfa}
+            ${/is_anomaly}
           ${/is_multi}
         ${/has_no_house}
       </div>

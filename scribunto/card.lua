@@ -437,6 +437,7 @@ function apply_sets(frame, vars)
 		if mw.ustring.find(result['SetInfo.SetNumber'], 'KFA.*') ~= nil then
 			vars.category_prefix = 'KFA '
 			-- We use a different gallery link for each KFA set
+			vars.is_kfa = true
 			vars.root_gallery = result['SetData.SetName']
 		end
 		mw.log(vars.category_prefix)
