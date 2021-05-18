@@ -224,13 +224,6 @@ var CSearch = {
     searchFields.map(function(field) {
       field.assignData(self)
     })
-    if (self.order_by.length==0){
-      if(!self.spoilers){
-        self.order_by = ['House', 'Name']
-      } else {
-        self.order_by = ['Number']
-      }
-    }
     self.offset = 0
     self.offsetActual = 0
     self.toUrl()
@@ -419,6 +412,13 @@ var CSearch = {
     }
     var limitq = '&limit=' + this.pageSize * sets.length
     var offsetq = '&offset=' + this.offset
+    if (this.order_by.length==0){
+      if(!this.spoilers && this.mode==='main'){
+        this.order_by = ['House', 'Name']
+      } else {
+        this.order_by = ['Number']
+      }
+    }
     var order_by = '&order_by=' + this.order_by.map(function(order){
       return orders[order]
     }).join('%2C')
