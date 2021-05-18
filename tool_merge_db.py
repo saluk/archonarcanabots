@@ -78,6 +78,7 @@ class Merger:
         self.title = None
         self.title_key = None
         self.make_page = False
+        self.duplicates = [None, None, None]
         self.read_meta()
         self.filter_rows()
         self.cargotables = {}
@@ -91,6 +92,8 @@ class Merger:
         for m in meta:
             if ":" in m:
                 k,v = m.split(":", 1)
+                if k == 'duplicates':
+                    v = v[1:-1].split(' ')
                 setattr(self,k,v)
     def filter_rows(self):
         self.rows = [x for x in self.rows if [y for y in x if y.strip()]]
@@ -123,8 +126,19 @@ class Merger:
                 raise Exception(f"No title found for {self.title_key}")
             current = CargoTable()
             for table in obs:
-                current.update_or_create(table, rowi, obs[table])
+                copies = [obs[table]]
+                if table == self.duplicates[0]:
+                    copies = []
+                    for segment in obs[table][self.duplicates[1]].split(self.duplicates[2]):
+                        r = {}
+                        r.update(obs[table])
+                        r[self.duplicates[1]] = segment.strip()
+                        copies.append(r)
+                for i,copy in enumerate(copies):
+                    current.update_or_create(table, rowi+i, copy)
             self.cargotables[title] = current
+        for title in self.cargotables:
+            print(self.cargotables[title].data_types)
     def to_page(self, wp, pause):
         self.merge_single()
         cargotable = self.cargotables[self.title]
