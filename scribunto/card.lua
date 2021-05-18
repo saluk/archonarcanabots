@@ -1,4 +1,4 @@
---Module:LuacardKFA
+--Module:Luacard
 --canstage
 --Usage: english - {{#invoke luacard | viewcard | cardname=Angry Mob}} 
 --       other language {{#invoke luacard | viewcard | cardname=Angry Mob | locale=fr-fr}}   (language codes are all 2 part)
@@ -41,7 +41,7 @@ function extend(table1, table2)
 	end
 end
 
-local templates = require('Module:LuacardTemplatesKFA')
+local templates = require('Module:LuacardTemplates')
 local cardstyle = require('Module:LuacardStyle')
 local translations = require("Module:LocaleTable") -- double quotes to not stage
 local luastache = require("Module:luastache")  -- double quotes to not stage

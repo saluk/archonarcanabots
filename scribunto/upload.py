@@ -9,8 +9,8 @@ def upload_lua_file(filename, test=False, mode='dev'):
         wpname = txt.split('\n')[0].rsplit('--', 1)[1].strip()
         if txt.find("--canstage")>=0:
             if mode != "prod":
-                wpname += '2'
-                txt = re.sub('require\(\'(.*?)\'\)', r"require('\g<1>2')", txt)
+                wpname += mode
+                txt = re.sub('require\(\'(.*?)\'\)', f"require('\g<1>{mode}')", txt)
                 print(re.findall('require.*?\)', txt))
         print(wpname)
         if not test:

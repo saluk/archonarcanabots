@@ -1,4 +1,4 @@
---Module:LuacardTemplatesKFA
+--Module:LuacardTemplates
 --canstage
 
 --[[ Guidelines for this template:
