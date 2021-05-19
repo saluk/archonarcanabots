@@ -399,6 +399,7 @@ function apply_related(frame, vars)
 			Text = "this card is featured in the flavor text of the following cards:",
 			Cards = flavor_card_names
 		})
+		append(vars.categories, "Appears in Flavor Text")
 	end
 	extend(related_set, related_cards_set)
 	map(related_set, function(item)
