@@ -57,12 +57,12 @@ if __name__ == "__main__":
                                                 pause=args.pause)
     if args.command == "reprint_pull":
         import tool_update_cards
-        tool_update_cards.update_cards_v2(wp, args.search, "importing card data (mm reprints)", 
-                                            "reprint_pull")
+        tool_update_cards.update_cards_v2(wp, args.search, "importing card data (dt reprints)", 
+                                            "reprint_pull", restrict_expansion=496)
     if args.command == "reprint_write":
         import tool_update_cards
-        tool_update_cards.update_cards_v2(wp, args.search, "importing card data (mm reprints)", 
-                                            "reprint_write")
+        tool_update_cards.update_cards_v2(wp, args.search, "importing card data (dt reprints)", 
+                                            "reprint_write", restrict_expansion=496)
     if args.command == "insert_search_text":
         import tool_update_cards
         tool_update_cards.update_cards_v2(wp, args.search, "inserting search text", 
