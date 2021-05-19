@@ -1,8 +1,12 @@
 from splinter import Browser
 import pytest
 import time
+import sys, os
+sys.path.insert(0, os.path.abspath(__file__).rsplit("/", 1)[0]+'/..')
+from models import wiki_card_db
 
-@pytest.fixture
+
+@pytest.fixture(scope="module")
 def browser():
     b =  Browser('firefox', headless=True)
     yield b
@@ -39,6 +43,7 @@ def test_topsearch(browser):
     assert found_card and found_deck and found_containing and found_deck_containing, (found_card, found_deck, found_containing, found_deck_containing)
 
 
+#only for multi card
 def get_visible_image(browser):
     for img in browser.find_by_css('.gallery-fullsize img'):
         if img.visible:
@@ -58,4 +63,15 @@ def test_cards(browser):
 
     assert 'Chonkers' in browser.find_by_css('.faqQuestion').first.text
     assert 'So Chonkers will still only have 1 power this turn' in browser.find_by_css('.faqAnswer').first.text
-    assert browser.find_by_css('#Note').first
+    assert browser.find_by_css('#Notes').first
+
+@pytest.mark.parametrize("card_name", wiki_card_db.cards.keys())
+def test_validate_generic_card(browser, card_name):
+    browser.visit("https://archonarcana.com/"+card_name)
+    assert browser.find_by_css('select[name=viewlanguage]').first
+    assert browser.find_by_css('.cardEntry .image img').first
+    first_set = browser.find_by_css('div.setEntry').first
+    assert first_set
+    digit = first_set.text.split(" ")[-1]
+    assert digit.isnumeric() or (digit.startswith("A") and digit.replace('A','').isnumeric())
+    assert browser.find_by_css('div.topRow div.type').first
