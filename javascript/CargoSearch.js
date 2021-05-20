@@ -720,6 +720,11 @@ var buildCardSearchForm = function(search) {
 }
 
 var init_cargo_search2 = function () {
+  if ($('a[href="#tabs-4"]').length>0) {
+    if (parseQueryString('traits') || parseQueryString('houses') || parseQueryString('types') || parseQueryString('rarities')) {
+      $('a[href="#tabs-4"]')[0].click()
+    }
+  }
   if ($('.card-gallery-images').length>0) {
     CSearch.init($('.card-gallery-images'), 50)
     buildCardSearchForm(CSearch)
