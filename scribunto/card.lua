@@ -312,13 +312,13 @@ function apply_rulings(frame, vars)
 	end
 end
 
-function relatedquery(cardname)
+function relatedquery(cardname, type_query)
 	return cargo_results(
 		'CardRelatedData',
 		'Pages, Text, Cards, Type',
 		{
 			groupBy='Pages, Text, Cards, Type',
-			where="(Pages like '%•"..cardname.."•%' OR (pages IS null AND Cards like '%•"..cardname.."•%')) AND Type!='Twin'",
+			where="(Pages like '%•"..cardname.."•%' OR (pages IS null AND Cards like '%•"..cardname.."•%')) AND Type!='twin' "..type_query,
 			orderBy='Text ASC'
 		})
 end
@@ -376,7 +376,16 @@ end
 function apply_related(frame, vars)
 	-- we use cardname_e and just show english related
 	local related_set = {}
-	local related_cards_set = relatedquery(vars.cardname_e)
+	local ignore_cards_set = relatedquery(vars.cardname_e,"AND Type='ignore'")
+	local ignore_card_table = {}
+	for i=1, #ignore_cards_set do
+		if ignore_cards_set[i]["Cards"] then
+			for name, _ in mw.ustring.gmatch(ignore_cards_set[i]["Cards"], '[^•]+') do
+				ignore_card_table[name] = true
+			end
+		end
+	end
+	local related_cards_set = relatedquery(vars.cardname_e,"AND Type!='ignore'")
 	local related_flavor_set = relatedflavorquery(vars.cardname_e)
 	local related_twin_set = twinquery(vars.cardname_e)
 	mw.logObject(related_twin_set)
@@ -392,14 +401,18 @@ function apply_related(frame, vars)
 	if #related_flavor_set > 0 then
 		local flavor_card_names = ""
 		for i=1, #related_flavor_set do
-			flavor_card_names = flavor_card_names .. "•"..related_flavor_set[i]["Name"].."•"
+			if not ignore_card_table[related_flavor_set[i]["Name"]] then
+				flavor_card_names = flavor_card_names .. "•"..related_flavor_set[i]["Name"].."•"
+			end
 		end
-		append(related_set, {
-			Pages = "•"..vars.cardname_e.."•",
-			Text = "this card is featured in the flavor text of the following cards:",
-			Cards = flavor_card_names
-		})
-		append(vars.categories, "Appears in Flavor Text")
+		if flavor_card_names:len() > 0 then 
+			append(related_set, {
+				Pages = "•"..vars.cardname_e.."•",
+				Text = "this card is featured in the flavor text of the following cards:",
+				Cards = flavor_card_names
+			})
+			append(vars.categories, "Appears in Flavor Text")
+		end
 	end
 	extend(related_set, related_cards_set)
 	map(related_set, function(item)

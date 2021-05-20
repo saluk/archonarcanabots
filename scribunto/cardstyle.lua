@@ -57,6 +57,7 @@ return {
 
   div.image img {
   filter: drop-shadow(0 0 0.2rem #505050);
+  border-radius:20px;
   }
   
   div.sets img {
@@ -494,6 +495,7 @@ background-color: #dedcd3;
 
   div.image img {
   filter: drop-shadow(0 0 0.2rem #505050);
+  border-radius:20px;
   }
   
       div.sets img {
