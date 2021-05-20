@@ -402,6 +402,7 @@ def deck_query(
         houses:Optional[str]=None,
         expansions:Optional[str]=None,
         key:Optional[str]=None,
+        twin:Optional[str]=None,
         page:Optional[int]=0
     ):
     uuid_re = re.compile('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', re.I)
@@ -429,6 +430,12 @@ def deck_query(
     if key:
         deckq = deckq.filter(
             mv_model.Deck.key==key.strip()
+        )
+    if twin == 'all':
+        deckq = deckq.join(mv_model.TwinDeck, mv_model.TwinDeck.evil_key==mv_model.Deck.key)
+    if twin == 'twinned':
+        deckq = deckq.join(mv_model.TwinDeck, mv_model.TwinDeck.evil_key==mv_model.Deck.key).filter(
+            mv_model.TwinDeck.standard_key!=None
         )
     #deckq = deckq.order_by(mv_model.Deck.page)
     page_size=15

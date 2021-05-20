@@ -267,7 +267,7 @@ class Workers:
                     potential_twin.standard_key = d.key
                     session.add(potential_twin)
                     session.commit()
-                    self.alert(f'Found twin: {potential_twin.standard_key}, {potential_twin.evil_key}', ['discord'])
+                    #self.alert(f'Found twin: {potential_twin.standard_key}, {potential_twin.evil_key}', ['discord'])
                     break
 
 if __name__ == "__main__":

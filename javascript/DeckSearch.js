@@ -16,7 +16,11 @@ var searchFields = [
   new EditField('select', 'set_selected', 
     {'label':'', 'basic':true,
       'defaultlabel': 'All sets',
-     'values':sets, 'divclass':'set', 'attach':'div.set-entries'})
+     'values':sets, 'divclass':'set', 'attach':'div.set-entries'}),
+  new EditField('select', 'twin',
+    {'label':'', 'basic':true,
+      'defaultlabel': 'All Decks', 
+      'values':['All Twins', 'Paired Twins'],'divclass':'set', 'attach':'div.twin-entries'})
 ]
 
 var getSearchField = function(field) {
@@ -41,6 +45,7 @@ var DSearch = {
   houses: [],
   set_selected: [],
   deckName: [],
+  twin: [],
   loading: false,
   scheduleLoading: false,
   requestcount: 0,
@@ -128,7 +133,14 @@ var DSearch = {
       'name': this.deckName[0],
       'expansions': this.set_selected.map(function(set){
         return set_number_by_name(set)
-      }).join(',')
+      }).join(','),
+      'twin': this.twin.map(function(v) {
+        if(v=='All Twins') {
+          return 'all'
+        } else if (v=='Paired Twins') {
+          return 'twinned'
+        }
+      })
     };
     for(var field in fields) {
       if(field.length>0) {
