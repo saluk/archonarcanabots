@@ -414,7 +414,7 @@ def deck_query(
     if houses:
         houses = [x.strip() for x in houses.split(',')]
         for h in houses:
-            deckq = deckq.filter(mv_model.Deck.data['_links']['houses'].contains('"'+h+'"'))
+            deckq = deckq.filter(mv_model.Deck.data['_links']['houses'].astext.like('%'+h+'%'))
     if expansions:
         expansions = [int(x.strip()) for x in expansions.split(',')]
         deckq = deckq.filter(or_(
@@ -437,7 +437,7 @@ def deck_query(
         deckq = deckq.join(mv_model.TwinDeck, mv_model.TwinDeck.evil_key==mv_model.Deck.key).filter(
             mv_model.TwinDeck.standard_key!=None
         )
-    #deckq = deckq.order_by(mv_model.Deck.page)
+    #deckq = deckq.order_by(mv_model.Deck.page.desc(),mv_model.Deck.index.desc())
     page_size=15
     deckq = deckq.limit(page_size)
     deckq = deckq.offset(page*page_size)
@@ -451,7 +451,8 @@ def deck_query(
                 d.key,
                 d.name,
                 ", ".join(d.houses),
-                d.data["expansion"]
+                d.data["expansion"],
+                d.page
             ] for d in decks
         ]}
 
