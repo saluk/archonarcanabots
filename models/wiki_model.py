@@ -275,32 +275,32 @@ def nice_rarity(rarity):
 def image_number(card):
     return "%s-%s.png" % (card["expansion"], card["card_number"])
 
-def rename_card_data(card, locale=None):
-    ot = sanitize_name(card["card_title"])
+def rename_card_data(card_data, locale=None):
+    ot = sanitize_name(card_data["card_title"])
 
     if ot in hard_code:
         commands = hard_code[ot]
-        card.update(commands.get("update", {}))
+        card_data.update(commands.get("update", {}))
         for exp in commands.get("rename_expansion", {}):
-            if exp != card["expansion"]:
+            if exp != card_data["expansion"]:
                 continue
             new_name = commands["rename_expansion"][exp]
             new_name = new_name.replace("%s", ot)
             ot = new_name
 
     title_modifications = []
-    if card.get("is_anomaly", False):
-        card["house"] = "Anomaly"
+    if card_data.get("is_anomaly", False):
+        card_data["house"] = "Anomaly"
         title_modifications.append("Anomaly")
 
-    if shared.is_evil_twin(card):
+    if shared.is_evil_twin(card_data):
         title_modifications.append("Evil Twin")
 
     if title_modifications:
         ot += " (%s)" % ", ".join(title_modifications)
 
-    card["card_title"] = ot
-    return card
+    card_data["card_title"] = ot
+    return card_data
 
 
 def card_data(card, locale=None):

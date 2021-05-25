@@ -954,7 +954,7 @@ function gen_deck_image(data) {
     if(!['en','es','it','de','fr','pl','pt','th','zh'].includes(lang)) {
         lang = 'en'
     }
-    var src = `https://images.skyjedi.com/custom/${data.key}/${lang}/deck_list.png`
+    var src = `https://tts.skyj.io/?deckId=${data.key}&type=deck-list&language=${lang}`
     return `
     <div class="decklist-image">
     <a href="${src}"><img src="${src}" alt="Archon Card"></a>

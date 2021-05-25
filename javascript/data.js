@@ -16,7 +16,7 @@ var set_numbers = [
 	[341, "Call of the Archons"],
 	[435, "Age of Ascension"],
 	[479, "Mass Mutation"],
-	[496, "Dark Tidings"]   // TODO - for dark tidings update number
+	[496, "Dark Tidings"]
 ]
 var set_name_by_number = function(number) {
 	return set_numbers.filter(function(set){

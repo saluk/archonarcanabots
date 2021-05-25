@@ -7,6 +7,7 @@ from sqlalchemy.sql.expression import bindparam
 import __updir__
 from models import wiki_card_db, mv_model, wiki_model
 from sqlalchemy.sql import and_, not_, func, update, or_
+from sqlalchemy.orm import joinedload
 from models import shared
 
 session = mv_model.Session()
@@ -15,22 +16,26 @@ session = mv_model.Session()
     - (Evil Twin): look for Evil Twin rarity cards
     - (Anomaly): look for Anomaly version of the card
     - is_gigantic: probably don't need to do anything specific
-    - multiple house: probably don't need to do anything specific (they can't maverick)"""
+    - multiple house: probably don't need to do anything specific (they can't maverick)
+    - apostrophes on the front end are normalized to "’" while in the mv are a mix of ["’", "'"]
+"""
 
 def query_card_versions(card_title, query):
+    def reptitle(title):
+        return title.replace("'","%").replace("’","%").replace('"',"%").replace('“','%').replace('”','%').replace("(","[").replace(")","]")
     if "(Evil Twin)" in card_title:
         query = query.filter(and_(
-            mv_model.Card.name==card_title.replace("(Evil Twin)","").strip(),
-            mv_model.Card.data['rarity'].as_text()=='Evil Twin'
+            mv_model.Card.name.like(reptitle(card_title).replace("(Evil Twin)","").strip()),
+            mv_model.Card.data['rarity'].astext=='Evil Twin'
         ))
     elif "(Anomaly)" in card_title:
         query = query.filter(and_(
-            mv_model.Card.name==card_title.replace("(Anomaly)","").strip(),
+            mv_model.Card.name.like(reptitle(card_title).replace("(Anomaly)","").strip()),
             mv_model.Card.data['is_anomaly'].as_boolean()
         ))
     else:
         query = query.filter(and_(
-            mv_model.Card.name==card_title,
+            mv_model.Card.name.like(reptitle(card_title)),
             not_(mv_model.Card.data['is_anomaly'].as_boolean())
         ))
     return query
@@ -85,11 +90,15 @@ for count in session.query(mv_model.CardCounts).all():
     count_data[count.name][exp] = dat
 
 def do_card_counts(deck):
+    count_card_names = {}
     for card in deck.cards:
-        renamed = wiki_model.rename_card_data(card.data)
-        data_changed.add(renamed["card_title"])
-        count_data[renamed["card_title"]] = dat = count_data.get(renamed["card_title"], {})
-        count = int(deck.count(card.key))
+        renamed = {}
+        renamed.update(card.data)
+        wiki_model.rename_card_data(renamed)
+        count_card_names[renamed["card_title"]] = count_card_names.get(renamed["card_title"], 0) + int(deck.count(card.key))
+    for card_title, count in count_card_names.items():
+        data_changed.add(card_title)
+        count_data[card_title] = dat = count_data.get(card_title, {})
         expansion = int(deck.expansion)
         if expansion not in dat:
             dat[expansion] = {}
@@ -98,7 +107,7 @@ def do_card_counts(deck):
         dat[expansion][count] += 1
 
 def commit_card_counts():
-    print("merge", data_changed)
+    print("merge", len(data_changed))
     for name in data_changed:
         for expansion in count_data[name]:
             #print('merge', name, expansion, count_data[name][expansion])
@@ -145,7 +154,10 @@ def count_decks(label, stat_func, commit_func, max_batches=None):
             filter(mv_model.Deck.page>=left_bound_page).\
             filter(or_(mv_model.Deck.page>left_bound_page,mv_model.Deck.index>=left_bound_index)).\
             order_by(mv_model.Deck.page, mv_model.Deck.index).\
-            limit(batch_size)
+            limit(batch_size)#.\
+            #options(
+            #    joinedload(mv_model.Deck.cards)
+            #)
         next_batch = q.all()
         if not next_batch:
             break
@@ -153,6 +165,7 @@ def count_decks(label, stat_func, commit_func, max_batches=None):
         deck = next_batch[0]
         print(deck.key, deck.page, deck.index)
         for deck in next_batch:
+            #print("stats",deck.key)
             stat_func(deck)
         dsc.start = (deck.page-1)*24 + (deck.index) + 1
         print("adding", dsc, dsc.start)
@@ -187,7 +200,82 @@ def commit_evil_twin():
     for b in twin_batch:
         session.merge(mv_model.TwinDeck(evil_key=b))
 
+def _old_fix_named_counts():
+    #with open("data/card_counts.json","w") as f:
+    #    f.write(json.dumps(count_data, indent=4))
+    new_count_data = {}
+    delete_names = []
+    for key in count_data:
+        if "(" in key:
+            if key.count("(") > 1:
+                delete_names.append(key)
+            key2 = None
+            if "(Evil Twin)" in key:
+                assert "(Anomaly)" not in key
+                key2 = key.replace("(Evil Twin)","").strip() + " (Evil Twin)"
+            elif "(Anomaly)" in key:
+                assert "(Evil Twin)" not in key
+                key2 = key.replace("(Anomaly)","").strip() + " (Anomaly)"
+            if not key2:
+                continue
+            if key2 not in new_count_data:
+                new_count_data[key2] = {}
+            for exp in count_data[key]:
+                if exp not in new_count_data[key2]:
+                    new_count_data[key2][exp] = {}
+                for copies in count_data[key][exp]:
+                    new_count_data[key2][exp][copies] = new_count_data[key2][exp].get(copies, 0) + count_data[key][exp][copies]
+    #print(new_count_data)
+    #print(delete_names)
+    for name in new_count_data:
+        for expansion in new_count_data[name]:
+            session.merge(mv_model.CardCounts(name=name, deck_expansion=expansion, data=new_count_data[name][expansion]))
+    for name in delete_names:
+        session.query(mv_model.CardCounts).filter(mv_model.CardCounts.name==name).delete()
+    session.commit()
+
+
+def _old_revert():
+    with open("data/card_counts.json") as f:
+        new_count_data = json.loads(f.read())
+    for name in new_count_data:
+        if "(" in name:
+            print("adding", name, new_count_data[name])
+        for expansion in new_count_data[name]:
+            q = session.merge(mv_model.CardCounts(name=name, deck_expansion=expansion, data=new_count_data[name][expansion]))
+    session.commit()
+
+
+def generate_card_stats():
+    for card_name in wiki_card_db.cards:
+        print(card_name)
+        query = session.query(mv_model.DeckCard).join(mv_model.Card,mv_model.Card.key==mv_model.DeckCard.card_key)
+        query = query_card_versions(card_name, query)
+        expansions = {}
+        print(query)
+        for deck_card in query:
+            exp_deck = expansions.get(deck_card.card_deck_expansion, {})
+            count = exp_deck.get(deck_card.deck_key, 0)
+            count += deck_card.count
+            exp_deck[deck_card.deck_key] = count
+            expansions[deck_card.card_deck_expansion] = exp_deck
+        counts = {}
+        for exp, decks in expansions.items():
+            exp_counts = counts.get(exp, {})
+            for copies in decks.values():
+                count = exp_counts.get(copies, 0)
+                count += 1
+                exp_counts[copies] = count
+            counts[exp] = exp_counts
+        for exp, data in counts.items():
+            session.merge(mv_model.CardCounts(name=card_name, deck_expansion=exp, data=data))
+        session.commit()
+
+
 if __name__ == "__main__":
-    #count_decks('card_counts', do_card_counts, commit_card_counts)
+    count_decks('card_counts', do_card_counts, commit_card_counts)
     #count_decks('house_counts', do_house_counts, commit_house_counts)
-    count_decks('evil_twins', do_evil_twin, commit_evil_twin)
+    #count_decks('evil_twins', do_evil_twin, commit_evil_twin)
+    #fix_named_counts()
+    #revert()
+    #generate_card_stats()

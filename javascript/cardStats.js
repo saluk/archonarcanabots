@@ -4,24 +4,22 @@ import Chart from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 Chart.plugins.register(ChartDataLabels);
 
-var colors = [
-  '#dedcd3',
-  '#eedcd3',
-  '#fedcd3',
-  '#9edcd3',
-  '#8edcd3',
-  '#7edcd3',
-  '#6edcd3',
-  '#5edcd3',
-  '#4edcd3'
-]
-
 function chartCounts(counts) {
   var labels = Object.keys(counts).map(expansion=>set_name_by_number(Number(expansion)))
   var globaldata = {
     labels: labels,
     datasets: []
   }
+  var colors = [
+    'rgb(220,140,240)',
+    'rgb(200,140,240)',
+    'rgb(180,140,240)',
+    'rgb(160,140,240)',
+    'rgb(140,140,240)',
+    'rgb(120,140,240)',
+    'rgb(100,140,240)',
+    'rgb(80,140,240)'
+  ]
   for(var copies=1;copies<=36;copies++) {
     var copydata = []
     for(var expansion_counts of Object.values(counts)) {
