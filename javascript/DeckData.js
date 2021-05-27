@@ -755,6 +755,19 @@ function perform_event_lookup(deckdata) {
     })
 }
 
+//https://archonarcana.com/api.php?action=parse&format=json&text=%7B%7BDeck_talk%3A4a366056-808d-4f81-a2d4-ba00c933248f%7D%7D
+function perform_discussion_lookup(deckdata) {
+  var url = `https://archonarcana.com/api.php?action=parse&format=json&text=%7B%7BDeck_talk%3A${deckdata.key}%7D%7D`
+  $.ajax(
+    url,
+    {
+        success: function (data, status, xhr) {
+            $('.deck_talk').empty()
+            write_talk(data.parse.text['*'], deckdata.key)
+        }
+    })
+}
+
 var event_images = {
   '1': '<img src="https://archonarcana.com/images/3/3f/Noun_Laurel_Wreath_314748_gold.png" class="laurel" alt="Golden victory laurel">',
   '2': '<img src="https://archonarcana.com/images/3/34/Noun_Laurel_Wreath_314748_silver.png" class="laurel" alt="Silver victory laurel">',
@@ -865,6 +878,14 @@ function correlate_rules_by_card(cargo_results, cards, section) {
         }
     }
     return texts_by_card_list
+}
+
+function write_talk(text, deck_key) {
+  var div = $('.deck_talk')
+  if(text && text.search(/\(page does not exist\)/) < 0) {
+    div.append(`<h2><a href="https://archonarcana.com/index.php?title=Deck_talk:${deck_key}&action=edit">Notes</a></h2>`)
+    div.append(text)
+  }
 }
 
 function write_errata(cargo_results, cards) {
@@ -995,6 +1016,11 @@ function gen_cards(data) {
 function gen_events(data) {
   perform_event_lookup(data)
   return '<div class="deck_events">Loading events...</div>'
+}
+
+function gen_talk(data) {
+  perform_discussion_lookup(data)
+  return '<div class="deck_talk">Loading discussion...</div>'
 }
 
 function gen_rules(data) {
@@ -1169,6 +1195,7 @@ function write_deck_data(data) {
     $(div).empty()
     $(div).append(preamble)
     $(div).append(gen_deck_databox(data))
+    //$(div).append(gen_talk(data))
     $(div).append(gen_events(data))
     $(div).append(gen_rules(data))
     $(div).append(gen_card_combos(data))

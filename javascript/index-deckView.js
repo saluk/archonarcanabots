@@ -4,7 +4,7 @@ import './share42.js' // share42 sharing module
 
 var arcana_main = function() {
 	gen_deck_data()
-	replace_charts()
+	//replace_charts()
 }
 
 arcana_main()
