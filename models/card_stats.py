@@ -136,7 +136,7 @@ def commit_house_counts():
             session.merge(mv_model.HouseCounts(name=house, deck_expansion=exp, count=count))
 
 def count_decks(label, stat_func, commit_func, max_batches=None):
-    batch_size = 1000
+    batch_size = 500
     # Get starting page/index from DeckStatCounted
     stat_count = session.query(mv_model.DeckStatCounted).filter(mv_model.DeckStatCounted.label==label)
     dsc = stat_count.first()
