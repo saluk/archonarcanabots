@@ -1,45 +1,72 @@
 import {parseQueryString, pageTitle, to_full} from './myutils'
 import {set_name_by_number} from './data'
-import Chart from 'chart.js'
-import ChartDataLabels from 'chartjs-plugin-datalabels'
-Chart.plugins.register(ChartDataLabels);
+import ApexCharts from 'apexcharts'
 
 function chartCounts(counts) {
-  var labels = Object.keys(counts).map(expansion=>set_name_by_number(Number(expansion)))
+  var labels = []
+  for(var i=1; i<=36; i++) {
+    labels.push(i)
+  }
   var globaldata = {
     labels: labels,
     datasets: []
   }
   var colors = [
-    'rgb(220,140,240)',
-    'rgb(200,140,240)',
-    'rgb(180,140,240)',
-    'rgb(160,140,240)',
-    'rgb(140,140,240)',
-    'rgb(120,140,240)',
-    'rgb(100,140,240)',
-    'rgb(80,140,240)'
+    'rgb(203, 66, 245)',
+    'rgb(197, 245, 66)',
+    'rgb(126, 245, 66)',
+    'rgb(66, 245, 173)',
+    'rgb(66, 245, 224)',
+    'rgb(66, 206, 245)'
   ]
-  for(var copies=1;copies<=36;copies++) {
+  var has_copy_data = {}
+  for(var expansion of Object.keys(counts)) {
     var copydata = []
-    for(var expansion_counts of Object.values(counts)) {
-      copydata.push(expansion_counts[copies.toString()] || 0)
-    }
-    if(copydata.filter(x=>x>0).length==0) {
-      continue
+    for(var copies=1; copies<=36; copies++) {
+      var val = counts[expansion][copies.toString()]
+      if(val) {
+        copydata.push(val)
+        has_copy_data[copies] = true
+      } else {
+        copydata.push(0)
+      }
     }
     var color = colors.pop()
     globaldata.datasets.push({
-      label: copies,
+      label: set_name_by_number(expansion),
       data: copydata,
-      borderColor: '#ffffff',
+      borderColor: '#000000',
       backgroundColor: color
     })
     colors.unshift(color)
   }
+  console.log(has_copy_data)
+  var off = 0
+  for(var i=1; i<=36; i++) {
+    if(has_copy_data[i] == undefined) {
+      globaldata.labels.splice(i-1+off, 1)
+      for(var expansion_count of globaldata.datasets) {
+        expansion_count.data.splice(i-1+off, 1)
+      }
+      off -= 1
+    } else {
+      console.log('ok '+i)
+    }
+  }
+  console.log(globaldata.labels)
   var config = {
     type: 'bar',
     data: globaldata,
+    scales: {
+      xAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: "# Copies"
+          }
+        }
+      ]
+    },
     options: {
       indexAxis: 'y',
       elements: {
@@ -60,7 +87,31 @@ function chartCounts(counts) {
     }
   }
   console.log(config)
-	var myChart = new Chart(document.getElementById('counts_chart'), config)
+  config = {
+    chart: {
+      type: 'bar'
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true
+      }
+    },
+    series: [{
+      name: 'worlds collide',
+      data: [10000, 1000, 10, 1]
+    }, {
+      name: 'mass mutation',
+      data: [1000, 100, 1, 0]
+    }],
+    xaxis: {
+      categories: [1, 2, 3, 4]
+    },
+    legend: {
+      show: true
+    }
+  }
+  var chart = new ApexCharts(document.getElementById('counts_chart'), config);
+  chart.render();
 }
 
 function getStats(cardname) {
@@ -69,7 +120,8 @@ function getStats(cardname) {
       {
         success: function (data, status, xhr) {
           el.empty()
-          text = `<div><canvas id="counts_chart" style="width:300px;height:300px"></canvas></div>`
+          //text = `<div><canvas id="counts_chart" style="width:300px;height:300px"></canvas></div>`
+          text = '<div id="counts_chart"></div>'
           el.append(text)
           chartCounts(data['counts'])
         },

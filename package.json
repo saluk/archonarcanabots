@@ -4,6 +4,7 @@
   "description": "",
   "private": "true",
   "dependencies": {
+    "apexcharts": "^3.26.3",
     "bowser": "^2.11.0",
     "chart": "^0.1.2",
     "chart.js": "^2.9.4",
