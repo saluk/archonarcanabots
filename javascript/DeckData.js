@@ -978,7 +978,7 @@ function gen_deck_image(data) {
     var src = `https://tts.skyj.io/?deckId=${data.key}&type=deck-list&language=${lang}`
     return `
     <div class="decklist-image">
-    <a href="${src}"><img src="${src}" alt="Archon Card"></a>
+    <img src="${src}" alt="Archon Card">
     </div>`
 }
 
@@ -1083,7 +1083,7 @@ function deck_stats(data) {
         houses: uniques(data.cards, 'house').map(function(card){
             return card.house
         }).filter(function(house){
-            return house !== 'The Tide'
+            return house !== 'The Tide' && house !== 'Anomaly'
         }),
         actions: data.cards.filter(function(card){
             return card.card_type.match(/action/i)
@@ -1203,6 +1203,10 @@ function write_deck_data(data) {
     //$(div)[0].style.display=""
     $('#firstHeading').empty().append(data.name)
     updateCardImages()
+
+    $('.decklist-image img').bind('contextmenu', function(e) {
+      return false
+    })
 }
 
 function read_wiki_deck_data() {
