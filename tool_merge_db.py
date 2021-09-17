@@ -13,8 +13,7 @@ def read_spreadsheet(sheet_url):
     print(rows[0])
     print(rows[1])
     print(rows[2])
-    print(rows[3])
-    print(rows[4])
+    print(rows[3:])
     return rows
 
 def get_locale_spreadsheet(sheet_url):
