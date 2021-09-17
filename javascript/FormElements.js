@@ -12,7 +12,7 @@ var check_images = {
 	'Star_Alliance': 'https://archonarcana.com/images/7/7d/Star_Alliance.png',
 	'Shadows': 'https://archonarcana.com/images/e/ee/Shadows.png',
 	'Untamed': 'https://archonarcana.com/images/b/bd/Untamed.png',
-  'Anomaly': 'https://archonarcana.com/images/thumb/a/a1/Anomaly_icon.png/40px-Anomaly_icon.png',
+  'Anomaly': 'https://archonarcana.com/images/8/88/Anomoly-tc.png',
   'Unfathomable': 'https://archonarcana.com/images/1/10/Unfathomable.png'
 }
 
