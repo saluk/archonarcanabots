@@ -25,6 +25,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 engine = sqlalchemy.create_engine(
     'postgresql+psycopg2://mastervault:'+passwords.MASTERVAULT_PASSWORD+'@localhost/mastervault',
     pool_size=5,
+    pool_pre_ping=True,
+    pool_recycle=3600,
     connect_args={'connect_timeout': 15}
 )
 Session = scoped_session(sessionmaker(bind=engine))
