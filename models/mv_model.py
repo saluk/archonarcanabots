@@ -45,6 +45,8 @@ def postgres_upsert(session, table, obs):
 engine = sqlalchemy.create_engine(
     'postgresql+psycopg2://mastervault:'+PASSWORD+'@localhost/mastervault',
     pool_size=5,
+    pool_pre_ping=True,
+    pool_recycle=3600
     #echo=True,
     #executemany_mode='batch'
 )

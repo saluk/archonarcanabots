@@ -31,6 +31,21 @@ engine = sqlalchemy.create_engine(
 )
 Session = scoped_session(sessionmaker(bind=engine))
 
+from contextlib import contextmanager
+
+@contextmanager
+def session_scope():
+    """Provide a transactional scope around a series of operations."""
+    session = Session()
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
 SECRET_KEY = "f16861df9f66125336d2f588c080b67f22a0c39267dd5127654b6bc71d9c1bbd"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
@@ -80,13 +95,12 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 def get_user(email:str):
-    session = Session()
-    api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==email).first()
-    session.close()
-    if api_user:
-        return UserInDB(uuid=api_user.uuid, email=api_user.email, 
-                        hashed_password=api_user.hashed_password, dok_key=api_user.dok_key or '')
-    return UserInDB(uuid=uuid.uuid4(), email="user_not_found", hashed_password=email, dok_key="")
+    with session_scope() as session:
+        api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==email).first()
+        if api_user:
+            return UserInDB(uuid=api_user.uuid, email=api_user.email, 
+                            hashed_password=api_user.hashed_password, dok_key=api_user.dok_key or '')
+        return UserInDB(uuid=uuid.uuid4(), email="user_not_found", hashed_password=email, dok_key="")
 
 def authenticate_user(email: str, password: str):
     user = get_user(email)
@@ -141,46 +155,46 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 @mvapi.get('/user/decks', tags=["user-action"])
 async def mydecks(current_user: UserInDB = Depends(get_current_user)):
     decks = []
-    session = Session()
-    print(str(session.query(mv_model.Deck).\
-            join(mv_model.OwnedDeck, mv_model.OwnedDeck.deck_key==mv_model.Deck.key).\
-            filter(mv_model.OwnedDeck.user_key==str(current_user.uuid)).\
-            order_by(mv_model.Deck.page, mv_model.Deck.index)))
-    for deck in session.query(mv_model.Deck).\
-            join(mv_model.OwnedDeck, mv_model.OwnedDeck.deck_key==mv_model.Deck.key).\
-            filter(mv_model.OwnedDeck.user_key==str(current_user.uuid)).\
-            order_by(mv_model.Deck.page, mv_model.Deck.index):
-        decks.append({
-            "name":deck.name,
-            "mastervault_link":"https://www.keyforgegame.com/deck-details/"+deck.key
-        })
-    return {"user":current_user,"decks":decks}
+    with session_scope() as session:
+        print(str(session.query(mv_model.Deck).\
+                join(mv_model.OwnedDeck, mv_model.OwnedDeck.deck_key==mv_model.Deck.key).\
+                filter(mv_model.OwnedDeck.user_key==str(current_user.uuid)).\
+                order_by(mv_model.Deck.page, mv_model.Deck.index)))
+        for deck in session.query(mv_model.Deck).\
+                join(mv_model.OwnedDeck, mv_model.OwnedDeck.deck_key==mv_model.Deck.key).\
+                filter(mv_model.OwnedDeck.user_key==str(current_user.uuid)).\
+                order_by(mv_model.Deck.page, mv_model.Deck.index):
+            decks.append({
+                "name":deck.name,
+                "mastervault_link":"https://www.keyforgegame.com/deck-details/"+deck.key
+            })
+        return {"user":current_user,"decks":decks}
 
 @mvapi.get("/decks/get", tags=["mastervault-clone"])
 def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None):
     print(repr(name))
-    session = Session()
-    deck = session.query(mv_model.Deck)
-    if key:
-        deck = deck.filter(mv_model.Deck.key==key)
-    if name:
-        deck = deck.filter(mv_model.Deck.name==name)
-    if id_:
-        page = int(id_/24)+1
-        index = id_-((page-1)*24)
-        print(page,index)
-        deck = deck.filter(mv_model.Deck.page==page, mv_model.Deck.index==index)
-    print("GET DECK")
-    deck = deck.first()
-    print("(end)")
-    if not deck:
-        return "No data"
-    cards = [card.aa_format() for card in deck.get_cards()]
-    d = {'deck_data':{}}
-    d['deck_data'].update(deck.data)
-    d['meta'] = {'page':deck.page, 'index':deck.index, 'scrape_date':deck.scrape_date}
-    d['cards'] = cards
-    return d
+    with session_scope() as session:
+        deck = session.query(mv_model.Deck)
+        if key:
+            deck = deck.filter(mv_model.Deck.key==key)
+        if name:
+            deck = deck.filter(mv_model.Deck.name==name)
+        if id_:
+            page = int(id_/24)+1
+            index = id_-((page-1)*24)
+            print(page,index)
+            deck = deck.filter(mv_model.Deck.page==page, mv_model.Deck.index==index)
+        print("GET DECK")
+        deck = deck.first()
+        print("(end)")
+        if not deck:
+            return "No data"
+        cards = [card.aa_format() for card in deck.get_cards()]
+        d = {'deck_data':{}}
+        d['deck_data'].update(deck.data)
+        d['meta'] = {'page':deck.page, 'index':deck.index, 'scrape_date':deck.scrape_date}
+        d['cards'] = cards
+        return d
 
 
 @mvapi.get("/decks/walk", tags=["mastervault-clone"])
@@ -193,34 +207,34 @@ def decks(start:Optional[int]=None, end:Optional[int]=None):
         end = start+1000
     if end==start:
         end = start+1
-    session = Session()
-    total = session.execute("select * from decks_count")
-    count = total.first()[0]
-    left_bound_page = start//int(24)
-    left_bound_index = start-left_bound_page*24
-    right_bound_page = end//int(24)
-    right_bound_index = end-right_bound_page*24
-    left_bound_page += 1
-    #left_bound_index += 1
-    right_bound_page += 1
-    #right_bound_index += 1
-    deckq = session.query(mv_model.Deck).\
-        filter(mv_model.Deck.page>=left_bound_page,mv_model.Deck.page<=right_bound_page).\
-        filter(or_(mv_model.Deck.page<right_bound_page,mv_model.Deck.index<=right_bound_index)).\
-        filter(or_(mv_model.Deck.page>left_bound_page,mv_model.Deck.index>=left_bound_index)).\
-        order_by(mv_model.Deck.page, mv_model.Deck.index)
-    decks = deckq.all()
-    return {"start": start, "end": end, "max": count, 
-            "bounds": [(left_bound_page, left_bound_index), (right_bound_page, right_bound_index)],
-            "count":len(decks),
-            "decks":[[d.key, d.name, ", ".join(d.data['_links']['houses']), d.data["expansion"]] for d in decks]}
+    with session_scope() as session:
+        total = session.execute("select * from decks_count")
+        count = total.first()[0]
+        left_bound_page = start//int(24)
+        left_bound_index = start-left_bound_page*24
+        right_bound_page = end//int(24)
+        right_bound_index = end-right_bound_page*24
+        left_bound_page += 1
+        #left_bound_index += 1
+        right_bound_page += 1
+        #right_bound_index += 1
+        deckq = session.query(mv_model.Deck).\
+            filter(mv_model.Deck.page>=left_bound_page,mv_model.Deck.page<=right_bound_page).\
+            filter(or_(mv_model.Deck.page<right_bound_page,mv_model.Deck.index<=right_bound_index)).\
+            filter(or_(mv_model.Deck.page>left_bound_page,mv_model.Deck.index>=left_bound_index)).\
+            order_by(mv_model.Deck.page, mv_model.Deck.index)
+        decks = deckq.all()
+        return {"start": start, "end": end, "max": count, 
+                "bounds": [(left_bound_page, left_bound_index), (right_bound_page, right_bound_index)],
+                "count":len(decks),
+                "decks":[[d.key, d.name, ", ".join(d.data['_links']['houses']), d.data["expansion"]] for d in decks]}
 
 @mvapi.get('/decks/latest', tags=["mastervault-clone"])
 def latest():
-    session = Session()
-    query = session.execute("select key from decks where (select max(page) from decks)=page order by index desc limit 1;")
-    key = query.first()[0]
-    return deck(key)
+    with session_scope() as session:
+        query = session.execute("select key from decks where (select max(page) from decks)=page order by index desc limit 1;")
+        key = query.first()[0]
+        return deck(key)
 
 @mvapi.get("/card_query", tags=["mastervault-clone"])
 def card_query(
@@ -233,129 +247,129 @@ def card_query(
     ):
     is_maverick = {True:'true',False:'false'}[is_maverick]
     is_enhanced = {True:'true',False:'false'}[is_enhanced]
-    session = Session()
-    cardq = session.query(mv_model.Card)
-    if houses:
-        houses = [x.strip() for x in houses.split(',')]
-        for h in houses:
-            cardq = cardq.filter(mv_model.Card.data['house'].has_key(h))
-    if expansions:
-        expansions = [int(x.strip()) for x in expansions.split(',')]
-        cardq = cardq.filter(or_(
-            *[mv_model.Card.data['expansion'].astext == str(expansion) for expansion in expansions]
-        ))
-    if name:
-        name = "%{}%".format(name)
-        cardq = cardq.filter(mv_model.Card.name.ilike(name))
-    cardq = cardq.filter(mv_model.Card.data['is_maverick'].astext == is_maverick)
-    cardq = cardq.filter(mv_model.Card.data['is_enhanced'].astext == is_enhanced)
-    if limit:
-        cardq = cardq.limit(10)
-    print(str(cardq))
-    cards = cardq.all()
-    return {"cards":
-        [
-            card.aa_format()["card_title"]
-            for card in cards
-        ]}
+    with session_scope() as session:
+        cardq = session.query(mv_model.Card)
+        if houses:
+            houses = [x.strip() for x in houses.split(',')]
+            for h in houses:
+                cardq = cardq.filter(mv_model.Card.data['house'].has_key(h))
+        if expansions:
+            expansions = [int(x.strip()) for x in expansions.split(',')]
+            cardq = cardq.filter(or_(
+                *[mv_model.Card.data['expansion'].astext == str(expansion) for expansion in expansions]
+            ))
+        if name:
+            name = "%{}%".format(name)
+            cardq = cardq.filter(mv_model.Card.name.ilike(name))
+        cardq = cardq.filter(mv_model.Card.data['is_maverick'].astext == is_maverick)
+        cardq = cardq.filter(mv_model.Card.data['is_enhanced'].astext == is_enhanced)
+        if limit:
+            cardq = cardq.limit(10)
+        print(str(cardq))
+        cards = cardq.all()
+        return {"cards":
+            [
+                card.aa_format()["card_title"]
+                for card in cards
+            ]}
 
 
 @mvapi.get("/card_stats", tags=["aa-api"])
 def get_card_stats(card_name:str):
-    session = Session()
-    counts = session.query(mv_model.CardCounts).filter(mv_model.CardCounts.name==card_name).all()
-    if not counts:
-        raise HTTPException(status_code=404, detail="No card stats found for that name")
-    # TODO - should count legacies separately in the db
-    query = session.query(mv_model.Card)
-    card_variants = card_stats.query_card_versions(card_name, query).all()
-    expansions = set()
-    legacy_expansions = set()
-    houses = []
-    for c in card_variants:
-        if c.is_from_current_set:
-            expansions.add(c.deck_expansion)
-        if not c.is_maverick:
-            houses.append(c.data["house"])
-    for c in card_variants:
-        if c.deck_expansion not in expansions:
-            legacy_expansions.add(c.deck_expansion)
-    count_expansions = {}
-    count_legacy = {}
-    for count in counts:
-        if count.deck_expansion in expansions:
-            count_expansions[count.deck_expansion] = count.data
-        else:
-            count_legacy[count.deck_expansion] = count.data
-    count_mavericks = {}
-    count_mavericks = card_stats.calc_mavericks({"card_title": card_name})
-    count_legacy_mavericks = card_stats.calc_legacy_maverick({"card_title": card_name}, expansions)
-    #      Also: for each set that the card exists in, what is the percentage of decks that have that house that also contain that card? [Different stats per set] 
-    #- for sets that don't contain that card, but come after its original printing, what percentage of decks have that card as a legacy? [Different stats per set]
-    # Number of copies of that card by set?
-    total_decks = card_stats.expansion_totals()
-    print(total_decks)
-    percent_expansions = {}
-    for exp, counts in count_expansions.items():
-        total = sum(counts.values())
-        percent_expansions[exp] = total/total_decks[exp] * 100
-    percent_expansions_in_house = {}
-    if len(houses)==1:  #Just ignore this stat for cards that regularly multi-house
-        for exp in expansions:
-            total = sum(count_expansions[exp].values())
-            percent_expansions_in_house[exp] = total/card_stats.house_counts[exp][houses[0]] * 100
-    return {
-        "counts": count_expansions,
-        "percent_expansions": percent_expansions,
-        "percent_expansions_inhouse": percent_expansions_in_house,
-        "mavericks": count_mavericks,
-        "legacy": count_legacy,
-        "legacy_maverick": count_legacy_mavericks,
-        "expansions": expansions,
-        "legacy_expansions": legacy_expansions
-    }
+    with session_scope() as session:
+        counts = session.query(mv_model.CardCounts).filter(mv_model.CardCounts.name==card_name).all()
+        if not counts:
+            raise HTTPException(status_code=404, detail="No card stats found for that name")
+        # TODO - should count legacies separately in the db
+        query = session.query(mv_model.Card)
+        card_variants = card_stats.query_card_versions(card_name, query).all()
+        expansions = set()
+        legacy_expansions = set()
+        houses = []
+        for c in card_variants:
+            if c.is_from_current_set:
+                expansions.add(c.deck_expansion)
+            if not c.is_maverick:
+                houses.append(c.data["house"])
+        for c in card_variants:
+            if c.deck_expansion not in expansions:
+                legacy_expansions.add(c.deck_expansion)
+        count_expansions = {}
+        count_legacy = {}
+        for count in counts:
+            if count.deck_expansion in expansions:
+                count_expansions[count.deck_expansion] = count.data
+            else:
+                count_legacy[count.deck_expansion] = count.data
+        count_mavericks = {}
+        count_mavericks = card_stats.calc_mavericks({"card_title": card_name})
+        count_legacy_mavericks = card_stats.calc_legacy_maverick({"card_title": card_name}, expansions)
+        #      Also: for each set that the card exists in, what is the percentage of decks that have that house that also contain that card? [Different stats per set] 
+        #- for sets that don't contain that card, but come after its original printing, what percentage of decks have that card as a legacy? [Different stats per set]
+        # Number of copies of that card by set?
+        total_decks = card_stats.expansion_totals()
+        print(total_decks)
+        percent_expansions = {}
+        for exp, counts in count_expansions.items():
+            total = sum(counts.values())
+            percent_expansions[exp] = total/total_decks[exp] * 100
+        percent_expansions_in_house = {}
+        if len(houses)==1:  #Just ignore this stat for cards that regularly multi-house
+            for exp in expansions:
+                total = sum(count_expansions[exp].values())
+                percent_expansions_in_house[exp] = total/card_stats.house_counts[exp][houses[0]] * 100
+        return {
+            "counts": count_expansions,
+            "percent_expansions": percent_expansions,
+            "percent_expansions_inhouse": percent_expansions_in_house,
+            "mavericks": count_mavericks,
+            "legacy": count_legacy,
+            "legacy_maverick": count_legacy_mavericks,
+            "expansions": expansions,
+            "legacy_expansions": legacy_expansions
+        }
 
 @mvapi.post('/user/create', tags=["user-operation"])
 def create_user(admin_key:str, email:str, password:str):
     print("insert email",email)
     if admin_key!=passwords.KFDECKSERV_ADMIN_KEY:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    session = Session()
-    api_user = mv_model.ApiUser(uuid=uuid.uuid4(),email=email, hashed_password=pwd_context.hash(password))
-    session.add(api_user)
-    session.commit()
-    session.close()
-    user = get_user(email)
-    return user
+    with session_scope() as session:
+        api_user = mv_model.ApiUser(uuid=uuid.uuid4(),email=email, hashed_password=pwd_context.hash(password))
+        session.add(api_user)
+        session.commit()
+        session.close()
+        user = get_user(email)
+        return user
 
 @mvapi.post('/user/update', tags=["user-operation"])
 def update_user(current_user: UserInDB = Depends(get_current_user),
                 email:Optional[str]=None, password:Optional[str]=None,
                 dok_key:Optional[str]=None):
-    session = Session()
-    api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==current_user.email).first()
-    if dok_key:
-        api_user.dok_key = dok_key
-    if email:
-        api_user.email = email
-    if password:
-        api_user.hashed_password = pwd_context.hash(password)
-    session.add(api_user)
-    session.commit()
-    user = get_user(api_user.email)
-    return user
+    with session_scope() as session:
+        api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==current_user.email).first()
+        if dok_key:
+            api_user.dok_key = dok_key
+        if email:
+            api_user.email = email
+        if password:
+            api_user.hashed_password = pwd_context.hash(password)
+        session.add(api_user)
+        session.commit()
+        user = get_user(api_user.email)
+        return user
 
 @mvapi.get('/user/decks/get_dok', tags=["user-operation"])
 def update_user_decks(current_user: UserInDB = Depends(get_current_user)):
-    session = Session()
-    api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==current_user.email).first()
-    dok_decks = dok.get_decks(api_user.dok_key)
-    add_decks = []
-    for deck in dok_decks:
-        add_decks.append(mv_model.OwnedDeck(deck_key=deck['deck']['keyforgeId'], user_key=api_user.uuid))
-    mv_model.postgres_upsert(session, mv_model.OwnedDeck, add_decks)
-    session.commit()
-    return {"updated":len(dok_decks)}
+    with session_scope() as session:
+        api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==current_user.email).first()
+        dok_decks = dok.get_decks(api_user.dok_key)
+        add_decks = []
+        for deck in dok_decks:
+            add_decks.append(mv_model.OwnedDeck(deck_key=deck['deck']['keyforgeId'], user_key=api_user.uuid))
+        mv_model.postgres_upsert(session, mv_model.OwnedDeck, add_decks)
+        session.commit()
+        return {"updated":len(dok_decks)}
 
 
 from fastapi import BackgroundTasks
@@ -374,28 +388,28 @@ def generate_aa_deck_page(key:str=None, recreate=False, background_tasks:Backgro
         if bool(page):
             return {"exists": True, "operation": None}
     # Get deck
-    session = Session()
-    deck_query = session.query(mv_model.Deck)
-    if key:
-        deck_query = deck_query.filter(mv_model.Deck.key==key)
-    deck = deck_query.first()
-    # Create AA page from deck info
-    background_tasks.add_task(task_write_aa_deck_to_page, page, deck)
-    return {"exists": False, "operation": "edited"}
+    with session_scope() as session:
+        deck_query = session.query(mv_model.Deck)
+        if key:
+            deck_query = deck_query.filter(mv_model.Deck.key==key)
+        deck = deck_query.first()
+        # Create AA page from deck info
+        background_tasks.add_task(task_write_aa_deck_to_page, page, deck)
+        return {"exists": False, "operation": "edited"}
 
 
 @mvapi.get('/get_aa_deck_data', tags=["aa-api"])
 def get_aa_deck_data(key:str=None,locale:str='en'):
     # Get deck
-    session = Session()
-    deck_query = session.query(mv_model.Deck)
-    if key:
-        deck_query = deck_query.filter(mv_model.Deck.key==key)
-    deck = deck_query.first()
-    # Return data
-    if deck:
-        return deck_writer.DeckWriter(deck, locale, session).deck_json()
-    raise HTTPException(status_code=404, detail="No deck found by that ID")
+    with session_scope() as session:
+        deck_query = session.query(mv_model.Deck)
+        if key:
+            deck_query = deck_query.filter(mv_model.Deck.key==key)
+        deck = deck_query.first()
+        # Return data
+        if deck:
+            return deck_writer.DeckWriter(deck, locale, session).deck_json()
+        raise HTTPException(status_code=404, detail="No deck found by that ID")
 
 
 @mvapi.get("/deck_query", tags=["aa-api"])
@@ -411,62 +425,62 @@ def deck_query(
     if name and uuid_re.findall(name):
         key = uuid_re.findall(name)[0].lower()
         name = None
-    session = Session()
-    deckq = session.query(mv_model.Deck)
-    if houses:
-        houses = [x.strip() for x in houses.split(',')]
-        for h in houses:
-            deckq = deckq.filter(mv_model.Deck.data['_links']['houses'].astext.like('%'+h+'%'))
-    if expansions:
-        expansions = [int(x.strip()) for x in expansions.split(',')]
-        deckq = deckq.filter(or_(
-            *[mv_model.Deck.expansion == expansion for expansion in expansions]
-        ))
-    if name:
-        name = "%{}%".format(
-            util.sanitize_deck_name(name)
-        )
-        deckq = deckq.filter(
-            mv_model.Deck.name_sane.ilike(name)
-        )
-    if key:
-        deckq = deckq.filter(
-            mv_model.Deck.key==key.strip()
-        )
-    if twin == 'all':
-        deckq = deckq.join(mv_model.TwinDeck, mv_model.TwinDeck.evil_key==mv_model.Deck.key)
-    if twin == 'twinned':
-        deckq = deckq.join(mv_model.TwinDeck, mv_model.TwinDeck.evil_key==mv_model.Deck.key).filter(
-            mv_model.TwinDeck.standard_key!=None
-        )
-    #deckq = deckq.order_by(mv_model.Deck.page.desc(),mv_model.Deck.index.desc())
-    page_size=15
-    deckq = deckq.limit(page_size)
-    deckq = deckq.offset(page*page_size)
-    print(str(deckq))
-    decks = deckq.all()
-    return {
-        "count": len(decks),
-        "decks":
-        [
+    with session_scope() as session:
+        deckq = session.query(mv_model.Deck)
+        if houses:
+            houses = [x.strip() for x in houses.split(',')]
+            for h in houses:
+                deckq = deckq.filter(mv_model.Deck.data['_links']['houses'].astext.like('%'+h+'%'))
+        if expansions:
+            expansions = [int(x.strip()) for x in expansions.split(',')]
+            deckq = deckq.filter(or_(
+                *[mv_model.Deck.expansion == expansion for expansion in expansions]
+            ))
+        if name:
+            name = "%{}%".format(
+                util.sanitize_deck_name(name)
+            )
+            deckq = deckq.filter(
+                mv_model.Deck.name_sane.ilike(name)
+            )
+        if key:
+            deckq = deckq.filter(
+                mv_model.Deck.key==key.strip()
+            )
+        if twin == 'all':
+            deckq = deckq.join(mv_model.TwinDeck, mv_model.TwinDeck.evil_key==mv_model.Deck.key)
+        if twin == 'twinned':
+            deckq = deckq.join(mv_model.TwinDeck, mv_model.TwinDeck.evil_key==mv_model.Deck.key).filter(
+                mv_model.TwinDeck.standard_key!=None
+            )
+        #deckq = deckq.order_by(mv_model.Deck.page.desc(),mv_model.Deck.index.desc())
+        page_size=15
+        deckq = deckq.limit(page_size)
+        deckq = deckq.offset(page*page_size)
+        print(str(deckq))
+        decks = deckq.all()
+        return {
+            "count": len(decks),
+            "decks":
             [
-                d.key,
-                d.name,
-                ", ".join(d.houses),
-                d.data["expansion"],
-                d.page
-            ] for d in decks
-        ]}
+                [
+                    d.key,
+                    d.name,
+                    ", ".join(d.houses),
+                    d.data["expansion"],
+                    d.page
+                ] for d in decks
+            ]}
 
 
 @mvapi.get("/deck_count", tags=["aa-api"])
 def deck_count():
     resp = {}
-    session = Session()
-    counts = session.query(mv_model.Counts).all()
-    for count in counts:
-        resp[count.label] = "{:,}".format(count.count)
-    return resp
+    with session_scope() as session:
+        counts = session.query(mv_model.Counts).all()
+        for count in counts:
+            resp[count.label] = "{:,}".format(count.count)
+        return resp
 
 
 @mvapi.put("/spreadsheet", tags=["aa-api"])
