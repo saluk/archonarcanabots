@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import time
 import logging
 import re
+import random
 from twilio.rest import Client
 
 logging.basicConfig(
@@ -245,11 +246,12 @@ class Workers:
         card_stats.count_decks('house_counts', card_stats.do_house_counts, card_stats.commit_house_counts, 2)
         card_stats.count_decks('evil_twins', card_stats.do_evil_twin, card_stats.commit_evil_twin, 2)
 
-    def find_nice_twins(self):
+    def find_nice_twins(self, max_check=1000):
         session = mv_model.Session()
         open_twins = list(session.query(mv_model.TwinDeck).filter(mv_model.TwinDeck.standard_key==None))
+        random.shuffle(open_twins)
         print(f"Analyzing {len(open_twins)} twin decks")
-        for potential_twin in open_twins:
+        for potential_twin in open_twins[:max_check]:
             potential_twin_deck = potential_twin.evil_deck
             house_decks = session.query(mv_model.Deck).filter(mv_model.Deck.expansion==496)
             house_decks = house_decks.filter(
@@ -269,6 +271,7 @@ class Workers:
                     session.commit()
                     #self.alert(f'Found twin: {potential_twin.standard_key}, {potential_twin.evil_key}', ['discord'])
                     break
+            time.sleep(0.5)
 
 if __name__ == "__main__":
     w = Workers()
