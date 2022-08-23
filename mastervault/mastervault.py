@@ -123,10 +123,10 @@ class MasterVault:
 
     def proxyget(self, *args, **kwargs):
         lastexc = None
-        timeout=5
+        timeout=20
         def good_proxy():
             return self.scope.get_proxy()
-        methods = [(blazingproxy, 2)]#(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
+        methods = []#(proxy_rotator, 1), (good_proxy, 1), (sslproxy, 1), (proxy_list1, 1)]
         random.shuffle(methods)
         for method, tries in methods:
             proxy = {"method": method.__name__}
@@ -149,7 +149,7 @@ class MasterVault:
                 except Exception as exc:
                     print("error", kwargs['params']['page'], method.__name__)
                     lastexc = exc
-        wait(6)
+        wait(20)
         try:
             r = rget(timeout=timeout, *args, **kwargs)
         except Exception as exc:
