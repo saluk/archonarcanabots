@@ -45,7 +45,7 @@ var preamble = `
 }
 
 .decklist-image {
-  grid-row-start: 1;
+  grid-row-start: 4;
   grid-row-end: 7;
   min-width: 200px;
   max-width: 400px;
@@ -63,7 +63,7 @@ var preamble = `
 }
 
 .decklist-title {
-  grid-column-start: 2;
+  grid-column-start: 1;
   grid-column-end: 5;
   font-family: castoro;
   font-size: 2.3em;
@@ -76,7 +76,7 @@ var preamble = `
 }
 
 .set-name {
-  grid-column-start: 2;
+  grid-column-start: 1;
   grid-column-end: 5;
   font-family: zilla slab;
   font-size: 1.5em;
@@ -94,7 +94,7 @@ var preamble = `
 }
 
 .set-houses {
-  grid-column-start: 2;
+  grid-column-start: 1;
   grid-column-end: 5;
   border-bottom: 1px dashed #a0a0a0;
   display: flex;
@@ -415,6 +415,7 @@ dt a:hover {
   }
 
   .decklist-title {
+    grid_row-start: 1;
     grid-column-start: 1;
     grid-column-end: 4;
     font-size: 1.8em;
@@ -1068,12 +1069,6 @@ function get_links(data) {
       ['Master Vault', 'https://www.keyforgegame.com/deck-details/'+data.key],
       ['Decks of KeyForge', 'https://decksofkeyforge.com/decks/'+data.key]
     ]
-    if(oldSets.includes(
-        set_name_by_number(data.expansion)
-        )
-    ){
-        d.push(['Æmber-Forge', 'https://aember-forge.com/deck/'+encodeURI(data.name)])
-    }
     return d
 }
 

@@ -1,9 +1,9 @@
 import {EditField, minmax} from './FormElements'
 import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets, kfa_sets, kfa_artists, kfa_traits,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
-  types, rarities, set5rarities, orders, keywords, features, getHouses, images} from './data'
+  types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, images} from './data'
 import {parseQueryString, joined, 
-  getCardImage, updateCardImages, unhashImage, unhashThumbImage, 
+  getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport} from './myutils'
 import 'md5'
 
@@ -170,9 +170,10 @@ var CSearch = {
     }
     if(this.spoilers){
       getSearchField('houses').values = spoilerhouses
-      getSearchField('rarities').values = set5rarities
+      getSearchField('rarities').values = spoilerrarities
       getSearchField('traits').values = set5traits
       getSearchField('artists').values = set5artists
+      getSearchField('types').values = spoilertypes
       searchFields = searchFields.filter(function(field) {
         if(field.field==='sets'){
           return false
@@ -189,6 +190,9 @@ var CSearch = {
     }
     if(this.format==="KFA") {
       getSearchField('sets').values = kfa_sets
+    }
+    if(this.spoilers) {
+      this.sets = spoiler_sets
     }
     window.addEventListener("scroll", function() {
       self.listenScroll()
@@ -327,10 +331,6 @@ var CSearch = {
     }
     var card_db = 'CardData'
     var join_sets = true
-    if(this.spoilers){
-      card_db = 'SpoilerData'
-      join_sets = false
-    }
     var clauses = [joined(card_db+'.House', housesToSearch, '', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
       //joined('SetName=%22', this.sets, '%22', 'OR'),
@@ -367,10 +367,10 @@ var CSearch = {
     if(this.spoilers && this.reprints.length>0){
       var spoilerlimit = []
       if(this.reprints.includes('New Cards')){
-        spoilerlimit.push('IsNew=%22yes%22 AND Name IS NOT NULL')
+        spoilerlimit.push('Meta=%22SpoilerNew%22 AND Name IS NOT NULL')
       }
       if(this.reprints.includes('Reprints')){
-        spoilerlimit.push('IsNew IS NULL AND Name IS NOT NULL')
+        spoilerlimit.push('Meta=%22SpoilerReprint%22 IS NULL AND Name IS NOT NULL')
       }
       if(this.reprints.includes('Unknown')){
         spoilerlimit.push('Name IS NULL OR NAME=""')
@@ -384,16 +384,17 @@ var CSearch = {
     if(join_sets){
       fields_array.push('SetData.CardNumber')
     }
-    if(!this.spoilers){
+    fields_array.push('SetData.Meta')
+    //if(!this.spoilers){
       fields_array.push(card_db+'.Text')
-    }
+    //}
     if(this.spoilers){
-      fields_array.push(card_db+'.CardNumber')
+      /*fields_array.push(card_db+'.CardNumber')*/
       fields_array.push(card_db+'.SearchText')
       fields_array.push(card_db+'.SearchFlavorText')
       fields_array.push(card_db+'.Traits')
       fields_array.push(card_db+'.Armor')
-      fields_array.push(card_db+'.IsNew')
+      /*fields_array.push(card_db+'.IsNew')*/
       fields_array.push(card_db+'.Source')
       fields_array.push(card_db+'.Amber')
     }
@@ -404,7 +405,7 @@ var CSearch = {
     if(join_sets) {
       tables += '%2C%20SetData'
     }
-    var countFields = '&fields=COUNT(DISTINCT%20'+card_db+'.'+this.countField+')'
+    var countFields = '&fields=COUNT(DISTINCT%20'+this.countField+')'
     var groupby = '&group_by=' + fieldstring
     var joinon = ''
     if(join_sets){
@@ -480,6 +481,7 @@ ${getCardImage({
   outputSpoilerResult(self,cardData) {
     console.log(cardData.Name)
     console.log(cardData.CardNumber)
+    console.log(cardData)
     var thumbsrc = unhashThumbImage(cardData.Image, 200)
     var fullsrc = unhashImage(cardData.Image)
     var evil_twin = ""
@@ -488,8 +490,8 @@ ${getCardImage({
     }
     var name_txt = htmlDecode(cardData.Name).replace("(Evil Twin)","")
     console.log(name_txt)
-    var name
-    if(cardData.IsNew==='yes'){
+    var is_new = cardData.Meta==='SpoilerNew'
+    if(is_new){
       name = '<a href="/File:IMAGE">' + name_txt + '</a>' + evil_twin
     } else {
       name = '<a href="/'+name_txt+'">' + name_txt + '</a>' + evil_twin
@@ -498,7 +500,7 @@ ${getCardImage({
     var el
     if(cardData.Name) {
       el = '<div class="spoilerEntry spoilerReprint">'
-      if(cardData.IsNew==='yes'){
+      if(is_new){
         el='<div class="spoilerEntry">'
         el+='<div class="newCard">new</div>'
       }
@@ -511,7 +513,7 @@ ${getCardImage({
       el += '<div class="text"><div class="header"><div class="number">NUMBER</div><div class="name">'
       el += 'NAME'
       el += '</div></div>'
-      if(cardData.IsNew!=='yes') {
+      if(!is_new) {
         el+='<div class="reprint">reprint</div>'
       }
       el += '<div class="cardInfo">'
@@ -540,7 +542,7 @@ ${getCardImage({
     </div>`
     }
 
-    if(cardData.IsNew==='yes' && cardData.Name){
+    if(is_new && cardData.Name){
       el += '<div class="mobileEntry">'
       el += '<div class="newCard">new</div>'
       el += '<div class="header">\
@@ -585,12 +587,13 @@ ${getCardImage({
     el = el.replace(/IMAGEFULL/g,fullsrc)
     el = el.replace(/IMAGE/g,htmlDecode(cardData.Image))
     el = el.replace(/NUMBER/g,htmlDecode(cardData.CardNumber))
-    el = el.replace(/TEXT/g,htmlDecode(cardData.SearchText))
+    el = el.replace(/TEXT/g,renderWikitextToHtml(cardData.Text))
     el = el.replace(/TYPE/g,htmlDecode(cardData.Type))
     el = el.replace(/TRAITS/g,htmlDecode(cardData.Traits))
     el = el.replace(/POWER/g,htmlDecode(cardData.Power))
     el = el.replace(/ARMOR/g,htmlDecode(cardData.Armor))
-    el = el.replace(/SOURCE/g,htmlDecode(cardData.Source))
+    el = el.replace(/SOURCE/g,renderWikitextToHtml(cardData.Source))
+    console.log(renderWikitextToHtml(cardData.Source))
     el = el.replace(/AMBER/g,htmlDecode(cardData.Amber))
     return el
   },
@@ -657,7 +660,7 @@ ${getCardImage({
       {
         success: function (data, status, xhr) {
           if(xhr.requestcount<self.requestcount) return
-          self.totalCount = Number.parseInt(data.cargoquery[0].title[`${self.countField})`])
+          self.totalCount = Number.parseInt(data.cargoquery[0].title[`COUNT(DISTINCT ${self.countField})`])
           self.loadingCount = false
           $('.cg-results').empty().append(self.totalCount + ' results')
           // buildCargoPages(offset, totalCount, limit)

@@ -1,6 +1,6 @@
 var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings']
 var kfa_sets = ['Rise_of_the_Keyraken']
-var spoiler_sets = ['Dark_Tidings']
+var spoiler_sets = ['Winds_of_Exchange']
 var houses_by_set = {
 	'Call_of_the_Archons': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
 	'Age_of_Ascension': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
@@ -8,7 +8,8 @@ var houses_by_set = {
 	'Mass_Mutation': new Set(['Dis','Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed']),
 	'Dark_Tidings': new Set(['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed', 'Unfathomable']),
 	'Rise_of_the_Keyraken': new Set(['Keyraken']),
-	'Abyssal_Conspiracy': new Set(['Abyssal'])
+	'Abyssal_Conspiracy': new Set(['Abyssal']),
+	'Winds_of_Exchange': new Set(['Ekwidon','Sanctum','Saurian','Star_Alliance','Mars','Brobnar','Unfathomable'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -16,7 +17,8 @@ var set_numbers = [
 	[341, "Call of the Archons"],
 	[435, "Age of Ascension"],
 	[479, "Mass Mutation"],
-	[496, "Dark Tidings"]
+	[496, "Dark Tidings"],
+	[0, "Winds of Exchange"]
 ]
 var set_name_by_number = function(number) {
 	return set_numbers.filter(function(set){
@@ -50,8 +52,9 @@ var houses = getHouses(sets)
 var spoilerhouses = getHouses(spoiler_sets)
 
 var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
+var spoilertypes = ['Creature', 'Artifact', 'Upgrade', 'Action', 'Token Creature']
 var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special', 'Evil Twin']
-var set5rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special', 'Evil Twin']
+var spoilerrarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special', 'Evil Twin', 'Token']
 var orders = {"Name":"Name","House":"House","Number":"CardNumber","Rarity":"Rarity","Power":"Power"}
 var keywords = ['Alpha',
   'Assault',
@@ -93,6 +96,6 @@ var kfa_traits = JSON.parse(kfa_traits)
 export {artists, set5artists, kfa_artists, traits, set5traits, kfa_traits, sets, houses, spoiler_sets, kfa_sets,
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
 		multiHouseCards,
-		types, rarities, set5rarities, orders, keywords, features, getHouses, getDeckHouses,
+		types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, getDeckHouses,
 		cardCombos, images, set_name_by_number, set_number_by_name
 	}

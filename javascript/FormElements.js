@@ -12,8 +12,9 @@ var check_images = {
 	'Star_Alliance': 'https://archonarcana.com/images/7/7d/Star_Alliance.png',
 	'Shadows': 'https://archonarcana.com/images/e/ee/Shadows.png',
 	'Untamed': 'https://archonarcana.com/images/b/bd/Untamed.png',
-  'Anomaly': 'https://archonarcana.com/images/8/88/Anomoly-tc.png',
-  'Unfathomable': 'https://archonarcana.com/images/1/10/Unfathomable.png'
+	'Ekwidon': 'https://archonarcana.com/images/3/31/Ekwidon.png',
+  	'Anomaly': 'https://archonarcana.com/images/8/88/Anomoly-tc.png',
+  	'Unfathomable': 'https://archonarcana.com/images/1/10/Unfathomable.png'
 }
 
 var like_query = function(s){

@@ -183,9 +183,7 @@ function fileIsImage(source) {
 
 function renderWikitextToHtml(text) {
 	var s = htmlDecode(text)
-	// Split "//"
-	s = s.replace('//', '<br>')
-	// Links
+	// Internal Links
 	s = s.replace(/\[\[.*?\]\]/g, function (link) {
 		var linktext = link.slice(2, link.length-2)
 		var linkparts = linktext.split('|')
@@ -199,6 +197,24 @@ function renderWikitextToHtml(text) {
 		} else {
 			return '<a href="/'+linksource+'">'+linkname+'</a>'
 		}
+	})
+	// External Links
+	s = s.replace(/\[.*?\]/g, function (link) {
+		var linktext = link.slice(1, link.length-1).trim()
+		var linkparts = linktext.split('|')
+		var linksource = linktext
+		var linkname = linktext
+		if(linkparts[1]) {
+			linksource = linkparts[0]
+			linkname = linkparts[1]
+		} else {
+			linkparts = linktext.split(' ')
+			if(linkparts[1]) {
+				linksource = linkparts[0]
+				linkname = linkparts.slice(1).join(' ')
+			}
+		}
+		return '<a href="'+linksource+'">'+linkname+'</a>'
 	})
 	// Bold
 	s = s.replace(/\'\'\'[^'].*?[^']\'\'\'/g, function (text) {
