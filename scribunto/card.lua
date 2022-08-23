@@ -285,7 +285,7 @@ function apply_rulings(frame, vars)
 	if(#official_results>0) then append(vars.categories, 'FAQ') end
 
 	local ruling_results = rulequery('FFGRuling', vars.cardname_e)
-	if(#ruling_results>0) then append(vars.categories, 'FFG Rulings') end
+	if(#ruling_results>0) then append(vars.categories, 'Rulings') end
 
 	extend(official_results, ruling_results)
 
