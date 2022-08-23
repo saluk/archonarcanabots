@@ -198,7 +198,7 @@ def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None
 
 
 @mvapi.get("/decks/walk", tags=["mastervault-clone"])
-def decks(start:Optional[int]=None, end:Optional[int]=None):
+def decks(start:Optional[int]=None, end:Optional[int]=None, loadcards:Optional[bool]=False):
     if not start: start = 0
     if not end: end = 50
     if start<0:
@@ -224,10 +224,22 @@ def decks(start:Optional[int]=None, end:Optional[int]=None):
             filter(or_(mv_model.Deck.page>left_bound_page,mv_model.Deck.index>=left_bound_index)).\
             order_by(mv_model.Deck.page, mv_model.Deck.index)
         decks = deckq.all()
+        def get_cards(deck):
+            if loadcards:
+                return [{"key": card.key, "data":card.data} for card in deck.get_cards()]
+            return []
         return {"start": start, "end": end, "max": count, 
                 "bounds": [(left_bound_page, left_bound_index), (right_bound_page, right_bound_index)],
                 "count":len(decks),
-                "decks":[[d.key, d.name, ", ".join(d.data['_links']['houses']), d.data["expansion"]] for d in decks]}
+                "decks":[
+                    {"key": d.key, 
+                    "name": d.name, 
+                    "houses": ", ".join(d.data['_links']['houses']), 
+                    "expansion": d.data["expansion"],
+                    "cards": get_cards(d)
+                    }
+                    for d in decks]
+                }
 
 @mvapi.get('/decks/latest', tags=["mastervault-clone"])
 def latest():
@@ -419,7 +431,9 @@ def deck_query(
         expansions:Optional[str]=None,
         key:Optional[str]=None,
         twin:Optional[str]=None,
-        page:Optional[int]=0
+        page:Optional[int]=0,
+        loadcards:Optional[bool]=False,
+        page_size:Optional[int]=15
     ):
     uuid_re = re.compile('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', re.I)
     if name and uuid_re.findall(name):
@@ -454,22 +468,30 @@ def deck_query(
                 mv_model.TwinDeck.standard_key!=None
             )
         #deckq = deckq.order_by(mv_model.Deck.page.desc(),mv_model.Deck.index.desc())
-        page_size=15
+        page_size = min(page_size, 50)
         deckq = deckq.limit(page_size)
         deckq = deckq.offset(page*page_size)
         print(str(deckq))
         decks = deckq.all()
-        return {
-            "count": len(decks),
-            "decks":
-            [
-                [
+        def makedeck(d):
+            deck = [
                     d.key,
                     d.name,
                     ", ".join(d.houses),
                     d.data["expansion"],
                     d.page
-                ] for d in decks
+                ]
+            if loadcards:
+                deck.append([{
+                    "key": card.key,
+                    "data": card.data
+                } for card in d.get_cards()])
+            return deck
+        return {
+            "count": len(decks),
+            "decks":
+            [
+                makedeck(d) for d in decks
             ]}
 
 
