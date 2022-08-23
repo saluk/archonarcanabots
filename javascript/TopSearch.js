@@ -276,8 +276,8 @@ class Caller {
         this.rank()
         this.sort()
         this.filter()
-        console.log('render suggestions')
         $('.suggestions').remove()
+        $('.suggestions-special').remove()
         var outhtml = resultshtml
         $(this.inputElement.parentElement).append(outhtml)
         var bestRank = {}
@@ -299,7 +299,7 @@ class Caller {
         for(var group of ['card', 'wiki', 'deck']) {
             if(group==='wiki' || (group==='card' && this.cardsFound >= deckLimit) || (group==='deck' && this.decksFound >= deckLimit)) {
                 $('.suggestions-results').append(
-                    more[group] = replace_search_href(more[group], this.searchString)
+                    replace_search_href(more[group], this.searchString)
                 )
             }
         }
@@ -331,8 +331,14 @@ class Caller {
         })
     }
     visitMatchedResult(fallback) {
-        for(var result of this.results) {
+        for(var result of this.results.filter(r=>r.source==='wiki')) {
             return this.visitResult(result)
+        }
+        for(var result of this.results.filter(r=>r.source==='card')) {
+            return this.visitResult(result)
+        }
+        if(this.results.filter(r=>r.source==='deck').length==1) {
+            return this.visitResult(this.results.filter(r=>r.source==='deck')[0])
         }
         window.location.href = replace_search_href(advanced_search_href, fallback)
     }
