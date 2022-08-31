@@ -604,7 +604,7 @@ ${getCardImage({
     $('.loader').remove()
     $('.load_more').remove()
     var count_retrieved = self.pageSize
-    var group_field = this.spoilers? card=>card.title.CardNumber : card=>card.title.Name
+    var group_field = this.spoilers? card=>card.title.Name + card.title.CardNumber : card=>card.title.Name
     // For each card in query
     for (var i in resultsArray) {
       self.offset = self.offset + 1
