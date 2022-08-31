@@ -156,6 +156,10 @@ return {
     background-color:#3d4789;
   }
 
+  div.topRow .ekwidon {
+    background-color:#801924;
+  }
+
   .rarity img {
   padding-bottom: 3px;
   }
@@ -603,6 +607,10 @@ background-color: #dedcd3;
 
   div.topRow .unfathomable {
     background-color:#3d4789;
+  }
+
+  div.topRow .ekwidon {
+    background-color:#801924;
   }
 
   .rarity img {
