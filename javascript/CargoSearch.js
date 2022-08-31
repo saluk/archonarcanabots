@@ -370,7 +370,7 @@ var CSearch = {
         spoilerlimit.push('Meta=%22SpoilerNew%22 AND Name IS NOT NULL')
       }
       if(this.reprints.includes('Reprints')){
-        spoilerlimit.push('Meta=%22SpoilerReprint%22 IS NULL AND Name IS NOT NULL')
+        spoilerlimit.push('Meta=%22SpoilerReprint%22 AND Name IS NOT NULL')
       }
       if(this.reprints.includes('Unknown')){
         spoilerlimit.push('Name IS NULL OR NAME=""')
