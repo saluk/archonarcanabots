@@ -328,7 +328,7 @@ function relatedflavorquery(cardname)
         'CardData',
         'Name, FlavorText',
         {
-            where="(CardData.FlavorText LIKE '%"..cardname.."%') AND (CardData.Name NOT LIKE '%"..cardname.."%')",
+            where="(BINARY CardData.FlavorText LIKE '%"..cardname.."%') AND (CardData.Name NOT LIKE '%"..cardname.."%')",
             orderBy='CardData.Name ASC'
         })
 end
