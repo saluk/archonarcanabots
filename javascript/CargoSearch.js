@@ -11,8 +11,6 @@ var use_locale = false
 
 // TODO - move these to normal data when dark tidings is release
 if(parseQueryString('testjs')=='true') {
-  sets.push('Dark_Tidings')
-  rarities.push("Evil Twin")
   use_locale = true
 }
 
@@ -176,7 +174,12 @@ var CSearch = {
       getSearchField('types').values = spoilertypes
       searchFields = searchFields.filter(function(field) {
         if(field.field==='sets'){
-          return false
+          if(parseQueryString('testjs')){
+            //getSearchField('sets').getElement().style='display:true'
+            getSearchField('sets').values = spoiler_sets
+          } else {
+            return false
+          }
         }
         return true
       })

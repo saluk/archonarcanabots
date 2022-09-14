@@ -1,6 +1,6 @@
 var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings']
-var kfa_sets = ['Rise_of_the_Keyraken']
-var spoiler_sets = ['Winds_of_Exchange']
+var kfa_sets = ['Rise_of_the_Keyraken', 'Rise_of_the_Keyraken']
+var spoiler_sets = ['Winds_of_Exchange', 'Grim_Reminders']
 var houses_by_set = {
 	'Call_of_the_Archons': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
 	'Age_of_Ascension': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
@@ -9,7 +9,8 @@ var houses_by_set = {
 	'Dark_Tidings': new Set(['Logos','Sanctum','Saurian','Star_Alliance','Shadows','Untamed', 'Unfathomable']),
 	'Rise_of_the_Keyraken': new Set(['Keyraken']),
 	'Abyssal_Conspiracy': new Set(['Abyssal']),
-	'Winds_of_Exchange': new Set(['Ekwidon','Sanctum','Saurian','Star_Alliance','Mars','Brobnar','Unfathomable'])
+	'Winds_of_Exchange': new Set(['Ekwidon','Sanctum','Saurian','Star_Alliance','Mars','Brobnar','Unfathomable']),
+	"Grim_Reminders": new Set(['Ekwidon'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -18,7 +19,8 @@ var set_numbers = [
 	[435, "Age of Ascension"],
 	[479, "Mass Mutation"],
 	[496, "Dark Tidings"],
-	[0, "Winds of Exchange"]
+	[0, "Winds of Exchange"],
+	[0, "Grim Reminders"]
 ]
 var set_name_by_number = function(number) {
 	return set_numbers.filter(function(set){
@@ -85,10 +87,12 @@ var images = {
 
 //ARTISTS
 //SET5ARTISTS
+//ARTISTSBYSET
 //KFAARTISTS
 var kfa_artists = JSON.parse(kfa_artists)
 //TRAITS
 //SET5TRAITS
+//TRAITSBYSET
 //KFATRAITS
 var kfa_traits = JSON.parse(kfa_traits)
 //CARDCOMBOS
