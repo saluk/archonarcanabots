@@ -551,7 +551,7 @@ ${getCardImage({
         <a href="/File:IMAGE" class="image">\
         <img alt="IMAGEALT" src="IMAGESRC" decoding="async" style="vertical-align: middle" width="225" height="320" data-src="IMAGEFULL"></img></a></div></div>\
         <div class="mobileText">'
-      if(cardData.Power!= "" || cardData.Armor!=""){
+      if((cardData.Power && cardData.Power!= "") || (cardData.Armor && cardData.Armor!="")){
         el += ' POWER power - ARMOR armor '
       }
       if(cardData.Amber!=""){
