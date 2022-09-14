@@ -442,7 +442,7 @@ function apply_sets(frame, vars)
 		'SetData.SetName, SetData.CardNumber, SetInfo.ReleaseYear, SetInfo.ReleaseMonth, SetInfo.ShortName, SetInfo.SetNumber',
 		{
 			join='SetData._pageTitle=CardData.Name,SetData.SetName=SetInfo.SetName',
-			where='CardData.Name="'..frame.args.cardname..'"',
+			where='CardData.Name="'..frame.args.cardname..'" AND (SetData.Meta IS NULL OR SetData.Meta!="SpoilerReprint")',
 			orderBy='SetInfo.ReleaseYear, SetInfo.ReleaseMonth'
 		})
 	for r = 1, #vars.cardsets do
