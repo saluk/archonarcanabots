@@ -43,6 +43,36 @@ def gen_artists(tables, limit_set=None):
     artists.sort()
     return artists
 
+def load_data():
+    f = open("javascript/data_t.js")
+    lines = f.readlines()
+    keys = {}
+    for l in lines:
+        if l.startswith("var"):
+            k = l.split(" ")[1]
+            try:
+                v = eval(l.split("=", 1)[1].strip())
+            except:
+                continue
+            keys[k] = v
+    return keys
+data_t = load_data()
+
+def gen_artists_by_set():
+    d = {}
+    for set in data_t["sets"] + data_t["spoiler_sets"] + data_t["kfa_sets"]:
+        artists = gen_artists("CardData", set.replace("_", " "))
+        d[set] = artists
+    return d
+
+def gen_traits_by_set():
+    d = {}
+    for set in data_t["sets"] + data_t["spoiler_sets"] + data_t["kfa_sets"]:
+        traits = gen_traits("CardData", set.replace("_", " "))
+        d[set] = traits
+    return d
+
+
 def gen_traits(tables, limit_set=None):
     search = {
         "tables": tables,
@@ -129,10 +159,12 @@ def upload(stage="dev", test=False):
         reps = {
             "//ARTISTS": "var artists = %s" % repr(gen_artists("CardData")),
             "//SET5ARTISTS": "var set5artists = %s" % repr(gen_artists("SpoilerData")),
+            "//BY_SET_ARTISTS": "var artists_by_set = %s" % repr(gen_artists_by_set()),
             "//KFAARTISTS": "var kfa_artists = %s" % repr(artists_kfa),
             "//TRAITS": "var traits = %s" % repr(gen_traits("CardData")),
             "//KFATRAITS": "var kfa_traits = %s" % repr(traits_kfa),
             "//SET5TRAITS": "var set5traits = %s" % repr(gen_traits("SpoilerData")),
+            "//BY_SET_TRAITS": "var traits_by_set = %s" % repr(gen_traits_by_set()),
             "//CARDCOMBOS": "var cardCombos = %s" % "[]" # repr(gen_card_combos())
         }
         for r in reps:

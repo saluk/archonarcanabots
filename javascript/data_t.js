@@ -1,6 +1,7 @@
 var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings']
-var kfa_sets = ['Rise_of_the_Keyraken', 'Rise_of_the_Keyraken']
+var kfa_sets = ['Rise_of_the_Keyraken', 'Abyssal_Conspiracy']
 var spoiler_sets = ['Winds_of_Exchange', 'Grim_Reminders']
+var next_spoiler_sets = ['Grim_Reminders']
 var houses_by_set = {
 	'Call_of_the_Archons': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
 	'Age_of_Ascension': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
@@ -87,17 +88,18 @@ var images = {
 
 //ARTISTS
 //SET5ARTISTS
-//ARTISTSBYSET
+//BY_SET_ARTISTS
 //KFAARTISTS
 var kfa_artists = JSON.parse(kfa_artists)
 //TRAITS
 //SET5TRAITS
-//TRAITSBYSET
+//BY_SET_TRAITS
 //KFATRAITS
 var kfa_traits = JSON.parse(kfa_traits)
 //CARDCOMBOS
 
-export {artists, set5artists, kfa_artists, traits, set5traits, kfa_traits, sets, houses, spoiler_sets, kfa_sets,
+export {artists, set5artists, kfa_artists, artists_by_set, traits, set5traits, kfa_traits, sets, houses, spoiler_sets, kfa_sets,
+		traits_by_set, 
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
 		multiHouseCards,
 		types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, getDeckHouses,

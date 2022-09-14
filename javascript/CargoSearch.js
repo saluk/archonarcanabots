@@ -1,5 +1,6 @@
 import {EditField, minmax} from './FormElements'
-import {artists, set5artists, traits, set5traits, sets, houses, spoiler_sets, kfa_sets, kfa_artists, kfa_traits,
+import {artists, set5artists, artists_by_set, traits, set5traits, sets, houses, spoiler_sets, kfa_sets, kfa_artists, kfa_traits,
+  traits_by_set,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
   types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, images} from './data'
 import {parseQueryString, joined, 
@@ -112,6 +113,7 @@ var CSearch = {
   houses: [],
   types: [],
   sets: [],
+  available_sets: [],
   cardname: [],
   cardtext: [],
   flavortext: [],
@@ -162,21 +164,25 @@ var CSearch = {
     this.spoilers = this.element.attr('data-spoilers')!=null;
     this.countField = this.spoilers? 'CardNumber': 'Name'
     this.format = parseQueryString('format')
+    this.available_sets = sets
     if(this.mode !== 'main') {
-      getSearchField('traits').values = kfa_traits[this.mode]
-      getSearchField('artists').values = kfa_artists[this.mode]
+      this.available_sets = [this.mode]
+    } 
+    if(this.spoilers) {
+      this.available_sets = spoiler_sets
     }
+    if(this.format === 'kfa') {
+      this.available_sets = kfa_sets
+    }
+    getSearchField('sets').values = this.available_sets
+
     if(this.spoilers){
       getSearchField('houses').values = spoilerhouses
       getSearchField('rarities').values = spoilerrarities
-      getSearchField('traits').values = set5traits
-      getSearchField('artists').values = set5artists
       getSearchField('types').values = spoilertypes
       searchFields = searchFields.filter(function(field) {
         if(field.field==='sets'){
           if(parseQueryString('testjs')){
-            //getSearchField('sets').getElement().style='display:true'
-            getSearchField('sets').values = spoiler_sets
           } else {
             return false
           }
@@ -191,12 +197,57 @@ var CSearch = {
         return true
       })
     }
-    if(this.format==="KFA") {
-      getSearchField('sets').values = kfa_sets
-    }
+    // Autoselect nearest spoiler set
     if(this.spoilers) {
-      this.sets = spoiler_sets
+      this.sets = [spoiler_sets[0]]
     }
+
+    // Update artists based which sets can be chosen
+    var available_artists = new Set()
+    var artist_sets = sets
+    
+    if(self.spoilers) {
+      artist_sets = spoiler_sets
+    }
+    if(self.mode!=='main') {
+      artist_sets = [self.mode]
+    }
+
+    artist_sets.map(
+      function(set) {
+        artists_by_set[set].map(
+          function(artist) {
+            available_artists.add(artist)
+          }
+        )
+      }
+    )
+    var field = getSearchField('artists')
+    field.values = Array.from(available_artists).sort()
+
+    // Update traits based which sets can be chosen
+    var available_traits = new Set()
+    var trait_sets = sets
+    
+    if(self.spoilers) {
+      trait_sets = spoiler_sets
+    }
+    if(self.mode!=='main') {
+      trait_sets = [self.mode]
+    }
+
+    trait_sets.map(
+      function(set) {
+        traits_by_set[set].map(
+          function(trait) {
+            available_traits.add(trait)
+          }
+        )
+      }
+    )
+    var field = getSearchField('traits')
+    field.values = Array.from(available_traits).sort()
+
     window.addEventListener("scroll", function() {
       self.listenScroll()
     })
@@ -228,6 +279,9 @@ var CSearch = {
     history.replaceState({}, document.title, root_url+elements)
   },
   initForm: function(self) {
+    if(parseQueryString('testjs')){
+      $('div.set-row')[0].style=''
+    }
     searchFields.map(function(field) {
       field.assignData(self)
     })
@@ -243,6 +297,7 @@ var CSearch = {
       self.excludeReprints = true
     }
 
+    // TODO don't think we need this anymore
     if(self.mode !== 'main') {
       self.sets = [self.mode]
     }
@@ -348,7 +403,7 @@ var CSearch = {
     ]
     var lsets = this.sets
     if (this.format !== 'kfa' && lsets.length == 0) {
-      lsets = sets
+      lsets = this.available_sets
     }
     if(!this.exclusiveSet[0]) {
       clauses.push(joined('SetName=%22', lsets, '%22', 'OR'))
