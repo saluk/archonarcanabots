@@ -4,6 +4,7 @@ import json
 import requests
 import re
 from util import cargo_query
+from datetime import date
 import alerts
 
 def read_spreadsheet(sheet_url):
@@ -112,9 +113,17 @@ class Merger:
         title = None
         for rowi, row in enumerate(rows):
             obs = {}
+            can_publish = True
+            publish_date = None
             for i, key in enumerate(keys):
                 table = tables[i]
                 if not table.strip() or not key.strip():
+                    continue
+                if key == "PublishDate":
+                    if row[i].strip():
+                        publish_date = date.fromisoformat(row[i].strip())
+                        if publish_date > date.today():
+                            can_publish = False
                     continue
                 if table not in obs:
                     obs[table] = {}
@@ -123,6 +132,9 @@ class Merger:
                     title = row[i]
             if not title:
                 raise Exception(f"No title found for {self.title_key}")
+            if not can_publish:
+                alerts.discord_alert(f"Page {title} won't be published until {publish_date}")
+                continue
             current = CargoTable()
             for table in obs:
                 copies = [obs[table]]
