@@ -58,7 +58,7 @@ var types = ['Creature', 'Artifact', 'Upgrade', 'Action']
 var spoilertypes = ['Creature', 'Artifact', 'Upgrade', 'Action', 'Token Creature']
 var rarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special', 'Evil Twin']
 var spoilerrarities = ['Common', 'Uncommon', 'Rare', 'Fixed', 'Variant', 'Special', 'Evil Twin', 'Token']
-var orders = {"Name":"Name","House":"House","Number":"CardNumber","Rarity":"Rarity","Power":"Power"}
+var orders = {"Name":"Name","House":"House","Number":"CardNumber","Rarity":"Rarity","Power":"Power","Recently Added":"CardData._rowID DESC"}
 var keywords = ['Alpha',
   'Assault',
   'Deploy',

@@ -102,6 +102,13 @@ var padnum = function(number){
   return num_string.substring(num_string.length-3,num_string.length)
 }
 
+var fieldIfTrue = function(field, additional) {
+  if(field && field!="") {
+    return field + additional
+  }
+  return ''
+}
+
 var CSearch = {
   mode: 'main',
   element: undefined,
@@ -457,14 +464,15 @@ var CSearch = {
       fields_array.push(card_db+'.Amber')
     }
     var fieldstring = fields_array.join('%2C')
-    var fields = '&fields=' + fieldstring
+    // We need to add in row id to be able to sort by row id later, cargo api requires aliasing any keys that start with underscore in fields
+    var fields = '&fields=' + fieldstring + "%2CCardData._rowID%3DRowID"
     var start = '/api.php?action=cargoquery&format=json'
     var tables = '&tables='+card_db
     if(join_sets) {
       tables += '%2C%20SetData'
     }
     var countFields = '&fields=COUNT(DISTINCT%20'+this.countField+')'
-    var groupby = '&group_by=' + fieldstring
+    var groupby = '&group_by=' + fieldstring + "%2CCardData._rowID"
     var joinon = ''
     if(join_sets){
       var joinon = '&join_on='+card_db+'._pageName=SetData._pageName'
@@ -609,14 +617,15 @@ ${getCardImage({
         <a href="/File:IMAGE" class="image">\
         <img alt="IMAGEALT" src="IMAGESRC" decoding="async" style="vertical-align: middle" width="225" height="320" data-src="IMAGEFULL"></img></a></div></div>\
         <div class="mobileText">'
-      if((cardData.Power && cardData.Power!= "") || (cardData.Armor && cardData.Armor!="")){
-        el += ' POWER power - ARMOR armor '
+      var pow = fieldIfTrue(cardData.Power, ' power')
+      var arm = fieldIfTrue(cardData.Armor, ' armor')
+      var amb = fieldIfTrue(cardData.Amber, ' <img src="https://archonarcana.com/images/f/fb/Enhance_aember.png" width="18px">')
+      if(pow != "" && arm != "") {
+        pow = pow + " - "
       }
-      if(cardData.Amber!=""){
-        el += ' AMBER <img src="https://archonarcana.com/images/f/fb/Enhance_aember.png" width="18px"> '
-      }
-      if(cardData.Power!= "" || cardData.Armor!="" || cardData.Amber){
-        el += '<br>'
+      el += [pow, arm, amb].join(" ")
+      if(pow || arm || amb) {
+        el += "<br>"
       }
       el += '<i>TRAITS</i><p>TEXT<p><small><b>Source: </b><i>SOURCE</i></small></div>\
         <div class="mobileBottomRow">\
