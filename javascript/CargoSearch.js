@@ -171,13 +171,13 @@ var CSearch = {
     this.spoilers = this.element.attr('data-spoilers')!=null;
     this.countField = this.spoilers? 'CardNumber': 'Name'
     this.format = parseQueryString('format')
-    this.available_sets = sets
+    this.available_sets = sets.concat("Exclude Reprints")
     if(this.mode !== 'main') {
       this.available_sets = [this.mode]
     } 
     if(this.spoilers) {
       this.available_sets = spoiler_sets
-    }
+    } 
     if(this.format === 'kfa') {
       this.available_sets = kfa_sets
     }
