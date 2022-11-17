@@ -137,7 +137,7 @@ class EditField {
 		  if(img){
 			txt += 'class="checkbox-house"'
 		  }
-		  if(self.presetValue.replace(/\+/g,' ').match(value)) {
+		  if(self.presetValue.split('+').indexOf(value) > -1) {		
 			txt += ' checked="true" '
 		  }
 		  txt += 'name="'+self.field+'" id="'+value+'" value="'+value+'">' 
