@@ -19,6 +19,8 @@ from mastervault import dok, deck_writer
 from passlib.context import CryptContext
 from pydantic import BaseModel
 
+import traceback
+
 #Use different connection options for server
 import sqlalchemy
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -509,10 +511,12 @@ def deck_count():
 def put_spreadsheet(name:str):
     import tool_merge_db
     wp = connections.get_wiki()
-    changed = tool_merge_db.merge(wp, name, False)
-    return {
-        "changed_sheets": changed
-    }
+    try:
+        changed = tool_merge_db.merge(wp, name, False)
+    except Exception as e:
+        error_string = traceback.format_exc()
+        return error_string
+    return "sheets updated: "+repr(changed)
 
 
 @mvapi.put('/generate_event_decks', tags=["aa-maintenance"])

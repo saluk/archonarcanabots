@@ -87,7 +87,9 @@ class Merger:
         return self.sheet_url.rsplit('/', 1)[0]+'/edit?usp=sharing'
     def read_meta(self):
         if self.rows[0][0]!='meta':
-            raise Exception("No meta defined")
+            error_msg = f"Sheet is missing the 'meta' row that defines how to merge the sheet with cargo tables, should be the first row."
+            alerts.discord_alert(f"Spreadsheet merge error {self.sheet_url}: " + error_msg)
+            raise Exception(error_msg)
         meta, self.rows = self.rows[0], self.rows[1:]
         for m in meta:
             if ":" in m:
@@ -121,7 +123,12 @@ class Merger:
                     continue
                 if key == "PublishDate":
                     if row[i].strip():
-                        publish_date = date.fromisoformat(row[i].strip())
+                        try:
+                            publish_date = date.fromisoformat(row[i].strip())
+                        except Exception:
+                            alerts.discord_alert(f"Spreadsheet merge error on row {rowi+4} {self.sheet_url}: Error reading publishing date, should be in form YEAR-MM-DD.")
+                            can_publish = False
+                            continue
                         if publish_date > date.today():
                             can_publish = False
                     continue
@@ -131,7 +138,9 @@ class Merger:
                 if self.title_key == key:
                     title = row[i]
             if not title:
-                raise Exception(f"No title found for {self.title_key}")
+                error_msg = f"No title found for {self.title_key} on {rowi+4}"
+                alerts.discord_alert(f"Spreadsheet Merge Error {self.sheet_url}: "+error_msg)
+                continue
             if not can_publish:
                 alerts.discord_alert(f"Page {title} won't be published until {publish_date}")
                 continue
@@ -166,7 +175,9 @@ class Merger:
             return True
     def to_pages(self, wp, pause):
         if not self.title and not self.title_key:
-            raise Exception("Spreadsheet meta must include a title or a title_key")
+            error_msg = "Spreadsheet meta must include a 'title' or a 'title_key' in the 'meta' row. 'title' will write all entries to the same cargo data wiki page, 'title_key' will write each row to its own cargo data wiki page."
+            alerts.discord_alert(f"Spreadhseet merge error {self.sheet_url}: "+error_msg)
+            raise Exception(error_msg)
         if self.title and not self.title_key:
             return self.to_page(wp, pause)
         self.merge_multiple()
