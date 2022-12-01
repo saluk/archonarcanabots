@@ -324,7 +324,14 @@ function carousel(first_time) {
   }
 }
 
+function ajax(url, d) {
+	if(!(url.search("https://")==0 || url.search("http://")==0)) {
+		url = "https://"+window.location.host+url
+	}
+	return $.ajax(url, d)
+}
+
 export {parseQueryString, pageTitle, unhashImage, unhashThumbImage, renderWikitextToHtml,
 	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
 	joined, removePunctuation, getCardImage, updateCardImages, 
-	getLocale, locales, getFullLocale, to_full, getLocaleFromSubdomain}
+	getLocale, locales, getFullLocale, to_full, getLocaleFromSubdomain, ajax}

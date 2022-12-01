@@ -758,7 +758,7 @@ function perform_event_lookup(deckdata) {
 
 //https://archonarcana.com/api.php?action=parse&format=json&text=%7B%7BDeck_talk%3A4a366056-808d-4f81-a2d4-ba00c933248f%7D%7D
 function perform_discussion_lookup(deckdata) {
-  var url = `https://archonarcana.com/api.php?action=parse&format=json&text=%7B%7BDeck_talk%3A${deckdata.key}%7D%7D`
+  var url = `/api.php?action=parse&format=json&text=%7B%7BDeck_talk%3A${deckdata.key}%7D%7D`
   $.ajax(
     url,
     {

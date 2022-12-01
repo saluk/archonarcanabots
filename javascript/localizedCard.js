@@ -4,7 +4,7 @@ import {dumb_locale_menu} from './localization'
 function loadLocalizedCard(cardname, locale) {
     var el = $('#bodyContent')
     el.empty()
-    $.ajax(`https://archonarcana.com/api.php?action=parse&format=json&text=%7B%7B%23invoke%3A%20luacard%7Cviewcard%7Ccardname%3D${cardname}%7Clocale%3D${locale}%7D%7D`,
+    $.ajax(`/api.php?action=parse&format=json&text=%7B%7B%23invoke%3A%20luacard%7Cviewcard%7Ccardname%3D${cardname}%7Clocale%3D${locale}%7D%7D`,
       {
         success: function (data, status, xhr) {
           var text = data.parse.text['*']

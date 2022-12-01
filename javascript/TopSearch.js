@@ -17,7 +17,7 @@ import $ from 'jquery';
 //window.$ = $;
 const Bowser = require('bowser')
 
-var wikisearch = "https://archonarcana.com/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
+var wikisearch = "/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"
 var advanced_search_href = `/index.php?search={{ SEARCH }}&title=Special%3ASearch&fulltext=1`
 var more = {
     'deck':`<a class="mw-searchSuggest-link" href="/Deck Search?deckName={{ SEARCH }}">

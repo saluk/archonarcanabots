@@ -182,8 +182,8 @@ def upload(stage="dev", test=False):
         "main.indexGallery.js",
         "main.indexQuick.js"
     ]:
-        os.system("scp javascript/{} saluk@archonarcana.com:/var/www/html/aa-en/extensions/AADeckView/resources/ext.aaDeckView".format(
-            bundle
+        os.system("scp javascript/{} saluk@archonarcana.com:/var/www/html/{}/extensions/AADeckView/resources/ext.aaDeckView".format(
+            bundle, {"prod":"aa-en", "dev":"aa-new"}[stage]
         ))
     upload_js_file("cardwidget.js", use_hash=False, test=test)
     for filename in ['Common.js', 'Mobile.js']:
