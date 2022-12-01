@@ -64,7 +64,7 @@ mvapi = FastAPI(
     description = "A synced clone of keyforgegame.com mastervault and utility functions for Archon Arcana",
     version="1.0"
 )
-origins = ["https://archonarcana.com","https://fr.archonarcana.com"]
+origins = ["https://archonarcana.com","https://fr.archonarcana.com","https://new.archonarcana.com"]
 mvapi.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
