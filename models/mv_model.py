@@ -2,7 +2,6 @@ try:
     import __updir__
 except Exception:
     pass
-import passwords
 import util
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
@@ -22,7 +21,12 @@ import re
 import time
 import hashlib
 
-PASSWORD = passwords.MASTERVAULT_PASSWORD
+try:
+    import passwords
+    PASSWORD = passwords.MASTERVAULT_PASSWORD
+except:
+    passwords = None
+    PASSWORD = None
 
 
 def object_as_dict(obj):
@@ -41,18 +45,21 @@ def postgres_upsert(session, table, obs):
         )
         session.execute(sql)
 
-
-engine = sqlalchemy.create_engine(
-    'postgresql+psycopg2://mastervault:'+PASSWORD+'@localhost/mastervault',
-    pool_size=5,
-    pool_pre_ping=True,
-    pool_recycle=3600
-    #echo=True,
-    #executemany_mode='batch'
-)
-Session = scoped_session(sessionmaker(bind=engine))
-
-Base = declarative_base()
+if passwords:
+    engine = sqlalchemy.create_engine(
+        'postgresql+psycopg2://mastervault:'+PASSWORD+'@localhost/mastervault',
+        pool_size=5,
+        pool_pre_ping=True,
+        pool_recycle=3600
+        #echo=True,
+        #executemany_mode='batch'
+    )
+    Session = scoped_session(sessionmaker(bind=engine))
+    Base = declarative_base()
+else:
+    engine = None
+    Session = None
+    Base = declarative_base()
 
 
 class UpdateScope(object):
@@ -434,10 +441,10 @@ class DeckStatCounted(Base):
     label = Column(String, primary_key=True)
     start = Column(Integer) # deck.page * 24 + deck.index
 
-
-print("before create")
-Base.metadata.create_all(engine)
-print("after create")
+if Session:
+    print("before create")
+    Base.metadata.create_all(engine)
+    print("after create")
 
 # TODO move to a migration module
 def add_deck_cards():
@@ -463,8 +470,9 @@ def add_deck_cards():
             print(deck.key, amt)
 
 
-# Every time we start up, clean up from before
-UpdateScope().clean_scrape()
+if Session:
+    # Every time we start up, clean up from before
+    UpdateScope().clean_scrape()
 
 
 if __name__ == "__main__":
