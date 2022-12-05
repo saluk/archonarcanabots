@@ -7,6 +7,7 @@ import {parseQueryString, joined,
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport} from './myutils'
 import 'md5'
+import * as $ from 'jquery'
 
 var use_locale = false
 

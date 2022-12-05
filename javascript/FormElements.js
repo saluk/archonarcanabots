@@ -1,4 +1,4 @@
-import $ from 'jquery'
+import * as $ from 'jquery'
 import 'select2'
 import {parseQueryString} from './myutils'
 

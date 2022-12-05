@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import {parseQueryString, pageTitle, to_full} from './myutils'
 import {set_name_by_number} from './data'
 import ApexCharts from 'apexcharts'

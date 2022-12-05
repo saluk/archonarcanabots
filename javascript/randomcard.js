@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import {unhashImage} from './myutils'
 
 var joined = function (pre, ar, post, logic, filter=function(x){return x}) {

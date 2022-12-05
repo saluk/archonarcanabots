@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import {EditField} from './FormElements'
 import {parseQueryString, unhashImage} from './myutils'
 import {sets, houses, orders, getDeckHouses} from './data'

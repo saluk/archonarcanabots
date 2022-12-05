@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import Chart from 'chart.js'
 
 function replace_charts() {

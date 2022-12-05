@@ -12,9 +12,7 @@
   <div class="suggestions-special"></div></div>
 */
 import {unhashThumbImage, unhashImage, removePunctuation, getLocale, getFullLocale, parseQueryString} from './myutils'
-import $ from 'jquery';
-//window.jQuery = $;
-//window.$ = $;
+import * as $ from 'jquery'
 const Bowser = require('bowser')
 
 var wikisearch = "/api.php?action=opensearch&format=json&formatversion=2&search={{ SEARCH }}&namespace=0&limit=10"

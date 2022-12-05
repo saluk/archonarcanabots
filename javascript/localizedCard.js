@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import {parseQueryString, pageTitle, to_full} from './myutils'
 import {dumb_locale_menu} from './localization'
 

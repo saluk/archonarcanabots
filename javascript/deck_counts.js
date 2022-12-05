@@ -1,3 +1,5 @@
+import * as $ from 'jquery'
+
 function deck_counts() {
     if(
         $('.total_deck_count').length>0 ||

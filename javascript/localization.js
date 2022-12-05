@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import {getLocale, locales} from './myutils'
 
 function show_translations() {

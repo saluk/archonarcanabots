@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import {getCardImage, updateCardImages, unhashImage, uniques, renderWikitextToHtml, collapsible_block, getLocaleFromSubdomain} from './myutils'
 import {cardCombos, images, set_name_by_number} from './data'
 
@@ -972,7 +973,8 @@ function write_rules(cargo_results, cards, section) {
 }
 
 function gen_deck_image(data) {
-    var lang = Object.keys(mw.language.data)[0]
+    //var lang = Object.keys(mw.language.data)[0]
+    var lang='en'
     if(!['en','es','it','de','fr','pl','pt','th','zh'].includes(lang)) {
         lang = 'en'
     }
@@ -1235,12 +1237,12 @@ function pull_deck_data(deck_key) {
 function gen_deck_data() {
     var noarticle = $('.noarticletext')
     var content = $('#mw-content-text')
-    var title = mw.config.values.wgTitle
-    var ns = mw.config.values.wgNamespaceNumber
-    if(ns != mw.config.values.wgNamespaceIds['deck']) {
+    var search = window.location.href.match(/Deck:[a-zA-Z\-\d]*/)
+    if(search.length==0) {
         return
     }
-    var deck_key = title.toLowerCase()
+    var match = search[0]
+    var deck_key = match.split(":")[1].toLowerCase()
     content.append('<div class="deck_contents"></div>')
     pull_deck_data(deck_key)
 }
