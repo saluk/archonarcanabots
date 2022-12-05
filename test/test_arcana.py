@@ -16,7 +16,7 @@ def browser():
 def test_cardgallery(browser):
     browser.visit("https://archonarcana.com/Card_Gallery?order_by=House+Name")
     time.sleep(2)
-    assert("1127 results" in browser.find_by_css('div.cg-results').first.text)
+    assert(f"{len(wiki_card_db.cards)} results" in browser.find_by_css('div.cg-results').first.text)
     autocannon = browser.find_by_css('a[href=Autocannon] img').first
     assert(
         autocannon['src'].find('/thumb.php?f=341-019.png') or
