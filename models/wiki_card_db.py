@@ -392,6 +392,7 @@ def build_json(only=None):
     print("saved.")
 
 
+# TODO - we should separate creating and loading the data so that the google actions test doesnt have to import the database
 def load_json():
     cards.clear()
     locales.clear()
