@@ -1,6 +1,10 @@
 import praw
 import mw_api_client as mw
-import passwords
+passwords = None
+try:
+    import passwords
+except:
+    pass
 
 
 def get_reddit():
