@@ -5,10 +5,10 @@ mv.cache
 *.swp
 __pycache__/*
 passwords.py
-javascript/node_modules
 */__pycache__
 images/*
 node_modules
+*/node_moodules
 *.pyc
 javascript/main.js
 skips.json
@@ -16,3 +16,4 @@ cron.log
 cache/lasthash.json
 javascript/main.*.js
 geckodriver.log
+*/npm-debug.log

@@ -1,0 +1,104 @@
+{
+	"name": "AADeckView",
+	"author": [
+		"saluk"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:BoilerPlate",
+	"descriptionmsg": "aadeckview-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.32.0"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\AADeckView\\": "includes/"
+	},
+	"config": {
+		"BoilerPlateEnableFoo": {
+			"description": "Enable the Foo feature.",
+			"value": true
+		},
+		"BoilerPlateVandalizeEachPage": {
+			"description": "Write 'AADeckView was here' on each page",
+			"value": false
+		}
+	},
+	"HookHandlers": {
+		"AABeforePageDisplay": {
+			"class": "MediaWiki\\Extension\\AADeckView\\BeforePageDisplay"
+		},
+		"AAShowMissingArticle": {
+			"class": "MediaWiki\\Extension\\AADeckView\\ShowMissingArticle"
+		}
+	},
+	"Hooks": {
+		"ShowMissingArticle": "AAShowMissingArticle",
+		"BeforePageDisplay": "AABeforePageDisplay"
+	},
+	"MessagesDirs": {
+		"AADeckView": [
+			"i18n"
+		]
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "AADeckView/resources"
+	},
+	"ResourceModules": {
+		"ext.aaDeckView": {
+			"packageFiles": [
+				"ext.aaDeckView/main.js"
+			],
+			"targets": ["mobile", "desktop"],
+			"dependencies": [],
+			"messages": [],
+			"styles": []
+		},
+		"ext.aaDeckView.indexQuick": {
+			"packageFiles": [
+				"ext.aaDeckView/main.indexQuick.js"
+			],
+			"targets": ["mobile", "desktop"],
+			"dependencies": [],
+			"messages": [],
+			"styles": []
+		},
+		"ext.aaDeckView.indexCommon": {
+			"packageFiles": [
+				"ext.aaDeckView/main.indexCommon.js"
+			],
+			"targets": ["mobile", "desktop"],
+			"dependencies": [],
+			"messages": [],
+			"styles": []
+		},
+		"ext.aaDeckView.indexDeckSearch": {
+			"packageFiles": [
+				"ext.aaDeckView/main.indexDeckSearch.js"
+			],
+			"targets": ["mobile", "desktop"],
+			"dependencies": [],
+			"messages": [],
+			"styles": []
+		},
+		"ext.aaDeckView.indexDeckView": {
+			"packageFiles": [
+				"ext.aaDeckView/main.indexDeckView.js"
+			],
+			"targets": ["mobile", "desktop"],
+			"dependencies": [],
+			"messages": [],
+			"styles": []
+		},
+		"ext.aaDeckView.indexGallery": {
+			"packageFiles": [
+				"ext.aaDeckView/main.indexGallery.js"
+			],
+			"targets": ["mobile", "desktop"],
+			"dependencies": [],
+			"messages": [],
+			"styles": []
+		}
+	},
+	"manifest_version": 2
+}
