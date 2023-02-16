@@ -1,7 +1,7 @@
 from mastervault import master_vault_lookup
 
 
-def markup(page_name):
+def deprecated_markup(page_name):
     p = wp.page(page_name)
     existing = p.read()
     lines = existing.split('\n')
