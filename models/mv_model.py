@@ -297,10 +297,15 @@ class Deck(Base):
         return set(self.data['_links']['cards'])
 
     def get_cards(self):
-        """Returns all cards including duplicates, also tags is_legacy for legacy cards"""
+        """Returns all cards including duplicates, also tags is_legacy for legacy cards.
+        If any of the cards are listed as having bonus icons, include them in the bonus_icons field"""
         for c in sorted(self.cards, key=lambda card: card.data['house']):
             for i in range(self.data['_links']['cards'].count(c.key)):
                 c.data['is_legacy'] = c.key in self.data.get('set_era_cards',{}).get('Legacy',[])
+                c.data['bonus_icons'] = []
+                for bonus_card in self.data.get("bonus_icons", []):
+                    if bonus_card["card_id"] == c.key:
+                        c.data['bonus_icons'] = bonus_card['bonus_icons']
                 yield c
 
     def get_locale_cards(self, session, locale):

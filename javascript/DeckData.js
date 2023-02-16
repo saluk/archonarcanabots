@@ -574,13 +574,23 @@ dt a:hover {
   position:absolute;
   top:40%;
   right:0px;
-  content:"Enhanced";
   font-family:lato;
   padding:3px 5px 3px 10px;
   background-color:#353331;
   color:white;
   opacity:1;
   font-size:.9em;
+}
+
+.enhanced-card img {
+	width: 30px;
+	margin-top: 20px;
+	margin-left: 55px;
+	background-color: rgba(155,155,255.0,1);
+	padding: 4px;
+	border-width: 1px;
+	border-color: black;
+	border-style: solid;
 }
 
 @media screen and (max-width:600px) {
@@ -989,9 +999,17 @@ function gen_rule_card_image(card, width, height) {
     return `<a href="/${card.card_title}">${getCardImage(card, {width:200, noFullUpdate:true})}</a>`
 }
 
+function bonus_icons(card) {
+  var icons = ""
+  for(var bonus of card.bonus_icons) {
+      icons += "<img src=\""+images["enhance"+bonus.charAt(0).toUpperCase()+bonus.slice(1)]+"\" width=20>"
+  }
+  return icons
+}
+
 function gen_card_gallery_image(card) {
   var maverick = card.is_maverick? `<div class="maverick-card"></div>`: ''
-  var enhanced = card.is_enhanced? `<div class="enhanced-card"></div>` : ''
+  var enhanced = card.is_enhanced? `<div class="enhanced-card">`+bonus_icons(card)+`</div>` : ''
   var anomaly = card.is_anomaly? `<div class="anomaly-card"></div>` : ''
   var legacy = card.is_legacy? `<div class="legacy-card"></div>` : ''
   var houseicon = (card.is_anomaly || card.is_maverick) ? `<div class="maverick-${card.house.toLowerCase()}"></div>` : ''

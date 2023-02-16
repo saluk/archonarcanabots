@@ -84,6 +84,8 @@ def gen_traits(tables, limit_set=None):
     for result in cargo_query(search)['cargoquery']:
         if not result['title'] or not 'Traits' in result['title']:
             continue
+        if not result['title']['Traits']:
+            continue
         for t in result['title']['Traits'].split(" • "):
             t = t.replace('?','').strip()
             if not t or t in traits:
@@ -183,7 +185,7 @@ def upload(stage="dev", test=False):
         "main.indexQuick.js"
     ]:
         os.system("scp javascript/{} saluk@archonarcana.com:/var/www/html/{}/extensions/AADeckView/resources/ext.aaDeckView".format(
-            bundle, {"prod":"aa-en", "dev":"aa-new"}[stage]
+            bundle, {"prod":"aa-en", "dev":"aa-en"}[stage]
         ))
     upload_js_file("cardwidget.js", use_hash=False, test=test)
     for filename in ['Common.js', 'Mobile.js']:
