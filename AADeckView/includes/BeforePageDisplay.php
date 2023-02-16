@@ -32,36 +32,28 @@ class BeforePageDisplay implements \MediaWiki\Hook\BeforePageDisplayHook {
 	 * @param \Skin $skin
 	 */
 	public function onBeforePageDisplay( $out, $skin ) : void {
-    //wfDebug("AADeckView test from onbeforepagedisplay");
-		//$out->addModules( 'ext.aaDeckView.indexQuick' );
+		$pageTitle = $skin->getTitle();
 		$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexQuick.js' );
-		if ( substr($out->getPageTitle(), 0, strlen('Deck Search')) === 'Deck Search' ) {
+		if ( substr($pageTitle, 0, strlen('Deck Search')) === 'Deck Search' ) {
 			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexDeckSearch.js' );
-			//$out->addModules('ext.aaDeckView.indexDeckSearch');
 		}
-		if ( substr($out->getPageTitle(), 0, strlen('Card Gallery')) === 'Card Gallery' ) {
+		if ( substr($pageTitle, 0, strlen('Card Gallery')) === 'Card Gallery' ) {
 			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexGallery.js' );
-			//$out->addModules('ext.aaDeckView.indexGallery');
 		}
-		if ( substr($out->getPageTitle(), 0, strlen('Spoilers')) === 'Spoilers' ) {
+		if ( substr($pageTitle, 0, strlen('Spoilers')) === 'Spoilers' ) {
 			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexGallery.js' );
-			//$out->addModules('ext.aaDeckView.indexGallery');
 		}
-		if ( substr($out->getPageTitle(), 0, strlen('Rise of the Keyraken')) === 'Rise of the Keyraken' ) {
+		if ( substr($pageTitle, 0, strlen('Rise of the Keyraken')) === 'Rise of the Keyraken' ) {
 			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexGallery.js' );
-			//$out->addModules('ext.aaDeckView.indexGallery');
 		}
-		if ( substr($out->getPageTitle(), 0, strlen('Abyssal Conspiracy')) === 'Abyssal Conspiracy' ) {
+		if ( substr($pageTitle, 0, strlen('Abyssal Conspiracy')) === 'Abyssal Conspiracy' ) {
 			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexGallery.js' );
-			//$out->addModules('ext.aaDeckView.indexGallery');
 		}
-		if ( substr($out->getPageTitle(), 0, strlen('Deck:')) === 'Deck:' ) {
+		if ( substr($pageTitle, 0, strlen('Deck:')) === 'Deck:' ) {
 			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexDeckView.js' );
-			//$out->addModules('ext.aaDeckView.indexDeckView');
 		}
 		else {
 			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexCommon.js' );
-			//$out->addModules( 'ext.aaDeckView.indexCommon' );
 		}
 
 		$localized_title = [];
@@ -72,7 +64,7 @@ class BeforePageDisplay implements \MediaWiki\Hook\BeforePageDisplayHook {
 		}
 
 
-		if ( substr($out->getPageTitle(), 0, strlen('User')) !== 'User' && substr($out->getPageTitle(), 0, strlen('Special')) !== 'Special' && substr($out->getPageTitle(), 0, strlen('Template:')) !== 'Template:') {
+		if ( substr($pageTitle, 0, strlen('User')) !== 'User' && substr($pageTitle, 0, strlen('Special')) !== 'Special' && substr($pageTitle, 0, strlen('Template:')) !== 'Template:') {
 			$out->addInlineScript( <<<'EOT'
 				// Hotjar Tracking Code for archonarcana.com
 				    (function(h,o,t,j,a,r){
