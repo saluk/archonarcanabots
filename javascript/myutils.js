@@ -78,6 +78,9 @@ function capitalize(s){
 }
 
 function htmlDecode(input){
+	if(input==null){
+		return '';
+	}
 	var e = document.createElement('div');
 	e.innerHTML = input;
 	return e.childNodes[0].nodeValue;
@@ -165,7 +168,11 @@ function isElementInViewport (el) {
 	if (typeof jQuery === "function" && el instanceof jQuery) {
 		el = el[0];
 	}
-  
+	// Another jQuery hack
+	if ('jquery' in Object.getPrototypeOf(el)) {
+		el = el[0];
+	}
+
 	var rect = el.getBoundingClientRect();
   
 	return (

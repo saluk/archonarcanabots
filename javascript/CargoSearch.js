@@ -711,8 +711,8 @@ ${getCardImage({
       }
     )
     self.loadingCards.requestcount = self.requestcount
-    // TODO add more features to track
-    window.mixpanel.track('gallery_search', {
+    // TODO add more features to track (and reenable mixpanel)
+    /* window.mixpanel.track('gallery_search', {
       'string':this.searchString('data'), 
       'sets': this.sets,
       'houses': this.houses,
@@ -720,7 +720,7 @@ ${getCardImage({
       'cardname': this.cardname,
       'cardtext': this.cardtext,
       'flavortext': this.flavortext
-    })
+    })*/
   },
   loadCount: function() {
     var self=this
