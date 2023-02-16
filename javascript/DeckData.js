@@ -562,7 +562,7 @@ dt a:hover {
   height:100%;
   width:100%;
   display:block;
-  top:0px;
+  top:80px;
   left:0px;
   content:"";
   z-index:5;
@@ -583,9 +583,7 @@ dt a:hover {
 }
 
 .enhanced-card img {
-	width: 30px;
-	margin-top: 20px;
-	margin-left: 55px;
+	width: 20px;
 	background-color: rgba(155,155,255.0,1);
 	padding: 4px;
 	border-width: 1px;
@@ -1003,6 +1001,7 @@ function bonus_icons(card) {
   var icons = ""
   for(var bonus of card.bonus_icons) {
       icons += "<img src=\""+images["enhance"+bonus.charAt(0).toUpperCase()+bonus.slice(1)]+"\" width=20>"
+      icons += "<br>"
   }
   return icons
 }
