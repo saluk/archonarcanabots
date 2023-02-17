@@ -9,6 +9,7 @@ import csv
 import bleach
 from models import shared
 import re
+import copy
 
 
 hard_code = {
@@ -276,6 +277,8 @@ def image_number(card):
     return "%s-%s.png" % (card["expansion"], card["card_number"])
 
 def rename_card_data(card_data, locale=None):
+    # We probably don't want to modify in place
+    card_data = copy.deepcopy(card_data)
     ot = sanitize_name(card_data["card_title"])
 
     if ot in hard_code:
@@ -304,6 +307,8 @@ def rename_card_data(card_data, locale=None):
 
 
 def card_data(card, locale=None):
+    # We probably don't want to modify this in place
+    card = copy.deepcopy(card)
     rename_card_data(card, locale)
     title = card["card_title"]
     card["keywords"] = get_keywords_text(card["card_text"])
