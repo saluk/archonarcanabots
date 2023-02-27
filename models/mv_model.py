@@ -12,8 +12,8 @@ from sqlalchemy.orm import backref
 from sqlalchemy.inspection import inspect
 from sqlalchemy.sql.expression import text, func, update, bindparam
 from sqlalchemy.sql import exists
-from sqlalchemy.dialects.postgresql import JSONB, insert
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.dialects.postgresql import JSONB, insert, ARRAY
+from sqlalchemy import Column, Integer, Boolean, String, DateTime
 from sqlalchemy import Table, ForeignKey, UniqueConstraint, ForeignKeyConstraint, Sequence
 import datetime
 from models import wiki_model, shared
@@ -129,6 +129,26 @@ class UpdateScope(object):
                 return 1
             return start_at+1
         return min(possible)
+
+    def next_scrape_task(self):
+        session = Session()
+        next = session.query(ScrapePageTask).filter(ScrapePageTask.rescrape_complete==False)\
+            .order_by(ScrapePageTask.page.asc()).first()
+        return next
+    
+    def scraped_page_task(self, task, decks_scraped, cards_scraped):
+        session = Session()
+        task = session.query(ScrapePageTask).filter(ScrapePageTask.page==task.page, ScrapePageTask.per_page==task.per_page).first()
+        if not task:
+            session.close()
+            return
+        task.decks_scraped = decks_scraped
+        task.cards_scraped = cards_scraped
+        if task.decks_scraped == task.per_page:
+            task.rescrape_complete = True
+        session.add(task)
+        session.commit()
+        session.close()
 
     def start_page(self, page):
         session = Session()
@@ -256,11 +276,21 @@ class UpdateScope(object):
 
 
 class BackScrapePage(Base):
+    """Older model where we keep track of how many cards and decks are scraped on a given page"""
     __tablename__ = "back_scrape_page"
     page = Column(Integer, primary_key=True)
     decks_scraped = Column(Integer)
     cards_scraped = Column(Integer)
     scraping = Column(Integer)
+
+
+class ScrapePageTask(Base):
+    __tablename__ = "scrape_page_task"
+    page = Column(Integer, primary_key=True)
+    per_page = Column(Integer, primary_key=True, default=24)
+    decks_scraped = Column(Integer)
+    cards_scraped = Column(Integer)
+    rescrape_complete = Column(Boolean, default=False)
 
 
 class GoodProxy(Base):
@@ -325,6 +355,14 @@ class Deck(Base):
 
     def get_houses(self):
         return self.data['_links']['houses']
+
+
+class CardEnhancementsOld(Base):
+    __tablename__ = "card_enhancements_old"
+    deck_id = Column(String, primary_key=True)
+    card_id = Column(String, primary_key=True)
+    bonus_icons = Column(ARRAY(String, dimensions=1))
+    card_index = Column(Integer, primary_key=True)
 
 
 class TwinDeck(Base):

@@ -195,10 +195,12 @@ class MasterVault:
             "url": "https://www.keyforgegame.com/deck-details/%(id)s" % {"id": deck_data["id"]}
         }
 
-    def get_decks_with_cards(self, direction, page, lang="en-us"):
+    def get_decks_with_cards(self, direction, page, lang="en-us", page_size=None):
+        if not page_size:
+            page_size = self.max_page
         args = {
             "page": page,
-            "page_size": self.max_page,
+            "page_size": page_size,
             "power_level": "0,11",
             "chains": "0,24",
             "ordering": direction+"date",
@@ -363,6 +365,47 @@ class MasterVault:
                 except:
                     time.sleep(10)
 
+    def scrape_next_task(self):
+        """Pick next page to scrape from the tasks. If one exists, and we scrape the right
+        number of decks, record the task as complete."""
+        wait(random.randint(0,10))
+        while 1:
+            try:
+                with self.insert_lock:
+                    task = self.scope.next_scrape_task()
+            except Exception:
+                wait(1)
+                continue
+            if not task:
+                print("No task found. Wait(120)")
+                wait(120)
+                continue
+            print("next task SCRAPE PAGE",task.page)
+            try:
+                decks, cards, proxy = self.get_decks_with_cards("", task.page, "en-us", task.per_page)
+            except Exception:
+                import traceback
+                traceback.print_exc()
+                continue
+            if not decks or len(decks)<1:
+                print("#### - next task didn't get decks on page %d" % task.page)
+                wait(60)
+                continue
+            try:
+                self.insert(decks, cards, task.page)
+            except Exception:
+                wait(1)
+                raise
+                continue
+            print("########### next task inserted",len(decks),"decks, and",len(cards),"cards from page",task.page,"via",proxy, len(threading.enumerate()))
+            if len(decks)<task.per_page:
+                print("#### - next task didn't get %d decks on page %d" % (task.per_page, task.page))
+                wait(60)
+                continue
+            self.scope.scraped_page_task(task=task, decks_scraped=len(decks), cards_scraped=len(cards))
+            wait(1)
+        return True
+
 
 
 mv = MasterVault()
@@ -378,14 +421,16 @@ def master_vault_lookup(deck_name):
     return deck
 
 
-def daemon():
-    starts = [int(x) for x in sys.argv[1:]]
+def daemon(mode="back_scrape", starts=[1]):
     threads = []
     mv = MasterVault()
     for start in starts:
         def mv_thread():
             print("thread open")
-            mv.scrape_back(start, start)
+            if mode == "back_scrape":
+                mv.scrape_back(start, start)
+            elif mode == "tasks":
+                mv.scrape_next_task()
             print("thread close")
         t = threading.Thread(target=mv_thread)
         threads.append(t)
@@ -401,5 +446,7 @@ if __name__ == "__main__":
     print(sys.argv)
     if sys.argv[1] == "get_locale":
         print(mv.scrape_cards_locale(sys.argv[2]))
+    elif sys.argv[1] == "tasks":
+        daemon("tasks", [1])
     else:
-        daemon()
+        daemon("back_scrape", [int(x) for x in sys.argv[1:]])
