@@ -16,7 +16,7 @@ session.close()
 
 unique_pages = []
 for p in pages:
-    if p not in scraped and p:
+    if p not in scraped and p and p.isdigit():
         scraped.add(p)
         unique_pages.append(p)
 
