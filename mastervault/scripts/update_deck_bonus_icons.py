@@ -1,11 +1,9 @@
-try:
-    import __updir__
-except Exception:
-    pass
+import sys, os
+sys.path.insert(0, os.path.abspath(__file__).rsplit("/", 1)[0]+'/../..')
 from models.mv_model import Session, Deck, CardEnhancementsOld
 from sqlalchemy import update
 
-f = open("data/updated_deck_bonus_ids")
+f = open("data/enhance_update.csv")
 deck_ids = f.read().split("\n")
 f.close()
 
@@ -29,10 +27,16 @@ def update_deck_bonus(deck_id):
         session.commit()
     session.close()
 
+start_at = ""
 updated_count = 0
 for deck_id in deck_ids:
+    if not deck_id.strip():
+        continue
     print(deck_id, updated_count)
-    update_deck_bonus(deck_id)
     updated_count += 1
+    if start_at and start_at != deck_id:
+        continue
+    start_at = ""
+    update_deck_bonus(deck_id)
 
 print(f"updated decks: {updated_count}")
