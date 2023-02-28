@@ -449,4 +449,5 @@ if __name__ == "__main__":
     elif sys.argv[1] == "tasks":
         daemon("tasks", [1])
     else:
-        daemon("back_scrape", [int(x) for x in sys.argv[1:]])
+        #daemon("back_scrape", [int(x) for x in sys.argv[1:]])
+        daemon("tasks", [1])

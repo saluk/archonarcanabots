@@ -147,6 +147,9 @@ class UpdateScope(object):
         if task.decks_scraped == task.per_page:
             task.rescrape_complete = True
         session.add(task)
+        if task.scrape_next_page:
+            next_task = ScrapePageTask(page=task.page+1, per_page=task.per_page, scrape_next_page=True)
+            session.add(next_task)
         session.commit()
         session.close()
 
@@ -291,6 +294,7 @@ class ScrapePageTask(Base):
     decks_scraped = Column(Integer)
     cards_scraped = Column(Integer)
     rescrape_complete = Column(Boolean, default=False)
+    scrape_next_page = Column(Boolean, default=False)
 
 
 class GoodProxy(Base):
