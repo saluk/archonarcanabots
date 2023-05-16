@@ -191,8 +191,22 @@ var CSearch = {
       searchFields = searchFields.filter(function(field) {
         if(field.field==='sets'){
           if(parseQueryString('testjs')){
+            $('.set-entries').on('click', '[name=sets]', function(e) {
+              $('[name=sets]').each(function() {
+                if (this != e.target)
+                  $(this).prop('checked', false)
+                else {
+                  if($(this).prop('checked') === false) {
+                    $(this).prop('checked', true)
+                    return e.preventDefault()
+                  }
+                }
+              })
+            })
+            $('#'+this.available_sets.slice(-1)).click() 
           } else {
-            return false
+            return true
+            // return false
           }
         }
         return true

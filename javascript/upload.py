@@ -36,6 +36,8 @@ def gen_artists(tables, limit_set=None):
     for result in cargo_query(search)['cargoquery']:
         if not result['title'] or not 'Artist' in result['title']:
             continue
+        if not result['title']['Artist']:
+            continue
         a = result['title']['Artist'].replace("?","").strip()
         if not a or a in artists:
             continue

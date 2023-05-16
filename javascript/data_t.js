@@ -11,7 +11,7 @@ var houses_by_set = {
 	'Rise_of_the_Keyraken': new Set(['Keyraken']),
 	'Abyssal_Conspiracy': new Set(['Abyssal']),
 	'Winds_of_Exchange': new Set(['Ekwidon','Sanctum','Saurian','Star_Alliance','Mars','Brobnar','Unfathomable']),
-	"Grim_Reminders": new Set(['Ekwidon'])
+	"Grim_Reminders": new Set(['Ekwidon','Geistoid','Untamed','Star_Alliance','Mars','Brobnar','Unfathomable'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],

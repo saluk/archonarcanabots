@@ -14,7 +14,8 @@ var check_images = {
 	'Untamed': 'https://archonarcana.com/images/b/bd/Untamed.png',
 	'Ekwidon': 'https://archonarcana.com/images/3/31/Ekwidon.png',
   	'Anomaly': 'https://archonarcana.com/images/8/88/Anomoly-tc.png',
-  	'Unfathomable': 'https://archonarcana.com/images/1/10/Unfathomable.png'
+  	'Unfathomable': 'https://archonarcana.com/images/1/10/Unfathomable.png',
+	'Geistoid': 'https://archonarcana.com/images/4/48/Geistoid.png'
 }
 
 var like_query = function(s){
