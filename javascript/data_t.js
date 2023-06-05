@@ -1,6 +1,6 @@
-var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings']
+var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange']
 var kfa_sets = ['Rise_of_the_Keyraken', 'Abyssal_Conspiracy']
-var spoiler_sets = ['Winds_of_Exchange', 'Grim_Reminders']
+var spoiler_sets = ['Grim_Reminders']
 var next_spoiler_sets = ['Grim_Reminders']
 var houses_by_set = {
 	'Call_of_the_Archons': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
@@ -15,12 +15,13 @@ var houses_by_set = {
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
-	[453, "Worlds Collide"],
+	[453, "Worlds Collide"], //Anomalys
 	[341, "Call of the Archons"],
 	[435, "Age of Ascension"],
 	[479, "Mass Mutation"],
 	[496, "Dark Tidings"],
-	[0, "Winds of Exchange"],
+	[600, "Winds of Exchange"],
+	[601, "Unchained"],
 	[0, "Grim Reminders"]
 ]
 var set_name_by_number = function(number) {
@@ -36,9 +37,11 @@ var set_number_by_name = function(name) {
 var getHouses = function(set_filter){
 	var s = new Set()
 	set_filter.map((setname)=>{
-		houses_by_set[setname].forEach((h)=>{
-			s.add(h)
-		})
+		if(setname !== 'Exclude Reprints') {
+			houses_by_set[setname].forEach((h)=>{
+				s.add(h)
+			})
+		}
 	})
 	return Array.from(s).sort()
 }
@@ -78,6 +81,7 @@ var images = {
 	enhanceCapture: 'https://archonarcana.com/images/f/fc/Enhance_capture.png',
 	enhanceDamage: 'https://archonarcana.com/images/5/50/Enhance_damage.png',
 	enhanceDraw: 'https://archonarcana.com/images/a/ac/Enhance_draw.png',
+	enhanceDiscard: 'https://archonarcana.com/images/4/41/Enhance_discard.png',
 
 	raritySpecial: 'https://archonarcana.com/images/thumb/3/34/Rarity-special.png/25px-Rarity-special.png',
 	rarityCommon: 'https://archonarcana.com/images/thumb/e/e4/Rarity-common.png/25px-Rarity-common.png',

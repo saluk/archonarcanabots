@@ -182,6 +182,7 @@ var CSearch = {
     if(this.format === 'kfa') {
       this.available_sets = kfa_sets
     }
+    console.log("Available Sets:", this.available_sets)
     getSearchField('sets').values = this.available_sets
 
     if(this.spoilers){
@@ -328,10 +329,14 @@ var CSearch = {
     var setField = getSearchField('sets')
     if(setField){
       var clicked_sets = self.sets
+      console.log('Get sets to build set field')
+      console.log('self.sets', self.sets)
+      console.log('available sets', self.available_sets)
+      console.log('getHouses', getHouses(self.available_sets))
       if(clicked_sets.length>0){
         getSearchField('houses').values = getHouses(clicked_sets)
       } else {
-        getSearchField('houses').values = getHouses(sets)
+        getSearchField('houses').values = getHouses(self.available_sets)
       }
       $(getSearchField('houses').attach).empty()
       getSearchField('houses').presetValue = self.houses.join('+')
