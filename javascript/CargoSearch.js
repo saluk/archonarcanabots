@@ -549,6 +549,12 @@ var CSearch = {
     return `
 <div class="gallery-image" style="position:relative;text-align:center">
 <a href="${link}">
+<img id="img_+${cardData.Name.replace(/\(|\)/g,'br')}" width="${self.output_settings.img_width}" height="${self.output_settings.img_height}" src="${unhashThumbImage(cardData.Image, 200)}" data-src="${unhashImage(cardData.Image)}">
+<div style="display:none;position:absolute;bottom:8px;left:16px;">${cardData.Name}</div>
+</a></div>`
+    return `
+<div class="gallery-image" style="position:relative;text-align:center">
+<a href="${link}">
 ${getCardImage({
   card_title: cardData.Name,
   image_number: image_number,
