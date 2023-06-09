@@ -36,7 +36,7 @@ csv_changes = open("changes.csv","w")
 
 with open("data/locales.json") as f:
     locales = json.loads(f.read())
-def update_card_views(wp, card_title, update_reason="Put lua on translated card pages", pause=False, locale_only=False, only_new_edits=False):
+def update_card_views(wp, card_title, update_reason="WoE updates", pause=False, locale_only=False, only_new_edits=False):
     print("update_card_views", card_title, pause)
     page = wp.page(card_title)
     updates = []
@@ -55,7 +55,8 @@ def update_card_views(wp, card_title, update_reason="Put lua on translated card 
     #langs.append('<div class="translate translate-en" style="display:inline">{{#invoke: luacard | viewcard | cardname=%(n)s}}</div>' % 
     #        {"n": card_title}
     #)
-    for locale in locales:
+    # NOTE: we dynamically generate the locale with a WP extension, don't need individual locale pages
+    for locale in []: # locales:
         print("... updating", card_title, locale)
         if locale == "en": continue
         wiki_locale_short, locale_name = locales[locale][0]
@@ -175,6 +176,7 @@ def upload_image_for_card(wp, locale, card):
         if not os.path.exists(lp):
             print("download", card["front_image"])
             with open(lp, "wb") as f:
+                front_image = card["front_image"].replace("cdn.keyforgegame.com", "mastervault-storage-prod.s3.amazonaws.com")
                 r = requests.get(card["front_image"], stream=True)
                 print(r.status_code)
                 r.raw.decode_content = True
@@ -209,6 +211,7 @@ def update_cards_v2(wp, search_name=None,
     search_cards = sorted(wiki_card_db.cards.keys())
     if card_name:
         search_cards = [card_name]
+    print("\n\n ++ Update cards: Start search")
     for i, card_name in enumerate(search_cards):
         if search_name and not re.findall(search_name, card_name):
             continue
@@ -218,14 +221,17 @@ def update_cards_v2(wp, search_name=None,
         if restrict_expansion and not latest["expansion"] == restrict_expansion:
             continue
         started = True
-        print(i+1, card_name)
+        print('++ ',i+1, card_name)
         #print(latest)
         texts = []
         if upload_image:
+            print(' + upload image for card')
             texts.append(upload_image_for_card(wp, locale, latest))
         if data_to_update == "update_card_views":
-            texts.append(update_card_views(wp, card_name, pause=pause, locale_only=locale_only, only_new_edits=only_new_edits))
+            print(' + update card views')
+            texts.extend(update_card_views(wp, card_name, pause=pause, locale_only=locale_only, only_new_edits=only_new_edits))
         else:
+            print(' + update card page cargo')
             texts.append(update_card_page_cargo(
                 wp, wiki_card_db.cards[card_name],
                 update_reason=update_reason,

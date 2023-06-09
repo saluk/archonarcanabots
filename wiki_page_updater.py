@@ -28,7 +28,7 @@ parser = argparse.ArgumentParser(description="A swiss army knife of tools to wor
 parser.add_argument("command", metavar="command", type=str)
 parser.add_argument("--batch", action="store_true")
 parser.add_argument("--search", type=str)
-parser.add_argument("--restricted", type=str)
+parser.add_argument("--restricted", type=str, help="The only card fields to update")
 parser.add_argument("--locale", type=str, help="The full two part locale, such as es-es. Multiple can be separated with commas.")
 parser.add_argument("--images", action="store_true", help="For importing CardData, should we upload the images?")
 parser.add_argument("--stage", type=str, help="dev or prod for javascript files (not in use", default="dev")
@@ -36,6 +36,7 @@ parser.add_argument("--test", action="store_true", help="For uploading script fi
 parser.add_argument("--locale_only", action="store_true", help="when updating card pages, this will only do updates to /locale/ pages")
 parser.add_argument("--testfile", type=str, help="a json of test data to load for functions that take tests")
 parser.add_argument("--sheet", type=str, help="The spreadsheet name to merge")
+parser.add_argument("--restrict_expansion", type=int, help="Expansion number to limit")
 args = parser.parse_args()
 args.pause = not args.batch
 print(vars(args))
@@ -45,7 +46,8 @@ if __name__ == "__main__":
         import tool_update_cards
         tool_update_cards.update_cards_v2(wp, args.search, "importing card data", 
                                             "carddb", args.restricted.split("|") if args.restricted else [],
-                                            upload_image=False,
+                                            restrict_expansion=args.restrict_expansion,
+                                            upload_image=args.images,
                                             pause=args.pause)
     if args.command == "import_cards_locale":
         import tool_update_cards
@@ -70,6 +72,7 @@ if __name__ == "__main__":
     if args.command == "update_card_views":
         import tool_update_cards
         tool_update_cards.update_cards_v2(wp, args.search, "put card query on card", "update_card_views", 
+            restrict_expansion=args.restrict_expansion,
             locale_only=args.locale_only, pause=args.pause)
     if args.command == "relink":
         import tool_update_cards

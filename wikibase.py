@@ -109,8 +109,9 @@ def cargo_unique(datatype):
 
 
 def cargo_sort(table_type, table):
+    from models import shared
     sort_function = {
-        "SetData": lambda row: int(row["SetNumber"]) if row.get("SetNumber","") else 0,
+        "SetData": lambda row: shared.get_set_number_by_name(row["SetName"]),
         "AltArt": lambda row: (int(row["Year"]), row["File"])
     }.get(table_type, None)
     if sort_function:

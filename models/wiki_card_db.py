@@ -171,7 +171,9 @@ def image_number(card):
 def get_sets(card_sets):
     sets = sorted(int(x) for x in card_sets.keys())
     for set_num in sets:
-        yield (shared.nice_set_name(set_num), set_num, card_sets[str(set_num)]["card_number"])
+        card_for_set = card_sets[str(set_num)]
+        card_num = card_for_set["card_number"]
+        yield (shared.assigned_set_name(set_num, card_num), set_num, card_num)
 
 
 def get_latest_from_card(card_sets, locale=None):
@@ -214,12 +216,16 @@ def get_card_by_number(num, expansion):
 
 
 def add_card(card, cards):
+    print(f"+ Get card data for {card}")
     card_data = wiki_model.card_data(card)
+    if "'" in card_data["card_title"]:
+        print(card_data)
+        crash
     if card_data["card_title"] not in cards:
         cards[card_data["card_title"]] = {}
     cards[card_data["card_title"]][str(card_data["expansion"])] = card_data
-    add_artists_from_text(cards)
-    build_links([card_data["card_title"]])
+    #add_artists_from_text(cards)
+    #build_links([card_data["card_title"]])
     clean_fields_data(card_data)
     return card_data
 
@@ -337,10 +343,15 @@ def process_mv_card_batch(card_batch: list) -> list:
         if card.is_enhanced: continue
         process_cards[card.data["card_title"]].append(card.data)
     logging.debug(len(process_cards))
+    print(f"\n+++ Process these cards: {len(process_cards)} - {process_cards.keys()}\n")
     def bifurcate_data(card_datas):
         if len(card_datas) == 1:
+            print(f"++ Skip bifurcate for {card_datas[0]['card_title']}")
             return card_datas
+        if not card_datas:
+            return []
         card_title = card_datas[0]["card_title"]
+        print(f"++ Bifurcate data for {card_title} - versions: {len(card_datas)}")
         logging.debug("## Do something with card that can transform: %s", card_title)
         types = set([card["card_type"] for card in card_datas])
         houses = set([card["house"] for card in card_datas])
@@ -376,20 +387,36 @@ def process_mv_card_batch(card_batch: list) -> list:
                 
 
 def build_json(only=None):
+    print("++++ Clear memory")
     cards.clear()
     locales.clear()
 
+    print("++++ Getting card batch from postgresql")
     scope = mv_model.UpdateScope()
     card_batch = scope.get_cards()
+
+    print("++++ Processing batch")
     card_datas = process_mv_card_batch(card_batch)
+    print("++++ Adding cards")
     [add_card(card_data, cards) for card_data in card_datas]
+    print(f"++++ Cards initialized: {len(cards.keys())}")
+    print([title for title in cards.keys() if title.startswith("Gizel")])
     
+    print("++++  Building localization")
     build_localization(scope, cards, locales)
+
+    print("++++  Building links")
     build_links(cards, only)
+
+    print("++++  Adding artists")
     add_artists_from_text(cards)
+
+    print("++++  Cleaning fields on cards in locales")
     clean_fields(cards, locales)
+
+    print("++++  Saving json")
     save_json(cards, locales)
-    print("saved.")
+    print("++++  saved.")
 
 
 # TODO - we should separate creating and loading the data so that the google actions test doesnt have to import the database
@@ -454,6 +481,8 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
     }, restricted)
+    print("{[{ Restricted cardtable", cardtable)
+    print("{[{ original ct", ct.data_types)
     if latest.get("artist", ""):
         cardtable["Artist"] = latest["artist"]
     # TODO This only updates SetData for old cards when we are importing new 
@@ -466,12 +495,13 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
     for (set_name, set_num, card_num) in card_sets:
         settable = get_restricted_dict({
             "SetName": set_name,
-            "SetNumber": set_num,
+            #"SetNumber": set_num,
             "CardNumber": card_num,
             "Meta":"Debut" if set_num == earliest_set else ""
         }, restricted, "SetData")
         ct.update_or_create("SetData", set_name, settable)
         print(settable)
+    print("Updated ct data", ct.data_types)
 
 
 def get_cargo_locale(card, ct=None, only_sets=False, locale=None, english_name=None):

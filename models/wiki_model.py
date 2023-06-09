@@ -277,8 +277,8 @@ def image_number(card):
     return "%s-%s.png" % (card["expansion"], card["card_number"])
 
 def rename_card_data(card_data, locale=None):
-    # We probably don't want to modify in place
-    card_data = copy.deepcopy(card_data)
+    # We probably DO want to modify in place
+    #card_data = copy.deepcopy(card_data)
     ot = sanitize_name(card_data["card_title"])
 
     if ot in hard_code:
@@ -302,6 +302,7 @@ def rename_card_data(card_data, locale=None):
     if title_modifications:
         ot += " (%s)" % ", ".join(title_modifications)
 
+    print(f"New card title: {card_data['card_title']} -> {ot}")
     card_data["card_title"] = ot
     return card_data
 
