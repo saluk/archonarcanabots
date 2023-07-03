@@ -169,7 +169,7 @@ class MasterVault:
         raise Exception("Couldn't get valid response")
 
     def _call(self, endpoint, args, lang="en-US"):
-        assert endpoint in ['decks']
+        assert endpoint in ['decks/v2']
         url = "https://www.keyforgegame.com/api/%s/" % endpoint
         key = url+";params:"+json.dumps(args, sort_keys=True)
         return self.proxyget(url, params=args, headers={"Accept-Language": lang}, cookies={"lang":lang})
@@ -206,7 +206,7 @@ class MasterVault:
             "ordering": direction+"date",
             "links": "cards"
         }
-        dat, proxy = self._call("decks", args, lang)
+        dat, proxy = self._call("decks/v2", args, lang)
         if "data" not in dat:
             return [], [], []
         decks = dat["data"]

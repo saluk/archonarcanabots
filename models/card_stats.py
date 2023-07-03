@@ -40,7 +40,7 @@ def query_card_versions(card_title, query):
         ))
     return query
 
-def calc_mavericks(card_data):
+def calc_mavericks(card_data, session=session):
     query = query_card_versions(card_data["card_title"], session.query(mv_model.Card))
     query = query.filter(mv_model.Card.data['is_maverick'].as_boolean()==True)
     houses = collections.defaultdict(lambda: set())
@@ -48,7 +48,7 @@ def calc_mavericks(card_data):
         houses[card.deck_expansion].add(card.data['house'])
     return houses
 
-def calc_legacy_maverick(card_data, expansions):
+def calc_legacy_maverick(card_data, expansions, session=session):
     query = query_card_versions(card_data["card_title"], session.query(mv_model.Card))
     query = query.filter(mv_model.Card.data['is_maverick'].as_boolean()==True)
     counts = collections.defaultdict(lambda: set())

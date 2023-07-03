@@ -316,8 +316,8 @@ def get_card_stats(card_name:str):
             else:
                 count_legacy[count.deck_expansion] = count.data
         count_mavericks = {}
-        count_mavericks = card_stats.calc_mavericks({"card_title": card_name})
-        count_legacy_mavericks = card_stats.calc_legacy_maverick({"card_title": card_name}, expansions)
+        count_mavericks = card_stats.calc_mavericks({"card_title": card_name}, session=session)
+        count_legacy_mavericks = card_stats.calc_legacy_maverick({"card_title": card_name}, expansions, session=session)
         #      Also: for each set that the card exists in, what is the percentage of decks that have that house that also contain that card? [Different stats per set] 
         #- for sets that don't contain that card, but come after its original printing, what percentage of decks have that card as a legacy? [Different stats per set]
         # Number of copies of that card by set?
