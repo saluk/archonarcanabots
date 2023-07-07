@@ -23,3 +23,6 @@ selenium
 pytest
 argparse
 twilio
+deepdiff
+progress
+python-Levenshtein

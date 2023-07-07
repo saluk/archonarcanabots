@@ -132,7 +132,10 @@ class CargoTable:
         TYPE = 1
         ROW = 2
         mode = TYPE
+        text = re.sub("}}( *){{", "}}\n{{", text)
+        last_key = ""
         for line in text.split("\n"):
+            print("\t\t", line)
             if mode == TYPE:
                 if line.startswith("{{"):
                     d["type"] = line[2:]
@@ -141,7 +144,8 @@ class CargoTable:
             elif mode == ROW:
                 if line.startswith("|"):
                     left, right = line.split("=", 1)
-                    d[left[1:]] = right
+                    last_key = left[1:]
+                    d[last_key] = right
                 elif line.startswith("}}"):
                     datatype = d["type"]
                     del d["type"]
@@ -157,6 +161,9 @@ class CargoTable:
                     self.data_types[datatype][key] = d
                     d = {}
                     mode = TYPE
+                else:
+                    if last_key:
+                        d[last_key] += "\n"+line
 
     def output_text(self):
         print("before output:", self.data_types)

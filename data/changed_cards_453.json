@@ -1,0 +1,112 @@
+{
+  "Ecto-Charge (Anomaly)": {
+    "reason": "+update",
+    "values_changed": {
+      "root.data_types['CardData']['Ecto-Charge (Anomaly)']['SearchText']": {
+        "new_value": "Play: Forge a key at +20A current cost, reduced by 1A for each card in your discard pile (to a minimum of 6). If you do, purge Ecto-Charge.",
+        "old_value": "Play: Forge a key at +20\uf360 current cost, reduced by 1\uf360 for each card in your discard pile (to a minimum of 6). If you do, purge Ecto-Charge."
+      }
+    }
+  },
+  "Ghostform (Anomaly)": {
+    "reason": "+update",
+    "values_changed": {
+      "root.data_types['CardData']['Ghostform (Anomaly)']['Text']": {
+        "new_value": "This creature gains [[Invulnerable|invulnerable]]. (It [[Cannot_vs_Must|cannot]] be destroyed or dealt damage.) <p> This creature gains, \u201c'''Fight/Reap:''' Archive Ghostform.\u201d",
+        "old_value": "This creature gains [[Invulnerable|invulnerable]]. (It cannot be destroyed or dealt damage.) <p> This creature gains, \u201c'''Fight/Reap:''' Archive Ghostform.\u201d"
+      }
+    }
+  },
+  "Lateral Shift (Anomaly)": {
+    "reason": "+update",
+    "type_changes": {
+      "root.data_types['CardData']['Lateral Shift (Anomaly)']['EnhanceAmber']": {
+        "new_type": "<class 'int'>",
+        "new_value": 0,
+        "old_type": "<class 'str'>",
+        "old_value": ""
+      },
+      "root.data_types['CardData']['Lateral Shift (Anomaly)']['EnhanceCapture']": {
+        "new_type": "<class 'int'>",
+        "new_value": 0,
+        "old_type": "<class 'str'>",
+        "old_value": ""
+      },
+      "root.data_types['CardData']['Lateral Shift (Anomaly)']['EnhanceDamage']": {
+        "new_type": "<class 'int'>",
+        "new_value": 0,
+        "old_type": "<class 'str'>",
+        "old_value": ""
+      },
+      "root.data_types['CardData']['Lateral Shift (Anomaly)']['EnhanceDraw']": {
+        "new_type": "<class 'int'>",
+        "new_value": 0,
+        "old_type": "<class 'str'>",
+        "old_value": ""
+      }
+    },
+    "values_changed": {
+      "root.data_types['CardData']['Lateral Shift (Anomaly)']['FlavorText']": {
+        "new_value": "\u201cI\u2019ve explored thousands of possible futures. Somehow they all end up here.\u201d - [[Sci. Officer Qincan|Qincan, Alliance outcast]]",
+        "old_value": "\u201cI\u2019ve explored thousands of possible futures. Somehow they all end up here.\u201d \u2013 [[Sci. Officer Qincan|Qincan, Alliance outcast]]"
+      },
+      "root.data_types['CardData']['Lateral Shift (Anomaly)']['SearchFlavorText']": {
+        "new_value": "\u201cI\u2019ve explored thousands of possible futures. Somehow they all end up here.\u201d - Qincan, Alliance outcast",
+        "old_value": "\u201cI\u2019ve explored thousands of possible futures. Somehow they all end up here.\u201d \u2013 Qincan, Alliance outcast"
+      }
+    }
+  },
+  "Near-Future Lens (Anomaly)": {
+    "reason": "+update",
+    "values_changed": {
+      "root.data_types['CardData']['Near-Future Lens (Anomaly)']['SearchText']": {
+        "new_value": "Play with the top card of your deck revealed. <p> Omni: Play the top card of your deck as is it belonged to the active house and was in your hand.",
+        "old_value": "Play with the top card of your deck revealed. <p> Omni: Play the top card of your deck as if it belonged to the active house and was in your hand."
+      },
+      "root.data_types['CardData']['Near-Future Lens (Anomaly)']['Text']": {
+        "new_value": "Play with the top card of your deck revealed. <p> '''Omni:''' Play the top card of your deck as is it belonged to the active house and was in your hand.",
+        "old_value": "Play with the top card of your deck revealed. <p> '''Omni:''' Play the top card of your deck as if it belonged to the active house and was in your hand."
+      }
+    }
+  },
+  "Nizak, The Forgotten (Anomaly)": {
+    "reason": "+update",
+    "values_changed": {
+      "root.data_types['CardData']['Nizak, The Forgotten (Anomaly)']['Text']": {
+        "new_value": "While fighting, Nizak, The Forgotten gains [[Invulnerable|invulnerable]]. (It [[Cannot_vs_Must|cannot]] be destroyed or dealt damage.) <p> After an enemy creature is destroyed fighting Nizak, The Forgotten, return that creature to its owner\u2019s hand.",
+        "old_value": "While fighting, Nizak, The Forgotten gains [[Invulnerable|invulnerable]]. (It cannot be destroyed or dealt damage.) <p> After an enemy creature is destroyed fighting Nizak, The Forgotten, return that creature to its owner\u2019s hand."
+      }
+    }
+  },
+  "Orb of Wonder (Anomaly)": {
+    "reason": "+update",
+    "values_changed": {
+      "root.data_types['CardData']['Orb of Wonder (Anomaly)']['FlavorText']": {
+        "new_value": "\u201cIf you had seen what I have seen, you\u2019d be mad too.\u201d - the [[Mad Prophet Gizelhart|Mad Prophet Gizelhart]]",
+        "old_value": "\u201cIf you had seen what I have seen, you\u2019d be mad too.\u201d \u2013 the [[Mad Prophet Gizelhart]]"
+      },
+      "root.data_types['CardData']['Orb of Wonder (Anomaly)']['SearchFlavorText']": {
+        "new_value": "\u201cIf you had seen what I have seen, you\u2019d be mad too.\u201d - the Mad Prophet Gizelhart",
+        "old_value": "\u201cIf you had seen what I have seen, you\u2019d be mad too.\u201d \u2013 the Mad Prophet Gizelhart"
+      }
+    }
+  },
+  "Timequake (Anomaly)": {
+    "reason": "+update",
+    "values_changed": {
+      "root.data_types['CardData']['Timequake (Anomaly)']['Rarity']": {
+        "new_value": "Special",
+        "old_value": "Fixed"
+      }
+    }
+  },
+  "Valoocanth (Anomaly)": {
+    "reason": "+update",
+    "values_changed": {
+      "root.data_types['CardData']['Valoocanth (Anomaly)']['Text']": {
+        "new_value": "While the [[Tide|tide]] is low, Valoocanth [[Cannot_vs_Must|cannot]] be used. (By default, the [[Tide|tide]] is neither high or low.) <p> '''Fight/Reap:''' Exhaust an enemy creature and each of its neighbors.",
+        "old_value": "While the [[Tide|tide]] is low, Valoocanth cannot be used. (By default, the tide is neither high or low.) <p> '''Fight/Reap:''' Exhaust an enemy creature and each of its neighbors."
+      }
+    }
+  }
+}

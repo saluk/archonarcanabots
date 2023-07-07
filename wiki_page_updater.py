@@ -37,18 +37,42 @@ parser.add_argument("--locale_only", action="store_true", help="when updating ca
 parser.add_argument("--testfile", type=str, help="a json of test data to load for functions that take tests")
 parser.add_argument("--sheet", type=str, help="The spreadsheet name to merge")
 parser.add_argument("--restrict_expansion", type=int, help="Expansion number to limit")
+parser.add_argument("--build_locales", type=bool, help="Whether or not to build locales when building the wiki db", default=False)
 args = parser.parse_args()
 args.pause = not args.batch
 print(vars(args))
 
 if __name__ == "__main__":
+    # Run this first to update our json files from what was recorded from the masterv ault in the postgresql db
+    if args.command == "build_wiki_db":
+        from models import wiki_card_db
+        wiki_card_db.build_json(build_locales=args.build_locales)
+    # Old import cards method
     if args.command == "import_cards":
         import tool_update_cards
         tool_update_cards.update_cards_v2(wp, args.search, "importing card data", 
                                             "carddb", args.restricted.split("|") if args.restricted else [],
                                             restrict_expansion=args.restrict_expansion,
                                             upload_image=args.images,
-                                            pause=args.pause)
+                                            pause=False)
+    # Use this command to create a json file of card changes from the mastervault
+    if args.command == "read_card_changes":
+        if args.restrict_expansion:
+            import tool_change_cards_json
+            tool_change_cards_json.read_changes(
+                wp, args.search, 
+                restrict_expansion=args.restrict_expansion
+            )
+        else:
+            print("""You must restrict the expansion. The changes will be in terms of updating
+            the database in the context of a given expansion, where updates for the current
+            set are determined to be updates to spoiler data, and updates to cards
+            that were previously in other sets will be made into card revisions.""")
+    # After editing the json changes file, use this command to write the changes to the database
+    if args.command == "write_card_changes":
+        import tool_change_cards_json
+        tool_change_cards_json.write_changes(
+            wp, f'data/changed_cards_{args.restrict_expansion}.json')
     if args.command == "import_cards_locale":
         import tool_update_cards
         for locale in args.locale.split(","):
@@ -102,9 +126,6 @@ if __name__ == "__main__":
         # Gets cards that have extra content in their wikipage besides DB content
         import tool_update_cards
         tool_update_cards.show_cards_with_extra(wp)
-    if args.command == "build_wiki_db":
-        from models import wiki_card_db
-        wiki_card_db.build_json()
     if args.command == "translate_traits":
         from models import wiki_card_db
         wiki_card_db.translate_all_traits()
@@ -141,3 +162,9 @@ if __name__ == "__main__":
             for card_name in wiki_card_db.locales[locale]:
                 if wiki_card_db.locales[locale][card_name]['front_image'].find('/en/') >= 0:
                     print(locale, card_name, wiki_card_db.locales[locale][card_name]['front_image'])
+    if args.command == "update_anomaly_sets":
+        # TODO 
+        # select distinct(name) from cards where deck_expansion=(set to fix) and data->>'expansion'='453' order by name;
+        # ensure each of the (Anomaly) cards for this name are in the given set
+        # ensure other (Anomaly) cards are NOT in the given set
+        pass

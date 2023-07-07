@@ -21,6 +21,35 @@ hard_code = {
 }
 
 
+unicode_to_icon_letter = {
+    '\uf360': 'A',
+    '\uf565': 'PT',
+    '\uf36f\uf560': 'PT',
+    '\uf560': 'PT',
+    '\uf361': 'D',
+    '\uf36e': 'R'
+}
+
+icon_letter_to_wiki_text = {
+    'A': '{{Aember}}',
+    'PT': '{{Capture}}',
+    'D': '{{Damage}}',
+    'R': '{{Draw}}'
+}
+
+unicode_to_wiki_text = {}
+for k in unicode_to_icon_letter:
+    unicode_to_wiki_text[k] = icon_letter_to_wiki_text[unicode_to_icon_letter[k]]
+unicode_or_icon_letter_to_wiki_text = {}
+unicode_or_icon_letter_to_wiki_text.update(unicode_to_wiki_text)
+unicode_or_icon_letter_to_wiki_text.update(icon_letter_to_wiki_text)
+
+
+def multiple_replace(string, rep_dict):
+    pattern = re.compile("|".join([re.escape(k) for k in sorted(rep_dict,key=len,reverse=True)]), flags=re.DOTALL)
+    return pattern.sub(lambda x: rep_dict[x.group(0)], string)
+
+
 def sanitize_name(name):
     name = bleach.clean(name.replace("[", "(").replace("]", ")"))
     name = util.dequote(name)
@@ -31,11 +60,12 @@ def sanitize_trait(trait):
     return trait.replace("[","").replace("]","")
 
 def sanitize_text(text, flavor=False):
-    print("sanitize: start with",text)
     t = re.sub("(?<!\.)\.\.{1}$", ".", text)
     t = t.replace("_x000D_", '\r')
     t = t.replace("\ufeff", "")
     t = t.replace("\u202f", " ")
+    t = t.replace("\xa0", " ")
+    t = re.sub("(\u2011|\u2013|\u2014)", "-", t)
     t = t.replace("<softreturn>", "\r")
     t = t.replace("<nonbreak>", " ")
     if flavor:
@@ -43,7 +73,6 @@ def sanitize_text(text, flavor=False):
     # Hack because of dust pixie and virtuous works
     if t.strip() in ["(Vanilla)", "0"]:
         t = ""
-    print("end with", repr(t))
     return t.strip()
 
 
@@ -56,7 +85,8 @@ def test_sanitize():
     assert sanitize_text("'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]].\ufeff\ufeff") == "'''Play:''' Deal 4{{Damage}} to a creature that is not on a [[Flank|flank]], with 2{{Damage}} [[Splash|splash]]."
     assert sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True) == "\u201cThe Red Shroud will defend the Crucible from the threat of dark \u00e6mber.\u201d", repr(sanitize_text("\u201cThe Red Shroud will defend the Crucible\r\nfrom the threat of dark \u00e6mber.\u201d", flavor=True))
     assert sanitize_text("something    \n    something else", flavor=True)=="something something else"
-    assert sanitize_text("\u201cThe sky\u2019s the limit...for now.\u201d <softreturn>\u2014Dr.<nonbreak>Verokter", flavor=True) == "\u201cThe sky\u2019s the limit...for now.\u201d \r\u2014Dr. Verokter"
+    print(repr(sanitize_text("\u201cThe sky\u2019s the limit...for now.\u201d <softreturn>\u2014Dr.<nonbreak>Verokter", flavor=True)))
+    assert sanitize_text("\u201cThe sky\u2019s the limit...for now.\u201d <softreturn>\u2014Dr.<nonbreak>Verokter", flavor=True) == "\u201cThe sky\u2019s the limit...for now.\u201d \r-Dr. Verokter"
 
 test_sanitize()
 
@@ -71,11 +101,12 @@ Invulnerable
 Omega
 Poison
 Skirmish
-Taunt""".split("\n")
+Taunt
+Splash-attack""".split("\n")
 keywords = [x for x in keywords if x.strip()]
 
-# TODO - as if it were yours, if you do, center of the battleline, preceding, instead and splash
 replacement_links = {
+    "Splash-attack": "Splash-Attack_(X)",
     "ward": "Ward",
     "enrage": "Enrage",
     "exalt": "Exalt",
@@ -106,16 +137,19 @@ replacement_links = {
     "if you do": "if you do",
     "Center of your Battleline": "Center of the Battleline",
     "instead": "Replacement Effects",
+    "forging keys": "Forge",
     "forge a key": "Timing_Chart#Forge_a_Key",
     "current cost": "Cost",
     "cost": "Cost",
     "spent": "Forge",
     "spend": "Forge",
-    "forging keys": "Forge",
     "take control": "Control",
     "control": "Control",
     "for each": "For each",
-    "tide": "Tide"
+    "tide": "Tide",
+    "cannot": "Cannot_vs_Must",
+    "token creature": "Token Creatures",
+    "token creatures": "Token Creatures"
     # TODO - ready and fight
 }
 for kw in keywords:
@@ -167,55 +201,51 @@ enhanced_regex = {
 def read_enhanced(text, locale=None):
     # Enhancements
     t = enhanced_regex.get(locale, enhanced_regex[None])
+    enhance_characters = list(unicode_to_icon_letter.keys()) + list(icon_letter_to_wiki_text.keys())
+    enhance_character_join = "|".join(enhance_characters)
     if locale == 'ko-ko':  # Korean changes the order so we have to special case it
-        regex = "(\(*(A|\uf360|PT|\uf565|D|\uf361|R|\uf36e)*\)* %s)"
+        regex = f"(\(*(({enhance_character_join})*)\)* {t})"
     else:
-        regex = "(%s \(*(A|\uf360|PT|\uf565|D|\uf361|R|\uf36e)*\)*)"
-    regex = regex % (t,)
-    print(regex, locale)
+        regex = f"(({t}) \(*(({enhance_character_join})*)\)*)"
     enhanced = re.match(regex, text)
     ea=ept=ed=er=0
     if enhanced:
-        print(enhanced)
-        ea = enhanced.group(0).count('A')+enhanced.group(0).count('\uf360')
-        a = "{{Aember}}" * ea
-        ept = enhanced.group(0).count('PT')+enhanced.group(0).count('\uf565')
-        pt = "{{Capture}}" * ept
-        ed = enhanced.group(0).count('D')+enhanced.group(0).count('\uf361')
-        d = "{{Damage}}" * ed
-        er = enhanced.group(0).count('R')+enhanced.group(0).count('\uf36e')
-        r = "{{Draw}}" * er
-        text = text[:enhanced.start()] + "[[Enhance|%s]] " % t + "".join([a, pt, d, r]) + text[enhanced.end():]
+        replaced_text = multiple_replace(enhanced.group(3), unicode_or_icon_letter_to_wiki_text)
+        print("replaced:", replaced_text)
+        ea = replaced_text.count("{{Aember}}")
+        ept = replaced_text.count("{{Capture}}")
+        ed = replaced_text.count("{{Damage}}")
+        er = replaced_text.count("{{Draw}}")
+        text = text[:enhanced.start()] + "[[Enhance|%s]] " % t + replaced_text + text[enhanced.end():]
     return text, {'enhance_amber':ea, 'enhance_capture':ept, 'enhance_damage':ed, 'enhance_draw':er}
 
 print(read_enhanced("Enhance \uf360\uf360\uf360\uf36e\uf361\uf361\uf565\uf565\uf565\uf565"))
 print(read_enhanced("\uf360\uf360\uf360\uf36e\uf361\uf361\uf565\uf565\uf565\uf565 강화", "ko-ko"))
 print(read_enhanced("Enhance (\uf565\uf565). (These icons have already been added to cards in your deck.) <p> Reap: Exhaust a creature."))
+print(read_enhanced("Enhance . (These icons have already been added to cards in your deck.)\n")) # Aember, Aember, Damage
 
 def modify_card_text(text, card_title, flavor_text=False):
     # Clean up carriage returns
     text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
     # Clean up spaces
-    text = re.sub("\u202f", " ", text)
-
-    # If there is an "A" at the begining of a sentance, don't replace it
-    # Po's Pixies has an aember symbol at the begining of a sentance
-    if card_title not in ["Po’s Pixies", "Sack of Coins"]:
-        text = re.sub(r"(^|: |\. |\r)A", r"\1$A$", text)
+    text = re.sub("(\u202f|\u00a0|\xa0)", " ", text)
 
     # Turn <A> or something A or 1A or +A or -A into {{Aember}} or {{Aember}} or 1{{Aember}}
-    text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}(A|\uf360)\>{0,1}( |$|\.|\,)", r"\1\2{{Aember}}\4", text)
-    text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}(D|\uf361)\>{0,1}( |$|\.|\,)", r"\1\2{{Damage}}\4", text)
-    # Bonus icon PT's and R's
-    text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}(PT|\uf565)\>{0,1}( |$|\.|\,)", r"\1\2{{Capture}}\4", text)
-    text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}(R|\uf36e)\>{0,1}( |$|\.|\,)", r"\1\2{{Draw}}\4", text)
-    # Tide icon
-    text = re.sub(r"\uf566", r"{{Tide}}", text)
-
-    # Replace A's at the begining of the sentance again
-    text = re.sub(r"\$A\$", "A", text)
-
     if not flavor_text:
+        # If there is an "A" at the begining of a sentance, don't replace it
+        # Po's Pixies has an aember symbol at the begining of a sentance
+        if card_title not in ["Po’s Pixies", "Sack of Coins"]:
+            text = re.sub(r"(^|: |\. |\r)A", r"\1$A$", text)
+
+        # Different from read_enhanced, as these icons can appear elsewhere in card text
+        for k in unicode_or_icon_letter_to_wiki_text:
+            v = unicode_or_icon_letter_to_wiki_text[k]
+            text = re.sub(r"( |\+|\-|–|\r|\+X)(\d+)*\<{0,1}("+k+")\>{0,1}( |$|\.|\,)", r"\1\2"+v+r"\4", text)
+        # Tide icon
+        text = re.sub(r"\uf566", r"{{Tide}}", text)
+
+        # Replace A's at the begining of the sentance again
+        text = re.sub(r"\$A\$", "A", text)
         # bold abilities at the begining of a line or following a new line, or following a tide icon
         # locale = en
         text = re.sub(r"(^|\r|“|‘|\"| *{{Tide}} *)((\w|\/| )+\:)", r"\1'''\2'''", text)
@@ -233,6 +263,8 @@ def modify_card_text(text, card_title, flavor_text=False):
     text = re.sub(r"(<p>| )+$", "", text)
     return text
 
+print(repr(modify_card_text("[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Damage}}{{Damage}}{{Draw}}{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a \uf36f\uf560 bonus icon [[Replacement Effects|instead]].", "")))
+
 def modify_search_text(text):
     # Clean up carriage returns
     text = re.sub("(\r\n|\r|\x0b|\n)", "\r", text)
@@ -242,8 +274,13 @@ def modify_search_text(text):
     text = re.sub(r"(\u000b|\r)", " <p> ", text)
     # Replace trailing <p> and spaces
     text = re.sub(r"(<p>| )+$", "", text)
+    # All unicode maps
+    text = multiple_replace(
+        text, unicode_to_icon_letter
+    )
     return text
 
+print(repr(modify_search_text('After Reap: Give control of a friendly artifact to your opponent. If you do, they must give you 2\uf360.')))
 
 def linking_keywords(text):
     for kwr in remove_links_regex:
@@ -290,6 +327,11 @@ def rename_card_data(card_data, locale=None):
             new_name = commands["rename_expansion"][exp]
             new_name = new_name.replace("%s", ot)
             ot = new_name
+        subs = commands.get("substitute", {})
+        for subk in subs:
+            for field in card_data.keys():
+                if hasattr(card_data[field], "replace"):
+                    card_data[field] = card_data[field].replace(subk, subs[subk])
 
     title_modifications = []
     if card_data.get("is_anomaly", False):
@@ -302,7 +344,6 @@ def rename_card_data(card_data, locale=None):
     if title_modifications:
         ot += " (%s)" % ", ".join(title_modifications)
 
-    print(f"New card title: {card_data['card_title']} -> {ot}")
     card_data["card_title"] = ot
     return card_data
 

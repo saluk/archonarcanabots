@@ -11,6 +11,7 @@ from util import SEPARATOR
 from models import shared, mv_model, wiki_model
 import csv
 import bleach
+from progress.bar import Bar
 
 cards = {}
 locales = {}
@@ -24,7 +25,6 @@ def sanitize_name(name):
 def sanitize_trait(trait):
     return trait.replace("[","").replace("]","")
 
-card_title_reg = []
 card_title_reg_2 = {}
 trait_reg = []
 
@@ -33,41 +33,36 @@ blacklist_card_names = [
     "fear"
 ]
 
-def card_titles_that_link():
-    return [x for x in get_card_titles() if not x.lower() in blacklist_card_names]
+# TODO add token creatures to blacklist:
+# select distinct(name) from cards where data->>'card_type'='Token Creature';
 
 
+linking_titles = []
 def link_card_titles(text, original_title):
     # Clean up original title from tags we added that wouldn't be in the card text
     original_title = original_title.replace("(Anomaly)","").replace("(Evil Twin)","").strip()
-    if not card_title_reg:
-        card_titles = sorted([x for x in card_titles_that_link() if not x.lower() in blacklist_card_names])
-        card_titles = "|".join(card_titles).replace("(", r"\(").replace(")", r"\)")
-        card_titles = re.sub('["””“]', ".", card_titles)
-        r = r"(^|[^[a-z\-])("+card_titles+r")([^\]a-z]|$)"
-        card_title_reg.append(
-            re.compile(r, flags=re.IGNORECASE)
-        )
-    card_titles = sorted([x for x in card_titles_that_link() if not x.lower() in blacklist_card_names])
-    for t in card_titles:
-        t = re.sub("\(.*?\)","", t).strip()
-        if not t:
-            continue
-        if t in card_title_reg_2:
-            continue
-        r = r"(^|[^[a-z\-])("+re.sub('["””“]', ".", t)+r")([^\]a-z]|$)"
-        r = re.compile(r, flags=re.IGNORECASE)
-        card_title_reg_2[t] = r
-    #print(card_title_reg_2)
-    print("text:", repr(text))
+    if not linking_titles:
+        card_title_reg_2.clear()
+        linking_titles[:] = sorted([x for x in card_titles_that_link() if not x.lower() in blacklist_card_names])
+        for t in linking_titles:
+            t = re.sub("\(.*?\)","", t).strip()
+            if not t:
+                continue
+            r = r"(^|[^[a-z])("+re.sub('["””“]', ".", t)+r")([^\]a-z]|$)"
+            r = re.compile(r, flags=re.IGNORECASE)
+            card_title_reg_2[t] = r
     # Replace self-referential card title with no link
-    text = re.sub(r"(^|[^[a-z\-])("+original_title+r")([^\]a-z]|$)", r"\1STITLE\2ETITLE\3", text, flags=re.IGNORECASE)
-    print("self ref text", repr(text))
+    # Do we allow linking when the title follows a hyphen? This is sometimes used for quotes
+    text = re.sub(r"(^|[^[a-z])("+original_title+r")([^\]a-z]|$)", r"\1STITLE\2ETITLE\3", text, flags=re.IGNORECASE)
+    links_found = 0
     for (t, r) in card_title_reg_2.items():
         # Replace card titles with link
-        text = re.sub(r, r"\1[[STITLE"+t+r"|\2ETITLE]]\3", text)
+        text,c = re.subn(r, r"\1[[STITLE"+t+r"|\2ETITLE]]\3", text, count=1)
         # Replace remaining matches with STITLE/ETITLE tags
         text = re.sub(r, r"\1STITLE\2ETITLE\3", text)
+        links_found += c
+    if links_found:
+        print(f"  links found in [{original_title}]: {links_found} -- {text}")
     return text
 
 traits_blacklist = [
@@ -86,7 +81,6 @@ def link_card_traits(card, preload_traits=[]):
         card_traits = [t for t in card_traits if t not in traits_blacklist]
         card_traits = "|".join(card_traits).replace("(", r"\(").replace(")", r"\)")
         card_traits = re.sub('["””“]', ".", card_traits)
-        print(r"(^|[^[a-z\-])("+card_traits+r")([^\]a-z]|$)")
         trait_reg.append(
             re.compile(r"(^|[^[a-z\-])("+card_traits+r")([^\]a-z]|$)", flags=re.IGNORECASE)
         )
@@ -103,7 +97,6 @@ def link_card_traits(card, preload_traits=[]):
         bits.append(card["card_text"][match.end(1):])
     else:
         bits = [card["card_text"]]
-    #print(repr(bits))
     #Only do replacements in bits of text that are NOT within STITLE and ETITLE
     allowed = True
     for i in range(len(bits)):
@@ -114,8 +107,6 @@ def link_card_traits(card, preload_traits=[]):
             allowed = True
             continue
         if allowed:
-            #print("is allowed")
-            #print(re.findall(trait_reg[0], bits[i]), bits[i])
             bits[i] = re.sub(trait_reg[0], r'\1[http://archonarcana.com/Card_Gallery?traits=\2 \2]\3', bits[i])
     card["card_text"] = "".join(bits)
     return card["card_text"]
@@ -204,6 +195,10 @@ def get_card_titles():
     return list(cards.keys()) + get_unidentified_characters()
 
 
+def card_titles_that_link():
+    return [x for x in get_card_titles() if not x.lower() in blacklist_card_names]
+
+
 def get_card_by_number(num, expansion):
     num_index = {}
     for card in cards:
@@ -215,8 +210,8 @@ def get_card_by_number(num, expansion):
     return num_index[(num, str(expansion))]
 
 
-def add_card(card, cards):
-    print(f"+ Get card data for {card}")
+def add_card(card, cards, bar=None):
+    #print(f"+ Get card data for {card}")
     card_data = wiki_model.card_data(card)
     if "'" in card_data["card_title"]:
         print(card_data)
@@ -227,14 +222,15 @@ def add_card(card, cards):
     #add_artists_from_text(cards)
     #build_links([card_data["card_title"]])
     clean_fields_data(card_data)
+    if bar:
+        bar.next()
     return card_data
 
 
 def build_localization(scope, cards, locales, from_cards=None):
-    print("build localization")
+    print("+build localization")
     if from_cards is None:
         from_cards = list(scope.get_locale_cards())
-    print(len(from_cards))
     for card in from_cards:
         #print("card data-ify",card.en_name)
         translated_card_data = wiki_model.card_data(card.data, card.locale)
@@ -260,32 +256,30 @@ def build_localization(scope, cards, locales, from_cards=None):
             translated_card_data["image_number"] = card.locale + "-" + translated_card_data["image_number"]
         if card.locale not in locales:
             locales[card.locale] = {}
-        #print("add translated data")
         locales[card.locale][english_data["card_title"]] = translated_card_data
 
 
-def build_links(cards, only=None):
-    print("build links")
-    for card_title in cards:
+def build_links(card_dict, only=None, bar=None):
+    print("+build links")
+    for card_title in card_dict:
         if only and card_title != only:
             continue
-        card = get_latest(card_title)
+        card = get_latest(card_title, card_dict)
         if card.get("_linking_finished", False):
             continue
         card["flavor_text"] = link_card_titles(card["flavor_text"], card_title) #leaves behind stitle/etitle tags
         card["card_text"] = link_card_titles(card["card_text"], card_title)  #leaves behind stitle/etitle tags
-        print("LINKED", card["card_text"], card["flavor_text"])
         link_card_traits(card)  #uses stitle/etitle tags to avoid covering the same ground
-        print("TRAITS", card["card_text"], card["flavor_text"])
         #Clean up stitle/etitle tags
         card["card_text"] = re.sub("(STITLE|ETITLE)", "", card["card_text"])
         card["flavor_text"] = re.sub("(STITLE|ETITLE)", "", card["flavor_text"])
         card["_linking_finished"] = True
-        print("CLEAN", card["card_text"], card["flavor_text"])
+        if bar:
+            bar.next()
 
 
 def add_artists_from_text(cards):
-    print("add artists")
+    print("+add artists")
     for setn in shared.get_set_numbers():
         fn = f"data/artists_{setn}.csv"
         if not os.path.exists(fn):
@@ -304,11 +298,12 @@ def add_artists_from_text(cards):
                 card[str(setn)]["artist"] = artist
 
 
-def save_json(cards, locales):
+def save_json(cards, locales, build_locales=False):
     with open("data/my_card_db.json", "w") as f:
         f.write(json.dumps(cards, indent=2, sort_keys=True))
-    with open("data/my_card_db_locales.json", "w") as f:
-        f.write(json.dumps(locales, indent=2, sort_keys=True))
+    if build_locales:
+        with open("data/my_card_db_locales.json", "w") as f:
+            f.write(json.dumps(locales, indent=2, sort_keys=True))
 
 ignore_fields = ["deck_expansion"]
 def clean_fields_data(data):
@@ -317,7 +312,7 @@ def clean_fields_data(data):
                 del data[key]
 
 def clean_fields(cards, locales):
-    print("clean fields")
+    print("+clean fields")
     for card_name, set_data in cards.items():
         for set_name, card_data in set_data.items():
             clean_fields_data(card_data)
@@ -386,10 +381,12 @@ def process_mv_card_batch(card_batch: list) -> list:
     return card_datas
                 
 
-def build_json(only=None):
+def build_json(only=None, build_locales=False):
     print("++++ Clear memory")
     cards.clear()
-    locales.clear()
+    
+    if build_locales:
+        locales.clear()
 
     print("++++ Getting card batch from postgresql")
     scope = mv_model.UpdateScope()
@@ -398,15 +395,17 @@ def build_json(only=None):
     print("++++ Processing batch")
     card_datas = process_mv_card_batch(card_batch)
     print("++++ Adding cards")
-    [add_card(card_data, cards) for card_data in card_datas]
+    with Bar("Adding Cards", max=len(card_datas)) as bar:
+        [add_card(card_data, cards, bar) for card_data in card_datas]
     print(f"++++ Cards initialized: {len(cards.keys())}")
-    print([title for title in cards.keys() if title.startswith("Gizel")])
     
-    print("++++  Building localization")
-    build_localization(scope, cards, locales)
+    if build_locales:
+        print("++++  Building localization")
+        build_localization(scope, cards, locales)
 
     print("++++  Building links")
-    build_links(cards, only)
+    with Bar("Cards linked:", max=len(cards)) as bar:
+        build_links(cards, only, bar)
 
     print("++++  Adding artists")
     add_artists_from_text(cards)
@@ -415,7 +414,7 @@ def build_json(only=None):
     clean_fields(cards, locales)
 
     print("++++  Saving json")
-    save_json(cards, locales)
+    save_json(cards, locales, build_locales)
     print("++++  saved.")
 
 
@@ -431,10 +430,11 @@ def load_json():
             locales.update(json.loads(f.read()))
 
 
-def get_latest(card_title, fuzzy=False, locale=None):
+def get_latest(card_title, card_dict=cards, fuzzy=False, locale=None):
     if fuzzy:
         card_title = fuzzyfind(card_title)
-    card = get_latest_from_card(cards[card_title], locale)
+    card = get_latest_from_card(card_dict[card_title], locale)
+    card["is_latest"] = True
     return card
 
 
@@ -442,12 +442,10 @@ def get_restricted_dict(source, restricted, pre=""):
     """ Limits a source dictionary to only the keys in restricted """
     if not restricted:
         return source
-    print("restricted",restricted, "pre", pre)
     rd= {}
     if pre:
         pre = pre+"."
     for key in source:
-        print(restricted, pre+key)
         if pre+key in restricted:
             rd[key] = source[key]
     return rd
@@ -481,17 +479,13 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "Traits": latest["traits"],
         "Rarity": latest["rarity"]
     }, restricted)
-    print("{[{ Restricted cardtable", cardtable)
-    print("{[{ original ct", ct.data_types)
     if latest.get("artist", ""):
         cardtable["Artist"] = latest["artist"]
     # TODO This only updates SetData for old cards when we are importing new 
     if not only_sets:
         ct.update_or_create(table, cardtable["Name"], cardtable)
     card_sets = list(get_sets(card))
-    print(card_sets)
     earliest_set = min([s[1] for s in card_sets])
-    print(earliest_set)
     for (set_name, set_num, card_num) in card_sets:
         settable = get_restricted_dict({
             "SetName": set_name,
@@ -500,8 +494,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
             "Meta":"Debut" if set_num == earliest_set else ""
         }, restricted, "SetData")
         ct.update_or_create("SetData", set_name, settable)
-        print(settable)
-    print("Updated ct data", ct.data_types)
+    return ct
 
 
 def get_cargo_locale(card, ct=None, only_sets=False, locale=None, english_name=None):
@@ -606,3 +599,37 @@ def translate_traits(locale):
 
 
 load_json()
+
+def testing_linking_pingle_on_blood_of_titans():
+    print("\nSTART\n")
+    scope = mv_model.UpdateScope()
+    card_batch = scope.get_cards()
+    batches = []
+    for card in card_batch:
+        if card.name != "Blood of Titans" and card.name != "Pingle Who Annoys":
+            continue
+        batches.append(card)
+    card_datas = process_mv_card_batch(batches)
+    print(card_datas)
+    test_cards = {}
+    [add_card(card_data, test_cards) for card_data in card_datas]
+    print(test_cards)
+    build_links(test_cards)
+    print(test_cards)
+
+def testing_enhance_on_Grammaticus_Thrax():
+    print("\nSTART\n")
+    scope = mv_model.UpdateScope()
+    card_batch = scope.get_cards()
+    batches = []
+    for card in card_batch:
+        if card.name != "Grammaticus Thrax":
+            continue
+        batches.append(card)
+    card_datas = process_mv_card_batch(batches)
+    print(card_datas)
+    test_cards = {}
+    [add_card(card_data, test_cards) for card_data in card_datas]
+    print(test_cards)
+    build_links(test_cards)
+    print(test_cards)
