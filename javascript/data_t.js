@@ -1,4 +1,5 @@
-var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange']
+var searchable_sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange']
+var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault Masters 2023']
 var kfa_sets = ['Rise_of_the_Keyraken', 'Abyssal_Conspiracy']
 var spoiler_sets = ['Grim_Reminders']
 var next_spoiler_sets = ['Grim_Reminders']
@@ -11,7 +12,8 @@ var houses_by_set = {
 	'Rise_of_the_Keyraken': new Set(['Keyraken']),
 	'Abyssal_Conspiracy': new Set(['Abyssal']),
 	'Winds_of_Exchange': new Set(['Ekwidon','Sanctum','Saurian','Star_Alliance','Mars','Brobnar','Unfathomable']),
-	"Grim_Reminders": new Set(['Ekwidon','Geistoid','Untamed','Star_Alliance','Mars','Brobnar','Unfathomable'])
+	"Grim_Reminders": new Set(['Ekwidon','Geistoid','Untamed','Star_Alliance','Mars','Brobnar','Unfathomable']),
+	"Vault Masters 2023": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star Alliance', 'Untamed'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -22,6 +24,7 @@ var set_numbers = [
 	[496, "Dark Tidings"],
 	[600, "Winds of Exchange"],
 	[601, "Unchained"],
+	[609, "Vault Masters 2023"],
 	[0, "Grim Reminders"]
 ]
 var set_name_by_number = function(number) {
@@ -102,7 +105,8 @@ var kfa_artists = JSON.parse(kfa_artists)
 var kfa_traits = JSON.parse(kfa_traits)
 //CARDCOMBOS
 
-export {artists, set5artists, kfa_artists, artists_by_set, traits, set5traits, kfa_traits, sets, houses, spoiler_sets, kfa_sets,
+export {artists, set5artists, kfa_artists, artists_by_set, traits, set5traits, kfa_traits, sets, searchable_sets,
+		houses, spoiler_sets, kfa_sets,
 		traits_by_set, 
 		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
 		multiHouseCards,

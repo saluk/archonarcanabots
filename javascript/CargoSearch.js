@@ -1,5 +1,5 @@
 import {EditField, minmax} from './FormElements'
-import {artists, set5artists, artists_by_set, traits, set5traits, sets, houses, spoiler_sets, kfa_sets, kfa_artists, kfa_traits,
+import {artists, set5artists, artists_by_set, traits, set5traits, sets, searchable_sets, houses, spoiler_sets, kfa_sets, kfa_artists, kfa_traits,
   traits_by_set,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
   types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, images} from './data'
@@ -23,7 +23,7 @@ var searchFields = [
   new EditField('text', 'cardname', {'attach':'div.card-name-entries', 'split_on': '+', 'basic':true}),
   new EditField('checkbox', 'sets', 
     {'label':'Sets', 'basic':true,
-     'values':sets.concat(['Exclude Reprints']), 'divclass':'set', 'attach':'div.set-entries'}), 
+     'values':searchable_sets.concat(['Exclude Reprints']), 'divclass':'set', 'attach':'div.set-entries'}), 
   new EditField('checkbox', 'types', 
     {'label':'Types', 'basic':true,
      'values':types, 'divclass':'type', 'attach':'div.type-entries'}), 
@@ -172,7 +172,7 @@ var CSearch = {
     this.spoilers = this.element.attr('data-spoilers')!=null;
     this.countField = this.spoilers? 'CardNumber': 'Name'
     this.format = parseQueryString('format')
-    this.available_sets = sets.concat("Exclude Reprints")
+    this.available_sets = searchable_sets.concat("Exclude Reprints")
     if(this.mode !== 'main') {
       this.available_sets = [this.mode]
     } 
@@ -497,6 +497,7 @@ var CSearch = {
     if(join_sets){
       var joinon = '&join_on='+card_db+'._pageName=SetData._pageName'
     }
+    // TODO why does limit care about the length of the global sets list?
     var limitq = '&limit=' + this.pageSize * sets.length
     var offsetq = '&offset=' + this.offset
     if (this.order_by.length==0){
