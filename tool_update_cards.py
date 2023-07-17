@@ -217,8 +217,10 @@ def update_cards_v2(wp, search_name=None,
             continue
         latest = wiki_card_db.get_latest(card_name, locale=locale)
         if matching and matching.lower() not in (latest["flavor_text"]+latest["card_text"]).lower():
+            print("not matching")
             continue
         if restrict_expansion and not latest["expansion"] == restrict_expansion:
+            print(latest["expansion"])
             continue
         started = True
         print('++ ',i+1, card_name)
@@ -227,10 +229,12 @@ def update_cards_v2(wp, search_name=None,
         if upload_image:
             print(' + upload image for card')
             texts.append(upload_image_for_card(wp, locale, latest))
-        if data_to_update == "update_card_views":
+        elif data_to_update == "update_card_views":
+            crash
             print(' + update card views')
             texts.extend(update_card_views(wp, card_name, pause=pause, locale_only=locale_only, only_new_edits=only_new_edits))
         else:
+            crash
             print(' + update card page cargo')
             texts.append(update_card_page_cargo(
                 wp, wiki_card_db.cards[card_name],
