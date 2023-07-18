@@ -37,7 +37,7 @@ def object_as_dict(obj):
 def postgres_upsert(session, table, obs):
     for ob in obs:
         d = object_as_dict(ob)
-        sql = insert(table, bind=session).values(d)
+        sql = insert(table).values(d)
         sql = sql.on_conflict_do_update(
             #constraint = inspect(table).primary_key,
             index_elements = [c.key for c in inspect(table).primary_key],
@@ -186,13 +186,13 @@ class UpdateScope(object):
     def clean_scrape(self, page=None):
         session = Session()
         if page:
-            session.execute("""
+            session.execute(text("""
             delete from back_scrape_page
-            where page=%d""" % page)
+            where page=%d""" % page))
         else:
-            session.execute("""
+            session.execute(text("""
             delete from back_scrape_page
-            where decks_scraped IS NULL OR decks_scraped<24""")
+            where decks_scraped IS NULL OR decks_scraped<24"""))
         session.commit()
         if page:
             return
@@ -313,6 +313,7 @@ class Deck(Base):
     name_sane = Column(String)
     expansion = Column(Integer)
     data = Column(JSONB)
+    global_index = Column(Integer)  # Generated value based on page*24-24+1+index
     cards = relationship('Card', secondary='deck_cards')
 
     def __init__(self, *args, **kwargs):
@@ -392,7 +393,7 @@ class Card(Base):
     deck_expansion = Column(Integer, primary_key=True)
     name = Column(String)
     data = Column(JSONB)
-    decks = relationship("Deck", secondary="deck_cards", lazy="dynamic")
+    decks = relationship("Deck", secondary="deck_cards", lazy="dynamic", viewonly=True)
     UniqueConstraint('key', 'deck_expansion')
     
     @property
@@ -524,6 +525,10 @@ if Session:
 
 if __name__ == "__main__":
     scope = UpdateScope()
+    session = Session()
+    q = session.query(Deck)
+    decks = q.filter(Deck.global_index==3000000).all()
+    print(decks[0].name)
     #scope.add_proxy('http://205.126.14.171:800')
     #scope.add_proxy('http://104.154.143.77:3128')
     holes = []

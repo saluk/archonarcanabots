@@ -64,7 +64,7 @@ def calc_legacy_maverick(card_data, expansions, session=session):
                 deck_ids.append(deckcount.deck_key)
     return {"houses":counts, "decks": deck_ids}
 
-def expansion_totals():
+def expansion_totals(session=session):
     exp_totals = {}
     counts = session.query(mv_model.Counts).filter(mv_model.Counts.label.like('total_%')).all()
     for c in counts:

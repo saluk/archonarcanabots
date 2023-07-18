@@ -321,7 +321,7 @@ def get_card_stats(card_name:str):
         #      Also: for each set that the card exists in, what is the percentage of decks that have that house that also contain that card? [Different stats per set] 
         #- for sets that don't contain that card, but come after its original printing, what percentage of decks have that card as a legacy? [Different stats per set]
         # Number of copies of that card by set?
-        total_decks = card_stats.expansion_totals()
+        total_decks = card_stats.expansion_totals(session=session)
         print(total_decks)
         percent_expansions = {}
         for exp, counts in count_expansions.items():
