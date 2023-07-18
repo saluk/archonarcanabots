@@ -6,6 +6,7 @@ import re
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import BackgroundTasks
 from jose import jwt,JWTError
 from datetime import datetime, timedelta
 import sys, os, traceback
@@ -16,6 +17,7 @@ import util
 import passwords
 import connections
 from mastervault import dok, deck_writer
+from mastervault.mastervault import MasterVault
 from passlib.context import CryptContext
 from pydantic import BaseModel
 
@@ -32,6 +34,8 @@ engine = sqlalchemy.create_engine(
     connect_args={'connect_timeout': 15}
 )
 Session = scoped_session(sessionmaker(bind=engine))
+
+mv = MasterVault()
 
 from contextlib import contextmanager
 
@@ -87,6 +91,8 @@ class UserInDB(BaseModel):
     email: str
     hashed_password: str
     dok_key: str
+    keyforgegame_auth: str
+    keyforgegame_uuid: str
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -101,8 +107,17 @@ def get_user(email:str):
         api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==email).first()
         if api_user:
             return UserInDB(uuid=api_user.uuid, email=api_user.email, 
-                            hashed_password=api_user.hashed_password, dok_key=api_user.dok_key or '')
-        return UserInDB(uuid=uuid.uuid4(), email="user_not_found", hashed_password=email, dok_key="")
+                            hashed_password=api_user.hashed_password, dok_key=api_user.dok_key or '',
+                            keyforgegame_auth=api_user.keyforgegame_auth or '',
+                            keyforgegame_uuid=api_user.keyforgegame_uuid or '')
+        return UserInDB(
+            uuid=uuid.uuid4(),
+            email="user_not_found",
+            hashed_password=email,
+            dok_key="",
+            keyforgegame_auth="",
+            keyforgegame_uuid=""
+        )
 
 def authenticate_user(email: str, password: str):
     user = get_user(email)
@@ -170,7 +185,7 @@ async def mydecks(current_user: UserInDB = Depends(get_current_user)):
                 "name":deck.name,
                 "mastervault_link":"https://www.keyforgegame.com/deck-details/"+deck.key
             })
-        return {"user":current_user,"decks":decks}
+        return {"user":current_user,"decks":decks,"count":len(decks)}
 
 @mvapi.get("/decks/get", tags=["mastervault-clone"])
 def deck(key:Optional[str]=None, name:Optional[str]=None, id_:Optional[int]=None):
@@ -359,7 +374,9 @@ def create_user(admin_key:str, email:str, password:str):
 @mvapi.post('/user/update', tags=["user-operation"])
 def update_user(current_user: UserInDB = Depends(get_current_user),
                 email:Optional[str]=None, password:Optional[str]=None,
-                dok_key:Optional[str]=None):
+                dok_key:Optional[str]=None,
+                keyforgegame_auth:Optional[str]=None,
+                keyforgegame_uuid:Optional[str]=None):
     with session_scope() as session:
         api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==current_user.email).first()
         if dok_key:
@@ -368,25 +385,54 @@ def update_user(current_user: UserInDB = Depends(get_current_user),
             api_user.email = email
         if password:
             api_user.hashed_password = pwd_context.hash(password)
+        if keyforgegame_auth != None:
+            api_user.keyforgegame_auth = keyforgegame_auth
+        if keyforgegame_uuid != None:
+            api_user.keyforgegame_uuid = keyforgegame_uuid
         session.add(api_user)
         session.commit()
         user = get_user(api_user.email)
         return user
+    
+def task_sync_mv(user_uuid, keyforgegame_uuid, keyforgegame_auth):
+    print("sync mv")
+    keys = [
+        deck['id'] for deck in mv.get_user_decks(keyforgegame_uuid, keyforgegame_auth)
+    ]
+    with session_scope() as session:
+        mv_model.postgres_upsert(session, mv_model.OwnedDeck, [
+            mv_model.OwnedDeck(deck_key=key, user_key=user_uuid)
+            for key in keys
+        ])
+        session.commit()
+    print("finished")
 
-@mvapi.get('/user/decks/get_dok', tags=["user-operation"])
-def update_user_decks(current_user: UserInDB = Depends(get_current_user)):
+
+def task_sync_dok(user_uuid, dok_key):
+    print("sync dok")
+    keys = [
+        deck['deck']['keyforgeId'] for deck in dok.get_decks(dok_key)
+    ]
+    with session_scope() as session:
+        mv_model.postgres_upsert(session, mv_model.OwnedDeck, [
+            mv_model.OwnedDeck(deck_key=key, user_key=user_uuid)
+            for key in keys
+        ])
+        session.commit()
+    print("finished")
+
+
+@mvapi.get('/user/decks/sync', tags=["user-operation"])
+def update_user_decks(current_user: UserInDB = Depends(get_current_user), background_tasks:BackgroundTasks=None):
     with session_scope() as session:
         api_user = session.query(mv_model.ApiUser).filter(mv_model.ApiUser.email==current_user.email).first()
-        dok_decks = dok.get_decks(api_user.dok_key)
-        add_decks = []
-        for deck in dok_decks:
-            add_decks.append(mv_model.OwnedDeck(deck_key=deck['deck']['keyforgeId'], user_key=api_user.uuid))
-        mv_model.postgres_upsert(session, mv_model.OwnedDeck, add_decks)
-        session.commit()
-        return {"updated":len(dok_decks)}
+        if api_user.dok_key:
+            background_tasks.add_task(task_sync_dok, api_user.uuid, api_user.dok_key)
+        if api_user.keyforgegame_auth and api_user.keyforgegame_uuid:
+            background_tasks.add_task(task_sync_mv, api_user.uuid, api_user.keyforgegame_uuid, api_user.keyforgegame_auth)
+        return {"tasks added":background_tasks}
 
 
-from fastapi import BackgroundTasks
 def task_write_aa_deck_to_page(page, deck):
     content = deck_writer.write(deck)
     return page.edit(content, "building deck page")

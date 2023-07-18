@@ -218,6 +218,34 @@ class MasterVault:
         [correlate_deck(deck, cards_by_key, cards_by_key_exp) for deck in decks]
         return decks, list(cards_by_key_exp.values()), proxy
 
+    def get_user_decks(self, user_id, user_auth):
+        page = 1
+        page_size = 25
+        decks_found = page_size
+        decks = []
+        while decks_found == page_size:
+            print(f" make query for decks on page:{page}")
+            r = requests.get(f"https://www.keyforgegame.com/api/users/{user_id}/decks/?page={page}&page_size={page_size}&search=&ordering=-date", headers={
+                "Accept": "application/json",
+                "Authorization": f"Token {user_auth}",
+                "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0"
+            })
+            try:
+                d = r.json()
+                if 'data' not in d:
+                    print(" no data ")
+                    break
+            except Exception:
+                print(" exception ")
+                import traceback
+                traceback.print_exc()
+                break
+            decks_found = len(d['data'])
+            decks.extend(d['data'])
+            time.sleep(2.5)
+            page += 1
+        return decks
+
     def insert(self, decks, cards, page):
         with self.insert_lock:
             self.scope.begin()

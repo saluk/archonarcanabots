@@ -452,6 +452,8 @@ class ApiUser(Base):
     email = Column(String, unique=True)
     hashed_password = Column(String)
     dok_key = Column(String)
+    keyforgegame_auth = Column(String)
+    keyforgegame_uuid = Column(String)
 
 
 class OwnedDeck(Base):
