@@ -1,7 +1,7 @@
 import json
 
 from util import cargo_query
-from models import wiki_model
+from models import wiki_model, wiki_card_db
 
 COMMENTARY = """
 <templatestyles src="Template:Card/styles.css" /><templatestyles src="Template:FAQ_Entry/styles.css" />
@@ -135,7 +135,27 @@ class DeckWriter:
 
     def deck_json(self):
         def cd(card):
-            d = wiki_model.card_data(card.data) if self.locale=='en' else wiki_model.card_data(card.data, self.locale)
+            if self.locale != 'en':
+                d = wiki_model.card_data(card.data, self.locale)
+            else:
+                d = wiki_model.card_data(card.data)
+                exp = card.data["expansion"]
+                # TODO - this hack fixes a bug from the mastervault where some enhanced cards show latest expansnion instead of proper expansion
+                if card.data["expansion"] == 609 and card.data["deck_expansion"] < 609:
+                    exp = card.data["deck_expansion"]
+                card_options = wiki_card_db.cards[d["card_title"]]
+                if str(exp) in card_options:
+                    print("found exp", exp)
+                    d1 = card_options[str(exp)]
+                    d.update({
+                        "image_number": d1["image_number"]
+                    })
+                else:
+                    print("didn't find exp", exp)  # Maybe it's a legacy card
+                    d1 = card_options[str(max(int(k) for k in card_options.keys() if int(k) != 609))]
+                    d.update({
+                        "image_number": d1["image_number"]
+                    })
             d.update({
                 "house": card.data["house"],
                 "card_type": card.data["card_type"],
