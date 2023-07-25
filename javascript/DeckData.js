@@ -32,7 +32,7 @@ var preamble = `
 /* decklist preview */
 .decklist-viewer {
   display: grid;
-  grid-template-columns: auto 150px 150px 150px;
+  grid-template-columns: auto auto auto auto;
   grid-template-rows: auto 40px 60px auto 40px 50px;
   grid-gap: 5px;
   background-color: #f0f0f0;
@@ -49,7 +49,7 @@ var preamble = `
   grid-row-start: 4;
   grid-row-end: 7;
   min-width: 200px;
-  max-width: 400px;
+  max-width: 450px;
   padding: 5px 8px 7px 7px;
   margin: 5px;
   border-radius: 3%;
