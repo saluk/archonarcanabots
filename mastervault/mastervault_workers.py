@@ -74,7 +74,7 @@ class Workers:
         self._count_decks_expansion(session)
         logging.debug("--getting distinct")
         for expansion in session.query(mv_model.Deck.expansion).distinct():
-            self._count_decks_expansion(session, expansion)
+            self._count_decks_expansion(session, expansion[0])
         session.commit()
         logging.debug(">>decks counted")
 
@@ -181,6 +181,7 @@ class Workers:
         if expansion:
             expansion_label = "_%s" % expansion
         deckq = session.query(mv_model.Deck)
+        print("expansion:", expansion)
         if expansion:
             deckq = deckq.filter(mv_model.Deck.expansion==expansion)
         total = deckq.count()
