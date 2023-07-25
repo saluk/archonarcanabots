@@ -31,7 +31,8 @@ except:
 
 def object_as_dict(obj):
     return {c.key: getattr(obj, c.key)
-            for c in inspect(obj).mapper.column_attrs}
+            for c in inspect(obj).mapper.column_attrs
+            if c.key != "global_index"}  # TODO check for generated column not global index
 
 
 def postgres_upsert(session, table, obs):
@@ -86,6 +87,8 @@ class UpdateScope(object):
         self.cards.append(card)
 
     def commit(self):
+        # TODO bad circular import
+        from models import deck_card_search
         print("BEFORE COMMIT")
         session = Session()
         #print([o.key for o in self.decks])
@@ -98,6 +101,8 @@ class UpdateScope(object):
             print(" upserted cards")
             postgres_upsert(session, DeckCard, self.deck_cards)
             print(" upserted deck_cards")
+            for deck in self.decks:
+                deck_card_search.create_deck_index(session, deck, True)
             session.commit()
             print(" commit made")
         except:
@@ -420,6 +425,18 @@ class Card(Base):
 
     def aa_format(self):
         return wiki_model.card_data({**self.data})
+
+###
+# Experiment on fast deck searching for card matches
+class T_CARD_INDEX(Base):
+    __tablename__ = "t_card_index"
+    index = Column(String, primary_key=True)
+    name = Column(String)
+
+class T_DECK_CARDS(Base):
+    __tablename__ = "t_deck_cards"
+    deck_key = Column(String, primary_key=True)
+    cards = Column(String)
 
 
 class LocaleCard(Base):
