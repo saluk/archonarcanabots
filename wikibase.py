@@ -135,7 +135,7 @@ class CargoTable:
         text = re.sub("}}( *){{", "}}\n{{", text)
         last_key = ""
         for line in text.split("\n"):
-            print("\t\t", line)
+            #print("\t\t", line)
             if mode == TYPE:
                 if line.startswith("{{"):
                     d["type"] = line[2:]
@@ -209,6 +209,25 @@ class CargoTable:
 
     def get_data(self, datatype):
         return self.get_datas(datatype)[0]
+    
+    def restrict_fields(self, fields=[]):
+        """ Modify the table to only include fields that match those in the list.
+        Use '.' to separate namespace and field """
+        if not fields:
+            return
+        for datatype in list(self.data_types.keys()):
+            subset = self.data_types[datatype]
+            for field in list(subset.keys()):
+                matching = False
+                for match_field in fields:
+                    if match_field in datatype+'.'+str(field):
+                        matching = True
+                        break
+                if not matching:
+                    del self.data_types[datatype][field]
+                    if not self.data_types[datatype]:
+                        del self.data_types[datatype]
+                        break
 
 class MediawikiManager:
     def __init__(self, api):

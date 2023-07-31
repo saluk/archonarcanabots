@@ -61,7 +61,8 @@ if __name__ == "__main__":
             import tool_change_cards_json
             tool_change_cards_json.read_changes(
                 wp, args.search, 
-                restrict_expansion=args.restrict_expansion
+                restrict_expansion=args.restrict_expansion,
+                fields=args.restricted.split("|") if args.restricted else []
             )
         else:
             print("""You must restrict the expansion. The changes will be in terms of updating

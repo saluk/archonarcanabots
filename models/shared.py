@@ -4,7 +4,8 @@ SETS = {452: "WC",
         435: "AoA",
         479: "MM",
         496: "DT",
-        600: "WoE"}
+        600: "WoE",
+        609: "VM2023"}
 SET_NAMES = {
     452: "Worlds Collide",
     453: "Anomaly",
@@ -12,7 +13,8 @@ SET_NAMES = {
     435: "Age of Ascension",
     479: "Mass Mutation",
     496: "Dark Tidings",
-    600: "Winds of Exchange"
+    600: "Winds of Exchange",
+    609: "Vault Masters 2023"
 }
 # TODO turn set data into a row with 3 data points, maybe pull it out of the wiki database
 NEW_SETS = []
@@ -44,15 +46,7 @@ def assigned_set_name(set_num, card_num):
             if icard_num >= r[0] and icard_num <= r[1]:
                 return anomaly_meta[r]
         raise Exception(f"Could not find card number {card_num} in anomaly assignments {anomaly_meta}")
-    return {
-        "452": "Worlds Collide",
-#        "453": "Worlds Collide",  # Put the anomalies in the same set
-        "341": "Call of the Archons",
-        "435": "Age of Ascension",
-        "479": "Mass Mutation",
-        "496": "Dark Tidings",
-        "600": "Winds of Exchange"
-    }.get(str(set_num), NEXT_SET)
+    return SET_NAMES.get(int(set_num), NEXT_SET)
 
 
 def get_set_numbers():

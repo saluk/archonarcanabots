@@ -20,7 +20,7 @@ class textual_diff(BaseOperator):
         if str(level.t1) == str(level.t2):
             return True
 
-def read_change(wp, card, locale=None):
+def read_change(wp, card, locale=None, fields=[]):
     latest_english = wiki_card_db.get_latest_from_card(card)
     latest = wiki_card_db.get_latest_from_card(card, locale)
     page = wp.page("CardData:" + latest_english["card_title"])
@@ -35,6 +35,8 @@ def read_change(wp, card, locale=None):
     except Exception:
         pass
     wiki_card_db.get_cargo(card, ct_new)
+    ct_old.restrict_fields(fields)
+    ct_new.restrict_fields(fields)
     diff = DeepDiff(ct_old, ct_new, custom_operators=[textual_diff(['.*'])], verbose_level=2).to_dict()
     if not diff:
         return diff
@@ -57,7 +59,8 @@ def read_change(wp, card, locale=None):
 def read_changes(wp, search_name=None,
                     restrict_expansion=None,
                     locale=None,
-                    card_name=False):
+                    card_name=False,
+                    fields=[]):
     limit = 1000
     changed = 0
     started = False
@@ -77,6 +80,7 @@ def read_changes(wp, search_name=None,
         diff = read_change(
             wp, wiki_card_db.cards[card_name],
             locale=locale,
+            fields=fields
         )
         if diff:
             found_changes[card_name] = diff
@@ -91,40 +95,38 @@ def read_changes(wp, search_name=None,
         for k in sorted(old):
             if old[k]['reason'] not in ['revision', 'update']:
                 found_changes[k] = old[k]
-    f = open("data/changed_cards.json", "w")
+    f = open(f"data/changed_cards_{restrict_expansion}.json", "w")
     f.write(json.dumps(found_changes, indent=2, sort_keys=True))
     f.close()
 
 def write_changes(wp, filename, locale=None):
     f = open(filename)
-    old = json.loads(f.read())
+    requested_changes = json.loads(f.read())
     f.close()
     limit = 1000
-    changed = 0
-    started = False
-    found_changes = {}
     # lint step
     valid_changes = []
-    for i, card_name in enumerate(old.keys()):
-        card_sets = wiki_card_db.cards[card_name]
-        root = wikibase.CargoTable()
+    for i, card_name in enumerate(requested_changes.keys()):
+        page = wp.page("CardData:" + card_name)
+        print("CardData:" + card_name)
+        ot = page.read()
         old_table = wikibase.CargoTable()
-        wiki_card_db.get_cargo(card_sets, root)
-        # For verifying differences we intentionally made in the json edit
-        wiki_card_db.get_cargo(card_sets, old_table)
+        old_table.read_from_text(ot)
+        new_table = wikibase.CargoTable()
+        new_table.read_from_text(ot)
 
 
-        change_requested = old[card_name]
+        change_requested = requested_changes[card_name]
         if change_requested["reason"] == "skip":
             continue
-        elif not change_requested["reason"] in ["+update", "+revision"]:
+        elif not change_requested["reason"] in ["+update", "+revision", "+addset"]:
             raise Exception(f"Card {card_name} has invalid reason")
 
         changed_fields = {}
         def apply_field(field, value):
             field = field.replace("root.data_types", "")
             subs = re.findall("\[\'(.*?)\'\]", field)
-            ob = root.data_types
+            ob = new_table.data_types
             while len(subs) > 1:
                 ob = ob[subs.pop(0)]
             ob[subs[0]] = value
@@ -146,11 +148,11 @@ def write_changes(wp, filename, locale=None):
                 for field in change_set:
                     apply_field(field, change_set[field])
         #print("AFTER", card_name, root.data_types)
-        diff = DeepDiff(old_table, root, custom_operators=[textual_diff(['.*'])], verbose_level=2).to_dict()
+        diff = DeepDiff(old_table, new_table, custom_operators=[textual_diff(['.*'])], verbose_level=2).to_dict()
         if diff:
             print(diff)
                 
-        valid_changes.append((card_name, root, change_requested, list(changed_fields.keys())))
+        valid_changes.append((card_name, new_table, change_requested, list(changed_fields.keys())))
     
     print(valid_changes)
 
@@ -172,9 +174,24 @@ def write_changes(wp, filename, locale=None):
             update_page(card_name, page, text, "WoE mastervault pull", ot)
             import alerts
             alerts.discord_alert(f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
+        elif change_requested["reason"] == "+addset":
+            page = wp.page("CardData:" + card_name)
+            ot = page.read()
+            ot_cargo = wikibase.CargoTable()
+            ot_cargo.read_from_text(ot)
+            text = ct.output_text()
+            if ot == text:
+                continue
+            print(text)
+            update_page(card_name, page, text, "Adding set data", ot)
+            import alerts
+            alerts.discord_alert(f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
         elif change_requested["reason"] == "+revision":
             print("revisions aren't built into this method yet")
             crash
+        limit -= 1
+        if limit <= 0:
+            return
 
     
 
