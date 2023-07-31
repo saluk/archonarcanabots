@@ -543,6 +543,70 @@ def deck_query(
             ]}
 
 
+@mvapi.get("/deck_query_by_card", tags=["aa-api"])
+def deck_query_by_card(
+        cards:str="",
+        houses:Optional[str]=None,
+        expansions:Optional[str]=None,
+        page:Optional[int]=0,
+        loadcards:Optional[bool]=False,
+        page_size:Optional[int]=15
+    ):
+    from models import deck_card_search
+    with session_scope() as session:
+        found_decks = []
+        card_indexes_and_counts = {}
+        for card_name in [x.strip() for x in cards.split(",")]:
+            index = deck_card_search.create_card_index(session, card_name, new=False)
+            if not index:
+                return {"error": f"{card_name} is not a valid card name"}
+            if index not in card_indexes_and_counts:
+                card_indexes_and_counts[index] = ''
+            card_indexes_and_counts[index] += index
+
+        # Find decks from t_deck_cards that match cards
+        deckq = session.query(mv_model.Deck).join(mv_model.T_DECK_CARDS, mv_model.Deck.key==mv_model.T_DECK_CARDS.deck_key)
+        for index_set in card_indexes_and_counts.values():
+            deckq = deckq.filter(mv_model.T_DECK_CARDS.cards.like('%'+index_set+'%'))
+
+        if houses:
+            houses = [x.strip() for x in houses.split(',')]
+            for h in houses:
+                deckq = deckq.filter(mv_model.Deck.data['_links']['houses'].astext.like('%'+h+'%'))
+        if expansions:
+            expansions = [int(x.strip()) for x in expansions.split(',')]
+            deckq = deckq.filter(or_(
+                *[mv_model.Deck.expansion == expansion for expansion in expansions]
+            ))
+        page_size = min(page_size, 50)
+        deckq = deckq.limit(page_size)
+        deckq = deckq.offset(page*page_size)
+        from sqlalchemy.dialects import postgresql
+        print(deckq.statement.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}))
+        decks = deckq.all()
+        print("finish")
+        def makedeck(d):
+            deck = [
+                    d.key,
+                    d.name,
+                    ", ".join(d.houses),
+                    d.data["expansion"],
+                    d.page
+                ]
+            if loadcards:
+                deck.append([{
+                    "key": card.key,
+                    "data": card.data
+                } for card in d.get_cards()])
+            return deck
+        return {
+            "count": len(decks),
+            "decks":
+            [
+                makedeck(d) for d in decks
+            ]}
+
+
 @mvapi.get("/deck_count", tags=["aa-api"])
 def deck_count():
     resp = {}

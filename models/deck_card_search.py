@@ -22,12 +22,12 @@ import time
 indexes = {}
 
 # If there isn't an index for the card, create one by doing chr(ord(last_row)+1)
-def create_card_index(session, card_name):
+def create_card_index(session, card_name, new=True):
     if not indexes:
         for card_index in session.query(mv_model.T_CARD_INDEX).all():
             indexes[card_index.name] = card_index.index
     found = indexes.get(card_name, None)
-    if not found:
+    if not found and new:
         count = len(indexes.keys())
         print(count)
         index = chr(count+1)
