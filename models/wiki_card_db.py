@@ -307,9 +307,9 @@ def save_json(cards, locales, build_locales=False):
 
 ignore_fields = ["deck_expansion"]
 def clean_fields_data(data):
-        for key in list(data.keys()):
-            if key.startswith("_") or key in ignore_fields:
-                del data[key]
+    for key in list(data.keys()):
+        if key.startswith("_") or key in ignore_fields:
+            del data[key]
 
 def clean_fields(cards, locales):
     print("+clean fields")
@@ -332,10 +332,10 @@ def process_mv_card_batch(card_batch: list) -> list:
     import logging
     process_cards = defaultdict(lambda: [])
     for card in card_batch:
-        if not card.is_from_current_set:
-            continue
-        if card.is_maverick: continue
-        if card.is_enhanced: continue
+        #if not card.is_from_current_set:
+        #    continue
+        #if card.is_maverick: continue
+        #if card.is_enhanced: continue
         process_cards[card.data["card_title"]].append(card.data)
     logging.debug(len(process_cards))
     print(f"\n+++ Process these cards: {len(process_cards)} - {process_cards.keys()}\n")
@@ -485,7 +485,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
     if not only_sets:
         ct.update_or_create(table, cardtable["Name"], cardtable)
     card_sets = list(get_sets(card))
-    earliest_set = min([s[1] for s in card_sets])
+    earliest_set = min([int(s[1]) for s in card_sets])
     for (set_name, set_num, card_num) in card_sets:
         settable = get_restricted_dict({
             "SetName": set_name,

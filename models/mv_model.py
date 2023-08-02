@@ -232,15 +232,31 @@ class UpdateScope(object):
     # 452, 453, 341, 479, 435
 
     def get_cards(self, expansion=None):
+        """Get a canonical list of best card data for each expansion"""
         print("getting cards")
         session = Session()
         cards = session.query(Card).filter(
-            Card.data['is_enhanced']=='false',
+            #Card.data['is_enhanced']=='false',
             Card.data['is_maverick']=='false')
         if expansion:
             cards = cards.filter(Card.data['expansion']==str(expansion))
         cards = cards.all()
-        return cards
+        card_expansion = {}
+        for card in cards:
+            key = card.name+";"+str(card.data['expansion'])+";"+card.data['rarity']
+            # Prefer non-enhanced non-maverick card that is in current_set
+            if key in card_expansion:
+                if card.data['is_enhanced']:
+                    continue
+                if not card.is_from_current_set:
+                    continue
+                if card.data['is_maverick']:
+                    continue
+            card_expansion[key] = card
+        print([card.data['expansion'] for card in card_expansion.values() if card.name=='Mookling'])
+        print(len(cards))
+        print(len(card_expansion.values()))
+        return card_expansion.values()
 
     def get_locale_cards(self, locale=None):
         print("getting locale")
@@ -417,7 +433,7 @@ class Card(Base):
 
     @property
     def is_from_current_set(self):
-        return self.is_anomaly or self.deck_expansion == self.data['expansion']  #Anomalies get their own expansion so are technically always from their own set
+        return self.is_anomaly or self.deck_expansion <= self.data['expansion']  #Anomalies get their own expansion so are technically always from their own set
 
     @property
     def is_enhanced(self):

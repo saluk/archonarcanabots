@@ -77,6 +77,7 @@ def read_changes(wp, search_name=None,
         started = True
         print('++ ',i+1, card_name)
         print(' + update card page cargo')
+        print(len(wiki_card_db.cards[card_name]))
         diff = read_change(
             wp, wiki_card_db.cards[card_name],
             locale=locale,

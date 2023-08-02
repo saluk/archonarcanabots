@@ -5,6 +5,7 @@ SETS = {452: "WC",
         479: "MM",
         496: "DT",
         600: "WoE",
+        601: "U2023",
         609: "VM2023"}
 SET_NAMES = {
     452: "Worlds Collide",
@@ -14,6 +15,7 @@ SET_NAMES = {
     479: "Mass Mutation",
     496: "Dark Tidings",
     600: "Winds of Exchange",
+    601: "Unchained 2023",
     609: "Vault Masters 2023"
 }
 # TODO turn set data into a row with 3 data points, maybe pull it out of the wiki database
