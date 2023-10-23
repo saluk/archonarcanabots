@@ -162,6 +162,7 @@ class MasterVault:
             return j, {"method":"unproxied"}
         except Exception as exc:
             print("error", kwargs['params']['page'], "raw2")
+            print(r.text)
             lastexc = exc
             wait(5)
             raise
