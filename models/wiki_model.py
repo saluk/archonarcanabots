@@ -102,7 +102,9 @@ Omega
 Poison
 Skirmish
 Taunt
-Splash-attack""".split("\n")
+Splash-attack
+Treachery
+Versatile""".split("\n")
 keywords = [x for x in keywords if x.strip()]
 
 replacement_links = {

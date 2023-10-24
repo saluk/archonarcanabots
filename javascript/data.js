@@ -74,7 +74,11 @@ var keywords = ['Alpha',
   'Omega',
   'Poison',
   'Skirmish',
-  'Taunt']
+  'Taunt',
+  'Versatile',
+  'Treachery',
+  'Splash-Attack'
+]
 var features = ['gigantic', 'errata']
 
 var multiHouseCards = ["It’s Coming...", "Dark Æmber Vault"]
