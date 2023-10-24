@@ -135,7 +135,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
         # TODO - create editdata containing old cardtext if it doesn't exist as mm reprint data
         """{
                 'CardData': {
-                    'Desire': {'type': 'CardData', 'Name': 'Desire', 'Image': '479-053.png', 'Artist': 'Michele Giorgi', 'Text': "Keys [[Cost|cost]] +4{{Aember}}.  <p> '''Reap:''' [[Timing_Chart#Forge_a_Key|Forge a key]] at [[Cost|current cost]], reduced by 1{{Aember}} [[For each|for each]] friendly [http://archonarcana.com/Card_Gallery?traits=Sin Sin] creature.", 'Keywords': '', 'FlavorText': '', 'Power': '3', 'Armor': '0', 'Amber': '0', 'Assault': '0', 'Hazardous': '0', 'EnhanceDamage': '0', 'EnhanceAmber': '0', 'EnhanceDraw': '0', 'EnhanceCapture': '0', 'Type': 'Creature', 'House': 'Dis', 'Traits': 'Demon • Sin', 'Rarity': 'Variant'}
+                    'Desire': {'type': 'CardData', 'Name': 'Desire', 'Image': '479-053.png', 'Artist': 'Michele Giorgi', 'Text': "Keys [[Cost|cost]] +4{{Aember}}.  <p> '''Reap:''' [[Timing_Chart#Forge_a_Key|Forge a key]] at [[Cost|current cost]], reduced by 1{{Aember}} [[For each|for each]] friendly [http://archonarcana.com/Card_Gallery?traits=Sin Sin] creature.", 'Keywords': '', 'FlavorText': '', 'Power': '3', 'Armor': '0', 'Amber': '0', 'Assault': '0', 'Hazardous': '0', 'EnhanceDamage': '0', 'EnhanceAmber': '0', 'EnhanceDraw': '0', 'EnhanceCapture': '0', 'EnhanceDiscard': '0', 'Type': 'Creature', 'House': 'Dis', 'Traits': 'Demon • Sin', 'Rarity': 'Variant'}
                 }, 
                 'SetData': {
                     'Mass Mutation': {'type': 'SetData', 'SetName': 'Mass Mutation', 'SetNumber': '479', 'CardNumber': '053'}

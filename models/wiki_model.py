@@ -208,7 +208,7 @@ def read_enhanced(text, locale=None):
     else:
         regex = f"(({t}) \(*(({enhance_character_join})*)\)*)"
     enhanced = re.match(regex, text)
-    ea=ept=ed=er=0
+    ea=ept=ed=er=ediscard=0
     if enhanced:
         replaced_text = multiple_replace(enhanced.group(3), unicode_or_icon_letter_to_wiki_text)
         print("replaced:", replaced_text)
@@ -216,8 +216,9 @@ def read_enhanced(text, locale=None):
         ept = replaced_text.count("{{Capture}}")
         ed = replaced_text.count("{{Damage}}")
         er = replaced_text.count("{{Draw}}")
+        ediscard = replaced_text.count("{{Discard}}")
         text = text[:enhanced.start()] + "[[Enhance|%s]] " % t + replaced_text + text[enhanced.end():]
-    return text, {'enhance_amber':ea, 'enhance_capture':ept, 'enhance_damage':ed, 'enhance_draw':er}
+    return text, {'enhance_amber':ea, 'enhance_capture':ept, 'enhance_damage':ed, 'enhance_draw':er, 'enhance_discard':ediscard}
 
 print(read_enhanced("Enhance \uf360\uf360\uf360\uf36e\uf361\uf361\uf565\uf565\uf565\uf565"))
 print(read_enhanced("\uf360\uf360\uf360\uf36e\uf361\uf361\uf565\uf565\uf565\uf565 강화", "ko-ko"))
@@ -356,7 +357,8 @@ def card_data(card, locale=None):
     card["keywords"] = get_keywords_text(card["card_text"])
     card.update({"assault": "", "hazardous": "",
                  "enhance_amber": "", "enhance_damage": "",
-                 "enhance_capture": "", "enhance_draw": ""})
+                 "enhance_capture": "", "enhance_draw": "",
+                 "enhance_discard": ""})
     if card["card_type"] in ["Creature1", "Creature2"]:
         if card["card_type"] == "Creature1":
             card["subtype"] = "GiganticTop"

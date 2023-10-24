@@ -1141,6 +1141,9 @@ function deck_stats(data) {
         enhanceDraw: data.cards.reduce(function(total, card) {
             return total + (card.enhance_draw? card.enhance_draw : 0)
         }, 0),
+        enhanceDiscard: data.cards.reduce(function(total, card) {
+            return total + (card.enhance_discard? card.enhance_discard: 0)
+        }, 0),
         twin: data.twin? `
         <a href="/Deck:${data.twin.other_key}">
         <img src="https://archonarcana.com/images/thumb/4/42/Evil-twin.png/40px-Evil-twin.png">

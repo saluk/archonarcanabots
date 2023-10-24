@@ -474,6 +474,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
         "EnhanceAmber": latest["enhance_amber"],
         "EnhanceDraw": latest["enhance_draw"],
         "EnhanceCapture": latest["enhance_capture"],
+        "EnhanceDiscard": latest["enhance_discard"],  # TODO Check value of EnhanceDiscard from master vault
         "Type": latest["card_type"],
         "House": latest["house"],
         "Traits": latest["traits"],

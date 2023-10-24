@@ -59,6 +59,7 @@ minmax(searchFields, 'enhance_amber', 'div.enhance-entries', enhancecounts, true
 minmax(searchFields, 'enhance_capture', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceCapture}" width="20px" class="enhance-image">`)
 minmax(searchFields, 'enhance_damage', 'div.enhance-entries', enhancecounts, true, `<p></p><img src="${images.enhanceDamage}" width="20px" class="enhance-image">`)
 minmax(searchFields, 'enhance_draw', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceDraw}" width="20px" class="enhance-image">`)
+minmax(searchFields, 'enhance_discard', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceDiscard}" width="20px" class="enhance-image">`)
 
 var getSearchField = function(field) {
   var foundField = null
@@ -139,6 +140,8 @@ var CSearch = {
   enhance_capture_max: [""],
   enhance_draw_min: [""],
   enhance_draw_max: [""],
+  enhance_discard_min: [""],
+  enhance_discard_max: [""],
   rarities: [],
   traits: [],
   artists: [],
@@ -215,6 +218,9 @@ var CSearch = {
     } else {
       searchFields = searchFields.filter(function(field) {
         if(field.field==='reprints'){
+          return false
+        }
+        if(field.field==='enhance_discard' || field.field==='enhance_discard_min'){
           return false
         }
         return true
@@ -446,6 +452,7 @@ var CSearch = {
     statQuery(card_db, clauses, {'min':this.enhance_draw_min[0], 'max':this.enhance_draw_min[0]}, 'EnhanceDraw')
     statQuery(card_db, clauses, {'min':this.enhance_capture_min[0], 'max':this.enhance_capture_min[0]}, 'EnhanceCapture')
     statQuery(card_db, clauses, {'min':this.enhance_damage_min[0], 'max':this.enhance_damage_min[0]}, 'EnhanceDamage')
+    statQuery(card_db, clauses, {'min':this.enhance_discard_min[0], 'max':this.enhance_discard_min[0]}, 'EnhanceDiscard')
     if(this.errata[0]){
       clauses.push('ErrataData.Version IS NOT NULL')
     }
