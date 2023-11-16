@@ -149,7 +149,7 @@ class MasterVault:
                 except Exception as exc:
                     print("error", kwargs['params']['page'], method.__name__)
                     lastexc = exc
-        wait(20)
+        wait(40)
         try:
             r = rget(timeout=timeout, *args, **kwargs)
         except Exception as exc:
@@ -301,14 +301,14 @@ class MasterVault:
                 self.thread_states[thread_index][0] = "fail_api_call"
                 with self.insert_lock:
                     self.scope.clean_scrape(page)
-                wait(1)
+                wait(60)
                 continue
             if not decks or len(decks)<1:
                 self.thread_states[thread_index][0] = "ok_done"
                 with self.insert_lock:
                     self.scope.clean_scrape(page)
                 print("#### - didn't get decks on page %d" % page)
-                wait(60)
+                wait(300)
                 continue
             try:
                 self.insert(decks, cards, page)
@@ -323,7 +323,7 @@ class MasterVault:
                 with self.insert_lock:
                     self.scope.clean_scrape(page)
                 print("#### - didn't get 24 decks on page %d" % page)
-                wait(60)
+                wait(300)
                 continue
             self.scope.scraped_page(page=page, decks_scraped=len(decks), cards_scraped=len(cards))
             self.thread_states[thread_index][0] = "ok_continue"
