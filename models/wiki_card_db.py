@@ -345,6 +345,12 @@ def process_mv_card_batch(card_batch: list) -> list:
             return card_datas
         if not card_datas:
             return []
+
+        # FIXME - fixes a bug in menagerie 2024 pull
+        for data in card_datas:
+            if data["card_title"] in ["Niffle Kong", "Deusillus", "Ultra Gravitron"] and data["card_type"] == "Creature":
+                data["card_type"] = "Creature1"
+
         card_title = card_datas[0]["card_title"]
         print(f"++ Bifurcate data for {card_title} - versions: {len(card_datas)}")
         logging.debug("## Do something with card that can transform: %s", card_title)
@@ -355,6 +361,7 @@ def process_mv_card_batch(card_batch: list) -> list:
                 logging.debug(" - it's a giant")
                 return bifurcate_data([[card for card in card_datas if card["card_type"] == "Creature1"][0]])
             else:
+                print(card_datas)
                 raise Exception(f"Unknown type mismatch {card_title} {types}")
         anomalies = []
         other = []
@@ -494,6 +501,9 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
             "CardNumber": card_num,
             "Meta":"Debut" if set_num == earliest_set else ""
         }, restricted, "SetData")
+        # FIXME - this is hacky, but if the set is in spoilers, rewrite the meta
+        if settable["SetName"] in shared.SPOILER_SETS:
+            settable["Meta"] = "SpoilerNew" if settable["Meta"] == "Debut" else "SpoilerReprint"
         ct.update_or_create("SetData", set_name, settable)
     return ct
 

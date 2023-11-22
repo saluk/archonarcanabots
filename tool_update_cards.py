@@ -34,52 +34,20 @@ print(reprints["errata"]["Transporter Platform"])
 csv_changes = open("changes.csv","w")
 
 
-with open("data/locales.json") as f:
-    locales = json.loads(f.read())
-def update_card_views(wp, card_title, update_reason="WoE updates", pause=False, locale_only=False, only_new_edits=False):
+def update_card_views(wp, card_title, update_reason="WoE updates", pause=False, only_new_edits=False):
     print("update_card_views", card_title, pause)
     page = wp.page(card_title)
     updates = []
-    if not locale_only:
-        updates.append(update_page(
-            card_title,
-            page,
-            "{{#invoke: luacard | viewcard | cardname=%(n)s}}" % {"n": card_title},
-            update_reason,
-            "",
-            pause,
-            read=True,
-            only_new_edits=only_new_edits
-        ))
-    #langs = []
-    #langs.append('<div class="translate translate-en" style="display:inline">{{#invoke: luacard | viewcard | cardname=%(n)s}}</div>' % 
-    #        {"n": card_title}
-    #)
-    # NOTE: we dynamically generate the locale with a WP extension, don't need individual locale pages
-    for locale in []: # locales:
-        print("... updating", card_title, locale)
-        if locale == "en": continue
-        wiki_locale_short, locale_name = locales[locale][0]
-        page_link = card_title+'/locale/'+wiki_locale_short
-        page = wp.page(page_link)
-        updates.append(update_page(
-            page_link,
-            page,
-            '{{#invoke: luacard | viewcard | cardname=%s | locale=%s}}' % 
-                (card_title, locale),
-            update_reason,
-            "",
-            pause=pause,
-            read=True,
-            only_new_edits=only_new_edits
-            )
-        )
-        if updates[-1]:
-            time.sleep(2)
-        #langs.append('<div class="translate translate-%(ls)s" style="display:none">{{#invoke: luacard | viewcard | cardname=%(n)s | locale=%(l)s}}</div>' % 
-        #        {"n": card_title, "l": locale, "ls": wiki_locale_short}
-        #)
-    #updates.append(update_page(card_title, page, "\n".join(langs), update_reason, "", pause=pause))
+    updates.append(update_page(
+        card_title,
+        page,
+        "{{#invoke: luacard | viewcard | cardname=%(n)s}}" % {"n": card_title},
+        update_reason,
+        "",
+        pause,
+        read=True,
+        only_new_edits=only_new_edits
+    ))
     return updates
 
 
@@ -219,7 +187,8 @@ def update_cards_v2(wp, search_name=None,
         if matching and matching.lower() not in (latest["flavor_text"]+latest["card_text"]).lower():
             print("not matching")
             continue
-        if restrict_expansion and not latest["expansion"] == restrict_expansion:
+        card_datas = wiki_card_db.cards[card_name]
+        if restrict_expansion and not str(restrict_expansion) in [str(set_key) for set_key in card_datas]:
             print(latest["expansion"])
             continue
         started = True
@@ -228,7 +197,10 @@ def update_cards_v2(wp, search_name=None,
         texts = []
         if upload_image:
             print(' + upload image for card')
-            texts.append(upload_image_for_card(wp, locale, latest))
+            version = latest
+            if restrict_expansion:
+                version = card_datas[str(restrict_expansion)]
+            texts.append(upload_image_for_card(wp, locale, version))
         elif data_to_update == "update_card_views":
             crash
             print(' + update card views')

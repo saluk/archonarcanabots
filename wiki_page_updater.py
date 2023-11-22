@@ -30,7 +30,6 @@ parser.add_argument("--batch", action="store_true")
 parser.add_argument("--search", type=str)
 parser.add_argument("--restricted", type=str, help="The only card fields to update")
 parser.add_argument("--locale", type=str, help="The full two part locale, such as es-es. Multiple can be separated with commas.")
-parser.add_argument("--images", action="store_true", help="For importing CardData, should we upload the images?")
 parser.add_argument("--stage", type=str, help="dev or prod for javascript files (not in use", default="dev")
 parser.add_argument("--test", action="store_true", help="For uploading script files, is this a test run")
 parser.add_argument("--locale_only", action="store_true", help="when updating card pages, this will only do updates to /locale/ pages")
@@ -43,19 +42,19 @@ args.pause = not args.batch
 print(vars(args))
 
 if __name__ == "__main__":
-    # Run this first to update our json files from what was recorded from the masterv ault in the postgresql db
+    # STEP 1 Run this first to update our json files from what was recorded from the mastervault in the postgresql db
     if args.command == "build_wiki_db":
         from models import wiki_card_db
         wiki_card_db.build_json(build_locales=args.build_locales)
-    # Old import cards method
-    if args.command == "import_cards":
+    # STEP 2 Upload the new images
+    if args.command == "upload_images":
         import tool_update_cards
-        tool_update_cards.update_cards_v2(wp, args.search, "importing card data", 
-                                            "carddb", args.restricted.split("|") if args.restricted else [],
+        tool_update_cards.update_cards_v2(wp, args.search, "uploading image", 
+                                            "carddb", [],
                                             restrict_expansion=args.restrict_expansion,
-                                            upload_image=args.images,
+                                            upload_image=True,
                                             pause=False)
-    # Use this command to create a json file of card changes from the mastervault
+    # STEP 3 Use this command to create a json file of card changes from the mastervault
     if args.command == "read_card_changes":
         if args.restrict_expansion:
             import tool_change_cards_json
@@ -69,7 +68,8 @@ if __name__ == "__main__":
             the database in the context of a given expansion, where updates for the current
             set are determined to be updates to spoiler data, and updates to cards
             that were previously in other sets will be made into card revisions.""")
-    # After editing the json changes file, use this command to write the changes to the database
+
+    # STEP 4 After editing the json changes file, use this command to write the changes to the database
     if args.command == "write_card_changes":
         import tool_change_cards_json
         tool_change_cards_json.write_changes(

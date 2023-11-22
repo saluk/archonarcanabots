@@ -13,7 +13,8 @@ var houses_by_set = {
 	'Abyssal_Conspiracy': new Set(['Abyssal']),
 	'Winds_of_Exchange': new Set(['Ekwidon','Sanctum','Saurian','Star_Alliance','Mars','Brobnar','Unfathomable']),
 	"Grim_Reminders": new Set(['Ekwidon','Geistoid','Untamed','Star_Alliance','Mars','Brobnar','Unfathomable']),
-	"Vault Masters 2023": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed'])
+	"Vault Masters 2023": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed']),
+	"Menagerie 2024": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -25,7 +26,8 @@ var set_numbers = [
 	[600, "Winds of Exchange"],
 	[601, "Unchained"],
 	[609, "Vault Masters 2023"],
-	[0, "Grim Reminders"]
+	[700, "Grim Reminders"],
+	[722, "Menagerie 2024"]
 ]
 var set_name_by_number = function(number) {
 	return set_numbers.filter(function(set){

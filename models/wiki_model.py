@@ -34,7 +34,8 @@ icon_letter_to_wiki_text = {
     'A': '{{Aember}}',
     'PT': '{{Capture}}',
     'D': '{{Damage}}',
-    'R': '{{Draw}}'
+    'R': '{{Draw}}',
+    '\uf372': '{{Discard}}'
 }
 
 unicode_to_wiki_text = {}
@@ -151,7 +152,8 @@ replacement_links = {
     "tide": "Tide",
     "cannot": "Cannot_vs_Must",
     "token creature": "Token Creatures",
-    "token creatures": "Token Creatures"
+    "token creatures": "Token Creatures",
+    "haunted": "Haunted"
     # TODO - ready and fight
 }
 for kw in keywords:

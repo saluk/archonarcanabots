@@ -9,6 +9,7 @@ import json
 import re
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
+from tool_update_cards import update_card_views
 
 with open("data/locales.json") as f:
     locales = json.loads(f.read())
@@ -61,7 +62,7 @@ def read_changes(wp, search_name=None,
                     locale=None,
                     card_name=False,
                     fields=[]):
-    limit = 1000
+    limit = 3000
     changed = 0
     started = False
     search_cards = sorted(wiki_card_db.cards.keys())
@@ -71,15 +72,15 @@ def read_changes(wp, search_name=None,
     for i, card_name in enumerate(search_cards):
         if search_name and not re.findall(search_name, card_name):
             continue
-        latest = wiki_card_db.get_latest(card_name, locale=locale)
-        if restrict_expansion and not latest["expansion"] == restrict_expansion:
+        card_datas = wiki_card_db.cards[card_name]
+        if restrict_expansion and not str(restrict_expansion) in [str(set_name) for set_name in card_datas]:
             continue
         started = True
         print('++ ',i+1, card_name)
         print(' + update card page cargo')
         print(len(wiki_card_db.cards[card_name]))
         diff = read_change(
-            wp, wiki_card_db.cards[card_name],
+            wp, card_datas,
             locale=locale,
             fields=fields
         )
@@ -107,10 +108,14 @@ def write_changes(wp, filename, locale=None):
     limit = 1000
     # lint step
     valid_changes = []
+
+    changes = 0
     for i, card_name in enumerate(requested_changes.keys()):
         page = wp.page("CardData:" + card_name)
-        print("CardData:" + card_name)
-        ot = page.read()
+        try:
+            ot = page.read()
+        except Exception:
+            ot = ""
         old_table = wikibase.CargoTable()
         old_table.read_from_text(ot)
         new_table = wikibase.CargoTable()
@@ -120,7 +125,7 @@ def write_changes(wp, filename, locale=None):
         change_requested = requested_changes[card_name]
         if change_requested["reason"] == "skip":
             continue
-        elif not change_requested["reason"] in ["+update", "+revision", "+addset"]:
+        elif not change_requested["reason"] in ["update", "revision", "addset"]:
             raise Exception(f"Card {card_name} has invalid reason")
 
         changed_fields = {}
@@ -154,30 +159,42 @@ def write_changes(wp, filename, locale=None):
             print(diff)
                 
         valid_changes.append((card_name, new_table, change_requested, list(changed_fields.keys())))
+        changes += 1
+        if changes >= limit:
+            break
     
     print(valid_changes)
 
+    changes = 0
     for (card_name, ct, change_requested, fields) in valid_changes:
         # Simplest, just update the CardData page
-        if change_requested["reason"] == "+update":
+        if change_requested["reason"] == "update":
             page = wp.page("CardData:" + card_name)
-            ot = page.read()
+            try:
+                ot = page.read()
+            except Exception:
+                ot = ""
             ot_cargo = wikibase.CargoTable()
             ot_cargo.read_from_text(ot)
             # TODO hack to copy artist field
             print(card_name)
-            if "Artist" in ot_cargo.data_types["CardData"][card_name]:
+            if ot_cargo.data_types and "Artist" in ot_cargo.data_types["CardData"][card_name]:
                 ct.data_types["CardData"][card_name]["Artist"] = ot_cargo.data_types["CardData"][card_name]["Artist"]
             text = ct.output_text()
+            print("view update:", update_card_views(wp, card_name, "GR mastervault pull", False, True))
             if ot == text:
                 continue
             print(text)
-            update_page(card_name, page, text, "WoE mastervault pull", ot)
+            update_page(card_name, page, text, "GR mastervault pull", ot)
             import alerts
+            # FIXME move this to wikibase or somewhere
             alerts.discord_alert(f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
-        elif change_requested["reason"] == "+addset":
+        elif change_requested["reason"] == "addset":
             page = wp.page("CardData:" + card_name)
-            ot = page.read()
+            try:
+                ot = page.read()
+            except Exception:
+                ot = ""
             ot_cargo = wikibase.CargoTable()
             ot_cargo.read_from_text(ot)
             text = ct.output_text()
@@ -187,12 +204,27 @@ def write_changes(wp, filename, locale=None):
             update_page(card_name, page, text, "Adding set data", ot)
             import alerts
             alerts.discord_alert(f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
-        elif change_requested["reason"] == "+revision":
-            print("revisions aren't built into this method yet")
+        elif change_requested["reason"] == "revision":
+            page = wp.page("CardData:" + card_name)
+            try:
+                ot = page.read()
+            except Exception:
+                ot = ""
+            ot_cargo = wikibase.CargoTable()
+            ot_cargo.read_from_text(ot)
+            text = ct.output_text()
+            if ot == text:
+                continue
+            print(text)
+            update_page(card_name, page, text, "Making revision from GR mastervault pull", ot)
+            import alerts
+            alerts.discord_alert(f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
+        else:
+            print(f"Unknown change reason: {change_requested['reason']}")
             crash
-        limit -= 1
-        if limit <= 0:
-            return
+        changes += 1
+        if changes >= limit:
+            break
 
     
 
