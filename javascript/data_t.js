@@ -1,8 +1,8 @@
-var searchable_sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault Masters 2023']
-var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault Masters 2023']
+var searchable_sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault_Masters_2023', 'Grim_Reminders']
+var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault_Masters_2023', 'Grim_Reminders', 'Menagerie_2024', 'Æmber_Skies']
 var kfa_sets = ['Rise_of_the_Keyraken', 'Abyssal_Conspiracy']
-var spoiler_sets = ['Grim_Reminders']
-var next_spoiler_sets = ['Grim_Reminders']
+var spoiler_sets = ['Æmber_Skies']
+var next_spoiler_sets = ['Æmber_Skies']
 var houses_by_set = {
 	'Call_of_the_Archons': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
 	'Age_of_Ascension': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
@@ -13,8 +13,9 @@ var houses_by_set = {
 	'Abyssal_Conspiracy': new Set(['Abyssal']),
 	'Winds_of_Exchange': new Set(['Ekwidon','Sanctum','Saurian','Star_Alliance','Mars','Brobnar','Unfathomable']),
 	"Grim_Reminders": new Set(['Ekwidon','Geistoid','Untamed','Star_Alliance','Mars','Brobnar','Unfathomable']),
-	"Vault Masters 2023": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed']),
-	"Menagerie 2024": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed'])
+	"Vault_Masters_2023": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed']),
+	"Menagerie_2024": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed']),
+	"Æmber_Skies": new Set(['Brobnar', 'Dis', 'Ekwidon', 'Geistoid', 'Logos', 'Mars', 'Skyborn'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -27,7 +28,8 @@ var set_numbers = [
 	[601, "Unchained"],
 	[609, "Vault Masters 2023"],
 	[700, "Grim Reminders"],
-	[722, "Menagerie 2024"]
+	[722, "Menagerie 2024"],
+	[999, "Æmber Skies"]
 ]
 var set_name_by_number = function(number) {
 	return set_numbers.filter(function(set){
