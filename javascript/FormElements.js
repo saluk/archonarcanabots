@@ -15,7 +15,8 @@ var check_images = {
 	'Ekwidon': 'https://archonarcana.com/images/3/31/Ekwidon.png',
   	'Anomaly': 'https://archonarcana.com/images/8/88/Anomoly-tc.png',
   	'Unfathomable': 'https://archonarcana.com/images/1/10/Unfathomable.png',
-	'Geistoid': 'https://archonarcana.com/images/4/48/Geistoid.png'
+	'Geistoid': 'https://archonarcana.com/images/4/48/Geistoid.png',
+	'Skyborn': 'https://archonarcana.com/images/0/06/Skyborn.png'
 }
 
 var like_query = function(s){
