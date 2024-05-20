@@ -194,7 +194,6 @@ var CSearch = {
       getSearchField('types').values = spoilertypes
       searchFields = searchFields.filter(function(field) {
         if(field.field==='sets'){
-          if(parseQueryString('testjs')){
             $('.set-entries').on('click', '[name=sets]', function(e) {
               $('[name=sets]').each(function() {
                 if (this != e.target)
@@ -207,10 +206,6 @@ var CSearch = {
                 }
               })
             })
-          } else {
-            return true
-            // return false
-          }
         }
         return true
       })
@@ -219,12 +214,28 @@ var CSearch = {
         if(field.field==='reprints'){
           return false
         }
-        if(field.field==='enhance_discard' || field.field==='enhance_discard_min'){
-          return false
-        }
         return true
       })
     }
+
+    // Change display order for KFA page
+    if(self.mode !== 'main') {
+      $('.house-row').remove()
+      $('.set-row').remove()
+      $('.rarity-row').remove()
+      var a = $('.trait-row:contains(Traits)')
+      //a.remove()
+      var b = $('.trait-row:contains(Artists)')
+      b.remove()
+      var c = $('.trait-row:contains(Keywords)')
+      //c.remove()
+      $('.armor-row:contains(Enhance)').remove()
+      //$('.third-row').empty()
+      //$('.third-row').append(a)
+      $('.third-row').append(b)
+      //$('.third-row').append(c)
+    }
+
     // Autoselect nearest spoiler set
     if(this.spoilers) {
       this.available_sets = [spoiler_sets[0]]
@@ -262,7 +273,9 @@ var CSearch = {
   },
   initForm: function(self) {
     if(parseQueryString('testjs')){
-      $('div.set-row')[0].style=''
+      if($('div.set-row')[0]){
+        $('div.set-row')[0].style=''
+      }
     }
     searchFields.map(function(field) {
       field.assignData(self)
@@ -285,47 +298,49 @@ var CSearch = {
       self.excludeReprints = true
     }
 
-    var searchingOnSets = self.sets.filter(setname => setname!='Exclude Reprints' )
-    if(searchingOnSets.length==0){
-	    searchingOnSets = self.available_sets.filter(setname => setname!='Exclude Reprints')
+    if(self.format !== 'kfa') {
+	    var searchingOnSets = self.sets.filter(setname => setname!='Exclude Reprints' )
+	    if(searchingOnSets.length==0){
+		    searchingOnSets = self.available_sets.filter(setname => setname!='Exclude Reprints')
+	    }
+
+	    console.log("searchingOnSets: "+searchingOnSets)
+
+	    // Update artists based on sets
+	    var available_artists = new Set()
+	    searchingOnSets.filter(
+	      function(set) {
+		console.log('find artists for set: '+set)
+		artists_by_set[set].map(
+		  function(artist) {
+		    available_artists.add(artist)
+		  }
+		)
+	      }
+	    )
+	    var artistField = getSearchField('artists')
+	    artistField.presetValue = self.artists.join('+')
+	    artistField.values = Array.from(available_artists).sort()
+	    console.log('artist preset: '+artistField.presetValue)
+	    console.log('artist values: '+artistField.values)
+	    artistField.refresh(self, self.initForm, self)
+
+	    // Update traits based which sets can be chosen
+	    var available_traits = new Set()
+	    searchingOnSets.filter(
+	      function(set) {
+		traits_by_set[set].map(
+		  function(trait) {
+		    available_traits.add(trait)
+		  }
+		)
+	      }
+	    )
+	    var traitField = getSearchField('traits')
+	    traitField.presetValue = self.traits.join('+')
+	    traitField.values = Array.from(available_traits).sort()
+	    traitField.refresh(self, self.initForm, self)
     }
-
-    console.log("searchingOnSets: "+searchingOnSets)
-
-    // Update artists based on sets
-    var available_artists = new Set()
-    searchingOnSets.filter(
-      function(set) {
-	console.log('find artists for set: '+set)
-        artists_by_set[set].map(
-          function(artist) {
-            available_artists.add(artist)
-          }
-        )
-      }
-    )
-    var artistField = getSearchField('artists')
-    artistField.presetValue = self.artists.join('+')
-    artistField.values = Array.from(available_artists).sort()
-    console.log('artist preset: '+artistField.presetValue)
-    console.log('artist values: '+artistField.values)
-    artistField.refresh(self, self.initForm, self)
-
-    // Update traits based which sets can be chosen
-    var available_traits = new Set()
-    searchingOnSets.filter(
-      function(set) {
-        traits_by_set[set].map(
-          function(trait) {
-            available_traits.add(trait)
-          }
-        )
-      }
-    )
-    var traitField = getSearchField('traits')
-    traitField.presetValue = self.traits.join('+')
-    traitField.values = Array.from(available_traits).sort()
-    traitField.refresh(self, self.initForm, self)
 
     // TODO don't think we need this anymore
     if(self.mode !== 'main') {
@@ -350,23 +365,6 @@ var CSearch = {
       getSearchField('houses').addElement()
       getSearchField('houses').listener(self.initForm, self)
       getSearchField('houses').assignData(self)
-    }
-
-    if(self.mode !== 'main') {
-      $('.house-row').remove()
-      $('.set-row').remove()
-      $('.rarity-row').remove()
-      var a = $('.trait-row:contains(Traits)')
-      //a.remove()
-      var b = $('.trait-row:contains(Artists)')
-      b.remove()
-      var c = $('.trait-row:contains(Keywords)')
-      //c.remove()
-      $('.armor-row:contains(Enhance)').remove()
-      //$('.third-row').empty()
-      //$('.third-row').append(a)
-      $('.third-row').append(b)
-      //$('.third-row').append(c)
     }
 
     self.newSearch()

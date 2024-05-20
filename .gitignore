@@ -11,6 +11,7 @@ node_modules
 */node_moodules
 *.pyc
 javascript/main.js
+javascript/main.*.txt
 skips.json
 cron.log
 cache/lasthash.json
