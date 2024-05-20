@@ -1,8 +1,17 @@
+// Sets available on main card gallery
 var searchable_sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault_Masters_2023', 'Grim_Reminders']
-var sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault_Masters_2023', 'Grim_Reminders', 'Menagerie_2024', 'Æmber_Skies']
+// Sets that are Adventures
 var kfa_sets = ['Rise_of_the_Keyraken', 'Abyssal_Conspiracy']
-var spoiler_sets = ['Æmber_Skies']
-var next_spoiler_sets = ['Æmber_Skies']
+// Spoiler sets on the spoiler search page
+var spoiler_sets = ['Æmber_Skies', 'Tokens_of_Change']
+// Spoiler sets that aren't on the spoiler search page yet
+var next_spoiler_sets = []
+// Sets that aren't on any search page
+var other_sets = ['Menagerie_2024']
+
+// All sets
+var sets = searchable_sets.concat(kfa_sets, spoiler_sets, next_spoiler_sets, other_sets)
+
 var houses_by_set = {
 	'Call_of_the_Archons': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
 	'Age_of_Ascension': new Set(['Brobnar','Dis','Logos','Mars','Sanctum','Shadows','Untamed']),
@@ -15,7 +24,8 @@ var houses_by_set = {
 	"Grim_Reminders": new Set(['Ekwidon','Geistoid','Untamed','Star_Alliance','Mars','Brobnar','Unfathomable']),
 	"Vault_Masters_2023": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed']),
 	"Menagerie_2024": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed']),
-	"Æmber_Skies": new Set(['Brobnar', 'Dis', 'Ekwidon', 'Geistoid', 'Logos', 'Mars', 'Skyborn'])
+	"Æmber_Skies": new Set(['Brobnar', 'Dis', 'Ekwidon', 'Geistoid', 'Logos', 'Mars', 'Skyborn']),
+	"Tokens_of_Change": new Set(['Dis', 'Geistoid', 'Logos', 'Redemption', 'Shadows', 'Skyborn', 'Untamed'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -29,7 +39,8 @@ var set_numbers = [
 	[609, "Vault Masters 2023"],
 	[700, "Grim Reminders"],
 	[722, "Menagerie 2024"],
-	[999, "Æmber Skies"]
+	[992, "Tokens of CHange"],
+	[990, "Æmber Skies"]
 ]
 var set_name_by_number = function(number) {
 	return set_numbers.filter(function(set){

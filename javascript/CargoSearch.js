@@ -207,7 +207,6 @@ var CSearch = {
                 }
               })
             })
-            $('#'+this.available_sets.slice(-1)).click() 
           } else {
             return true
             // return false
@@ -228,54 +227,8 @@ var CSearch = {
     }
     // Autoselect nearest spoiler set
     if(this.spoilers) {
-      this.sets = [spoiler_sets[0]]
+      this.available_sets = [spoiler_sets[0]]
     }
-
-    // Update artists based which sets can be chosen
-    var available_artists = new Set()
-    var artist_sets = sets
-    
-    if(self.spoilers) {
-      artist_sets = spoiler_sets
-    }
-    if(self.mode!=='main') {
-      artist_sets = [self.mode]
-    }
-
-    artist_sets.map(
-      function(set) {
-        artists_by_set[set].map(
-          function(artist) {
-            available_artists.add(artist)
-          }
-        )
-      }
-    )
-    var field = getSearchField('artists')
-    field.values = Array.from(available_artists).sort()
-
-    // Update traits based which sets can be chosen
-    var available_traits = new Set()
-    var trait_sets = sets
-    
-    if(self.spoilers) {
-      trait_sets = spoiler_sets
-    }
-    if(self.mode!=='main') {
-      trait_sets = [self.mode]
-    }
-
-    trait_sets.map(
-      function(set) {
-        traits_by_set[set].map(
-          function(trait) {
-            available_traits.add(trait)
-          }
-        )
-      }
-    )
-    var field = getSearchField('traits')
-    field.values = Array.from(available_traits).sort()
 
     window.addEventListener("scroll", function() {
       self.listenScroll()
@@ -316,8 +269,14 @@ var CSearch = {
     })
     self.offset = 0
     self.offsetActual = 0
+
     self.toUrl()
 
+    if(self.sets.length==0 && self.spoilers) {
+      $('#'+self.available_sets.slice(-1)).click()
+    }
+
+    
     // Remove reprint out of sets
     self.excludeReprints = false
     var eri = self.sets.indexOf('Exclude Reprints');
@@ -325,6 +284,48 @@ var CSearch = {
       self.sets.splice(eri, 1)
       self.excludeReprints = true
     }
+
+    var searchingOnSets = self.sets.filter(setname => setname!='Exclude Reprints' )
+    if(searchingOnSets.length==0){
+	    searchingOnSets = self.available_sets.filter(setname => setname!='Exclude Reprints')
+    }
+
+    console.log("searchingOnSets: "+searchingOnSets)
+
+    // Update artists based on sets
+    var available_artists = new Set()
+    searchingOnSets.filter(
+      function(set) {
+	console.log('find artists for set: '+set)
+        artists_by_set[set].map(
+          function(artist) {
+            available_artists.add(artist)
+          }
+        )
+      }
+    )
+    var artistField = getSearchField('artists')
+    artistField.presetValue = self.artists.join('+')
+    artistField.values = Array.from(available_artists).sort()
+    console.log('artist preset: '+artistField.presetValue)
+    console.log('artist values: '+artistField.values)
+    artistField.refresh(self, self.initForm, self)
+
+    // Update traits based which sets can be chosen
+    var available_traits = new Set()
+    searchingOnSets.filter(
+      function(set) {
+        traits_by_set[set].map(
+          function(trait) {
+            available_traits.add(trait)
+          }
+        )
+      }
+    )
+    var traitField = getSearchField('traits')
+    traitField.presetValue = self.traits.join('+')
+    traitField.values = Array.from(available_traits).sort()
+    traitField.refresh(self, self.initForm, self)
 
     // TODO don't think we need this anymore
     if(self.mode !== 'main') {

@@ -57,19 +57,20 @@ def load_data():
             except:
                 continue
             keys[k] = v
+    keys['sets'] = keys['searchable_sets'] + keys['spoiler_sets'] + keys['kfa_sets'] + keys['next_spoiler_sets'] + keys['other_sets']
     return keys
 data_t = load_data()
 
 def gen_artists_by_set():
     d = {}
-    for set in data_t["sets"] + data_t["spoiler_sets"] + data_t["kfa_sets"]:
+    for set in data_t["sets"]:
         artists = gen_artists("CardData", set.replace("_", " "))
         d[set] = artists
     return d
 
 def gen_traits_by_set():
     d = {}
-    for set in data_t["sets"] + data_t["spoiler_sets"] + data_t["kfa_sets"]:
+    for set in data_t["sets"]:
         traits = gen_traits("CardData", set.replace("_", " "))
         d[set] = traits
     return d

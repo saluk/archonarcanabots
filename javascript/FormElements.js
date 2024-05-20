@@ -16,7 +16,8 @@ var check_images = {
   	'Anomaly': 'https://archonarcana.com/images/8/88/Anomoly-tc.png',
   	'Unfathomable': 'https://archonarcana.com/images/1/10/Unfathomable.png',
 	'Geistoid': 'https://archonarcana.com/images/4/48/Geistoid.png',
-	'Skyborn': 'https://archonarcana.com/images/0/06/Skyborn.png'
+	'Skyborn': 'https://archonarcana.com/images/0/06/Skyborn.png',
+	'Redemption': 'https://archonarcana.com/images/1/1c/Redemption.png'
 }
 
 var like_query = function(s){
@@ -35,6 +36,7 @@ class EditField {
 	  this.divclass = ''
 	  this.attach = ''
 	  this.combo = false
+	  this.combo_element = null
 	  this.basic = false
 	  this.triggerAdvanced = false
 	  this.hidden = false
@@ -51,6 +53,18 @@ class EditField {
 		return [$('[name='+this.field+'_min')[0], $('[name='+this.field+'_max')[0]]
 	  }
 	  return $('[name='+this.field+']')
+	}
+	detach() {
+	  if(this.combo_element) {
+	    $(this.combo_element).select2('destroy')
+	  }
+	  $(this.attach).empty()
+	}
+	refresh(ob, callback, search) {
+	  this.detach()
+	  this.addElement()
+	  this.listener(callback, search)
+	  this.assignData(ob)
 	}
 	addElement() {
 	  var self=this
@@ -109,6 +123,7 @@ class EditField {
   
 		if(this.combo) {
 		  var el = $('select[name="'+this.field+'"]')
+		  self.combo_element = el
 		  el.select2()
 		  // Sort by last item added
 		  el.on("select2:select", function (evt) {
