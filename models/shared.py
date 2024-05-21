@@ -8,7 +8,11 @@ SETS = {452: "WC",
         601: "U2023",
         609: "VM2023",
         700: "GR",
-        722: "MN2024"}
+        722: "MN2024",
+        990: "AS",
+        991: "VM2024",
+        992: "ToC"
+        }
 SET_NAMES = {
     452: "Worlds Collide",
     453: "Anomaly",
@@ -20,7 +24,10 @@ SET_NAMES = {
     601: "Unchained 2023",
     609: "Vault Masters 2023",
     700: "Grim Reminders",
-    722: "Menagerie 2024"
+    722: "Menagerie 2024",
+    990: "Æmber Skies",
+    991: "Vault Masters 20224",
+    992: "Tokens of Change"
 }
 # TODO turn set data into a row with 3 data points, maybe pull it out of the wiki database
 NEW_SETS = []
@@ -37,8 +44,8 @@ def get_set_number_by_name(name):
             return set_num
     return 100000
 
-NEXT_SET = "Grim Reminders"
-SPOILER_SETS = ["Grim Reminders"]
+NEXT_SET = "Æmber Skies"
+SPOILER_SETS = ["Æmber Skies"]
 
 anomaly_meta = {
     (0,10): "Worlds Collide",

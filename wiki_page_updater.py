@@ -169,3 +169,44 @@ if __name__ == "__main__":
         # ensure each of the (Anomaly) cards for this name are in the given set
         # ensure other (Anomaly) cards are NOT in the given set
         pass
+    if args.command == "vm2024":
+        # Read csv file, parsing set number and card name from cards that are known to be in VM 2024 set
+        import csv
+        from wikibase import MediawikiManager, CargoTable, update_page
+        mwm = MediawikiManager(wp)
+        with open("data/VM2024 Cards - List.csv") as f:
+            rows = [row for row in csv.reader(f, delimiter=',',quotechar='"')]
+        for row in rows[1:]:
+            number, cardname = row[:2]
+            if not cardname:
+                continue
+            pagename = "CardData:"+cardname
+            print("read page:",pagename)
+            # Read current card data from website
+            success = False
+            tries = 0
+            for i in range(10):
+                try:
+                    text = mwm.read_page(pagename)
+                    success = True
+                except:
+                    if "Bautrem" in pagename and "Lion" in pagename:
+                        pagename = 'CardData:“Lion”_Bautrem'
+                    elif '"' in pagename:
+                        pagename = pagename.replace('"', '“', 1).replace('"', '”', 1)
+                    else:
+                        pagename = pagename.replace("'","’")
+            if not success:
+                crash
+            ct = CargoTable(pagename)
+            ct.read_from_text(text)
+            print(ct.data_types)
+            # Inject new set data into card data
+            ct.data_types['SetData']['Vault Masters 2024'] = {'SetName': 'Vault Masters 2024', 'CardNumber':str(number), 'Meta': '', }
+            new_text = ct.output_text()
+            print(text)
+            # Write card data into website
+            change = update_page(pagename, wp.page(pagename), new_text, "Adding Vault Masters 2024", text)
+            if change:
+                import alerts
+                alerts.discord_alert(f"Updated card https://archonarcana.com/{pagename.replace(' ','_')} with Vault Master 2024")
