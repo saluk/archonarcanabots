@@ -1,5 +1,5 @@
 // Sets available on main card gallery
-var searchable_sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault_Masters_2023', 'Grim_Reminders']
+var searchable_sets = ['Call_of_the_Archons', 'Age_of_Ascension', 'Worlds_Collide', 'Mass_Mutation', 'Dark_Tidings', 'Winds_of_Exchange', 'Vault_Masters_2023', 'Grim_Reminders', 'Vault_Masters_2024']
 // Sets that are Adventures
 var kfa_sets = ['Rise_of_the_Keyraken', 'Abyssal_Conspiracy']
 // Spoiler sets on the spoiler search page
@@ -25,7 +25,8 @@ var houses_by_set = {
 	"Vault_Masters_2023": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed']),
 	"Menagerie_2024": new Set(['Brobnar', 'Dis', 'Logos', 'Mars', 'Saurian', 'Star_Alliance', 'Untamed']),
 	"Æmber_Skies": new Set(['Brobnar', 'Dis', 'Ekwidon', 'Geistoid', 'Logos', 'Mars', 'Skyborn']),
-	"Tokens_of_Change": new Set(['Dis', 'Geistoid', 'Logos', 'Redemption', 'Shadows', 'Skyborn', 'Untamed'])
+	"Tokens_of_Change": new Set(['Dis', 'Geistoid', 'Logos', 'Redemption', 'Shadows', 'Skyborn', 'Untamed']),
+	"Vault_Masters_2024": new Set(['Brobnar', 'Dis', 'Sanctum', 'Shadows', 'Star_Alliance', 'Unfathomable', 'Untamed'])
 }
 var set_numbers = [
 	[452, "Worlds Collide"],
@@ -39,8 +40,9 @@ var set_numbers = [
 	[609, "Vault Masters 2023"],
 	[700, "Grim Reminders"],
 	[722, "Menagerie 2024"],
-	[992, "Tokens of CHange"],
-	[990, "Æmber Skies"]
+	[990, "Æmber Skies"],
+	[991, "Vault Masters 2024"],
+	[992, "Tokens of CHange"]
 ]
 var set_name_by_number = function(number) {
 	return set_numbers.filter(function(set){
