@@ -1,5 +1,5 @@
 import {EditField, minmax} from './FormElements'
-import {artists, set5artists, artists_by_set, traits, set5traits, sets, searchable_sets, houses, spoiler_sets, kfa_sets, kfa_artists, kfa_traits,
+import {artists, set5artists, artists_by_set, traits, set5traits, sets, houses, kfa_sets, kfa_artists, kfa_traits,
   traits_by_set,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
   types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, images} from './data'
@@ -23,7 +23,7 @@ var searchFields = [
   new EditField('text', 'cardname', {'attach':'div.card-name-entries', 'split_on': '+', 'basic':true}),
   new EditField('checkbox', 'sets', 
     {'label':'Sets', 'basic':true,
-     'values':searchable_sets.concat(['Exclude Reprints']), 'divclass':'set', 'attach':'div.set-entries'}), 
+     'values':[], 'divclass':'set', 'attach':'div.set-entries'}), 
   new EditField('checkbox', 'types', 
     {'label':'Types', 'basic':true,
      'values':types, 'divclass':'type', 'attach':'div.type-entries'}), 
@@ -163,27 +163,42 @@ var CSearch = {
     img_width: 200,
     img_height: 280
   },
-  init: function (element, pageSize) {
+  init: function (element, pageSize, metadata) {
+    console.log(metadata)
     var self=this
     this.offset = 0
     this.offsetActual = 0
     this.pageSize = Number.parseInt(pageSize)
-    this.element = element;
+    this.element = element
     if(this.element.attr('data-mode')) {
       this.mode = this.element.attr('data-mode')
+    }
+    if(this.element.attr('data-setquery')) {
+      this.setquery = this.element.attr('data-setquery')
     }
     this.spoilers = this.element.attr('data-spoilers')!=null;
     this.countField = this.spoilers? 'CardNumber': 'Name'
     this.format = parseQueryString('format')
-    this.available_sets = searchable_sets.concat("Exclude Reprints")
+    this.available_sets = []
+    // TODO this.mode is deprecated in favor of setquery and explicitsets
     if(this.mode !== 'main') {
       this.available_sets = [this.mode]
     } 
-    if(this.spoilers) {
-      this.available_sets = spoiler_sets
-    } 
-    if(this.format === 'kfa') {
+    else if(this.format === 'kfa') {
       this.available_sets = kfa_sets
+    }
+    if(this.setquery) {
+      this.available_sets = metadata.cardsets.filter(setinfo=>{
+        if(setinfo["SetInfo."+this.setquery] == "1"){
+          return true
+        }
+        return false
+      }).map(setinfo=>{
+        return setinfo["SetInfo.SetName"].replaceAll(" ","_")
+      })
+    }
+    if(this.mode==='main' && !this.spoilers) {
+      this.available_sets.push("Exclude Reprints")
     }
     console.log("Available Sets:", this.available_sets)
     getSearchField('sets').values = this.available_sets
@@ -238,7 +253,7 @@ var CSearch = {
 
     // Autoselect nearest spoiler set
     if(this.spoilers) {
-      this.available_sets = [spoiler_sets[0]]
+      this.available_sets = [this.available_sets[0]]
     }
 
     window.addEventListener("scroll", function() {
@@ -271,7 +286,7 @@ var CSearch = {
     }
     history.replaceState({}, document.title, root_url+elements)
   },
-  initForm: function(self) {
+  initForm: function(self, metadata) {
     if(parseQueryString('testjs')){
       if($('div.set-row')[0]){
         $('div.set-row')[0].style=''
@@ -828,14 +843,14 @@ var init_cargo_search2 = function () {
       $('a[href="#tabs-4"]')[0].click()
     }
   }
+  var metadata = {}
+  if ($('#carddata').length>0) {
+    metadata = JSON.parse($('#carddata')[0].innerHTML.replace("<!--","").replace("-->",""))
+  }
   if ($('.card-gallery-images').length>0) {
-    CSearch.init($('.card-gallery-images'), 50)
+    CSearch.init($('.card-gallery-images'), 50, metadata)
     buildCardSearchForm(CSearch)
-    CSearch.initForm(CSearch)
-  } else if($('.spoilerOuter').length>0) {
-    CSearch.init($('.spoilerOuter'), 50)
-    buildCardSearchForm(CSearch)
-    CSearch.initForm(CSearch)
+    CSearch.initForm(CSearch, metadata)
   }
   if ($('#cargo_results').length>0) {
     CSearch.init($('#cargo_results'), 20)
