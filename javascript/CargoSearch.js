@@ -1,8 +1,8 @@
 import {EditField, minmax} from './FormElements'
-import {artists, artists_by_set, traits, houses, kfa_sets,
+import {artists, artists_by_set, traits, kfa_sets,
   traits_by_set,
-  ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
-  types, spoilertypes, rarities, spoilerrarities, orders, keywords, getHouses, images} from './data'
+  ambercounts, armorcounts, powercounts, enhancecounts, 
+  types, spoilertypes, rarities, spoilerrarities, orders, keywords, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport,
@@ -20,7 +20,7 @@ if(parseQueryString('testjs')=='true') {
 var searchFields = [
   new EditField('checkbox', 'houses', 
     {'label':'Houses', 'basic':true, 
-     'values':houses, 'divclass':'house', 'attach':"div.house-entries"}), 
+     'values':[], 'divclass':'house', 'attach':"div.house-entries"}), 
   new EditField('text', 'cardname', {'attach':'div.card-name-entries', 'split_on': '+', 'basic':true}),
   new EditField('checkbox', 'sets', 
     {'label':'Sets', 'basic':true,
@@ -112,8 +112,39 @@ var fieldIfTrue = function(field, additional) {
   return ''
 }
 
+function getSet(setname, metadata) {
+  for(let i=0;i<metadata.cardsets.length;i++) {
+    let found_set = metadata.cardsets[i]
+    let found_setname = found_set['SetInfo.SetName'].replaceAll(' ', '_')
+    if(found_setname == setname) {
+      if(!found_set['Houses']) {
+        found_set['Houses'] = {}
+      }
+      return found_set
+    }
+  }
+  return {'Houses': {}}
+}
+
+// TODO move this to a shared set of code
+// Currently we are getting metadata injected into the html and we pull that
+// From the card gallery. If we want to use this metadata from the other javescript files
+// We will need to inject it there too, and have a shared set of functions for dealing with it
+function getHousesFromMetadata(set_filter, metadata){
+	var s = new Set()
+	set_filter.map((setname)=>{
+		if(setname !== 'Exclude Reprints') {
+			Object.keys(getSet(setname, metadata)['Houses']).forEach((h)=>{
+				s.add(h.replaceAll(" ", "_"))
+			})
+		}
+	})
+	return Array.from(s).sort()
+}
+
 var CSearch = {
   mode: 'main',
+  metadata: null,
   element: undefined,
   offset: 0,
   offsetActual: 0,
@@ -167,8 +198,8 @@ var CSearch = {
     img_height: 280
   },
   init: function (element, pageSize, metadata) {
-    console.log(metadata)
     var self=this
+    self.metadata = metadata
     this.offset = 0
     this.offsetActual = 0
     this.pageSize = Number.parseInt(pageSize)
@@ -218,8 +249,9 @@ var CSearch = {
     console.log("Available Sets:", this.available_sets)
     getSearchField('sets').values = this.available_sets
 
+    //getSearchField('houses').values = houses
     if(this.spoilers){
-      getSearchField('houses').values = spoilerhouses
+      //getSearchField('houses').values = spoilerhouses
       getSearchField('rarities').values = spoilerrarities
       getSearchField('types').values = spoilertypes
       searchFields = searchFields.filter(function(field) {
@@ -295,7 +327,7 @@ var CSearch = {
     var root_url = pageTitle()
     history.replaceState({}, document.title, root_url+elements)
   },
-  initForm: function(self, metadata) {
+  initForm: function(self) {
     if(parseQueryString('testjs')){
       if($('div.set-row')[0]){
         $('div.set-row')[0].style=''
@@ -378,11 +410,11 @@ var CSearch = {
       console.log('Get sets to build set field')
       console.log('self.sets', self.sets)
       console.log('available sets', self.available_sets)
-      console.log('getHouses', getHouses(self.available_sets))
+      console.log('getHouses', getHousesFromMetadata(self.available_sets, self.metadata))
       if(clicked_sets.length>0){
-        getSearchField('houses').values = getHouses(clicked_sets)
+        getSearchField('houses').values = getHousesFromMetadata(clicked_sets, self.metadata)
       } else {
-        getSearchField('houses').values = getHouses(self.available_sets)
+        getSearchField('houses').values = getHousesFromMetadata(self.available_sets, self.metadata)
       }
       $(getSearchField('houses').attach).empty()
       getSearchField('houses').presetValue = self.houses.join('+')
@@ -845,7 +877,9 @@ var buildCardSearchForm = function(search) {
     $('.advanced-search')[0].click()
   }
   searchFields.map(function(field) {
-    field.listener(search.initForm, search)
+    if(field.getElement()) {
+      field.listener(search.initForm, search)
+    }
   })
 }
 
@@ -862,7 +896,7 @@ var init_cargo_search2 = function () {
   if ($('.card-gallery-images').length>0) {
     CSearch.init($('.card-gallery-images'), 50, metadata)
     buildCardSearchForm(CSearch)
-    CSearch.initForm(CSearch, metadata)
+    CSearch.initForm(CSearch)
   }
   if ($('#cargo_results').length>0) {
     CSearch.init($('#cargo_results'), 20)
