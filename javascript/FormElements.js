@@ -42,6 +42,7 @@ class EditField {
 	  this.hidden = false
 	  this.defaultlabel = ''
 	  this.placeholder = ''
+	  this.textsize = ''
 	  Object.assign(this, props)
 	  return this
 	}
@@ -91,7 +92,7 @@ class EditField {
 		  h = ' type="hidden" '
 		}
 		$(form).append(`
-		<input name="${this.field}" ${h} value="${self.presetValue}" placeholder="${self.placeholder}"/>
+		<input name="${this.field}" ${h} value="${self.presetValue}" placeholder="${self.placeholder}" size="${self.textsize}"/>
 `)
 	  }
 	  else if (this.type === 'select') {

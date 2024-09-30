@@ -1,7 +1,6 @@
-import {EditField, minmax} from './FormElements'
+import {EditField} from './FormElements'
 import {artists, artists_by_set, traits, kfa_sets,
   traits_by_set,
-  ambercounts, armorcounts, powercounts, enhancecounts, 
   types, spoilertypes, rarities, spoilerrarities, orders, keywords, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
@@ -46,6 +45,19 @@ var searchFields = [
   new EditField('checkbox', 'reprints', 
       {'values':['New Cards', 'Reprints', 'Unknown'], 'basic':true,
       'attach':'div.isnew-entries'}),
+  new EditField('text', 'amber_text', {'attach':'div.aember-entries', 'textsize':5}),
+  new EditField('text', 'power_text', {'attach':'div.power-entries','textsize':5}),
+  new EditField('text', 'armor_text', {'attach':'div.armor-entries','textsize':5}),
+  new EditField('text', 'enhance_amber_text', {'attach':'div.enhance-entries',
+      'textsize':5, 'label':`<img src="${images.enhanceAmber}" width="20px" class="enhance-image">`}),
+  new EditField('text', 'enhance_capture_text', {'attach':'div.enhance-entries',
+    'textsize':5, 'label':`<img src="${images.enhanceCapture}" width="20px" class="enhance-image">`}),
+  new EditField('text', 'enhance_damage_text', {'attach':'div.enhance-entries',
+    'textsize':5, 'label':`<p></p><img src="${images.enhanceDamage}" width="20px" class="enhance-image">`}),
+  new EditField('text', 'enhance_draw_text', {'attach':'div.enhance-entries',
+    'textsize':5, 'label':`<img src="${images.enhanceDraw}" width="20px" class="enhance-image">`}),
+  new EditField('text', 'enhance_discard_text', {'attach':'div.enhance-entries',
+    'textsize':5, 'label':`<img src="${images.enhanceDiscard}" width="20px" class="enhance-image">`}),
   /*new EditField('text', 'errata', 
     {'hidden':true, 'attach':'div.card-text-entries'}),
   new EditField('text', 'gigantic', 
@@ -53,14 +65,6 @@ var searchFields = [
   /*new EditField('text', 'exclusiveSet', 
   {'hidden':true, 'attach':'div.card-text-entries'}),*/
 ]
-minmax(searchFields, 'amber', 'div.aember-entries', ambercounts)
-minmax(searchFields, 'armor', 'div.armor-entries', armorcounts)
-minmax(searchFields, 'power', 'div.power-entries', powercounts)
-minmax(searchFields, 'enhance_amber', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceAmber}" width="20px" class="enhance-image">`)
-minmax(searchFields, 'enhance_capture', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceCapture}" width="20px" class="enhance-image">`)
-minmax(searchFields, 'enhance_damage', 'div.enhance-entries', enhancecounts, true, `<p></p><img src="${images.enhanceDamage}" width="20px" class="enhance-image">`)
-minmax(searchFields, 'enhance_draw', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceDraw}" width="20px" class="enhance-image">`)
-minmax(searchFields, 'enhance_discard', 'div.enhance-entries', enhancecounts, true, `<img src="${images.enhanceDiscard}" width="20px" class="enhance-image">`)
 
 var getSearchField = function(field) {
   var foundField = null
@@ -126,6 +130,32 @@ function getSet(setname, metadata) {
   return {'Houses': {}}
 }
 
+function number_range(text_input) {
+  let ret = {"min":"", "max":""}
+  if(text_input.includes("-")){
+    var spl = text_input.split("-",2).map((t)=>t.trim())
+    if(spl.length<2) {
+      ret["min"] = spl[0]
+      ret["max"] = spl[0]
+    } else {
+      ret["min"] = spl[0]
+      ret["max"] = spl[1]
+    }
+  } else if (text_input.includes("+")) {
+    var spl = text_input.split("+",1).map((t)=>t.trim())
+    ret["min"] = spl[0]
+  } else {
+    ret["min"] = text_input.trim()
+    ret["max"] = text_input.trim()
+  }
+  ret["min"] = (parseInt(ret["min"])).toString()
+  ret["max"] = (parseInt(ret["max"])).toString()
+  if(ret["min"]=="NaN") {ret["min"]=""}
+  if(ret["max"]=="NaN") {ret["max"]=""}
+  console.log(ret)
+  return ret
+}
+
 // TODO move this to a shared set of code
 // Currently we are getting metadata injected into the html and we pull that
 // From the card gallery. If we want to use this metadata from the other javescript files
@@ -160,22 +190,14 @@ var CSearch = {
   cardname: [],
   cardtext: [],
   flavortext: [],
-  power_min: [""],
-  power_max: [""],
-  amber_min: [""],
-  amber_max: [""],
-  armor_min: [""],
-  armor_max: [""],
-  enhance_amber_min: [""],
-  enhance_amber_max: [""],
-  enhance_damage_min: [""],
-  enhance_damage_max: [""],
-  enhance_capture_min: [""],
-  enhance_capture_max: [""],
-  enhance_draw_min: [""],
-  enhance_draw_max: [""],
-  enhance_discard_min: [""],
-  enhance_discard_max: [""],
+  power_text: [""],
+  amber_text: [""],
+  armor_text: [""],
+  enhance_amber_text: [""],
+  enhance_damage_text: [""],
+  enhance_capture_text: [""],
+  enhance_draw_text: [""],
+  enhance_discard_text: [""],
   rarities: [],
   traits: [],
   artists: [],
@@ -500,14 +522,14 @@ var CSearch = {
     if(join_sets && this.excludeReprints) {
       clauses.push('SetData.Meta LIKE "%25Debut%25"')
     }
-    statQuery(card_db, clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
-    statQuery(card_db, clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
-    statQuery(card_db, clauses, {'min':this.armor_min[0], 'max':this.armor_max[0]}, 'Armor')
-    statQuery(card_db, clauses, {'min':this.enhance_amber_min[0], 'max':this.enhance_amber_min[0]}, 'EnhanceAmber')
-    statQuery(card_db, clauses, {'min':this.enhance_draw_min[0], 'max':this.enhance_draw_min[0]}, 'EnhanceDraw')
-    statQuery(card_db, clauses, {'min':this.enhance_capture_min[0], 'max':this.enhance_capture_min[0]}, 'EnhanceCapture')
-    statQuery(card_db, clauses, {'min':this.enhance_damage_min[0], 'max':this.enhance_damage_min[0]}, 'EnhanceDamage')
-    statQuery(card_db, clauses, {'min':this.enhance_discard_min[0], 'max':this.enhance_discard_min[0]}, 'EnhanceDiscard')
+    statQuery(card_db, clauses, number_range(this.power_text[0]), 'Power')
+    statQuery(card_db, clauses, number_range(this.amber_text[0]), 'Amber')
+    statQuery(card_db, clauses, number_range(this.armor_text[0]), 'Armor')
+    statQuery(card_db, clauses, number_range(this.enhance_amber_text[0]), 'EnhanceAmber')
+    statQuery(card_db, clauses, number_range(this.enhance_draw_text[0]), 'EnhanceDraw')
+    statQuery(card_db, clauses, number_range(this.enhance_capture_text[0]), 'EnhanceCapture')
+    statQuery(card_db, clauses, number_range(this.enhance_damage_text[0]), 'EnhanceDamage')
+    statQuery(card_db, clauses, number_range(this.enhance_discard_text[0]), 'EnhanceDiscard')
     if(this.errata[0]){
       clauses.push('ErrataData.Version IS NOT NULL')
     }
