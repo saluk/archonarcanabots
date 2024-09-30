@@ -1,8 +1,8 @@
 import {EditField, minmax} from './FormElements'
-import {artists, set5artists, artists_by_set, traits, set5traits, sets, houses, kfa_sets, kfa_artists, kfa_traits,
+import {artists, artists_by_set, traits, houses, kfa_sets,
   traits_by_set,
   ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
-  types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, images} from './data'
+  types, spoilertypes, rarities, spoilerrarities, orders, keywords, getHouses, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport} from './myutils'
@@ -121,6 +121,8 @@ var CSearch = {
   totalCount: 0,
   houses: [],
   types: [],
+  setquery: null,
+  explicit_sets: null,
   sets: [],
   available_sets: [],
   cardname: [],
@@ -176,10 +178,12 @@ var CSearch = {
     if(this.element.attr('data-setquery')) {
       this.setquery = this.element.attr('data-setquery')
     }
+    if(this.element.attr('data-sets')) {
+      this.explicit_sets = this.element.attr('data-sets').split(",")
+    }
     this.spoilers = this.element.attr('data-spoilers')!=null;
     this.countField = this.spoilers? 'CardNumber': 'Name'
     this.format = parseQueryString('format')
-    this.available_sets = []
     // TODO this.mode is deprecated in favor of setquery and explicitsets
     if(this.mode !== 'main') {
       this.available_sets = [this.mode]
@@ -187,7 +191,17 @@ var CSearch = {
     else if(this.format === 'kfa') {
       this.available_sets = kfa_sets
     }
-    if(this.setquery) {
+    if(this.explicit_sets) {
+      this.available_sets = metadata.cardsets.filter(setinfo=>{
+        if(this.explicit_sets.includes(setinfo["SetInfo.SetName"])){
+          return true
+        }
+        return false
+      }).map(setinfo=>{
+        return setinfo["SetInfo.SetName"].replaceAll(" ","_")
+      })
+    }
+    else if(this.setquery) {
       this.available_sets = metadata.cardsets.filter(setinfo=>{
         if(setinfo["SetInfo."+this.setquery] == "1"){
           return true
@@ -277,6 +291,7 @@ var CSearch = {
     if(elements){
       elements = '?'+elements
     }
+    // TODO get root url from... the current url
     var root_url = '/Card_Gallery'
     if(this.spoilers){
       root_url = '/Spoilers'
@@ -518,8 +533,11 @@ var CSearch = {
     if(join_sets){
       var joinon = '&join_on='+card_db+'._pageName=SetData._pageName'
     }
-    // TODO why does limit care about the length of the global sets list?
-    var limitq = '&limit=' + this.pageSize * sets.length
+    // The nature of the query may duplicate a card if it is in multiple sets
+    // The upper bound of the number of dupes is the number of sets we are querying on, so we should multiply how many
+    // cards we request by the number of sets
+    // the dupes are removed later, and the actual number of cards shown is shrunk to the page size
+    var limitq = '&limit=' + this.pageSize * lsets.length
     var offsetq = '&offset=' + this.offset
     if (this.order_by.length==0){
       if(!this.spoilers && this.mode==='main'){
