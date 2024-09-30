@@ -5,7 +5,8 @@ import {artists, artists_by_set, traits, houses, kfa_sets,
   types, spoilertypes, rarities, spoilerrarities, orders, keywords, getHouses, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
-  isElementInViewport} from './myutils'
+  isElementInViewport,
+  pageTitle} from './myutils'
 import 'md5'
 import * as $ from 'jquery'
 
@@ -291,14 +292,7 @@ var CSearch = {
     if(elements){
       elements = '?'+elements
     }
-    // TODO get root url from... the current url
-    var root_url = '/Card_Gallery'
-    if(this.spoilers){
-      root_url = '/Spoilers'
-    }
-    if(this.mode !== 'main'){
-      root_url = '/' + this.mode
-    }
+    var root_url = pageTitle()
     history.replaceState({}, document.title, root_url+elements)
   },
   initForm: function(self, metadata) {
