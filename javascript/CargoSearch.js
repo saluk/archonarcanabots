@@ -1,5 +1,5 @@
 import {EditField} from './FormElements'
-import {orders, keywords, images} from './data'
+import {orders, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport,
@@ -36,7 +36,7 @@ var searchFields = [
   new EditField('select', 'artists', 
     {'values':[], 'combo': true, 'attach': 'div.artist-entries'}),
   new EditField('select', 'cardkeywords', 
-    {'values':keywords, 'combo': true, 'attach': 'div.keyword-entries'}),
+    {'values':[], 'combo': true, 'attach': 'div.keyword-entries'}),
   new EditField('select', 'order_by',
     {'attach':'div.order-entries', 'combo':true,
     'values':Object.keys(orders)}),
@@ -193,6 +193,10 @@ function getRaritiesFromMetadata(set_filter, metadata){
 	return getDistinctFieldFromMetadata(set_filter, 'Rarities', false, metadata)
 }
 
+function getKeywordsFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Keywords', false, metadata)
+}
+
 var CSearch = {
   mode: 'main',
   metadata: null,
@@ -283,6 +287,7 @@ var CSearch = {
     }
     getSearchField('types').values = getTypesFromMetadata(this.available_sets, this.metadata)
     getSearchField('rarities').values = getRaritiesFromMetadata(this.available_sets, this.metadata)
+    getSearchField('cardkeywords').values = getKeywordsFromMetadata(this.available_sets, this.metadata)
     if(this.mode==='main' && !this.spoilers) {
       this.available_sets.push("Exclude Reprints")
     }
