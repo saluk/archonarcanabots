@@ -1,6 +1,5 @@
 import {EditField} from './FormElements'
-import {kfa_sets,
-  types, spoilertypes, rarities, spoilerrarities, orders, keywords, images} from './data'
+import {kfa_sets, rarities, spoilerrarities, orders, keywords, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport,
@@ -25,7 +24,7 @@ var searchFields = [
      'values':[], 'divclass':'set', 'attach':'div.set-entries'}), 
   new EditField('checkbox', 'types', 
     {'label':'Types', 'basic':true,
-     'values':types, 'divclass':'type', 'attach':'div.type-entries'}), 
+     'values':[], 'divclass':'type', 'attach':'div.type-entries'}), 
   new EditField('text', 'cardtext', {'attach':'div.card-text-entries', 'split_on': '+'}),
   new EditField('text', 'flavortext', {'attach':'div.flavor-text-entries', 'split_on': '+'}),
   new EditField('text', 'cardnumber', {'attach':'div.card-number-entries'}),
@@ -186,6 +185,10 @@ function getTraitsFromMetadata(set_filter, metadata){
 	return getDistinctFieldFromMetadata(set_filter, 'Traits', false, metadata)
 }
 
+function getTypesFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Types', false, metadata)
+}
+
 var CSearch = {
   mode: 'main',
   metadata: null,
@@ -280,17 +283,15 @@ var CSearch = {
         return setinfo["SetInfo.SetName"].replaceAll(" ","_")
       })
     }
+    getSearchField('types').values = getTypesFromMetadata(this.available_sets, this.metadata)
     if(this.mode==='main' && !this.spoilers) {
       this.available_sets.push("Exclude Reprints")
     }
     console.log("Available Sets:", this.available_sets)
     getSearchField('sets').values = this.available_sets
 
-    //getSearchField('houses').values = houses
     if(this.spoilers){
-      //getSearchField('houses').values = spoilerhouses
       getSearchField('rarities').values = spoilerrarities
-      getSearchField('types').values = spoilertypes
       searchFields = searchFields.filter(function(field) {
         if(field.field==='sets'){
             $('.set-entries').on('click', '[name=sets]', function(e) {
