@@ -1,5 +1,5 @@
 import {EditField} from './FormElements'
-import {kfa_sets, rarities, spoilerrarities, orders, keywords, images} from './data'
+import {kfa_sets, orders, keywords, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport,
@@ -29,7 +29,7 @@ var searchFields = [
   new EditField('text', 'flavortext', {'attach':'div.flavor-text-entries', 'split_on': '+'}),
   new EditField('text', 'cardnumber', {'attach':'div.card-number-entries'}),
   new EditField('select', 'rarities', 
-    {'values':rarities, 'basic':true,
+    {'values':[], 'basic':true,
      'combo': true, 'attach':'div.rarity-entries'}), 
   new EditField('select', 'traits', 
     {'values':[], 'combo':true, 'attach':'div.trait-entries'}),
@@ -189,6 +189,10 @@ function getTypesFromMetadata(set_filter, metadata){
 	return getDistinctFieldFromMetadata(set_filter, 'Types', false, metadata)
 }
 
+function getRaritiesFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Rarities', false, metadata)
+}
+
 var CSearch = {
   mode: 'main',
   metadata: null,
@@ -284,6 +288,7 @@ var CSearch = {
       })
     }
     getSearchField('types').values = getTypesFromMetadata(this.available_sets, this.metadata)
+    getSearchField('rarities').values = getRaritiesFromMetadata(this.available_sets, this.metadata)
     if(this.mode==='main' && !this.spoilers) {
       this.available_sets.push("Exclude Reprints")
     }
@@ -291,7 +296,6 @@ var CSearch = {
     getSearchField('sets').values = this.available_sets
 
     if(this.spoilers){
-      getSearchField('rarities').values = spoilerrarities
       searchFields = searchFields.filter(function(field) {
         if(field.field==='sets'){
             $('.set-entries').on('click', '[name=sets]', function(e) {
