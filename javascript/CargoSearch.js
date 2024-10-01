@@ -1,5 +1,5 @@
 import {EditField} from './FormElements'
-import {kfa_sets, orders, keywords, images} from './data'
+import {orders, keywords, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport,
@@ -231,7 +231,6 @@ var CSearch = {
   excludeReprints: false,
   reprints: ['New Cards', 'Reprints', 'Unknown'], //Only for spoilers
   spoilers: false,
-  format: '', // blank = standard, KFA = adventures
   countField: '',
   loadingCards: false,
   loadingCount: false,
@@ -258,15 +257,10 @@ var CSearch = {
     }
     this.spoilers = this.element.attr('data-spoilers')!=null;
     this.countField = this.spoilers? 'CardNumber': 'Name'
-    this.format = parseQueryString('format')
     // TODO this.mode is deprecated in favor of setquery and explicitsets
     if(this.mode !== 'main') {
       this.available_sets = [this.mode]
     } 
-    // TODO this.format isn't really used, we should maybe see if the sets info are kfa or not if we want to customize based on kfa
-    else if(this.format === 'kfa') {
-      this.available_sets = kfa_sets
-    }
     if(this.explicit_sets) {
       this.available_sets = metadata.cardsets.filter(setinfo=>{
         if(this.explicit_sets.includes(setinfo["SetInfo.SetName"])){
@@ -396,30 +390,28 @@ var CSearch = {
       self.excludeReprints = true
     }
 
-    if(self.format !== 'kfa') {
-	    var searchingOnSets = self.sets.filter(setname => setname!='Exclude Reprints' )
-	    if(searchingOnSets.length==0){
-		    searchingOnSets = self.available_sets.filter(setname => setname!='Exclude Reprints')
-	    }
-
-	    console.log("searchingOnSets: "+searchingOnSets)
-
-	    // Update artists based on sets
-	    var available_artists = getArtistsFromMetadata(searchingOnSets, self.metadata)
-	    var artistField = getSearchField('artists')
-	    artistField.presetValue = self.artists.join('+')
-	    artistField.values = Array.from(available_artists).sort()
-	    console.log('artist preset: '+artistField.presetValue)
-	    console.log('artist values: '+artistField.values)
-	    artistField.refresh(self, self.initForm, self)
-
-	    // Update traits based which sets can be chosen
-	    var available_traits = getTraitsFromMetadata(searchingOnSets, self.metadata)
-	    var traitField = getSearchField('traits')
-	    traitField.presetValue = self.traits.join('+')
-	    traitField.values = Array.from(available_traits).sort()
-	    traitField.refresh(self, self.initForm, self)
+    var searchingOnSets = self.sets.filter(setname => setname!='Exclude Reprints' )
+    if(searchingOnSets.length==0){
+      searchingOnSets = self.available_sets.filter(setname => setname!='Exclude Reprints')
     }
+
+    console.log("searchingOnSets: "+searchingOnSets)
+
+    // Update artists based on sets
+    var available_artists = getArtistsFromMetadata(searchingOnSets, self.metadata)
+    var artistField = getSearchField('artists')
+    artistField.presetValue = self.artists.join('+')
+    artistField.values = Array.from(available_artists).sort()
+    console.log('artist preset: '+artistField.presetValue)
+    console.log('artist values: '+artistField.values)
+    artistField.refresh(self, self.initForm, self)
+
+    // Update traits based which sets can be chosen
+    var available_traits = getTraitsFromMetadata(searchingOnSets, self.metadata)
+    var traitField = getSearchField('traits')
+    traitField.presetValue = self.traits.join('+')
+    traitField.values = Array.from(available_traits).sort()
+    traitField.refresh(self, self.initForm, self)
 
     // TODO don't think we need this anymore
     if(self.mode !== 'main') {
@@ -513,7 +505,7 @@ var CSearch = {
       joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
     ]
     var lsets = this.sets
-    if (this.format !== 'kfa' && lsets.length == 0) {
+    if (lsets.length == 0) {
       lsets = this.available_sets
     }
     if(!this.exclusiveSet[0]) {
