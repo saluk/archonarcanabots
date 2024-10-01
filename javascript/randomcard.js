@@ -66,14 +66,14 @@ var CSearchRandom = {
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max)) + 1;
     }
+    // TODO This randomization may not cover all of the possible cards
     for(var i=0;i<this.numCards;i++){
         this.cardnumber.push("" + getRandomInt(429))
     }
-    this.sets = ["Dark Tidings"]
     this.pageSize = this.numCards
     var clauses = [joined('House=%22', this.houses, '%22', 'OR'),
       joined('Type=%22', this.types, '%22', 'OR'),
-      joined('SetName=%22', this.sets, '%22', 'OR'),
+      'SetInfo.IsMain=1',
       joined('Rarity=%22', this.rarities, '%22', 'OR'),
       joined('CardData.Name%20LIKE%20%22%25', this.cardname, '%25%22', 'OR'),
       joined('CardData.Traits%20LIKE%20%22%25', this.traits, '%25%22', 'OR'),
@@ -81,9 +81,6 @@ var CSearchRandom = {
       joined('CardData.Text%20LIKE%20%22%25', this.cardtext, '%25%22', 'OR'),
       joined('CardNumber=%22', this.cardnumber, '%22', 'OR', padnum)
     ]
-    //statQuery(clauses, {'min':this.power_min[0], 'max':this.power_max[0]}, 'Power')
-    //statQuery(clauses, {'min':this.amber_min[0], 'max':this.amber_max[0]}, 'Amber')
-    //statQuery(clauses, {'min':this.armor_min[0], 'max':this.armor_max[0]}, 'Armor')
     var where = joined('', clauses,
       '', 'AND')
     where = '&where=' + where
@@ -91,10 +88,10 @@ var CSearchRandom = {
     var fields = '&fields=' + fieldstring
     // /api.php?action=cargoquery&format=json&limit=100&fields=Name%2C%20House%2C%20Type%2C%20Image%2C%20SetName&where=(House%3D%22Brobnar%22%20OR%20House%3D%22Logos%22)%20AND%20Type%3D%22Action%22%20AND%20SetName%3D%22Worlds%20Collide%22&join_on=SetData._pageName%3DCardData._pageName&offset=0
     var start = '/api.php?action=cargoquery&format=json'
-    var tables = '&tables=CardData%2C%20SetData'
+    var tables = '&tables=CardData%2C%20SetData%2C%20SetInfo'
     var countFields = '&fields=COUNT(DISTINCT%20CardData.Name)'
     var groupby = '&group_by=' + fieldstring
-    var joinon = '&join_on=SetData._pageName%3DCardData._pageName'
+    var joinon = '&join_on=SetData._pageName%3DCardData._pageName%2C%20SetData.SetName%3DSetInfo.SetName'
     var limitq = '&limit=' + this.pageSize
     var offsetq = '&offset=' + this.offset
     var q = start + tables + fields + where + joinon + groupby + limitq + offsetq
@@ -136,9 +133,10 @@ var CSearchRandom = {
 }
 
 function choose_random_cards() {
+  console.log('choose random')
   if ($('.random-cards').length>0) {
-      var element = $('.random-cards')[0]
-      CSearchRandom.init(element, element.getAttribute('data-number'))
+    var element = $('.random-cards')[0]
+    CSearchRandom.init(element, element.getAttribute('data-number'))
   }
 }
 
