@@ -1,5 +1,8 @@
 import {EditField} from './FormElements'
-import {orders, images} from './data'
+import {orders, images, 
+  number_range,
+  getHousesFromMetadata, getArtistsFromMetadata, getTraitsFromMetadata,
+	getTypesFromMetadata, getRaritiesFromMetadata, getKeywordsFromMetadata} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
   isElementInViewport,
@@ -112,89 +115,6 @@ var fieldIfTrue = function(field, additional) {
     return field + additional
   }
   return ''
-}
-
-function getSet(setname, metadata) {
-  for(let i=0;i<metadata.cardsets.length;i++) {
-    let found_set = metadata.cardsets[i]
-    let found_setname = found_set['SetInfo.SetName'].replaceAll(' ', '_')
-    if(found_setname == setname) {
-      if(!found_set['Houses']) {
-        found_set['Houses'] = {}
-      }
-      return found_set
-    }
-  }
-  return {'Houses': {}}
-}
-
-function number_range(text_input) {
-  let ret = {"min":"", "max":""}
-  if(text_input.includes("-")){
-    var spl = text_input.split("-",2).map((t)=>t.trim())
-    if(spl.length<2) {
-      ret["min"] = spl[0]
-      ret["max"] = spl[0]
-    } else {
-      ret["min"] = spl[0]
-      ret["max"] = spl[1]
-    }
-  } else if (text_input.includes("+")) {
-    var spl = text_input.split("+",1).map((t)=>t.trim())
-    ret["min"] = spl[0]
-  } else {
-    ret["min"] = text_input.trim()
-    ret["max"] = text_input.trim()
-  }
-  ret["min"] = (parseInt(ret["min"])).toString()
-  ret["max"] = (parseInt(ret["max"])).toString()
-  if(ret["min"]=="NaN") {ret["min"]=""}
-  if(ret["max"]=="NaN") {ret["max"]=""}
-  console.log(ret)
-  return ret
-}
-
-// TODO move this to a shared set of code
-// Currently we are getting metadata injected into the html and we pull that
-// From the card gallery. If we want to use this metadata from the other javescript files
-// We will need to inject it there too, and have a shared set of functions for dealing with it
-function getDistinctFieldFromMetadata(set_filter, field, underscores, metadata){
-	var s = new Set()
-	set_filter.map((setname)=>{
-		if(setname !== 'Exclude Reprints') {
-			Object.keys(getSet(setname, metadata)[field]).forEach((val)=>{
-        if(underscores) {
-          val = val.replaceAll(" ", "_")
-        }
-				s.add(val)
-			})
-		}
-	})
-	return Array.from(s).sort()
-}
-
-function getHousesFromMetadata(set_filter, metadata){
-	return getDistinctFieldFromMetadata(set_filter, 'Houses', true, metadata)
-}
-
-function getArtistsFromMetadata(set_filter, metadata){
-	return getDistinctFieldFromMetadata(set_filter, 'Artists', false, metadata)
-}
-
-function getTraitsFromMetadata(set_filter, metadata){
-	return getDistinctFieldFromMetadata(set_filter, 'Traits', false, metadata)
-}
-
-function getTypesFromMetadata(set_filter, metadata){
-	return getDistinctFieldFromMetadata(set_filter, 'Types', false, metadata)
-}
-
-function getRaritiesFromMetadata(set_filter, metadata){
-	return getDistinctFieldFromMetadata(set_filter, 'Rarities', false, metadata)
-}
-
-function getKeywordsFromMetadata(set_filter, metadata){
-	return getDistinctFieldFromMetadata(set_filter, 'Keywords', false, metadata)
 }
 
 var CSearch = {

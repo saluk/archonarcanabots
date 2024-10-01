@@ -126,11 +126,93 @@ var kfa_artists = JSON.parse(kfa_artists)
 var kfa_traits = JSON.parse(kfa_traits)
 //CARDCOMBOS
 
-export {artists, set5artists, kfa_artists, artists_by_set, traits, set5traits, kfa_traits, sets, searchable_sets,
-		houses, spoiler_sets, kfa_sets,
-		traits_by_set, 
-		ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
-		multiHouseCards,
-		types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, getDeckHouses,
-		cardCombos, images, set_name_by_number, set_number_by_name
+function getSet(setname, metadata) {
+	for(let i=0;i<metadata.cardsets.length;i++) {
+		let found_set = metadata.cardsets[i]
+		let found_setname = found_set['SetInfo.SetName'].replaceAll(' ', '_')
+		if(found_setname == setname) {
+			if(!found_set['Houses']) {
+				found_set['Houses'] = {}
+			}
+			return found_set
+		}
 	}
+	return {'Houses': {}}
+}
+  
+function number_range(text_input) {
+	let ret = {"min":"", "max":""}
+	if(text_input.includes("-")){
+		var spl = text_input.split("-",2).map((t)=>t.trim())
+		if(spl.length<2) {
+			ret["min"] = spl[0]
+			ret["max"] = spl[0]
+		} else {
+			ret["min"] = spl[0]
+			ret["max"] = spl[1]
+		}
+	} else if (text_input.includes("+")) {
+		var spl = text_input.split("+",1).map((t)=>t.trim())
+		ret["min"] = spl[0]
+	} else {
+		ret["min"] = text_input.trim()
+		ret["max"] = text_input.trim()
+	}
+	ret["min"] = (parseInt(ret["min"])).toString()
+	ret["max"] = (parseInt(ret["max"])).toString()
+	if(ret["min"]=="NaN") {ret["min"]=""}
+	if(ret["max"]=="NaN") {ret["max"]=""}
+	return ret
+}
+
+function getDistinctFieldFromMetadata(set_filter, field, underscores, metadata){
+	var s = new Set()
+	set_filter.map((setname)=>{
+		if(setname !== 'Exclude Reprints') {
+			Object.keys(getSet(setname, metadata)[field]).forEach((val)=>{
+				if(underscores) {
+					val = val.replaceAll(" ", "_")
+				}
+				s.add(val)
+			})
+		}
+	})
+	return Array.from(s).sort()
+}
+
+function getHousesFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Houses', true, metadata)
+}
+
+function getArtistsFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Artists', false, metadata)
+}
+
+function getTraitsFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Traits', false, metadata)
+}
+
+function getTypesFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Types', false, metadata)
+}
+
+function getRaritiesFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Rarities', false, metadata)
+}
+
+function getKeywordsFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Keywords', false, metadata)
+}
+
+export {
+	artists, set5artists, kfa_artists, artists_by_set, traits, set5traits, kfa_traits, sets, searchable_sets,
+	houses, spoiler_sets, kfa_sets,
+	traits_by_set, 
+	ambercounts, armorcounts, powercounts, enhancecounts, spoilerhouses, 
+	multiHouseCards,
+	types, spoilertypes, rarities, spoilerrarities, orders, keywords, features, getHouses, getDeckHouses,
+	cardCombos, images, set_name_by_number, set_number_by_name,
+	number_range,
+	getDistinctFieldFromMetadata, getHousesFromMetadata, getArtistsFromMetadata, getTraitsFromMetadata,
+	getTypesFromMetadata, getRaritiesFromMetadata, getKeywordsFromMetadata
+}
