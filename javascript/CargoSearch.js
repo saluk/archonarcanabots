@@ -1,5 +1,5 @@
 import {EditField} from './FormElements'
-import {artists, artists_by_set, traits, kfa_sets,
+import {traits, kfa_sets,
   traits_by_set,
   types, spoilertypes, rarities, spoilerrarities, orders, keywords, images} from './data'
 import {parseQueryString, joined, 
@@ -36,7 +36,7 @@ var searchFields = [
   new EditField('select', 'traits', 
     {'values':traits, 'combo':true, 'attach':'div.trait-entries'}),
   new EditField('select', 'artists', 
-    {'values':artists, 'combo': true, 'attach': 'div.artist-entries'}),
+    {'values':[], 'combo': true, 'attach': 'div.artist-entries'}),
   new EditField('select', 'cardkeywords', 
     {'values':keywords, 'combo': true, 'attach': 'div.keyword-entries'}),
   new EditField('select', 'order_by',
@@ -172,6 +172,18 @@ function getHousesFromMetadata(set_filter, metadata){
 	return Array.from(s).sort()
 }
 
+function getArtistsFromMetadata(set_filter, metadata){
+	var s = new Set()
+	set_filter.map((setname)=>{
+		if(setname !== 'Exclude Reprints') {
+			Object.keys(getSet(setname, metadata)['Artists']).forEach((a)=>{
+				s.add(a)
+			})
+		}
+	})
+	return Array.from(s).sort()
+}
+
 var CSearch = {
   mode: 'main',
   metadata: null,
@@ -242,6 +254,7 @@ var CSearch = {
     if(this.mode !== 'main') {
       this.available_sets = [this.mode]
     } 
+    // TODO this.format isn't really used, we should maybe see if the sets info are kfa or not if we want to customize based on kfa
     else if(this.format === 'kfa') {
       this.available_sets = kfa_sets
     }
@@ -385,17 +398,7 @@ var CSearch = {
 	    console.log("searchingOnSets: "+searchingOnSets)
 
 	    // Update artists based on sets
-	    var available_artists = new Set()
-	    searchingOnSets.filter(
-	      function(set) {
-		console.log('find artists for set: '+set)
-		artists_by_set[set].map(
-		  function(artist) {
-		    available_artists.add(artist)
-		  }
-		)
-	      }
-	    )
+	    var available_artists = getArtistsFromMetadata(searchingOnSets, self.metadata)
 	    var artistField = getSearchField('artists')
 	    artistField.presetValue = self.artists.join('+')
 	    artistField.values = Array.from(available_artists).sort()
