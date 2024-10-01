@@ -1,9 +1,8 @@
 import * as $ from 'jquery'
 import {EditField} from './FormElements'
 import {parseQueryString, unhashImage} from './myutils'
-import {sets, houses, orders, getDeckHouses} from './data'
+import {sets, getDeckHouses, set_number_by_name} from './data'
 import 'md5'
-import { set_number_by_name } from './data'
 
 `<input type="text" id="deckName" name="deckName" placeholder="Deck Name">`
 var searchFields = [

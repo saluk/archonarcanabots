@@ -57,7 +57,6 @@ def load_data():
             except:
                 continue
             keys[k] = v
-    keys['sets'] = keys['searchable_sets'] + keys['spoiler_sets'] + keys['kfa_sets'] + keys['next_spoiler_sets'] + keys['other_sets']
     return keys
 data_t = load_data()
 
@@ -162,14 +161,6 @@ def upload(stage="dev", test=False):
     with open("javascript/data_t.js") as f:
         gen_data = f.read()
         reps = {
-            "//ARTISTS": "var artists = %s" % repr(gen_artists("CardData")),
-            "//SET5ARTISTS": "var set5artists = %s" % repr(gen_artists("SpoilerData")),
-            "//BY_SET_ARTISTS": "var artists_by_set = %s" % repr(gen_artists_by_set()),
-            "//KFAARTISTS": "var kfa_artists = %s" % repr(artists_kfa),
-            "//TRAITS": "var traits = %s" % repr(gen_traits("CardData")),
-            "//KFATRAITS": "var kfa_traits = %s" % repr(traits_kfa),
-            "//SET5TRAITS": "var set5traits = %s" % repr(gen_traits("SpoilerData")),
-            "//BY_SET_TRAITS": "var traits_by_set = %s" % repr(gen_traits_by_set()),
             "//CARDCOMBOS": "var cardCombos = %s" % "[]" # repr(gen_card_combos())
         }
         for r in reps:
