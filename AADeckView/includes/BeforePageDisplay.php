@@ -22,10 +22,6 @@ namespace MediaWiki\Extension\AADeckView;
 class BeforePageDisplay implements \MediaWiki\Hook\BeforePageDisplayHook {
 
 
-	// TODO - it's a little weird that the resource loader isn't working
-	//      - we can't access mw.config anymore?
-	//      - DeckData pages return 404 status code
-	//
 	/**
 	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/BeforePageDisplay
 	 * @param \OutputPage $out
