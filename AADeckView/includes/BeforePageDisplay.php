@@ -33,27 +33,18 @@ class BeforePageDisplay implements \MediaWiki\Hook\BeforePageDisplayHook {
 	 */
 	public function onBeforePageDisplay( $out, $skin ) : void {
 		$pageTitle = $skin->getTitle();
-		$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexQuick.js' );
-		if ( substr($pageTitle, 0, strlen('Deck Search')) === 'Deck Search' ) {
-			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexDeckSearch.js' );
+		$out->addModules(['ext.aaDeckView.indexQuick']);
+		if ( str_contains($out->mBodytext, 'deck-results') ) {
+				$out->addModules(['ext.aaDeckView.indexDeckSearch']);
 		}
-		if ( substr($pageTitle, 0, strlen('Card Gallery')) === 'Card Gallery' ) {
-			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexGallery.js' );
+		if ( str_contains($out->mBodytext, 'card-gallery-images') ) {
+				$out->addModules(['ext.aaDeckView.indexGallery']);
 		}
-		if ( substr($pageTitle, 0, strlen('Spoilers')) === 'Spoilers' ) {
-			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexGallery.js' );
-		}
-		if ( substr($pageTitle, 0, strlen('Rise of the Keyraken')) === 'Rise of the Keyraken' ) {
-			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexGallery.js' );
-		}
-		if ( substr($pageTitle, 0, strlen('Abyssal Conspiracy')) === 'Abyssal Conspiracy' ) {
-			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexGallery.js' );
-		}
-		if ( substr($pageTitle, 0, strlen('Deck:')) === 'Deck:' ) {
-			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexDeckView.js' );
+		if ( substr($pageTitle, 0, strlen('Deck:')) === 'Deck:' and !($out->getContext()->getActionName()==='edit') ) {
+				$out->addModules(['ext.aaDeckView.indexDeckView']);
 		}
 		else {
-			$out->addScriptFile( '/extensions/AADeckView/resources/ext.aaDeckView/main.indexCommon.js' );
+				$out->addModules(['ext.aaDeckView.indexCommon']);
 		}
 
 		$localized_title = [];
