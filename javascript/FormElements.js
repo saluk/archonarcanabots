@@ -1,6 +1,6 @@
 import * as $ from 'jquery'
 import 'select2'
-import {parseQueryString} from './myutils'
+import {parseQueryString, escapeRegex} from './myutils'
 
 var check_images = {
 	'Brobnar': 'https://archonarcana.com/images/e/e0/Brobnar.png',
@@ -114,7 +114,7 @@ class EditField {
 		}
 		this.values.map(function(option) {
 		  var is_checked = ''
-		  if (self.presetValue.match(option)) {
+		  if (self.presetValue.match(escapeRegex(option))) {
 			is_checked = ' selected="true"'
 		  }
 		  options.push('<option label="'+option.replace(/_/g,' ')+'" value="'+option+'"'+is_checked+'>'+option+'</option>')

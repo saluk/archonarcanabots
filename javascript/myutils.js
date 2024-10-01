@@ -16,6 +16,10 @@ var pageTitle = function() {
 	return decodeURIComponent(window.location.href.match(/\/\/.*?\/(.*?)($|\#|\?)/)[1]).replace(/\_/g, ' ')
 }
 
+var escapeRegex = function(string) {
+    return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
 var locales = {
 	"en": [["en", "English"]],
 	"pt-pt": [["pt-br", "Português do Brasil"], ["pt", "português"]],
@@ -342,4 +346,4 @@ function ajax(url, d) {
 export {parseQueryString, pageTitle, unhashImage, unhashThumbImage, renderWikitextToHtml,
 	isElementInViewport, htmlDecode, uniques, collapsible_block, carousel, 
 	joined, removePunctuation, getCardImage, updateCardImages, 
-	getLocale, locales, getFullLocale, to_full, getLocaleFromSubdomain, ajax}
+	getLocale, locales, getFullLocale, to_full, getLocaleFromSubdomain, ajax, escapeRegex}

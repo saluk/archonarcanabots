@@ -1,6 +1,5 @@
 import {EditField} from './FormElements'
-import {traits, kfa_sets,
-  traits_by_set,
+import {kfa_sets,
   types, spoilertypes, rarities, spoilerrarities, orders, keywords, images} from './data'
 import {parseQueryString, joined, 
   getCardImage, updateCardImages, unhashImage, unhashThumbImage, renderWikitextToHtml, 
@@ -34,7 +33,7 @@ var searchFields = [
     {'values':rarities, 'basic':true,
      'combo': true, 'attach':'div.rarity-entries'}), 
   new EditField('select', 'traits', 
-    {'values':traits, 'combo':true, 'attach':'div.trait-entries'}),
+    {'values':[], 'combo':true, 'attach':'div.trait-entries'}),
   new EditField('select', 'artists', 
     {'values':[], 'combo': true, 'attach': 'div.artist-entries'}),
   new EditField('select', 'cardkeywords', 
@@ -160,28 +159,31 @@ function number_range(text_input) {
 // Currently we are getting metadata injected into the html and we pull that
 // From the card gallery. If we want to use this metadata from the other javescript files
 // We will need to inject it there too, and have a shared set of functions for dealing with it
-function getHousesFromMetadata(set_filter, metadata){
+function getDistinctFieldFromMetadata(set_filter, field, underscores, metadata){
 	var s = new Set()
 	set_filter.map((setname)=>{
 		if(setname !== 'Exclude Reprints') {
-			Object.keys(getSet(setname, metadata)['Houses']).forEach((h)=>{
-				s.add(h.replaceAll(" ", "_"))
+			Object.keys(getSet(setname, metadata)[field]).forEach((val)=>{
+        if(underscores) {
+          val = val.replaceAll(" ", "_")
+        }
+				s.add(val)
 			})
 		}
 	})
 	return Array.from(s).sort()
 }
 
+function getHousesFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Houses', true, metadata)
+}
+
 function getArtistsFromMetadata(set_filter, metadata){
-	var s = new Set()
-	set_filter.map((setname)=>{
-		if(setname !== 'Exclude Reprints') {
-			Object.keys(getSet(setname, metadata)['Artists']).forEach((a)=>{
-				s.add(a)
-			})
-		}
-	})
-	return Array.from(s).sort()
+	return getDistinctFieldFromMetadata(set_filter, 'Artists', false, metadata)
+}
+
+function getTraitsFromMetadata(set_filter, metadata){
+	return getDistinctFieldFromMetadata(set_filter, 'Traits', false, metadata)
 }
 
 var CSearch = {
@@ -407,16 +409,7 @@ var CSearch = {
 	    artistField.refresh(self, self.initForm, self)
 
 	    // Update traits based which sets can be chosen
-	    var available_traits = new Set()
-	    searchingOnSets.filter(
-	      function(set) {
-		traits_by_set[set].map(
-		  function(trait) {
-		    available_traits.add(trait)
-		  }
-		)
-	      }
-	    )
+	    var available_traits = getTraitsFromMetadata(searchingOnSets, self.metadata)
 	    var traitField = getSearchField('traits')
 	    traitField.presetValue = self.traits.join('+')
 	    traitField.values = Array.from(available_traits).sort()
