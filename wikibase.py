@@ -111,7 +111,7 @@ def cargo_unique(datatype):
 def cargo_sort(table_type, table):
     from models import shared
     sort_function = {
-        "SetData": lambda row: shared.get_set_number_by_name(row["SetName"]),
+        "SetData": lambda row: shared.set_data.sort_order(row["SetName"]),
         "AltArt": lambda row: (int(row["Year"]), row["File"])
     }.get(table_type, None)
     if sort_function:

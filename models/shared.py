@@ -41,6 +41,11 @@ class SetData:
         return self.sets[str(set_num)]["SetName"]
     def is_spoiler(self, query):
         return self.find_set(query)["IsSpoiler"]
+    def sort_order(self, set_query):
+        number = self.find_set(set_query)["SetNumber"]
+        # Strip letters from number
+        number = "".join([x for x in str(number) if str(x).isdigit()])
+        return int(number)
 
 set_data = SetData()
 set_data.get_set_data()
@@ -93,11 +98,6 @@ def get_set_number_by_name(name):
 
 NEXT_SET = "Æmber Skies"
 SPOILER_SETS = ["Æmber Skies"]
-
-anomaly_meta = {
-    (0,10): "Worlds Collide",
-    (11,14): "Winds of Exchange"
-}
 
 
 def get_set_numbers():
