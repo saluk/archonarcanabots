@@ -1,4 +1,4 @@
 #!/bin/sh
 
-#.env/bin/uvicorn mastervault.mv_fastapi:mvapi --port=2345 --log-level=debug
-.env/bin/gunicorn -w 1 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:2346 mastervault.mv_fastapi:mvapi
+#.env/bin/uvicorn wormhold.mv_fastapi:mvapi --port=2345 --log-level=debug
+.env/bin/gunicorn -w 1 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:2346 wormhole.mv_fastapi:mvapi

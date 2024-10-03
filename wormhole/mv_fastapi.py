@@ -16,8 +16,8 @@ from sqlalchemy import or_, and_
 import util
 import passwords
 import connections
-from mastervault import dok, deck_writer
 from mastervault.mastervault import MasterVault
+from wormhole import deck_writer, dok
 from passlib.context import CryptContext
 from pydantic import BaseModel
 
@@ -26,6 +26,7 @@ import traceback
 #Use different connection options for server
 import sqlalchemy
 from sqlalchemy.orm import scoped_session, sessionmaker
+
 engine = sqlalchemy.create_engine(
     'postgresql+psycopg2://mastervault:'+passwords.MASTERVAULT_PASSWORD+'@localhost/mastervault',
     pool_size=5,
@@ -636,4 +637,4 @@ def generate_event_decks(current_user: UserInDB = Depends(get_current_user)):
     return {"edited": tool_update_decks.update_event_decks(wp)}
 
 
-mvapi.mount("/static", StaticFiles(directory="mastervault/static"), name="static")
+mvapi.mount("/static", StaticFiles(directory="wormhole/static"), name="static")
