@@ -164,7 +164,7 @@ def get_sets(card_sets):
     for set_num in sets:
         card_for_set = card_sets[str(set_num)]
         card_num = card_for_set["card_number"]
-        yield (shared.assigned_set_name(set_num, card_num), set_num, card_num)
+        yield (shared.set_data.assigned_set_name(set_num, card_num), set_num, card_num)
 
 
 def get_latest_from_card(card_sets, locale=None):
@@ -502,7 +502,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
             "Meta":"Debut" if set_num == earliest_set else ""
         }, restricted, "SetData")
         # FIXME - this is hacky, but if the set is in spoilers, rewrite the meta
-        if settable["SetName"] in shared.SPOILER_SETS:
+        if shared.set_data.is_spoiler(settable["SetName"]):
             settable["Meta"] = "SpoilerNew" if settable["Meta"] == "Debut" else "SpoilerReprint"
         ct.update_or_create("SetData", set_name, settable)
     return ct

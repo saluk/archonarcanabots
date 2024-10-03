@@ -1,3 +1,50 @@
+from util import cargo_query
+
+class SetData:
+    def __init__(self):
+        self.sets = {}
+        self.anomaly_sets = {}
+    def get_set_data(self):
+        search = {
+            "tables": 'SetInfo',
+            "fields": "SetNumber, ShortName, SetName, ReleaseYear, ReleaseMonth, IsMain, IsSpoiler, IsAdventure, AnomalyRange"
+        }
+        for result in cargo_query(search)['cargoquery']:
+            kfset = result['title']
+            self.sets[kfset["SetNumber"]] = kfset
+            for field in kfset:
+                if kfset[field]:
+                    kfset[field] = kfset[field].strip()
+            for field in ["ReleaseYear", "ReleaseMonth"]:
+                if kfset[field]:
+                    kfset[field] = int(kfset[field])
+            for field in ["IsMain", "IsSpoiler", "IsAdventure"]:
+                if kfset[field]:
+                    kfset[field] = bool(int(kfset[field]))
+            if kfset.get("AnomalyRange", None):
+                vs = kfset["AnomalyRange"].split("-",1)
+                if len(vs)==0:
+                    self.anomaly_sets[int(vs[0])] = kfset
+                else:
+                    for i in range(int(vs[0]), int(vs[1])+1):
+                        self.anomaly_sets[i] = kfset
+    def find_set(self, query):
+        # TODO faster find if query is the SetNumber
+        for kfset in self.sets.values():
+            if str(query).lower() in [n.lower() for n in [kfset["SetName"], kfset["ShortName"]]] or str(query).lower() == str(kfset["SetNumber"]).lower():
+                return kfset
+    def assigned_set_name(self, set_query, card_num=None):
+        set_num = self.find_set(set_query)["SetNumber"]
+        if str(set_num) == "453":
+            icard_num = int(card_num[1:])
+            return self.anomaly_sets[icard_num]["SetName"]
+        return self.sets[str(set_num)]["SetName"]
+    def is_spoiler(self, query):
+        return self.find_set(query)["IsSpoiler"]
+
+set_data = SetData()
+set_data.get_set_data()
+
 SETS = {452: "WC",
         453: "A",
         341: "CotA",
@@ -26,7 +73,7 @@ SET_NAMES = {
     700: "Grim Reminders",
     722: "Menagerie 2024",
     990: "Æmber Skies",
-    991: "Vault Masters 20224",
+    991: "Vault Masters 2024",
     992: "Tokens of Change"
 }
 # TODO turn set data into a row with 3 data points, maybe pull it out of the wiki database
@@ -51,16 +98,6 @@ anomaly_meta = {
     (0,10): "Worlds Collide",
     (11,14): "Winds of Exchange"
 }
-
-
-def assigned_set_name(set_num, card_num):
-    if str(set_num) == "453":
-        icard_num = int(card_num[1:])
-        for r in anomaly_meta:
-            if icard_num >= r[0] and icard_num <= r[1]:
-                return anomaly_meta[r]
-        raise Exception(f"Could not find card number {card_num} in anomaly assignments {anomaly_meta}")
-    return SET_NAMES.get(int(set_num), NEXT_SET)
 
 
 def get_set_numbers():
