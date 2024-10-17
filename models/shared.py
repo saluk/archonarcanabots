@@ -34,10 +34,10 @@ class SetData:
             if str(query).lower() in [n.lower() for n in [kfset["SetName"], kfset["ShortName"]]] or str(query).lower() == str(kfset["SetNumber"]).lower():
                 return kfset
     def assigned_set_name(self, set_query, card_num=None):
-        set_num = self.find_set(set_query)["SetNumber"]
-        if str(set_num) == "453":
+        if str(set_query) == "453":
             icard_num = int(card_num[1:])
             return self.anomaly_sets[icard_num]["SetName"]
+        set_num = self.find_set(set_query)["SetNumber"]
         return self.sets[str(set_num)]["SetName"]
     def is_spoiler(self, query):
         return self.find_set(query)["IsSpoiler"]
@@ -61,9 +61,9 @@ SETS = {452: "WC",
         609: "VM2023",
         700: "GR",
         722: "MN2024",
-        990: "AS",
-        991: "VM2024",
-        992: "ToC"
+        737: "VM2024",
+        800: "ÆS",
+        855: "ToC"
         }
 SET_NAMES = {
     452: "Worlds Collide",
@@ -77,9 +77,9 @@ SET_NAMES = {
     609: "Vault Masters 2023",
     700: "Grim Reminders",
     722: "Menagerie 2024",
-    990: "Æmber Skies",
-    991: "Vault Masters 2024",
-    992: "Tokens of Change"
+    737: "Vault Masters 2024",
+    800: "Æmber Skies",
+    855: "Tokens of Change"
 }
 # TODO turn set data into a row with 3 data points, maybe pull it out of the wiki database
 NEW_SETS = []
@@ -96,8 +96,8 @@ def get_set_number_by_name(name):
             return set_num
     return 100000
 
-NEXT_SET = "Æmber Skies"
-SPOILER_SETS = ["Æmber Skies"]
+NEXT_SET = "More Mutation"
+SPOILER_SETS = ["Discovery", "Prophetic Visions"]
 
 
 def get_set_numbers():
