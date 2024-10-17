@@ -8,7 +8,8 @@ sys.path.append("./")
 import connections
 import util
 from util import SEPARATOR
-from models import shared, mv_model, wiki_model
+# Just importing mv_model triggers db connect
+from models import shared, wiki_model, skyjedi_model #,mv_model
 import csv
 import bleach
 from progress.bar import Bar
@@ -322,14 +323,8 @@ def clean_fields(cards, locales):
 
 
 def process_mv_card_batch(card_batch: list) -> list:
-    """For a set of cards that we pulled from the database, isolate them into the list of cards
-    we want to put onto Archon Arcana as individual card pages. Some cards with the same name in the db
-    will be merged into one card (such as a card that can appear in multiple houses), while others will be
-    separated into multiple cards (Anomaly version of a card and the non-Anomaly version of the card)
-    Returns a list of card data dictionaries that something else can process"""
-    # TODO clean up when we refactor card db stuff to a class
-    # TODO - note, to combine houses, this method requires the batch to include the complete set of cards of a given name
-    import logging
+    """Prepare a batch of cards queried from the mastervault."""
+
     process_cards = defaultdict(lambda: [])
     for card in card_batch:
         #if not card.is_from_current_set:
@@ -337,6 +332,29 @@ def process_mv_card_batch(card_batch: list) -> list:
         #if card.is_maverick: continue
         #if card.is_enhanced: continue
         process_cards[card.data["card_title"]].append(card.data)
+
+    return process_card_batch(process_cards)
+
+
+def process_skyjedi_card_batch(card_batch: list) -> list:
+    """Prepare a batch of raw MV JSON cards."""
+
+    process_cards = defaultdict(lambda: [])
+    for card in card_batch:
+        process_cards[card["card_title"]].append(card)
+
+    return process_card_batch(process_cards)
+
+
+def process_card_batch(process_cards: dict) -> list:
+    """For a set of cards, isolate them into the list of cards
+    we want to put onto Archon Arcana as individual card pages. Some cards with the same name in the db
+    will be merged into one card (such as a card that can appear in multiple houses), while others will be
+    separated into multiple cards (Anomaly version of a card and the non-Anomaly version of the card)
+    Returns a list of card data dictionaries that something else can process"""
+    # TODO clean up when we refactor card db stuff to a class
+    # TODO - note, to combine houses, this method requires the batch to include the complete set of cards of a given name
+    import logging
     logging.debug(len(process_cards))
     print(f"\n+++ Process these cards: {len(process_cards)} - {process_cards.keys()}\n")
     def bifurcate_data(card_datas):
@@ -353,9 +371,11 @@ def process_mv_card_batch(card_batch: list) -> list:
 
         card_title = card_datas[0]["card_title"]
         print(f"++ Bifurcate data for {card_title} - versions: {len(card_datas)}")
+        sys.stdout.flush()
         logging.debug("## Do something with card that can transform: %s", card_title)
         types = set([card["card_type"] for card in card_datas])
         houses = set([card["house"] for card in card_datas])
+        in_redemption = "Redemption" in houses
         if len(types) > 1:
             if not [x for x in types if x not in ["Creature1", "Creature2"]]:
                 logging.debug(" - it's a giant")
@@ -373,6 +393,21 @@ def process_mv_card_batch(card_batch: list) -> list:
         if anomalies:
             logging.debug(" - it's an anomaly")
             return anomalies + bifurcate_data(other)
+
+        if len(houses) > 1 and in_redemption:
+            redemp = []
+            other = []
+            for data in card_datas:
+                if data.get("house", None) == "Redemption":
+                    # The same card moving houses to Redemption
+                    # in a different set becomes a different
+                    # wiki page.
+                    data["card_title"] += " (Redemption)"
+                    redemp.append(data)
+                else:
+                    other.append(data)
+            return redemp + bifurcate_data(other)
+
         if len(houses) > 1:
             new_data = {}
             new_data.update(card_datas[0])
@@ -381,6 +416,7 @@ def process_mv_card_batch(card_batch: list) -> list:
             return [new_data]
         logging.debug(" - we'll add all of them")
         return card_datas
+
     card_datas = []
     for _card_datas in process_cards.values():
         card_datas.extend(bifurcate_data(_card_datas))
@@ -388,19 +424,41 @@ def process_mv_card_batch(card_batch: list) -> list:
     return card_datas
                 
 
-def build_json(only=None, build_locales=False):
+def build_json(only=None, build_locales=False, from_skyjedi=False):
     print("++++ Clear memory")
     cards.clear()
     
     if build_locales:
         locales.clear()
 
-    print("++++ Getting card batch from postgresql")
-    scope = mv_model.UpdateScope()
-    card_batch = scope.get_cards()
-
-    print("++++ Processing batch")
-    card_datas = process_mv_card_batch(card_batch)
+    card_datas = None
+    if from_skyjedi:
+        print("++++ Getting card batch from skyjedi json")
+        local_json = skyjedi_model.LocalJson()
+        local_json.add_file("skyjedi/341.json")
+        local_json.add_file("skyjedi/435.json")
+        local_json.add_file("skyjedi/452.json")
+        local_json.add_file("skyjedi/453.json")
+        local_json.add_file("skyjedi/479.json")
+        local_json.add_file("skyjedi/496.json")
+        local_json.add_file("skyjedi/600.json")
+        local_json.add_file("skyjedi/609.json")
+        local_json.add_file("skyjedi/700.json")
+        # Historically haven't added menagerie.
+        #local_json.add_file("skyjedi/722.json")
+        local_json.add_file("skyjedi/737.json")
+        local_json.add_file("skyjedi/800.json")
+        local_json.add_file("skyjedi/855.json")
+        card_batch = local_json.get_cards()
+        print("++++ Processing batch")
+        card_datas = process_skyjedi_card_batch(card_batch)
+    else:
+        print("++++ Getting card batch from postgresql")
+        scope = mv_model.UpdateScope()
+        card_batch = scope.get_cards()
+        print("++++ Processing batch")
+        card_datas = process_mv_card_batch(card_batch)
+        
     print("++++ Adding cards")
     with Bar("Adding Cards", max=len(card_datas)) as bar:
         [add_card(card_data, cards, bar) for card_data in card_datas]
@@ -458,7 +516,7 @@ def get_restricted_dict(source, restricted, pre=""):
     return rd
 
 CARD_FIELDS_FOR_LOCALE = ["EnglishName", "Name", "Image", "Text", "SearchText", "FlavorText", "SearchFlavorText"]
-def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
+def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None, prevent_spoilers=False):
     table = "CardData"
     if not ct:
         from wikibase import CargoTable
@@ -502,7 +560,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
             "Meta":"Debut" if set_num == earliest_set else ""
         }, restricted, "SetData")
         # FIXME - this is hacky, but if the set is in spoilers, rewrite the meta
-        if shared.set_data.is_spoiler(settable["SetName"]):
+        if not prevent_spoilers and shared.set_data.is_spoiler(settable["SetName"]):
             settable["Meta"] = "SpoilerNew" if settable["Meta"] == "Debut" else "SpoilerReprint"
         ct.update_or_create("SetData", set_name, settable)
     return ct
@@ -623,7 +681,7 @@ def testing_linking_pingle_on_blood_of_titans():
     card_datas = process_mv_card_batch(batches)
     print(card_datas)
     test_cards = {}
-    [add_card(card_data, test_cards) for card_data in card_datas]
+    [add_card(ard_data, test_cards) for card_data in card_datas]
     print(test_cards)
     build_links(test_cards)
     print(test_cards)

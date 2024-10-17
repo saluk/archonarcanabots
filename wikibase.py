@@ -16,7 +16,9 @@ def add_skip(name):
         f.write(json.dumps(skip_status))
 
 
-def update_page(title, page, text, reason, ot, pause=False, read=False, only_new_edits=False):
+def update_page(title, page, text, reason, ot,
+                pause=False, read=False, only_new_edits=False,
+                wiki_dry_run=False):
     if title in skip_status:
         print("skipping", title)
         return
@@ -39,10 +41,14 @@ def update_page(title, page, text, reason, ot, pause=False, read=False, only_new
             return
     if text == ot:
         return None
-    update = page.edit(text, reason).get("edit", {"nochange": ""})
-    if "nochange" in update:
-        return None
-    return text
+
+    if wiki_dry_run:
+        print("WIKI DRY RUN, skipping page.edit()")
+        return text
+    else:
+        update = page.edit(text, reason).get("edit", {"nochange": ""})
+        if "nochange" in update:
+            return None
 
 
 def to_cat_str(cat):
@@ -210,20 +216,27 @@ class CargoTable:
     def get_data(self, datatype):
         return self.get_datas(datatype)[0]
     
-    def restrict_fields(self, fields=[]):
+    def restrict_fields(self, fields=[], exclude_fields=[]):
         """ Modify the table to only include fields that match those in the list.
+        Exclude fields explicitly skips fields, such as artist.
         Use '.' to separate namespace and field """
-        if not fields:
-            return
         for datatype in list(self.data_types.keys()):
             subset = self.data_types[datatype]
             for field in list(subset.keys()):
-                matching = False
+                # If no restricted fields were specified, we're trying to
+                # include all fields.
+                matching = not fields
                 for match_field in fields:
                     if match_field in datatype+'.'+str(field):
                         matching = True
                         break
-                if not matching:
+                # Exclude has to be specified and match to affect anything.
+                exclude = False
+                for match_field in exclude_fields:
+                    if match_field in datatype+'.'+str(field):
+                        exclude = True
+                        break
+                if exclude or not matching:
                     del self.data_types[datatype][field]
                     if not self.data_types[datatype]:
                         del self.data_types[datatype]
