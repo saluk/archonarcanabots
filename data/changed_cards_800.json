@@ -223,10 +223,6 @@
         "new_value": "0",
         "old_value": ""
       },
-      "root.data_types['CardData']['Akugyo']['House']": {
-        "new_value": "Logos",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Akugyo']['SearchText']": {
         "new_value": "Each A that would be added to your opponent\u2019s pool is captured by Akugyo instead. <p> After Fight: Move 2A from Akugyo to your pool.",
         "old_value": "Each Aember that would be added to your opponent's pool is captured by Akugyo instead. After Fight: Move 2 Aember from Akugyo to your pool."
@@ -253,10 +249,6 @@
       "root.data_types['CardData']['Alien Puffer']['FlavorText']": {
         "new_value": "\u201cIt looked harmless.\u201d -Traditional Halyard Epitaph",
         "old_value": "\u201cIt looked harmless.\u201d -Traditional Halyard Epitaph."
-      },
-      "root.data_types['CardData']['Alien Puffer']['House']": {
-        "new_value": "Geistoid",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
       },
       "root.data_types['CardData']['Alien Puffer']['SearchFlavorText']": {
         "new_value": "\u201cIt looked harmless.\u201d -Traditional Halyard Epitaph",
@@ -313,13 +305,7 @@
       "root.data_types['CardData']['Anvil Crawler']['Hazardous']": 0,
       "root.data_types['CardData']['Anvil Crawler']['Keywords']": ""
     },
-    "reason": "update",
-    "values_changed": {
-      "root.data_types['CardData']['Anvil Crawler']['House']": {
-        "new_value": "Mars",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      }
-    }
+    "reason": "update"
   },
   "Arcenomometer": {
     "dictionary_item_added": {
@@ -567,10 +553,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Beehemoth']['House']": {
-        "new_value": "Dis",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Beehemoth']['SearchText']": {
         "new_value": "Poison. <p> At the start of your turn, give a creature a +1 power counter.  <p> After Reap: Move Beehemoth anywhere in your battleline. Remove each +1 power counter from Beehemoth\u2019s neighbors. For each +1 power counter removed this way, gain 1A.",
         "old_value": "Poison. At the start of your turn, give a creature a +1 power counter. After Reap: Move Beehemoth anywhere in your battleline. Remove each +1 power counter from Beehemoth's neighbors. For each +1 power counter removed this way, gain 1 Aember."
@@ -681,10 +663,6 @@
       "root.data_types['CardData']['Blue \u00c6mberdrake']['FlavorText']": {
         "new_value": "\u201cThe blue drakes are clearly the best.\u201d -[[Indigo Halyard|Indigo Halyard]]",
         "old_value": "\u201cThe blue drakes are clearly the best.\u201d -[[Indigo Halyard]]"
-      },
-      "root.data_types['CardData']['Blue \u00c6mberdrake']['House']": {
-        "new_value": "Brobnar",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
       },
       "root.data_types['CardData']['Blue \u00c6mberdrake']['SearchText']": {
         "new_value": "Destroyed: Gain 4A. Forge your blue key at current cost.",
@@ -1452,10 +1430,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Colossipede']['House']": {
-        "new_value": "Skyborn",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Colossipede']['SearchText']": {
         "new_value": "Each friendly creature with A on it gains, \u201cAfter Fight: Move each A on this creature to your pool.\u201d <p> Play: Exalt each creature.",
         "old_value": "Each friendly creature with Aember on it gains \"After Fight: Move each Aember on this creature to your pool.\" Play: Exalt each creature."
@@ -2537,10 +2511,6 @@
         "new_value": "\u201cYou sure can learn a lot from watching that thing!\u201d -[[Carlo Phantom|Carlo Phantom]]",
         "old_value": "\u201cYou sure can learn a lot from watching that thing!\u201d \u2013[[Carlo Phantom]]"
       },
-      "root.data_types['CardData']['Falcron']['House']": {
-        "new_value": "Ekwidon",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Falcron']['SearchFlavorText']": {
         "new_value": "\u201cYou sure can learn a lot from watching that thing!\u201d -Carlo Phantom",
         "old_value": "\u201cYou sure can learn a lot from watching that thing!\u201d \u2013Carlo Phantom"
@@ -2917,10 +2887,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Grinder Swarm']['House']": {
-        "new_value": "Dis",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Grinder Swarm']['SearchText']": {
         "new_value": "Grinder Swarm gets +1 power for each creature in play.  <p> After Fight: Capture 2A.",
         "old_value": "Grinder Swarm gets +1 power for each creature in play. After Fight: Capture 2 Aember."
@@ -2960,10 +2926,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Grizzled Wyvern']['House']": {
-        "new_value": "Skyborn",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Grizzled Wyvern']['SearchText']": {
         "new_value": "Play: Capture 6A from any combination of players. Then, if Grizzled Wyvern has fewer than 6A on it, destroy it.",
         "old_value": "Play: Capture 6 Aember from any combination of players. Then, if Grizzled Wyvern has fewer than 6 Aember on it, destroy it."
@@ -3224,10 +3186,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Hungry Hippogriff']['House']": {
-        "new_value": "Brobnar",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Hungry Hippogriff']['SearchText']": {
         "new_value": "Enhance PTPTPTPTPT. <p> Each other friendly creature gains, \u201cDestroyed: Move each A from this creature to your pool.\u201d",
         "old_value": "Enhance Capture Capture Capture Capture Capture. Each other friendly creature gains, \u201cDestroyed: Move each Aember from this creature to your pool.\u201d"
@@ -3254,10 +3212,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Icarus 2.0']['House']": {
-        "new_value": "Skyborn",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Icarus 2.0']['SearchText']": {
         "new_value": "Each friendly creature gains, \u201cAction: Draw a card.\u201d",
         "old_value": "Each friendly creature gains, \"Action: Draw a card.\""
@@ -3382,10 +3336,6 @@
       "root.data_types['CardData']['Impzilla']['Armor']": {
         "new_value": "0",
         "old_value": ""
-      },
-      "root.data_types['CardData']['Impzilla']['House']": {
-        "new_value": "Skyborn",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
       },
       "root.data_types['CardData']['Impzilla']['SearchText']": {
         "new_value": "Skirmish. <p> After Fight: Destroy the most powerful enemy creature.",
@@ -3751,10 +3701,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Lancet']['House']": {
-        "new_value": "Mars",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Lancet']['SearchText']": {
         "new_value": "Each friendly creature gains, \u201cAfter Fight: Capture 1A.\u201d",
         "old_value": "Each friendly creature gains, After Fight: Capture 1 Aember."
@@ -3842,10 +3788,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Malifi Dragon']['House']": {
-        "new_value": "Geistoid",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Malifi Dragon']['SearchText']": {
         "new_value": "At the end your turn, if you have 4A or fewer, gain 2A.",
         "old_value": "At the end of your turn, if you have 4 Aember or fewer, gain 2 Aember."
@@ -4066,10 +4008,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Naja']['House']": {
-        "new_value": "Geistoid",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Naja']['SearchText']": {
         "new_value": "After Reap: Gain 3A.",
         "old_value": "After Reap: Gain 3 Aember."
@@ -4906,10 +4844,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Red \u00c6mberdrake']['House']": {
-        "new_value": "Ekwidon",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Red \u00c6mberdrake']['SearchText']": {
         "new_value": "Destroyed: Gain 4A. Forge your red key at current cost.",
         "old_value": "Destroyed: Gain 4 Aember. Forge your red key at current cost."
@@ -5037,10 +4971,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Rorqual']['House']": {
-        "new_value": "Skyborn",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Rorqual']['SearchText']": {
         "new_value": "Rorqual gets +1 power for each A on it. <p> After Fight/After Reap: Exalt Rorqual. <p> Action: Move all A from Rorqual to your pool.",
         "old_value": "Rorqual gets +1 power for each {{Aember}} on it. After Fight/After Reap: Exalt Rorqual. Action: Move all {{Aember}} from Rorqual to your pool."
@@ -5144,10 +5074,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Screeyan']['House']": {
-        "new_value": "Brobnar",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Screeyan']['Text']": {
         "new_value": "At the end of your turn, your opponent discards the top card of their deck. Your opponent [[Cannot_vs_Must|cannot]] choose the house of the discarded card during their next \u201cchoose a house\u201d step.",
         "old_value": "At the end of your turn, your opponent discards the top card of their deck. Your opponent cannot choose the house of the discarded card during their next \u201cchoose a house\u201d step."
@@ -5273,10 +5199,6 @@
       "root.data_types['CardData']['Sentient Cloud']['FlavorText']": {
         "new_value": "\u201cYeah, that\u2019s right. I said that cloud looked at me and smiled!\u201d -Crazy Pete",
         "old_value": "\u201cYeah, that\u2019s right. I said that cloud looked at me and smiled!\u201d \u2013Crazy Pete"
-      },
-      "root.data_types['CardData']['Sentient Cloud']['House']": {
-        "new_value": "Skyborn",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
       },
       "root.data_types['CardData']['Sentient Cloud']['SearchFlavorText']": {
         "new_value": "\u201cYeah, that\u2019s right. I said that cloud looked at me and smiled!\u201d -Crazy Pete",
@@ -6334,10 +6256,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Titanarpon']['House']": {
-        "new_value": "Logos",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Titanarpon']['SearchText']": {
         "new_value": "Elusive. <p> The first creature you play each turn enters play ready.",
         "old_value": "Elusive. The first creature you play each turn enters play ready."
@@ -6567,10 +6485,6 @@
     },
     "reason": "update",
     "values_changed": {
-      "root.data_types['CardData']['Tyrannus Aquilae']['House']": {
-        "new_value": "Mars",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
-      },
       "root.data_types['CardData']['Tyrannus Aquilae']['SearchText']": {
         "new_value": "At the end of each player\u2019s turn, Tyrannus Aquilae captures 1A. <p> After Fight: Move 1A from Tyrannus Aquilae to your pool.",
         "old_value": "At the end of each player\u2019s turn, Tyrannus Aquilae captures 1 Aember. After Fight: Move 1 Aember from Tyrannus Aquilae to your pool."
@@ -6760,10 +6674,6 @@
       "root.data_types['CardData']['Volax']['Armor']": {
         "new_value": "0",
         "old_value": ""
-      },
-      "root.data_types['CardData']['Volax']['House']": {
-        "new_value": "Skyborn",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
       },
       "root.data_types['CardData']['Volax']['SearchText']": {
         "new_value": "Destroyed: Gain A equal to the A in your pool.",
@@ -7013,10 +6923,6 @@
       "root.data_types['CardData']['Yellow \u00c6mberdrake']['FlavorText']": {
         "new_value": "\u201cMy cousin once saw an \u00c6mberdrake. He never saw anything again after that!\u201d -[[Bosun Creen|Bosun Creen]]",
         "old_value": "\u201cMy cousin once saw an \u00c6mberdrake. He never saw anything again after that!\u201d -[[Bosun Creen]]"
-      },
-      "root.data_types['CardData']['Yellow \u00c6mberdrake']['House']": {
-        "new_value": "Mars",
-        "old_value": "Brobnar \u2022 Dis \u2022 Ekwidon \u2022 Geistoid \u2022 Logos \u2022 Mars \u2022 Skyborn"
       },
       "root.data_types['CardData']['Yellow \u00c6mberdrake']['SearchText']": {
         "new_value": "Destroyed: Gain 4A. Forge your yellow key at current cost.",

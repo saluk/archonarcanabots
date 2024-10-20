@@ -41,4 +41,25 @@
     "is_anomaly": false,
     "house_variant": null
   },
+  {
+    "id": "bd7f3dca-0448-4279-acc7-bf4e0a2ddb74",
+    "card_title": "Yellow Æmberdrake",
+    "house": "Mars",
+    "card_type": "Creature",
+    "front_image": "https://mastervault-storage-prod.s3.amazonaws.com/media/card_front/en/800_S23_8211b1f1fce1_en.png",
+    "card_text": "Destroyed: Gain 4\uF360. Forge your yellow key at current cost.\n",
+    "traits": "Dragon",
+    "amber": 0,
+    "power": "8",
+    "armor": "2",
+    "rarity": "Special",
+    "flavor_text": "“My cousin once saw an Æmberdrake. He never saw anything again after that!” —Bosun Creen\n",
+    "card_number": "S23",
+    "expansion": 800,
+    "is_maverick": false,
+    "is_enhanced": false,
+    "is_non_deck": false,
+    "is_anomaly": false,
+    "house_variant": "4"
+  }
 ]

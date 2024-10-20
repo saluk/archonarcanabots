@@ -1,6 +1,8 @@
 import json5
 import sys
 from models import fancy_quotes
+from models import modify_house
+
 
 class LocalJson(object):
     def __init__(self):
@@ -24,6 +26,8 @@ class LocalJson(object):
                     c["flavor_text"] = fancy_quotes.force(
                         c["flavor_text"]
                     )
+
+                c["house"] = modify_house.as_needed(c)
             
             self.cards.extend(cards)
             

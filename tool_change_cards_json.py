@@ -165,15 +165,15 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
                     apply_field(field, change_set[field])
         #print("AFTER", card_name, root.data_types)
         diff = DeepDiff(old_table, new_table, custom_operators=[textual_diff(['.*'])], verbose_level=2).to_dict()
-        if diff:
-            print(diff)
+        #if diff:
+        #    print(diff)
                 
         valid_changes.append((card_name, new_table, change_requested, list(changed_fields.keys())))
         changes += 1
         if changes >= limit:
             break
     
-    print(valid_changes)
+    #print(valid_changes)
 
     changes = 0
     for (card_name, ct, change_requested, fields) in valid_changes:
@@ -187,14 +187,14 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
             ot_cargo = wikibase.CargoTable()
             ot_cargo.read_from_text(ot)
             # TODO hack to copy artist field
-            print(card_name)
+            #print(card_name)
             if ot_cargo.data_types and "Artist" in ot_cargo.data_types["CardData"][card_name]:
                 ct.data_types["CardData"][card_name]["Artist"] = ot_cargo.data_types["CardData"][card_name]["Artist"]
             text = ct.output_text()
-            print("view update:", update_card_views(wp, card_name, change_comment, False, True))
+            #print("view update:", update_card_views(wp, card_name, change_comment, False, True))
             if ot == text:
                 continue
-            print(text)
+            #print(text)
             update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
             if not wiki_dry_run:
                 import alerts
@@ -212,7 +212,7 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
             text = ct.output_text()
             if ot == text:
                 continue
-            print(text)
+            #print(text)
             update_page(card_name, page, text, "Adding set data", ot, wiki_dry_run=wiki_dry_run)
             if not wiki_dry_run:
                 import alerts
@@ -229,7 +229,7 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
             text = ct.output_text()
             if ot == text:
                 continue
-            print(text)
+            #print(text)
 
             update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
             if not wiki_dry_run:
