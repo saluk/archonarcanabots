@@ -63,7 +63,9 @@ SETS = {452: "WC",
         722: "MN2024",
         737: "VM2024",
         800: "ÆS",
-        855: "ToC"
+        855: "ToC",
+        874: "MoMu",
+        892: "MCW",
         }
 SET_NAMES = {
     452: "Worlds Collide",
@@ -79,7 +81,9 @@ SET_NAMES = {
     722: "Menagerie 2024",
     737: "Vault Masters 2024",
     800: "Æmber Skies",
-    855: "Tokens of Change"
+    855: "Tokens of Change",
+    874: "More Mutation",
+    892: "Martian Civil War",
 }
 # TODO turn set data into a row with 3 data points, maybe pull it out of the wiki database
 NEW_SETS = []

@@ -204,11 +204,9 @@ def update_cards_v2(wp, search_name=None,
                 version = card_datas[str(restrict_expansion)]
             texts.append(upload_image_for_card(wp, locale, version))
         elif data_to_update == "update_card_views":
-            crash
             print(' + update card views')
-            texts.extend(update_card_views(wp, card_name, pause=pause, locale_only=locale_only, only_new_edits=only_new_edits))
+            texts.extend(update_card_views(wp, card_name, update_reason, pause=pause, only_new_edits=only_new_edits))
         else:
-            crash
             print(' + update card page cargo')
             texts.append(update_card_page_cargo(
                 wp, wiki_card_db.cards[card_name],

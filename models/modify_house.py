@@ -1,9 +1,19 @@
 # Some cards like AS skybeasts can appear in every house
 # of the set, but the raw skyjedi JSON doesn't encode this.
 
+MOMU_HOUSES = "Dis • Logos • Sanctum • Saurian • Shadows • Star Alliance • Untamed"
 ÆS_HOUSES = "Brobnar • Dis • Ekwidon • Geistoid • Logos • Mars • Skyborn"
 
 CARDS_TO_MODIFY_HOUSE = {
+    479: {
+        "Dark Æmber Vault":       MOMU_HOUSES,
+    },
+    874: {
+        "Build Your Champion":    MOMU_HOUSES,
+        "Digging Up the Monster": MOMU_HOUSES,
+        "Tomes Gigantica":        MOMU_HOUSES,
+        "Dark Æmber Vault":       MOMU_HOUSES,
+    },
     800: {
         "Akugyo":            ÆS_HOUSES,
         "Alien Puffer":      ÆS_HOUSES,

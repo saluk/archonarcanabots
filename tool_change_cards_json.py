@@ -7,6 +7,7 @@ import os
 import shutil
 import json
 import re
+import pprint
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
 from tool_update_cards import update_card_views
@@ -191,7 +192,7 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
             if ot_cargo.data_types and "Artist" in ot_cargo.data_types["CardData"][card_name]:
                 ct.data_types["CardData"][card_name]["Artist"] = ot_cargo.data_types["CardData"][card_name]["Artist"]
             text = ct.output_text()
-            #print("view update:", update_card_views(wp, card_name, change_comment, False, True))
+            print("view update:", update_card_views(wp, card_name, change_comment, False, True))
             if ot == text:
                 continue
             #print(text)
@@ -213,7 +214,7 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
             if ot == text:
                 continue
             #print(text)
-            update_page(card_name, page, text, "Adding set data", ot, wiki_dry_run=wiki_dry_run)
+            update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
             if not wiki_dry_run:
                 import alerts
                 alerts.discord_alert(
@@ -249,12 +250,6 @@ class ListableCard:
         self.name = name
         self.card_number = card_number
 
-def list_cards_compare(c1, c2):
-    if c1.card_number > c2.card_number:
-        return 1
-    else:
-        return -1
-
 def list_cards(restrict_expansion=None):
     cards_in_set = []
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
@@ -275,7 +270,7 @@ def list_cards(restrict_expansion=None):
     from functools import cmp_to_key
     cards = sorted(
         cards_in_set,
-        key=cmp_to_key(list_cards_compare)
+        key=lambda card: card.card_number
     )
     outfile = f"data/list_cards_{restrict_expansion}.csv"
     with open(outfile, "w") as f:
