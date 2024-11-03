@@ -1,0 +1,172 @@
+{
+  "Adaptoid": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Adaptoid']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Damage}}\n-{{Draw}}.  <p> After you play a card with a bonus icon, for the remainder of the turn, Adaptoid gains (choose one): +2 armor, [[Assault|assault]] 2, or \u201c'''After Fight:''' Steal 1{{Aember}}.\u201d\n+[[Enhance|Enhance]] {{Capture}}{{Damage}}{{Draw}}.  <p> After you play a card with a bonus icon, for the remainder of the turn, Adaptoid gains (choose one): +2 armor, [[Assault|assault]] 2, or \u201c'''After Fight:''' Steal 1{{Aember}}.\u201d",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Damage}}{{Draw}}.  <p> After you play a card with a bonus icon, for the remainder of the turn, Adaptoid gains (choose one): +2 armor, [[Assault|assault]] 2, or \u201c'''After Fight:''' Steal 1{{Aember}}.\u201d",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Damage}}\n{{Draw}}.  <p> After you play a card with a bonus icon, for the remainder of the turn, Adaptoid gains (choose one): +2 armor, [[Assault|assault]] 2, or \u201c'''After Fight:''' Steal 1{{Aember}}.\u201d"
+      }
+    }
+  },
+  "Amphora Captura": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Amphora Captura']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,6 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}\n-{{Damage}}\n-{{Damage}}\n-{{Draw}}\n-{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a {{Capture}} bonus icon [[Replacement Effects|instead]].\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Damage}}{{Damage}}{{Draw}}{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a {{Capture}} bonus icon [[Replacement Effects|instead]].",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Damage}}{{Damage}}{{Draw}}{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a {{Capture}} bonus icon [[Replacement Effects|instead]].",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}\n{{Damage}}\n{{Damage}}\n{{Draw}}\n{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a {{Capture}} bonus icon [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Boss Zarek": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Boss Zarek']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}\n-{{Capture}}. (These icons have already been added to cards in your deck.) <p> Each friendly creature with {{Aember}} on it gains [[Elusive|elusive]].\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}{{Capture}}. (These icons have already been added to cards in your deck.) <p> Each friendly creature with {{Aember}} on it gains [[Elusive|elusive]].",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}{{Capture}}. (These icons have already been added to cards in your deck.) <p> Each friendly creature with {{Aember}} on it gains [[Elusive|elusive]].",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}\n{{Capture}}. (These icons have already been added to cards in your deck.) <p> Each friendly creature with {{Aember}} on it gains [[Elusive|elusive]]."
+      }
+    }
+  },
+  "Chronus": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Chronus']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Draw}}\n-{{Draw}}. (These icons have already been added to cards in your deck.) <p> After you resolve a {{Draw}} bonus icon, you may archive a card.\n+[[Enhance|Enhance]] {{Draw}}{{Draw}}. (These icons have already been added to cards in your deck.) <p> After you resolve a {{Draw}} bonus icon, you may archive a card.",
+        "new_value": "[[Enhance|Enhance]] {{Draw}}{{Draw}}. (These icons have already been added to cards in your deck.) <p> After you resolve a {{Draw}} bonus icon, you may archive a card.",
+        "old_value": "[[Enhance|Enhance]] {{Draw}}\n{{Draw}}. (These icons have already been added to cards in your deck.) <p> After you resolve a {{Draw}} bonus icon, you may archive a card."
+      }
+    }
+  },
+  "Dark Centurion": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dark Centurion']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature.\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature.",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature.",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature."
+      }
+    }
+  },
+  "Dark Queen Gloriana": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dark Queen Gloriana']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' Return a friendly non-Untamed creature to your hand.\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' Return a friendly non-Untamed creature to your hand.",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' Return a friendly non-Untamed creature to your hand.",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' Return a friendly non-Untamed creature to your hand."
+      }
+    }
+  },
+  "Ensign El-Samra": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ensign El-Samra']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Draw}}\n-{{Draw}}\n-{{Draw}}.  <p> '''Action:''' Reveal a card from your hand. Resolve its bonus icons as if you had played it.\n+[[Enhance|Enhance]] {{Draw}}{{Draw}}{{Draw}}.  <p> '''Action:''' Reveal a card from your hand. Resolve its bonus icons as if you had played it.",
+        "new_value": "[[Enhance|Enhance]] {{Draw}}{{Draw}}{{Draw}}.  <p> '''Action:''' Reveal a card from your hand. Resolve its bonus icons as if you had played it.",
+        "old_value": "[[Enhance|Enhance]] {{Draw}}\n{{Draw}}\n{{Draw}}.  <p> '''Action:''' Reveal a card from your hand. Resolve its bonus icons as if you had played it."
+      }
+    }
+  },
+  "General Xalvador": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['General Xalvador']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. (These icons have already been added to cards in your deck.)"
+      }
+    }
+  },
+  "Gloriana\u2019s Attendant": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Gloriana\u2019s Attendant']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}. (These icons have already been added to cards in your deck.)"
+      }
+    }
+  },
+  "Hystricog": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Hystricog']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Damage}}\n-{{Damage}}\n-{{Damage}}. (These icons have already been added to cards in your deck.) <p> '''Action:''' Destroy a damaged creature.\n+[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.) <p> '''Action:''' Destroy a damaged creature.",
+        "new_value": "[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.) <p> '''Action:''' Destroy a damaged creature.",
+        "old_value": "[[Enhance|Enhance]] {{Damage}}\n{{Damage}}\n{{Damage}}. (These icons have already been added to cards in your deck.) <p> '''Action:''' Destroy a damaged creature."
+      }
+    }
+  },
+  "Infomorph": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Infomorph']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Draw}}\n-{{Draw}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Draw}}{{Draw}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Draw}}{{Draw}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Draw}}\n{{Draw}}. (These icons have already been added to cards in your deck.)"
+      }
+    }
+  },
+  "Maleficorn": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Maleficorn']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,4 +1 @@\n-[[Enhance|Enhance]] {{Damage}}\n-{{Damage}}\n-{{Damage}}\n-{{Damage}}.  <p> After an enemy creature is dealt damage by a {{Damage}} bonus icon, deal 1{{Damage}} to that creature.\n+[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}{{Damage}}.  <p> After an enemy creature is dealt damage by a {{Damage}} bonus icon, deal 1{{Damage}} to that creature.",
+        "new_value": "[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}{{Damage}}.  <p> After an enemy creature is dealt damage by a {{Damage}} bonus icon, deal 1{{Damage}} to that creature.",
+        "old_value": "[[Enhance|Enhance]] {{Damage}}\n{{Damage}}\n{{Damage}}\n{{Damage}}.  <p> After an enemy creature is dealt damage by a {{Damage}} bonus icon, deal 1{{Damage}} to that creature."
+      }
+    }
+  },
+  "Mutagenesis Researcher": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Mutagenesis Researcher']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,4 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Capture}}\n-{{Damage}}\n-{{Draw}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Aember}}{{Capture}}{{Damage}}{{Draw}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Capture}}{{Damage}}{{Draw}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Capture}}\n{{Damage}}\n{{Draw}}. (These icons have already been added to cards in your deck.)"
+      }
+    }
+  },
+  "Mutant Cutpurse": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Mutant Cutpurse']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Damage}}\n-{{Damage}}\n-{{Damage}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Damage}}\n{{Damage}}\n{{Damage}}. (These icons have already been added to cards in your deck.)"
+      }
+    }
+  },
+  "Scrivener Favian": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Scrivener Favian']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. (These icons have already been added to cards in your deck.) <p> When you resolve a {{Capture}} bonus icon, you may choose to steal 1{{Aember}} [[Replacement Effects|instead]].\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. (These icons have already been added to cards in your deck.) <p> When you resolve a {{Capture}} bonus icon, you may choose to steal 1{{Aember}} [[Replacement Effects|instead]].",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. (These icons have already been added to cards in your deck.) <p> When you resolve a {{Capture}} bonus icon, you may choose to steal 1{{Aember}} [[Replacement Effects|instead]].",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. (These icons have already been added to cards in your deck.) <p> When you resolve a {{Capture}} bonus icon, you may choose to steal 1{{Aember}} [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Splinter": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Splinter']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,6 +1 @@\n-[[Enhance|Enhance]] {{Damage}}\n-{{Damage}}\n-{{Damage}}\n-{{Damage}}\n-{{Damage}}\n-{{Damage}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}{{Damage}}{{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}{{Damage}}{{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Damage}}\n{{Damage}}\n{{Damage}}\n{{Damage}}\n{{Damage}}\n{{Damage}}. (These icons have already been added to cards in your deck.)"
+      }
+    }
+  },
+  "Wild Bounty": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Wild Bounty']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}.  <p> '''Play:''' The next time you play a card this turn, resolve each of its bonus icons an additional time.\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}.  <p> '''Play:''' The next time you play a card this turn, resolve each of its bonus icons an additional time.",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}.  <p> '''Play:''' The next time you play a card this turn, resolve each of its bonus icons an additional time.",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}.  <p> '''Play:''' The next time you play a card this turn, resolve each of its bonus icons an additional time."
+      }
+    }
+  }
+}

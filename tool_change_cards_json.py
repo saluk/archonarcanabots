@@ -1,5 +1,5 @@
 import time
-from models import wiki_card_db, wiki_model
+from models import wiki_card_db, wiki_model, shared
 import wikibase
 from wikibase import update_page
 import requests
@@ -7,6 +7,7 @@ import os
 import shutil
 import json
 import re
+import pprint
 from deepdiff import DeepDiff
 from deepdiff.operator import BaseOperator
 from tool_update_cards import update_card_views
@@ -21,7 +22,8 @@ class textual_diff(BaseOperator):
         if str(level.t1) == str(level.t2):
             return True
 
-def read_change(wp, card, locale=None, fields=[]):
+def read_change(wp, card, locale=None, fields=[], exclude_fields=[],
+                prevent_spoilers=False):
     latest_english = wiki_card_db.get_latest_from_card(card)
     latest = wiki_card_db.get_latest_from_card(card, locale)
     page = wp.page("CardData:" + latest_english["card_title"])
@@ -35,9 +37,10 @@ def read_change(wp, card, locale=None, fields=[]):
         ct_new.read_from_text(ot)
     except Exception:
         pass
-    wiki_card_db.get_cargo(card, ct_new)
-    ct_old.restrict_fields(fields)
-    ct_new.restrict_fields(fields)
+    wiki_card_db.get_cargo(card, ct_new,
+                           prevent_spoilers=prevent_spoilers)
+    ct_old.restrict_fields(fields, exclude_fields)
+    ct_new.restrict_fields(fields, exclude_fields)
     diff = DeepDiff(ct_old, ct_new, custom_operators=[textual_diff(['.*'])], verbose_level=2).to_dict()
     if not diff:
         return diff
@@ -58,10 +61,12 @@ def read_change(wp, card, locale=None, fields=[]):
 
 
 def read_changes(wp, search_name=None,
-                    restrict_expansion=None,
-                    locale=None,
-                    card_name=False,
-                    fields=[]):
+                 restrict_expansion=None,
+                 locale=None,
+                 card_name=False,
+                 fields=[],
+                 exclude_fields=[],
+                 prevent_spoilers=False):
     limit = 3000
     changed = 0
     started = False
@@ -82,11 +87,14 @@ def read_changes(wp, search_name=None,
         diff = read_change(
             wp, card_datas,
             locale=locale,
-            fields=fields
+            fields=fields,
+            exclude_fields=exclude_fields,
+            prevent_spoilers=prevent_spoilers
         )
         if diff:
             found_changes[card_name] = diff
             changed += 1
+        print(' + changed:', changed)
         if changed >= limit:
             break
     if os.path.exists("data/changed_cards.json"):
@@ -101,14 +109,13 @@ def read_changes(wp, search_name=None,
     f.write(json.dumps(found_changes, indent=2, sort_keys=True))
     f.close()
 
-def write_changes(wp, filename, locale=None):
+def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_dry_run=False):
     f = open(filename)
     requested_changes = json.loads(f.read())
     f.close()
     limit = 1000
     # lint step
     valid_changes = []
-
     changes = 0
     for i, card_name in enumerate(requested_changes.keys()):
         page = wp.page("CardData:" + card_name)
@@ -130,6 +137,10 @@ def write_changes(wp, filename, locale=None):
 
         changed_fields = {}
         def apply_field(field, value):
+            if field == 'root.data_types':
+                new_table.data_types = value
+                changed_fields[field] = 1
+                return
             field = field.replace("root.data_types", "")
             subs = re.findall("\[\'(.*?)\'\]", field)
             ob = new_table.data_types
@@ -155,15 +166,15 @@ def write_changes(wp, filename, locale=None):
                     apply_field(field, change_set[field])
         #print("AFTER", card_name, root.data_types)
         diff = DeepDiff(old_table, new_table, custom_operators=[textual_diff(['.*'])], verbose_level=2).to_dict()
-        if diff:
-            print(diff)
+        #if diff:
+        #    print(diff)
                 
         valid_changes.append((card_name, new_table, change_requested, list(changed_fields.keys())))
         changes += 1
         if changes >= limit:
             break
     
-    print(valid_changes)
+    #print(valid_changes)
 
     changes = 0
     for (card_name, ct, change_requested, fields) in valid_changes:
@@ -177,18 +188,20 @@ def write_changes(wp, filename, locale=None):
             ot_cargo = wikibase.CargoTable()
             ot_cargo.read_from_text(ot)
             # TODO hack to copy artist field
-            print(card_name)
+            #print(card_name)
             if ot_cargo.data_types and "Artist" in ot_cargo.data_types["CardData"][card_name]:
                 ct.data_types["CardData"][card_name]["Artist"] = ot_cargo.data_types["CardData"][card_name]["Artist"]
             text = ct.output_text()
-            print("view update:", update_card_views(wp, card_name, "GR mastervault pull", False, True))
+            print("view update:", update_card_views(wp, card_name, change_comment, False, True))
             if ot == text:
                 continue
-            print(text)
-            update_page(card_name, page, text, "GR mastervault pull", ot)
-            import alerts
-            # FIXME move this to wikibase or somewhere
-            alerts.discord_alert(f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
+            #print(text)
+            update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
+            if not wiki_dry_run:
+                import alerts
+                # FIXME move this to wikibase or somewhere
+                alerts.discord_alert(
+                    f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
         elif change_requested["reason"] == "addset":
             page = wp.page("CardData:" + card_name)
             try:
@@ -200,10 +213,12 @@ def write_changes(wp, filename, locale=None):
             text = ct.output_text()
             if ot == text:
                 continue
-            print(text)
-            update_page(card_name, page, text, "Adding set data", ot)
-            import alerts
-            alerts.discord_alert(f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
+            #print(text)
+            update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
+            if not wiki_dry_run:
+                import alerts
+                alerts.discord_alert(
+                    f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
         elif change_requested["reason"] == "revision":
             page = wp.page("CardData:" + card_name)
             try:
@@ -215,10 +230,13 @@ def write_changes(wp, filename, locale=None):
             text = ct.output_text()
             if ot == text:
                 continue
-            print(text)
-            update_page(card_name, page, text, "Making revision from GR mastervault pull", ot)
-            import alerts
-            alerts.discord_alert(f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
+            #print(text)
+
+            update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
+            if not wiki_dry_run:
+                import alerts
+                alerts.discord_alert(
+                    f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
         else:
             print(f"Unknown change reason: {change_requested['reason']}")
             crash
@@ -226,7 +244,41 @@ def write_changes(wp, filename, locale=None):
         if changes >= limit:
             break
 
-    
+
+class ListableCard:
+    def __init__(self, name, card_number):
+        self.name = name
+        self.card_number = card_number
+
+def list_cards(restrict_expansion=None):
+    cards_in_set = []
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    for c in wiki_card_db.cards:
+        card_datas = wiki_card_db.cards[c]
+        if str(restrict_expansion) in [str(set_name) for set_name in card_datas]:
+            ct = wikibase.CargoTable()
+            wiki_card_db.get_cargo(card_datas, ct)
+
+            lc = ListableCard(
+                c,
+                ct.data_types["SetData"]
+                    [shared.SET_NAMES[int(restrict_expansion)]]
+                    ["CardNumber"]
+            )
+            cards_in_set.append(lc)
+
+    from functools import cmp_to_key
+    cards = sorted(
+        cards_in_set,
+        key=lambda card: card.card_number
+    )
+    outfile = f"data/list_cards_{restrict_expansion}.csv"
+    with open(outfile, "w") as f:
+        f.write("Set Number, Card Name\n")
+        for c in cards:
+            f.write("%s, %s\n" % (c.card_number, c.name))
+    print(f"Cards in local db for expansion {restrict_expansion} listed in {outfile}")
+
 
 def test_read_ct():
     import connections

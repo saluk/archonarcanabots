@@ -27,3 +27,4 @@ twilio
 deepdiff
 progress
 python-Levenshtein
+json5

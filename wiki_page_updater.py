@@ -29,6 +29,7 @@ parser.add_argument("command", metavar="command", type=str)
 parser.add_argument("--batch", action="store_true")
 parser.add_argument("--search", type=str)
 parser.add_argument("--restricted", type=str, help="The only card fields to update")
+parser.add_argument("--excluded", type=str, help="Card fields to exclude")
 parser.add_argument("--locale", type=str, help="The full two part locale, such as es-es. Multiple can be separated with commas.")
 parser.add_argument("--stage", type=str, help="dev or prod for javascript files (not in use", default="dev")
 parser.add_argument("--test", action="store_true", help="For uploading script files, is this a test run")
@@ -37,15 +38,22 @@ parser.add_argument("--testfile", type=str, help="a json of test data to load fo
 parser.add_argument("--sheet", type=str, help="The spreadsheet name to merge")
 parser.add_argument("--restrict_expansion", type=int, help="Expansion number to limit")
 parser.add_argument("--build_locales", type=bool, help="Whether or not to build locales when building the wiki db", default=False)
+parser.add_argument("--prevent_spoilers", action="store_true", help="When prepping a spoilered set to become main, force card pages to non-spoiler values", default=False)
+parser.add_argument("--change_comment", type=str, help="To annotate wiki updates.", default="bot update")
+parser.add_argument("--wiki_dry_run", action="store_true", help="Run write_changes but do not publish to wiki or alert Discord.", default=False)
 args = parser.parse_args()
 args.pause = not args.batch
 print(vars(args))
+
 
 if __name__ == "__main__":
     # STEP 1 Run this first to update our json files from what was recorded from the mastervault in the postgresql db
     if args.command == "build_wiki_db":
         from models import wiki_card_db
         wiki_card_db.build_json(build_locales=args.build_locales)
+    if args.command == "build_wiki_db_skyjedi":
+        from models import wiki_card_db
+        wiki_card_db.build_json(build_locales=args.build_locales, from_skyjedi=True)
     # STEP 2 Upload the new images
     if args.command == "upload_images":
         import tool_update_cards
@@ -61,7 +69,9 @@ if __name__ == "__main__":
             tool_change_cards_json.read_changes(
                 wp, args.search, 
                 restrict_expansion=args.restrict_expansion,
-                fields=args.restricted.split("|") if args.restricted else []
+                fields=args.restricted.split("|") if args.restricted else [],
+                exclude_fields=args.excluded.split("|") if args.excluded else [],
+                prevent_spoilers=args.prevent_spoilers
             )
         else:
             print("""You must restrict the expansion. The changes will be in terms of updating
@@ -73,7 +83,11 @@ if __name__ == "__main__":
     if args.command == "write_card_changes":
         import tool_change_cards_json
         tool_change_cards_json.write_changes(
-            wp, f'data/changed_cards_{args.restrict_expansion}.json')
+            wp,
+            f'data/changed_cards_{args.restrict_expansion}.json',
+            change_comment=args.change_comment,
+            wiki_dry_run=args.wiki_dry_run
+        )
     if args.command == "import_cards_locale":
         import tool_update_cards
         for locale in args.locale.split(","):
@@ -210,3 +224,12 @@ if __name__ == "__main__":
             if change:
                 import alerts
                 alerts.discord_alert(f"Updated card https://archonarcana.com/{pagename.replace(' ','_')} with Vault Master 2024")
+
+    if args.command == "list_cards":
+        if args.restrict_expansion:
+            import tool_change_cards_json
+            tool_change_cards_json.list_cards(
+                restrict_expansion=args.restrict_expansion
+            )
+        else:
+            print("You must restrict the expansion.")

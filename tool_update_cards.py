@@ -34,7 +34,7 @@ print(reprints["errata"]["Transporter Platform"])
 csv_changes = open("changes.csv","w")
 
 
-def update_card_views(wp, card_title, update_reason="WoE updates", pause=False, only_new_edits=False):
+def update_card_views(wp, card_title, update_reason="bot updates", pause=False, only_new_edits=False):
     print("update_card_views", card_title, pause)
     page = wp.page(card_title)
     updates = []
@@ -60,7 +60,8 @@ def update_reprint_with_errata(ct, errata, card):
 def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", restricted=[], pause=True, use_csv=False,
         only_sets=False,
         locale=None,
-        only_new_edits=False
+        only_new_edits=False,
+        prevent_spoilers=False
     ):
     latest_english = wiki_card_db.get_latest_from_card(card)
     latest = wiki_card_db.get_latest_from_card(card, locale)
@@ -84,7 +85,7 @@ def update_card_page_cargo(wp, card, update_reason="", data_to_update="carddb", 
                 locale=locale, english_name=latest_english["card_title"])
             print(ct.data_types)
         else:
-            wiki_card_db.get_cargo(card, ct, restricted, only_sets, locale=locale)
+            wiki_card_db.get_cargo(card, ct, restricted, only_sets, locale=locale, prevent_spoilers=prevent_spoilers)
     elif data_to_update == "insert_search_text":
         wiki_card_db.get_cargo(card, ct, ["SearchText", "SearchFlavorText"])
     elif data_to_update == "relink":
@@ -173,7 +174,8 @@ def update_cards_v2(wp, search_name=None,
                     locale_only=False,
                     pause=True,
                     card_name=False,
-                    only_new_edits=False):
+                    only_new_edits=False,
+                    prevent_spoilers=False):
     changed = 0
     started = False
     search_cards = sorted(wiki_card_db.cards.keys())
@@ -202,11 +204,9 @@ def update_cards_v2(wp, search_name=None,
                 version = card_datas[str(restrict_expansion)]
             texts.append(upload_image_for_card(wp, locale, version))
         elif data_to_update == "update_card_views":
-            crash
             print(' + update card views')
-            texts.extend(update_card_views(wp, card_name, pause=pause, locale_only=locale_only, only_new_edits=only_new_edits))
+            texts.extend(update_card_views(wp, card_name, update_reason, pause=pause, only_new_edits=only_new_edits))
         else:
-            crash
             print(' + update card page cargo')
             texts.append(update_card_page_cargo(
                 wp, wiki_card_db.cards[card_name],
@@ -215,7 +215,8 @@ def update_cards_v2(wp, search_name=None,
                 data_to_update=data_to_update,
                 locale=locale,
                 pause=pause,
-                only_new_edits=only_new_edits))
+                only_new_edits=only_new_edits,
+                prevent_spoilers=prevent_spoilers))
         texts = texts or []
         wait = False
         for text in texts:

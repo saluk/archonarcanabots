@@ -1,0 +1,2240 @@
+{
+  "Admirable Neophyte": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Admirable Neophyte']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Damage}}. <p> '''Play:''' Make a [[Token Creatures|token creature]].\n+[[Enhance|Enhance]] {{Capture}}{{Damage}}. <p> '''Play:''' Make a [[Token Creatures|token creature]].",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Damage}}. <p> '''Play:''' Make a [[Token Creatures|token creature]].",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Damage}}. <p> '''Play:''' Make a [[Token Creatures|token creature]]."
+      }
+    }
+  },
+  "Alpha-Gamma": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Alpha-Gamma']['FlavorText']": {
+        "new_value": "\u201cIt\u2019s only theoretical until it occurs.\u201d",
+        "old_value": "\u201dIt's only theoretical until it occurs.\u201d"
+      },
+      "root.data_types['CardData']['Alpha-Gamma']['SearchFlavorText']": {
+        "new_value": "\u201cIt\u2019s only theoretical until it occurs.\u201d",
+        "old_value": "\u201dIt's only theoretical until it occurs.\u201d"
+      }
+    }
+  },
+  "Angwish": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Angwish']['FlavorText']": {
+        "new_value": "\u201cThe more it hurts, the more it shares its pain. What a beautiful monster.\u201d -[[Miss \u201cOnyx\u201d Censorius|Miss \u201cOnyx\u201d Censorius]]",
+        "old_value": "\u201cThe more it hurts, the more it shares its pain. What a beautiful monster.\u201d -[[Miss \u201cOnyx\u201d Censorius|Miss \u201dOnyx\u201d Censorius]]"
+      },
+      "root.data_types['CardData']['Angwish']['SearchFlavorText']": {
+        "new_value": "\u201cThe more it hurts, the more it shares its pain. What a beautiful monster.\u201d -Miss \u201cOnyx\u201d Censorius",
+        "old_value": "\u201cThe more it hurts, the more it shares its pain. What a beautiful monster.\u201d -Miss \u201dOnyx\u201d Censorius"
+      }
+    }
+  },
+  "Armageddon Cloak (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Armageddon Cloak (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-136.png",
+              "Keywords": "",
+              "Name": "Armageddon Cloak (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "This creature gains hazardous 2 and, \u201cDestroyed: Fully heal this creature and destroy Armageddon Cloak instead.\u201d",
+              "Text": "This creature gains [[Hazardous|hazardous]] 2 and, \u201c'''Destroyed:''' Fully [[Heal|heal]] this creature and destroy [[Armageddon Cloak|Armageddon Cloak]] [[Replacement Effects|instead]].\u201d",
+              "Traits": null,
+              "Type": "Upgrade"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "136",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Avenging Aura (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Avenging Aura (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-137.png",
+              "Keywords": "",
+              "Name": "Avenging Aura (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: For the remainder of the turn, each friendly creature gains assault X, where X is the number of forged keys your opponent has.",
+              "Text": "'''Play:''' For the remainder of the turn, each friendly creature gains [[Assault|assault]] X, where X is the number of forged keys your opponent has.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "137",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Backup Copy": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Backup Copy']['FlavorText']": {
+        "new_value": "\u201cIt\u2019s so cute! I want another one.\u201d -[[Dextre|Dextre]]",
+        "old_value": "\u201dIt\u2019s so cute! I want another one.\u201d -[[Dextre|Dextre]]"
+      },
+      "root.data_types['CardData']['Backup Copy']['SearchFlavorText']": {
+        "new_value": "\u201cIt\u2019s so cute! I want another one.\u201d -Dextre",
+        "old_value": "\u201dIt\u2019s so cute! I want another one.\u201d -Dextre"
+      }
+    }
+  },
+  "Balaenora": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Balaenora']['SearchText']": {
+        "new_value": "Balaenora cannot be played unless your opponent has 7A or more in their pool. <p> Play: Capture all of your opponent\u2019s A. <p> After Fight: Give control of Balaenora to your opponent.",
+        "old_value": "Balaenora cannot be played unless your opponent has 7A or more in their pool. <p> Play: Capture all of your opponent's A. <p> After Fight: Give control of Balaenora to your opponent."
+      },
+      "root.data_types['CardData']['Balaenora']['Text']": {
+        "new_value": "Balaenora [[Cannot_vs_Must|cannot]] be played unless your opponent has 7{{Aember}} or more in their pool. <p> '''Play:''' Capture all of your opponent\u2019s {{Aember}}. <p> '''After Fight:''' Give [[Control|control]] of Balaenora to your opponent.",
+        "old_value": "Balaenora [[Cannot_vs_Must|cannot]] be played unless your opponent has 7{{Aember}} or more in their pool. <p> '''Play:''' Capture all of your opponent's {{Aember}}. <p> '''After Fight:''' Give [[Control|control]] of Balaenora to your opponent."
+      }
+    }
+  },
+  "Big Sal": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Big Sal']['FlavorText']": {
+        "new_value": "So what if he stands out in a crowd? He\u2019s Big Sal!",
+        "old_value": "So what if he stands out in a crowd? He's Big Sal!"
+      },
+      "root.data_types['CardData']['Big Sal']['SearchFlavorText']": {
+        "new_value": "So what if he stands out in a crowd? He\u2019s Big Sal!",
+        "old_value": "So what if he stands out in a crowd? He's Big Sal!"
+      }
+    }
+  },
+  "Book of Malefaction (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Book of Malefaction (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-138.png",
+              "Keywords": "",
+              "Name": "Book of Malefaction (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "After your A is stolen, put a warrant counter on Book of Malefaction for each A stolen.  <p> Omni: Remove a warrant counter from Book of Malefaction. If you do, purge a creature.",
+              "Text": "After your {{Aember}} is stolen, put a warrant counter on [[Book of Malefaction|Book of Malefaction]] [[For each|for each]] {{Aember}} stolen.  <p> '''Omni:''' Remove a warrant counter from Book of Malefaction. [[if you do|If you do]], [[Purge|purge]] a creature.",
+              "Traits": "Item \u2022 Law",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "138",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Bordan the Redeemed (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Bordan the Redeemed (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cRedemption is a journey, not a destination.\u201d",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-164.png",
+              "Keywords": "Elusive",
+              "Name": "Bordan the Redeemed (Redemption)",
+              "Power": "3",
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cRedemption is a journey, not a destination.\u201d",
+              "SearchText": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> Action: Capture 2A.",
+              "Text": "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Action:''' Capture 2{{Aember}}.",
+              "Traits": "Human \u2022 Thief",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "164",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Bull-wark (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Bull-wark (Redemption)": {
+              "Amber": 0,
+              "Armor": "1",
+              "Assault": "2",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cLet me be thy horns.\u201d",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-165.png",
+              "Keywords": "Assault",
+              "Name": "Bull-wark (Redemption)",
+              "Power": "4",
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cLet me be thy horns.\u201d",
+              "SearchText": "Assault 2. (Before this creature attacks, deal 2D to the attacked enemy.) <p> Each of Bull-wark\u2019s neighbors gains assault 2.",
+              "Text": "[[Assault|Assault]] 2. (Before this creature attacks, deal 2{{Damage}} to the attacked enemy.) <p> Each of [[Bull-wark|Bull-wark]]\u2019s neighbors gains [[Assault|assault]] 2.",
+              "Traits": "Mutant \u2022 Knight",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "165",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Burning Glare (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Burning Glare (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 1,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-166.png",
+              "Keywords": "",
+              "Name": "Burning Glare (Redemption)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "Enhance D. (These icons have already been added to cards in your deck.) <p> Play: Choose one: <p> Stun an enemy creature <p> Stun each enemy Mutant creature.",
+              "Text": "[[Enhance|Enhance]] {{Damage}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' Choose one: <p> [[Stun|Stun]] an enemy creature <p> Stun each enemy [http://archonarcana.com/Card_Gallery?traits=Mutant Mutant] creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "166",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Bux Bastian": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Bux Bastian']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Damage}}. <p> '''Scrap:''' [[Exalt|Exalt]] an enemy [[Flank|flank]] creature.\n+[[Enhance|Enhance]] {{Aember}}{{Damage}}. <p> '''Scrap:''' [[Exalt|Exalt]] an enemy [[Flank|flank]] creature.",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Damage}}. <p> '''Scrap:''' [[Exalt|Exalt]] an enemy [[Flank|flank]] creature.",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Damage}}. <p> '''Scrap:''' [[Exalt|Exalt]] an enemy [[Flank|flank]] creature."
+      }
+    }
+  },
+  "Captain Pella": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Captain Pella']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Draw}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].\n+[[Enhance|Enhance]] {{Aember}}{{Draw}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Draw}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Draw}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]]."
+      }
+    }
+  },
+  "Champion Tabris (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Champion Tabris (Redemption)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cAll my skill in battle brings me not one step closer to Enlightenment.\u201d",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-151.png",
+              "Keywords": "",
+              "Name": "Champion Tabris (Redemption)",
+              "Power": "6",
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "\u201cAll my skill in battle brings me not one step closer to Enlightenment.\u201d",
+              "SearchText": "After Fight: Capture 1A.",
+              "Text": "'''After Fight:''' Capture 1{{Aember}}.",
+              "Traits": "Human \u2022 Knight",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "151",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Citizen Shrix (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Citizen Shrix (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Losing the [[Election|election]] was just the beginning...",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-167.png",
+              "Keywords": "",
+              "Name": "Citizen Shrix (Redemption)",
+              "Power": "3",
+              "Rarity": "Common",
+              "SearchFlavorText": "Losing the election was just the beginning...",
+              "SearchText": "Play/After Reap: Exalt Citizen Shrix. Steal 1A.",
+              "Text": "'''Play/After Reap:''' [[Exalt|Exalt]] [[Citizen Shrix|Citizen Shrix]]. Steal 1{{Aember}}.",
+              "Traits": "Mutant",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "167",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Cleaner": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Cleaner']['FlavorText']": {
+        "new_value": "They don\u2019t do windows.",
+        "old_value": "They don't do windows."
+      },
+      "root.data_types['CardData']['Cleaner']['SearchFlavorText']": {
+        "new_value": "They don\u2019t do windows.",
+        "old_value": "They don't do windows."
+      }
+    }
+  },
+  "Cloudburst Command": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Cloudburst Command']['FlavorText']": {
+        "new_value": "\u201cJust because you can\u2019t take it with you, doesn\u2019t mean that any one else gets it.\u201d -Captain Flint",
+        "old_value": "\u201cJust because you can't take it with you, doesn't mean that any one else gets it.\u201d -Captain Flint"
+      },
+      "root.data_types['CardData']['Cloudburst Command']['SearchFlavorText']": {
+        "new_value": "\u201cJust because you can\u2019t take it with you, doesn\u2019t mean that any one else gets it.\u201d -Captain Flint",
+        "old_value": "\u201cJust because you can't take it with you, doesn't mean that any one else gets it.\u201d -Captain Flint"
+      }
+    }
+  },
+  "Cover Operation": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Cover Operation']['FlavorText']": {
+        "new_value": "Nothing but straight honest business here, yes sir\u2019ee!",
+        "old_value": "Nothing but straight honest business here, yes sir'ee!"
+      },
+      "root.data_types['CardData']['Cover Operation']['SearchFlavorText']": {
+        "new_value": "Nothing but straight honest business here, yes sir\u2019ee!",
+        "old_value": "Nothing but straight honest business here, yes sir'ee!"
+      }
+    }
+  },
+  "Dark Centurion (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Dark Centurion (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 2,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-152.png",
+              "Keywords": "",
+              "Name": "Dark Centurion (Redemption)",
+              "Power": "5",
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Enhance PTPT.  <p> Action: Move 1A from a creature to the common supply. If you do, ward that creature.",
+              "Text": "[[Enhance|Enhance]] {{Capture}}{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature.",
+              "Traits": "Mutant \u2022 Soldier",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "152",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Dimo, Elderghast": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dimo, Elderghast']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' If you are [[Haunted|haunted]], gain 1{{Aember}} [[For each|for each]] {{Aember}} on this creature.\u201d\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' If you are [[Haunted|haunted]], gain 1{{Aember}} [[For each|for each]] {{Aember}} on this creature.\u201d",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' If you are [[Haunted|haunted]], gain 1{{Aember}} [[For each|for each]] {{Aember}} on this creature.\u201d",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' If you are [[Haunted|haunted]], gain 1{{Aember}} [[For each|for each]] {{Aember}} on this creature.\u201d"
+      }
+    }
+  },
+  "Dr. Westing": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Dr. Westing']['FlavorText']": {
+        "new_value": "\u201cAs my research progressed, it became clear another pair of hands was necessary.\u201d",
+        "old_value": "\u201dAs my research progressed, it became clear another pair of hands was necessary.\u201d"
+      },
+      "root.data_types['CardData']['Dr. Westing']['SearchFlavorText']": {
+        "new_value": "\u201cAs my research progressed, it became clear another pair of hands was necessary.\u201d",
+        "old_value": "\u201dAs my research progressed, it became clear another pair of hands was necessary.\u201d"
+      }
+    }
+  },
+  "Empathic Malice": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Empathic Malice']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. <p> '''Play:''' A friendly creature captures 3{{Aember}}. If you are [[Haunted|haunted]], put Empathic Malice on the bottom of your deck.\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> '''Play:''' A friendly creature captures 3{{Aember}}. If you are [[Haunted|haunted]], put Empathic Malice on the bottom of your deck.",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> '''Play:''' A friendly creature captures 3{{Aember}}. If you are [[Haunted|haunted]], put Empathic Malice on the bottom of your deck.",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. <p> '''Play:''' A friendly creature captures 3{{Aember}}. If you are [[Haunted|haunted]], put Empathic Malice on the bottom of your deck."
+      }
+    }
+  },
+  "Even Ivan (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Even Ivan (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Ivan has been acting odd since the dark \u00e6mber experiment.",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-175.png",
+              "Keywords": "",
+              "Name": "Even Ivan (Redemption)",
+              "Power": "4",
+              "Rarity": "Special",
+              "SearchFlavorText": "Ivan has been acting odd since the dark \u00e6mber experiment.",
+              "SearchText": "Action: If your opponent has an even amount of A, steal 1A.",
+              "Text": "'''Action:''' If your opponent has an even amount of {{Aember}}, steal 1{{Aember}}.",
+              "Traits": "Mutant \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "175",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Eye of Judgment (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Eye of Judgment (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Those with nothing to hide have nothing to fear.",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-139.png",
+              "Keywords": "",
+              "Name": "Eye of Judgment (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "Those with nothing to hide have nothing to fear.",
+              "SearchText": "Action: Purge a creature from a discard pile.",
+              "Text": "'''Action:''' [[Purge|Purge]] a creature from a discard pile.",
+              "Traits": "Item",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "139",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Fierce Competition": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Fierce Competition']['FlavorText']": {
+        "new_value": "\u201cNo, you\u2019re the co-pilot!\u201d",
+        "old_value": "\u201cNo, you're the co-pilot!\u201d"
+      },
+      "root.data_types['CardData']['Fierce Competition']['SearchFlavorText']": {
+        "new_value": "\u201cNo, you\u2019re the co-pilot!\u201d",
+        "old_value": "\u201cNo, you're the co-pilot!\u201d"
+      }
+    }
+  },
+  "First or Last (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "First or Last (Redemption)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-153.png",
+              "Keywords": "",
+              "Name": "First or Last (Redemption)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Choose one: <p> Purge each creature with the highest power. <p> Purge each creature with the lowest power.",
+              "Text": "'''Play:''' Choose one: <p> [[Purge|Purge]] each creature with the highest power. <p> Purge each creature with the lowest power.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "153",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Flint\u2019s Legend": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Flint\u2019s Legend']['FlavorText']": {
+        "new_value": "\u201cDon\u2019t chase after Flint\u2019s Treasure, lest he start chasing you!\u201d -[[Bosun Creen|Bosun Creen]]",
+        "old_value": "\u201cDon't chase after Flint\u2019s Treasure, lest he start chasing you!\u201d -[[Bosun Creen|Bosun Creen]]"
+      },
+      "root.data_types['CardData']['Flint\u2019s Legend']['SearchFlavorText']": {
+        "new_value": "\u201cDon\u2019t chase after Flint\u2019s Treasure, lest he start chasing you!\u201d -Bosun Creen",
+        "old_value": "\u201cDon't chase after Flint\u2019s Treasure, lest he start chasing you!\u201d -Bosun Creen"
+      },
+      "root.data_types['CardData']['Flint\u2019s Legend']['SearchText']": {
+        "new_value": "Play: Move 1A from your opponent\u2019s pool to Treasure Island.",
+        "old_value": "Play: Move 1A from your opponent's pool to Treasure Island."
+      },
+      "root.data_types['CardData']['Flint\u2019s Legend']['Text']": {
+        "new_value": "'''Play:''' [[Move|Move]] 1{{Aember}} from your opponent\u2019s pool to [[Treasure Island|Treasure Island]].",
+        "old_value": "'''Play:''' [[Move|Move]] 1{{Aember}} from your opponent's pool to [[Treasure Island|Treasure Island]]."
+      }
+    }
+  },
+  "Flint\u2019s Stash": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Flint\u2019s Stash']['FlavorText']": {
+        "new_value": "\u201cTrue treasure be found not in chests of gold, but in the thrill of the chase and the bonds forged with yer crew.\u201d",
+        "old_value": "\"True treasure be found not in chests of gold, but in the thrill of the chase and the bonds forged with yer crew.\""
+      },
+      "root.data_types['CardData']['Flint\u2019s Stash']['SearchFlavorText']": {
+        "new_value": "\u201cTrue treasure be found not in chests of gold, but in the thrill of the chase and the bonds forged with yer crew.\u201d",
+        "old_value": "\"True treasure be found not in chests of gold, but in the thrill of the chase and the bonds forged with yer crew.\""
+      }
+    }
+  },
+  "Francus (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Francus (Redemption)": {
+              "Amber": 0,
+              "Armor": "1",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-154.png",
+              "Keywords": "",
+              "Name": "Francus (Redemption)",
+              "Power": "6",
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "After an enemy creature is destroyed fighting Francus, Francus captures 1A.",
+              "Text": "After an enemy creature is destroyed fighting [[Francus|Francus]], Francus captures 1{{Aember}}.",
+              "Traits": "Knight \u2022 Spirit",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "154",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Future is Past": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Future is Past']['FlavorText']": {
+        "new_value": "If you will look, you can find me, and you\u2019re lost.",
+        "old_value": "If you will look, you can find me, and you're lost."
+      },
+      "root.data_types['CardData']['Future is Past']['SearchFlavorText']": {
+        "new_value": "If you will look, you can find me, and you\u2019re lost.",
+        "old_value": "If you will look, you can find me, and you're lost."
+      },
+      "root.data_types['CardData']['Future is Past']['SearchText']": {
+        "new_value": "Play: Swap each player\u2019s deck with their discard pile. Shuffle each player\u2019s deck.",
+        "old_value": "Play: Swap each player's deck with their discard pile. Shuffle each player's deck."
+      },
+      "root.data_types['CardData']['Future is Past']['Text']": {
+        "new_value": "'''Play:''' [[Swap|Swap]] each player\u2019s deck with their discard pile. Shuffle each player\u2019s deck.",
+        "old_value": "'''Play:''' [[Swap|Swap]] each player's deck with their discard pile. Shuffle each player's deck."
+      }
+    }
+  },
+  "Glorious Few (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Glorious Few (Redemption)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-155.png",
+              "Keywords": "",
+              "Name": "Glorious Few (Redemption)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Play: For each creature your opponent controls in excess of you, gain 1A.",
+              "Text": "'''Play:''' [[For each|For each]] creature your opponent controls in excess of you, gain 1{{Aember}}.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "155",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Golis Artificer": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Golis Artificer']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Draw}}\n-{{Discard}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].\n+[[Enhance|Enhance]] {{Aember}}{{Draw}}{{Discard}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Draw}}{{Discard}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Draw}}\n{{Discard}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]]."
+      }
+    }
+  },
+  "Gorm of Omm (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Gorm of Omm (Redemption)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cAn object, no matter how sacred, is just a thing.\u201d",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-156.png",
+              "Keywords": "",
+              "Name": "Gorm of Omm (Redemption)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "\u201cAn object, no matter how sacred, is just a thing.\u201d",
+              "SearchText": "Omni: Destroy Gorm of Omm. Destroy an artifact.",
+              "Text": "'''Omni:''' Destroy [[Gorm of Omm|Gorm of Omm]]. Destroy an artifact.",
+              "Traits": "Item",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "156",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Grey Abbess (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Grey Abbess (Redemption)": {
+              "Amber": 0,
+              "Armor": "1",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cTo walk in light and shadow at once. This is the balance of [[The Grey Order|the Grey Order]].\u201d",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-157.png",
+              "Keywords": "",
+              "Name": "Grey Abbess (Redemption)",
+              "Power": "3",
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "\u201cTo walk in light and shadow at once. This is the balance of the Grey Order.\u201d",
+              "SearchText": "Each friendly token creature gets +1 armor. <p> Play: Make a token creature.",
+              "Text": "Each friendly [[Token Creatures|token creature]] gets +1 armor. <p> '''Play:''' Make a token creature.",
+              "Traits": "Human \u2022 Monk",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "157",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Han Peregrine": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Han Peregrine']['SearchText']": {
+        "new_value": "After Fight/After Reap: You may exalt Han Peregrine. If you do, fully heal a damaged creature and move it to either flank of its controller\u2019s battleline.",
+        "old_value": "After Fight/After Reap: You may exalt Han Peregrine. If you do, fully heal a damaged creature and move it to either flank of its controller's battleline."
+      },
+      "root.data_types['CardData']['Han Peregrine']['Text']": {
+        "new_value": "'''After Fight/After Reap:''' You may [[Exalt|exalt]] Han Peregrine. [[if you do|If you do]], fully [[Heal|heal]] a damaged creature and [[Move|move]] it to either [[Flank|flank]] of its controller\u2019s battleline.",
+        "old_value": "'''After Fight/After Reap:''' You may [[Exalt|exalt]] Han Peregrine. [[if you do|If you do]], fully [[Heal|heal]] a damaged creature and [[Move|move]] it to either [[Flank|flank]] of its controller's battleline."
+      }
+    }
+  },
+  "Haunting Deck": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Haunting Deck']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Discard}}\n-{{Discard}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' If you are [[Haunted|haunted]], [[Purge|purge]] a card from a discard pile.\n+[[Enhance|Enhance]] {{Discard}}{{Discard}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' If you are [[Haunted|haunted]], [[Purge|purge]] a card from a discard pile.",
+        "new_value": "[[Enhance|Enhance]] {{Discard}}{{Discard}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' If you are [[Haunted|haunted]], [[Purge|purge]] a card from a discard pile.",
+        "old_value": "[[Enhance|Enhance]] {{Discard}}\n{{Discard}}. (These icons have already been added to cards in your deck.) <p> '''Play:''' If you are [[Haunted|haunted]], [[Purge|purge]] a card from a discard pile."
+      }
+    }
+  },
+  "Havoc": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Havoc']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Damage}}\n-{{Damage}}\n-{{Discard}}. <p> '''Play:''' Make a [[Token Creatures|token creature]].\n+[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Discard}}. <p> '''Play:''' Make a [[Token Creatures|token creature]].",
+        "new_value": "[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Discard}}. <p> '''Play:''' Make a [[Token Creatures|token creature]].",
+        "old_value": "[[Enhance|Enhance]] {{Damage}}\n{{Damage}}\n{{Discard}}. <p> '''Play:''' Make a [[Token Creatures|token creature]]."
+      }
+    }
+  },
+  "Hymn to Duma (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Hymn to Duma (Redemption)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cSo long as we remember, she never truly dies.\u201d",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-140.png",
+              "Keywords": "",
+              "Name": "Hymn to Duma (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "\u201cSo long as we remember, she never truly dies.\u201d",
+              "SearchText": "Each friendly creature gains, \u201cOmni: Destroy this creature. A friendly creature captures 2A.\u201d",
+              "Text": "Each friendly creature gains, \u201c'''Omni:''' Destroy this creature. A friendly creature captures 2{{Aember}}.\u201d",
+              "Traits": "Power",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "140",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Inevitable Decay": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Inevitable Decay']['FlavorText']": {
+        "new_value": "\u201cWait. I still function!\u201d",
+        "old_value": "\u201dWait. I still function!\u201d"
+      },
+      "root.data_types['CardData']['Inevitable Decay']['SearchFlavorText']": {
+        "new_value": "\u201cWait. I still function!\u201d",
+        "old_value": "\u201dWait. I still function!\u201d"
+      }
+    }
+  },
+  "Johnny Longfingers (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Johnny Longfingers (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-141.png",
+              "Keywords": "",
+              "Name": "Johnny Longfingers (Redemption)",
+              "Power": "4",
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Each friendly Mutant creature gains, \u201cDestroyed: Steal 1A.\u201d",
+              "Text": "Each friendly [http://archonarcana.com/Card_Gallery?traits=Mutant Mutant] creature gains, \u201c'''Destroyed:''' Steal 1{{Aember}}.\u201d",
+              "Traits": "Mutant \u2022 Thief",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "141",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Kharisma": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Kharisma']['SearchText']": {
+        "new_value": "Elusive. <p> After Reap: Return another friendly creature to its owner\u2019s hand. If you do, make a token creature.",
+        "old_value": "Elusive. <p> After Reap: Return another friendly creature to its owner's hand. If you do, make a token creature."
+      },
+      "root.data_types['CardData']['Kharisma']['Text']": {
+        "new_value": "[[Elusive|Elusive]]. <p> '''After Reap:''' Return another friendly creature to its owner\u2019s hand. [[if you do|If you do]], make a [[Token Creatures|token creature]].",
+        "old_value": "[[Elusive|Elusive]]. <p> '''After Reap:''' Return another friendly creature to its owner's hand. [[if you do|If you do]], make a [[Token Creatures|token creature]]."
+      }
+    }
+  },
+  "Kymoor Outpost": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Kymoor Outpost']['SearchText']": {
+        "new_value": "Action: Put a friendly creature on the bottom of its owner\u2019s deck. If you do, steal 1A and make a token creature.",
+        "old_value": "Action: Put a friendly creature on the bottom of its owner's deck. If you do, steal 1A and make a token creature."
+      },
+      "root.data_types['CardData']['Kymoor Outpost']['Text']": {
+        "new_value": "'''Action:''' Put a friendly creature on the bottom of its owner\u2019s deck. [[if you do|If you do]], steal 1{{Aember}} and make a [[Token Creatures|token creature]].",
+        "old_value": "'''Action:''' Put a friendly creature on the bottom of its owner's deck. [[if you do|If you do]], steal 1{{Aember}} and make a [[Token Creatures|token creature]]."
+      }
+    }
+  },
+  "Levy of Souls": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Levy of Souls']['SearchText']": {
+        "new_value": "Action: Make a token creature. Keys cost +1A for each friendly token creature in play during your opponent\u2019s next turn.",
+        "old_value": "Action: Make a token creature. Keys cost +1A for each friendly token creature in play during your opponent's next turn."
+      },
+      "root.data_types['CardData']['Levy of Souls']['Text']": {
+        "new_value": "'''Action:''' Make a [[Token Creatures|token creature]]. Keys [[Cost|cost]] +1{{Aember}} [[For each|for each]] friendly [[Token Creatures|token creature]] in play during your opponent\u2019s next turn.",
+        "old_value": "'''Action:''' Make a [[Token Creatures|token creature]]. Keys [[Cost|cost]] +1{{Aember}} [[For each|for each]] friendly [[Token Creatures|token creature]] in play during your opponent's next turn."
+      }
+    }
+  },
+  "Looping Dirge": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Looping Dirge']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Discard}}. <p> '''Play:''' If you are [[Haunted|haunted]], make a [[Token Creatures|token creature]].\n+[[Enhance|Enhance]] {{Capture}}{{Discard}}. <p> '''Play:''' If you are [[Haunted|haunted]], make a [[Token Creatures|token creature]].",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Discard}}. <p> '''Play:''' If you are [[Haunted|haunted]], make a [[Token Creatures|token creature]].",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Discard}}. <p> '''Play:''' If you are [[Haunted|haunted]], make a [[Token Creatures|token creature]]."
+      }
+    }
+  },
+  "Lord Golgotha (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Lord Golgotha (Redemption)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cEnlightened\u201d does not mean \u201cpeaceful.\u201d",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-142.png",
+              "Keywords": "",
+              "Name": "Lord Golgotha (Redemption)",
+              "Power": "5",
+              "Rarity": "Rare",
+              "SearchFlavorText": "\u201cEnlightened\u201d does not mean \u201cpeaceful.\u201d",
+              "SearchText": "Before Fight: Deal 3D to each neighbor of the creature Lord Golgotha fights.",
+              "Text": "'''Before Fight:''' Deal 3{{Damage}} to each neighbor of the creature [[Lord Golgotha|Lord Golgotha]] fights.",
+              "Traits": "Knight \u2022 Spirit",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "142",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Lurking Hob": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Lurking Hob']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}\n-{{Damage}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Damage}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Damage}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]].",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}\n{{Damage}}. <p> '''After Reap:''' Make a [[Token Creatures|token creature]]."
+      }
+    }
+  },
+  "Maleficorn": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Maleficorn']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,4 +1 @@\n-[[Enhance|Enhance]] {{Damage}}\n-{{Damage}}\n-{{Damage}}\n-{{Damage}}.  <p> After an enemy creature is dealt damage by a {{Damage}} bonus icon, deal 1{{Damage}} to that creature.\n+[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}{{Damage}}.  <p> After an enemy creature is dealt damage by a {{Damage}} bonus icon, deal 1{{Damage}} to that creature.",
+        "new_value": "[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}{{Damage}}.  <p> After an enemy creature is dealt damage by a {{Damage}} bonus icon, deal 1{{Damage}} to that creature.",
+        "old_value": "[[Enhance|Enhance]] {{Damage}}\n{{Damage}}\n{{Damage}}\n{{Damage}}.  <p> After an enemy creature is dealt damage by a {{Damage}} bonus icon, deal 1{{Damage}} to that creature."
+      }
+    }
+  },
+  "Mantle of the Zealot (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mantle of the Zealot (Redemption)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-143.png",
+              "Keywords": "",
+              "Name": "Mantle of the Zealot (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "This creature gains versatile. (This card may be used as if it belonged to the active house.)",
+              "Text": "This creature gains [[Versatile|versatile]]. (This card may be used as if it belonged to the active house.)",
+              "Traits": null,
+              "Type": "Upgrade"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "143",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Martyr\u2019s End (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Martyr\u2019s End (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-144.png",
+              "Keywords": "",
+              "Name": "Martyr\u2019s End (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Destroy any number of friendly creatures. Gain 1A for each creature destroyed this way.",
+              "Text": "'''Play:''' Destroy any number of friendly creatures. Gain 1{{Aember}} [[For each|for each]] creature destroyed this way.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "144",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Master of the Grey (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Master of the Grey (Redemption)": {
+              "Amber": 0,
+              "Armor": "1",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "[[The Grey Order|The Grey Order]] is mysterious even to knights of the Sanctum.",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-145.png",
+              "Keywords": "",
+              "Name": "Master of the Grey (Redemption)",
+              "Power": "4",
+              "Rarity": "Rare",
+              "SearchFlavorText": "The Grey Order is mysterious even to knights of the Sanctum.",
+              "SearchText": "Your opponent cannot resolve bonus icons on cards they play.",
+              "Text": "Your opponent [[Cannot_vs_Must|cannot]] resolve bonus icons on cards they play.",
+              "Traits": "Human \u2022 Monk",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "145",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Mighty Lance (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mighty Lance (Redemption)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-146.png",
+              "Keywords": "",
+              "Name": "Mighty Lance (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Deal 3D to a creature and 3D to a neighbor of that creature.",
+              "Text": "'''Play:''' Deal 3{{Damage}} to a creature and 3{{Damage}} to a neighbor of that creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "146",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Navigator Ketarr": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Navigator Ketarr']['FlavorText']": {
+        "new_value": "The rare and gifted J\u2019reen are the best wayfinders in the Crucible.",
+        "old_value": "The rare and gifted J'reen are the best wayfinders in the Crucible."
+      },
+      "root.data_types['CardData']['Navigator Ketarr']['SearchFlavorText']": {
+        "new_value": "The rare and gifted J\u2019reen are the best wayfinders in the Crucible.",
+        "old_value": "The rare and gifted J'reen are the best wayfinders in the Crucible."
+      },
+      "root.data_types['CardData']['Navigator Ketarr']['Traits']": {
+        "new_value": "J'reen",
+        "old_value": "J\u2019reen"
+      }
+    }
+  },
+  "Odd Clawde (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Odd Clawde (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Even Clawde has to admit that the dark \u00e6mber experiment was not entirely successful.",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-176.png",
+              "Keywords": "",
+              "Name": "Odd Clawde (Redemption)",
+              "Power": "5",
+              "Rarity": "Special",
+              "SearchFlavorText": "Even Clawde has to admit that the dark \u00e6mber experiment was not entirely successful.",
+              "SearchText": "Action: If your opponent has an odd amount of A, steal 1A.",
+              "Text": "'''Action:''' If your opponent has an odd amount of {{Aember}}, steal 1{{Aember}}.",
+              "Traits": "Mutant \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "176",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "One Stood Against Many (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "One Stood Against Many (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-147.png",
+              "Keywords": "",
+              "Name": "One Stood Against Many (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Ready and fight with a friendly creature 3 times, each time against a different enemy creature. Resolve these fights one at a time.",
+              "Text": "'''Play:''' Ready and fight with a friendly creature 3 times, each time against a different enemy creature. Resolve these fights one at a time.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "147",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Professor Terato (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Professor Terato (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-158.png",
+              "Keywords": "",
+              "Name": "Professor Terato (Redemption)",
+              "Power": "4",
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Each Mutant creature gains, \u201cAfter Reap: Draw a card.\u201d",
+              "Text": "Each [http://archonarcana.com/Card_Gallery?traits=Mutant Mutant] creature gains, \u201c'''After Reap:''' Draw a card.\u201d",
+              "Traits": "Mutant \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "158",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Reallocation Accessory": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Reallocation Accessory']['SearchText']": {
+        "new_value": "This creature gains, \u201cAfter Reap: Archive a card. Choose a player. For each card in the chosen player\u2019s archives, deal 1D to a creature.\u201d",
+        "old_value": "This creature gains, \u201cAfter Reap: Archive a card. Choose a player. For each card in the chosen player's archives, deal 1D to a creature.\u201d"
+      },
+      "root.data_types['CardData']['Reallocation Accessory']['Text']": {
+        "new_value": "This creature gains, \u201c'''After Reap:''' Archive a card. Choose a player. [[For each|For each]] card in the chosen player\u2019s archives, deal 1{{Damage}} to a creature.\u201d",
+        "old_value": "This creature gains, \u201c'''After Reap:''' Archive a card. Choose a player. [[For each|For each]] card in the chosen player's archives, deal 1{{Damage}} to a creature.\u201d"
+      }
+    }
+  },
+  "Recreational Jettison": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Recreational Jettison']['FlavorText']": {
+        "new_value": "\u201cThe vase isn\u2019t worth its weight!\u201d",
+        "old_value": "\u201cThe vase isn't worth its weight!\u201d"
+      },
+      "root.data_types['CardData']['Recreational Jettison']['SearchFlavorText']": {
+        "new_value": "\u201cThe vase isn\u2019t worth its weight!\u201d",
+        "old_value": "\u201cThe vase isn't worth its weight!\u201d"
+      }
+    }
+  },
+  "Redline Rotation": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Redline Rotation']['FlavorText']": {
+        "new_value": "\u201cIf you aren\u2019t first, you\u2019re last!\u201d -[[Ley, Earl of Hurl|Ley, Earl of Hurl]]",
+        "old_value": "\u201cIf you aren\u2019t first, you're last!\u201d -[[Ley, Earl of Hurl|Ley, Earl of Hurl]]"
+      },
+      "root.data_types['CardData']['Redline Rotation']['SearchFlavorText']": {
+        "new_value": "\u201cIf you aren\u2019t first, you\u2019re last!\u201d -Ley, Earl of Hurl",
+        "old_value": "\u201cIf you aren\u2019t first, you're last!\u201d -Ley, Earl of Hurl"
+      }
+    }
+  },
+  "Refined Adhesive": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Refined Adhesive']['SearchText']": {
+        "new_value": "Each time a card would be discarded from a player\u2019s hand, reveal the card and put it facedown under this creature instead.",
+        "old_value": "Each time a card would be discarded from a player's hand, reveal the card and put it facedown under this creature instead."
+      },
+      "root.data_types['CardData']['Refined Adhesive']['Text']": {
+        "new_value": "Each time a card would be discarded from a player\u2019s hand, reveal the card and put it facedown under this creature [[Replacement Effects|instead]].",
+        "old_value": "Each time a card would be discarded from a player's hand, reveal the card and put it facedown under this creature [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Retribution (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Retribution (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "No shield can hinder an angel\u2019s [[Wrath|wrath]].",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-169.png",
+              "Keywords": "",
+              "Name": "Retribution (Redemption)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "No shield can hinder an angel\u2019s wrath.",
+              "SearchText": "Play: If there are more enemy creatures than friendly creatures, destroy an enemy creature.",
+              "Text": "'''Play:''' If there are more enemy creatures than friendly creatures, destroy an enemy creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "169",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Rocket Boots": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Rocket Boots']['FlavorText']": {
+        "new_value": "\u201cWheeeee!\u201d",
+        "old_value": "\u201dWheeeee!\u201d"
+      },
+      "root.data_types['CardData']['Rocket Boots']['SearchFlavorText']": {
+        "new_value": "\u201cWheeeee!\u201d",
+        "old_value": "\u201dWheeeee!\u201d"
+      }
+    }
+  },
+  "Rogue Ogre (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Rogue Ogre (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cI like to think of it as a Roguere.\u201d -[[Dodger|Dodger]]",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-148.png",
+              "Keywords": "",
+              "Name": "Rogue Ogre (Redemption)",
+              "Power": "6",
+              "Rarity": "Rare",
+              "SearchFlavorText": "\u201cI like to think of it as a Roguere.\u201d -Dodger",
+              "SearchText": "At the end of your turn, if you played exactly 1 card this turn, Rogue Ogre heals 2 damage and captures 1A.",
+              "Text": "At the end of your turn, if you played exactly 1 card this turn, [[Rogue Ogre|Rogue Ogre]] heals 2 damage and captures 1{{Aember}}.",
+              "Traits": "Mutant \u2022 Giant",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "148",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Sacro-Alien (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Sacro-Alien (Redemption)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-177.png",
+              "Keywords": "",
+              "Name": "Sacro-Alien (Redemption)",
+              "Power": "5",
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "After Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.",
+              "Text": "'''After Fight:''' Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.",
+              "Traits": "Alien \u2022 Mutant",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "177",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Sacro-Beast (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Sacro-Beast (Redemption)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-178.png",
+              "Keywords": "Skirmish",
+              "Name": "Sacro-Beast (Redemption)",
+              "Power": "5",
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "Skirmish. (When you use this creature to fight, it is dealt no damage in return.)",
+              "Text": "[[Skirmish|Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.)",
+              "Traits": "Mutant \u2022 Beast",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "178",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Sacro-Bot (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Sacro-Bot (Redemption)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-179.png",
+              "Keywords": "",
+              "Name": "Sacro-Bot (Redemption)",
+              "Power": "5",
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "After Reap: Discard a card from your hand. If you do, draw a card.",
+              "Text": "'''After Reap:''' Discard a card from your hand. [[if you do|If you do]], draw a card.",
+              "Traits": "Mutant \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "179",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Sacro-Fiend (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Sacro-Fiend (Redemption)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-180.png",
+              "Keywords": "",
+              "Name": "Sacro-Fiend (Redemption)",
+              "Power": "4",
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "Destroyed: Steal 1A.",
+              "Text": "'''Destroyed:''' Steal 1{{Aember}}.",
+              "Traits": "Mutant \u2022 Demon",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "180",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Sacro-Saurus (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Sacro-Saurus (Redemption)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-181.png",
+              "Keywords": "",
+              "Name": "Sacro-Saurus (Redemption)",
+              "Power": "6",
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "Play: You may exalt Sacro-Saurus. If you do, deal 3D to a creature.",
+              "Text": "'''Play:''' You may [[Exalt|exalt]] [[Sacro-Saurus|Sacro-Saurus]]. [[if you do|If you do]], deal 3{{Damage}} to a creature.",
+              "Traits": "Mutant \u2022 Dinosaur",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "181",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Sacro-Thief (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Sacro-Thief (Redemption)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-182.png",
+              "Keywords": "Elusive",
+              "Name": "Sacro-Thief (Redemption)",
+              "Power": "4",
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.)",
+              "Text": "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.)",
+              "Traits": "Mutant \u2022 Thief",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "182",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Scrivener Favian (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Scrivener Favian (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 2,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-161.png",
+              "Keywords": "",
+              "Name": "Scrivener Favian (Redemption)",
+              "Power": "3",
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Enhance PTPT. (These icons have already been added to cards in your deck.) <p> When you resolve a PT bonus icon, you may choose to steal 1A instead.",
+              "Text": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. (These icons have already been added to cards in your deck.) <p> When you resolve a {{Capture}} bonus icon, you may choose to steal 1{{Aember}} [[Replacement Effects|instead]].",
+              "Traits": "Mutant",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "161",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Shae \u201cCloudkicker\u201d": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Shae \u201cCloudkicker\u201d']['FlavorText']": {
+        "new_value": "\u201cInto the sky, trying not to lose myself when I go too far.\u201d",
+        "old_value": "\u201dInto the sky, trying not to lose myself when I go too far.\u201d"
+      },
+      "root.data_types['CardData']['Shae \u201cCloudkicker\u201d']['SearchFlavorText']": {
+        "new_value": "\u201cInto the sky, trying not to lose myself when I go too far.\u201d",
+        "old_value": "\u201dInto the sky, trying not to lose myself when I go too far.\u201d"
+      }
+    }
+  },
+  "Shifting Battlefield (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Shifting Battlefield (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-170.png",
+              "Keywords": "",
+              "Name": "Shifting Battlefield (Redemption)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Move a friendly creature anywhere in your battleline. That creature captures 1A.",
+              "Text": "'''Play:''' [[Move|Move]] a friendly creature anywhere in your battleline. That creature captures 1{{Aember}}.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "170",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Shikari": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Shikari']['FlavorText']": {
+        "new_value": "\u201cTake your best shot. You\u2019ll only get one.\u201d",
+        "old_value": "\u201dTake your best shot. You'll only get one.\u201d"
+      },
+      "root.data_types['CardData']['Shikari']['SearchFlavorText']": {
+        "new_value": "\u201cTake your best shot. You\u2019ll only get one.\u201d",
+        "old_value": "\u201dTake your best shot. You'll only get one.\u201d"
+      }
+    }
+  },
+  "Signal Faerie": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Signal Faerie']['FlavorText']": {
+        "new_value": "\u201cIt would seem that the Faeries have been collecting trinkets for a very long time.\u201d -[[MAA Midovi|MAA Midovi]]",
+        "old_value": "\u201dIt would seem that the Faeries have been collecting trinkets for a very long time.\u201d -[[MAA Midovi|MAA Midovi]]"
+      },
+      "root.data_types['CardData']['Signal Faerie']['SearchFlavorText']": {
+        "new_value": "\u201cIt would seem that the Faeries have been collecting trinkets for a very long time.\u201d -MAA Midovi",
+        "old_value": "\u201dIt would seem that the Faeries have been collecting trinkets for a very long time.\u201d -MAA Midovi"
+      }
+    }
+  },
+  "Snarette (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Snarette (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-171.png",
+              "Keywords": "",
+              "Name": "Snarette (Redemption)",
+              "Power": "4",
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "At the end of your turn, capture 1A.  <p> Action: Move each A from Snarette to the common supply.",
+              "Text": "At the end of your turn, capture 1{{Aember}}.  <p> '''Action:''' [[Move|Move]] each {{Aember}} from [[Snarette|Snarette]] to the common supply.",
+              "Traits": "Mutant",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "171",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Subtle Otto (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Subtle Otto (Redemption)": {
+              "Amber": 0,
+              "Armor": "0",
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Otto was hard to spot even before he grew chameleonic scales.",
+              "Hazardous": 0,
+              "House": "Redemption",
+              "Image": "855-173.png",
+              "Keywords": "",
+              "Name": "Subtle Otto (Redemption)",
+              "Power": "1",
+              "Rarity": "Common",
+              "SearchFlavorText": "Otto was hard to spot even before he grew chameleonic scales.",
+              "SearchText": "Play: Your opponent discards a random card from their hand.",
+              "Text": "'''Play:''' Your opponent discards a random card from their hand.",
+              "Traits": "Mutant \u2022 Thief",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "173",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Swift Induction": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Swift Induction']['FlavorText']": {
+        "new_value": "\u201cNo lengthy ceremonies, we\u2019ve work to do!\u201d",
+        "old_value": "\u201cNo lengthy ceremonies, we've work to do!\u201d"
+      },
+      "root.data_types['CardData']['Swift Induction']['SearchFlavorText']": {
+        "new_value": "\u201cNo lengthy ceremonies, we\u2019ve work to do!\u201d",
+        "old_value": "\u201cNo lengthy ceremonies, we've work to do!\u201d"
+      }
+    }
+  },
+  "The Promised Blade (Redemption)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "The Promised Blade (Redemption)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Redemption",
+              "Image": "855-149.png",
+              "Keywords": "",
+              "Name": "The Promised Blade (Redemption)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "At the start of each player\u2019s turn, the player with the fewest creatures in play takes control of The Promised Blade.  <p> Omni: A friendly creature captures 1A.",
+              "Text": "At the start of each player\u2019s turn, the player with the fewest creatures in play takes [[Control|control]] of [[The Promised Blade|The Promised Blade]].  <p> '''Omni:''' A friendly creature captures 1{{Aember}}.",
+              "Traits": "Weapon",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Tokens of Change": {
+              "CardNumber": "149",
+              "Meta": "Debut",
+              "SetName": "Tokens of Change"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Thoughtcatcher": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Thoughtcatcher']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' Draw 1 card.\u201d\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' Draw 1 card.\u201d",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' Draw 1 card.\u201d",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' Draw 1 card.\u201d"
+      }
+    }
+  },
+  "Titan Outpost": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Titan Outpost']['SearchText']": {
+        "new_value": "Action: Put a friendly creature on the bottom of its owner\u2019s deck. If you do, make a token creature and archive a card.",
+        "old_value": "Action: Put a friendly creature on the bottom of its owner's deck. If you do, make a token creature and archive a card."
+      },
+      "root.data_types['CardData']['Titan Outpost']['Text']": {
+        "new_value": "'''Action:''' Put a friendly creature on the bottom of its owner\u2019s deck. [[if you do|If you do]], make a [[Token Creatures|token creature]] and archive a card.",
+        "old_value": "'''Action:''' Put a friendly creature on the bottom of its owner's deck. [[if you do|If you do]], make a [[Token Creatures|token creature]] and archive a card."
+      }
+    }
+  },
+  "Twilight Pixie": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Twilight Pixie']['FlavorText']": {
+        "new_value": "They make everyone\u2019s dreams come true.",
+        "old_value": "They make everyone's dreams come true."
+      },
+      "root.data_types['CardData']['Twilight Pixie']['SearchFlavorText']": {
+        "new_value": "They make everyone\u2019s dreams come true.",
+        "old_value": "They make everyone's dreams come true."
+      }
+    }
+  },
+  "Unbinding": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Unbinding']['FlavorText']": {
+        "new_value": "\u201cFrom what we have observed, the first step in their creation involves utter destruction.\u201d -[[Fila the [[Researcher|Researcher]]|Fila the Researcher]]",
+        "old_value": "\u201dFrom what we have observed, the first step in their creation involves utter destruction.\u201d -[[Fila the [[Researcher|Researcher]]|Fila the Researcher]]"
+      },
+      "root.data_types['CardData']['Unbinding']['SearchFlavorText']": {
+        "new_value": "\u201cFrom what we have observed, the first step in their creation involves utter destruction.\u201d -Fila the Researcher",
+        "old_value": "\u201dFrom what we have observed, the first step in their creation involves utter destruction.\u201d -Fila the Researcher"
+      }
+    }
+  },
+  "Vindication Outpost": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Vindication Outpost']['SearchText']": {
+        "new_value": "Action: Put a friendly creature on the bottom of its owner\u2019s deck. If you do, make a token creature, ready it, and fight with it.",
+        "old_value": "Action: Put a friendly creature on the bottom of its owner's deck. If you do, make a token creature, ready it, and fight with it."
+      },
+      "root.data_types['CardData']['Vindication Outpost']['Text']": {
+        "new_value": "'''Action:''' Put a friendly creature on the bottom of its owner\u2019s deck. [[if you do|If you do]], make a [[Token Creatures|token creature]], ready it, and fight with it.",
+        "old_value": "'''Action:''' Put a friendly creature on the bottom of its owner's deck. [[if you do|If you do]], make a [[Token Creatures|token creature]], ready it, and fight with it."
+      }
+    }
+  },
+  "Webstur": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Webstur']['SearchText']": {
+        "new_value": "Taunt. <p> After Fight: For each damage on Webstur, you may discard the top card of each player\u2019s deck.",
+        "old_value": "Taunt. <p> After Fight: For each damage on Webstur, you may discard the top card of each player's deck."
+      },
+      "root.data_types['CardData']['Webstur']['Text']": {
+        "new_value": "[[Taunt|Taunt]]. <p> '''After Fight:''' [[For each|For each]] damage on Webstur, you may discard the top card of each player\u2019s deck.",
+        "old_value": "[[Taunt|Taunt]]. <p> '''After Fight:''' [[For each|For each]] damage on Webstur, you may discard the top card of each player's deck."
+      }
+    }
+  },
+  "Whimsical Conjuror": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types['CardData']['Whimsical Conjuror']['FlavorText']": {
+        "new_value": "\u201cA life or \u00e6mber? It\u2019s not an easy choice.\u201d",
+        "old_value": "\u201cA life or \u00e6mber? It's not an easy choice.\u201d"
+      },
+      "root.data_types['CardData']['Whimsical Conjuror']['SearchFlavorText']": {
+        "new_value": "\u201cA life or \u00e6mber? It\u2019s not an easy choice.\u201d",
+        "old_value": "\u201cA life or \u00e6mber? It's not an easy choice.\u201d"
+      },
+      "root.data_types['CardData']['Whimsical Conjuror']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}. <p> When you resolve an {{Aember}} bonus icon, you may make a [[Token Creatures|token creature]] [[Replacement Effects|instead]].\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}. <p> When you resolve an {{Aember}} bonus icon, you may make a [[Token Creatures|token creature]] [[Replacement Effects|instead]].",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}. <p> When you resolve an {{Aember}} bonus icon, you may make a [[Token Creatures|token creature]] [[Replacement Effects|instead]].",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}. <p> When you resolve an {{Aember}} bonus icon, you may make a [[Token Creatures|token creature]] [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Whisper": {
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Whisper']['FlavorText']": {
+        "new_value": "\u201cYou like to pretend assassins don\u2019t exist-until you need us.\u201d",
+        "old_value": "\u201dYou like to pretend assassins don\u2019t exist-until you need us.\u201d"
+      },
+      "root.data_types['CardData']['Whisper']['SearchFlavorText']": {
+        "new_value": "\u201cYou like to pretend assassins don\u2019t exist-until you need us.\u201d",
+        "old_value": "\u201dYou like to pretend assassins don\u2019t exist-until you need us.\u201d"
+      }
+    }
+  }
+}

@@ -8,10 +8,12 @@ sys.path.append("./")
 import connections
 import util
 from util import SEPARATOR
-from models import shared, mv_model, wiki_model
+# Just importing mv_model triggers db connect
+from models import shared, wiki_model, skyjedi_model #,mv_model
 import csv
 import bleach
 from progress.bar import Bar
+import pprint
 
 cards = {}
 locales = {}
@@ -322,85 +324,279 @@ def clean_fields(cards, locales):
 
 
 def process_mv_card_batch(card_batch: list) -> list:
-    """For a set of cards that we pulled from the database, isolate them into the list of cards
-    we want to put onto Archon Arcana as individual card pages. Some cards with the same name in the db
-    will be merged into one card (such as a card that can appear in multiple houses), while others will be
-    separated into multiple cards (Anomaly version of a card and the non-Anomaly version of the card)
-    Returns a list of card data dictionaries that something else can process"""
-    # TODO clean up when we refactor card db stuff to a class
-    # TODO - note, to combine houses, this method requires the batch to include the complete set of cards of a given name
-    import logging
-    process_cards = defaultdict(lambda: [])
+    """Prepare a batch of cards queried from the mastervault."""
+
+    same_title_cards = defaultdict(lambda: [])
     for card in card_batch:
         #if not card.is_from_current_set:
         #    continue
         #if card.is_maverick: continue
         #if card.is_enhanced: continue
-        process_cards[card.data["card_title"]].append(card.data)
-    logging.debug(len(process_cards))
-    print(f"\n+++ Process these cards: {len(process_cards)} - {process_cards.keys()}\n")
-    def bifurcate_data(card_datas):
-        if len(card_datas) == 1:
-            print(f"++ Skip bifurcate for {card_datas[0]['card_title']}")
-            return card_datas
-        if not card_datas:
-            return []
+        same_title_cards[card.data["card_title"]].append(card.data)
 
-        # FIXME - fixes a bug in menagerie 2024 pull
-        for data in card_datas:
-            if data["card_title"] in ["Niffle Kong", "Deusillus", "Ultra Gravitron"] and data["card_type"] == "Creature":
-                data["card_type"] = "Creature1"
+    return process_card_batch(same_title_cards)
 
-        card_title = card_datas[0]["card_title"]
-        print(f"++ Bifurcate data for {card_title} - versions: {len(card_datas)}")
-        logging.debug("## Do something with card that can transform: %s", card_title)
-        types = set([card["card_type"] for card in card_datas])
-        houses = set([card["house"] for card in card_datas])
-        if len(types) > 1:
-            if not [x for x in types if x not in ["Creature1", "Creature2"]]:
-                logging.debug(" - it's a giant")
-                return bifurcate_data([[card for card in card_datas if card["card_type"] == "Creature1"][0]])
-            else:
-                print(card_datas)
-                raise Exception(f"Unknown type mismatch {card_title} {types}")
-        anomalies = []
-        other = []
-        for data in card_datas:
-            if data.get("is_anomaly", False):
-                anomalies.append(data)
-            else:
-                other.append(data)
-        if anomalies:
-            logging.debug(" - it's an anomaly")
-            return anomalies + bifurcate_data(other)
-        if len(houses) > 1:
-            new_data = {}
-            new_data.update(card_datas[0])
-            new_data["house"] = util.SEPARATOR.join(houses)
-            logging.debug(" - it's multihouse: %s", new_data["house"])
-            return [new_data]
-        logging.debug(" - we'll add all of them")
-        return card_datas
+
+def process_skyjedi_card_batch(card_batch: list) -> list:
+    """Prepare a batch of raw MV JSON cards."""
+
+    same_title_cards = defaultdict(lambda: [])
+    for card in card_batch:
+        same_title_cards[card["card_title"]].append(card)
+
+    return process_card_batch(same_title_cards)
+
+
+def process_card_batch(same_title_cards: dict) -> list:
+    import logging
+    logging.debug(len(same_title_cards))
+    print(f"\n+++ Process these cards: {len(same_title_cards)} - {same_title_cards.keys()}\n")
+
     card_datas = []
-    for _card_datas in process_cards.values():
+    for _card_datas in same_title_cards.values():
         card_datas.extend(bifurcate_data(_card_datas))
     logging.debug([card["card_title"] for card in card_datas])
-    return card_datas
-                
 
-def build_json(only=None, build_locales=False):
+    for data in card_datas:
+        process_aa_card_data(data)
+
+    return card_datas
+
+
+def process_aa_card_data(card_data):
+    """This card data has gone through bifurcation, so we expect it to
+    represent an AA card page. Here we can apply simple single-card
+    processing, like for X power to integer 0 to prevent schema type failures
+    on the site."""
+
+    # Skip null power like for actions.
+    if card_data["power"]:
+        # Motivating case is "X" power creatures, but AA schema
+        # needs an integer value.
+        try:
+            card_data["power"] = int(card_data["power"])
+        except ValueError:
+            card_data["power"] = 0
+
+
+def bifurcate_data(card_datas):
+    """For a set of cards, isolate them into the list of cards
+    we want to put onto Archon Arcana as individual card pages. Some cards with the same name in the db
+    will be merged into one card (such as a card that can appear in multiple houses), while others will be
+    separated into multiple cards (Anomaly version of a card and the non-Anomaly version of the card)
+    Returns a list of card data dictionaries that something else can process
+
+    Input: card_datas is a list of card dictionaries
+    Each dict is one MV card JSON all with the same card title.
+
+    Output: a list of card dict where we've done any of:
+      - merged dicts, like two halves of gigantic into one dict
+      - split the list into distinct dicts, like an anomly or
+        redemption variant distinct from the normal card"""
+    # TODO clean up when we refactor card db stuff to a class
+    # TODO - note, to combine houses, this method requires the batch to include the complete set of cards of a given name
+
+    if not card_datas:
+        return []
+
+    if len(card_datas) == 1:
+        return card_datas
+
+    (
+        is_giant, merged_halves
+    ) = bifurcate_giants(card_datas)
+    if is_giant:
+        return merged_halves
+
+    (
+        has_anomaly, anomalies, other
+    ) = bifurcate_anomalies(card_datas)
+    if has_anomaly:
+        return anomalies + bifurcate_data(other)
+
+    (
+        has_redemption, redemption, other
+    ) = bifurcate_redemption(card_datas)
+    if has_redemption:
+        return redemption + bifurcate_data(other)
+
+    # Do special multi-house cases before this, like Redemption.
+    (
+        multi_house, merged
+    ) = bifurcate_multi_house(card_datas)
+    if multi_house:
+        return merged
+
+    # We shouldn't fall to this case and still have
+    # multiple types.
+    types = set([card["card_type"] for card in card_datas])
+    if len(types) > 1:
+        card_title = card_datas[0]["card_title"]
+        print(card_datas)
+        raise Exception(f"Unknown type mismatch {card_title} {types}")
+
+    # Otherwise the batch doesn't need bifurcation.
+    return card_datas
+
+
+def bifurcate_giants(card_datas):
+    """Returns (is_giant, merged_halves)"""
+
+    card_title = card_datas[0]["card_title"]
+
+    texts = set([card["card_text"] for card in card_datas])
+
+    is_giant = False
+    for t in texts:
+        if "Play only with the other half of" in t:
+            is_giant = True
+            break
+
+    if not is_giant:
+        return (is_giant, [])
+
+    # Okay, giants. Separate by expansion and we expect
+    # have exactly two cards each. Then different expansions
+    # have different schema for finding the merged AA data.
+
+    same_exp = defaultdict(lambda: [])
+    for data in card_datas:
+        same_exp[data["expansion"]].append(data)
+
+    merged_halves = []
+    for _, batch in same_exp.items():
+        if len(batch) != 2:
+            pprint.pp(card_datas)
+            raise Exception(
+                "Giants weren't two halves per expansion?"
+            )
+
+        if batch[0]["card_type"] in ["Creature1", "Creature2"]:
+            # MM style
+            cre1 = None
+            cre2 = None
+            if batch[0]["card_type"] == "Creature1":
+                cre1 = batch[0]
+                cre2 = batch[1]
+            else:
+                cre1 = batch[1]
+                cre2 = batch[0]
+
+            new_data = {}
+            new_data.update(cre1)
+            new_data["card_type"] = "Creature"
+            merged_halves.append(new_data)
+
+        else:
+            # MoMu style
+            assert(batch[0]["card_type"] == "Creature")
+            assert(batch[1]["card_type"] == "Creature")
+
+            keep = None
+            drop = None
+            if batch[0]["card_text"]:
+                keep = batch[0]
+                drop = batch[1]
+            else:
+                keep = batch[1]
+                drop = batch[0]
+
+            # We want keep's data except drop's rarity.
+            new_data = {}
+            new_data.update(keep)
+            new_data["rarity"] = drop["rarity"]
+            merged_halves.append(new_data)
+
+    return (is_giant, merged_halves)
+
+
+def bifurcate_anomalies(card_datas):
+    """Returns (has_anomaly, anomalies, other)"""
+
+    has_anomaly = False
+    anomalies = []
+    other = []
+    for data in card_datas:
+        if data.get("is_anomaly", False):
+            has_anomaly = True
+            anomalies.append(data)
+        else:
+            other.append(data)
+
+    return (has_anomaly, anomalies, other)
+
+
+def bifurcate_redemption(card_datas):
+    """Returns (has_redemption, redemption, other)"""
+
+    houses = set([card["house"] for card in card_datas])
+    has_redemption = "Redemption" in houses
+    redemp = []
+    other = []
+
+    for data in card_datas:
+        if data.get("house", None) == "Redemption":
+            # The same card moving houses to Redemption
+            # in a different set becomes a different
+            # wiki page.
+            new_data = {}
+            new_data.update(data)
+            new_data["card_title"] += " (Redemption)"
+            redemp.append(new_data)
+        else:
+            other.append(data)
+
+    return (has_redemption, redemp, other)
+
+
+def bifurcate_multi_house(card_datas):
+    """Returns (multi_house, merged)"""
+
+    houses = set([card["house"] for card in card_datas])
+    multi_house = len(houses) > 1
+    merged = []
+
+    if multi_house:
+        new_data = {}
+        new_data.update(card_datas[0])
+        new_data["house"] = util.SEPARATOR.join(sorted(houses))
+        merged = [new_data]
+
+    return (multi_house, merged)
+
+
+
+def build_json(only=None, build_locales=False, from_skyjedi=False):
     print("++++ Clear memory")
     cards.clear()
-    
+
     if build_locales:
         locales.clear()
 
-    print("++++ Getting card batch from postgresql")
-    scope = mv_model.UpdateScope()
-    card_batch = scope.get_cards()
+    card_datas = None
+    if from_skyjedi:
+        print("++++ Getting card batch from skyjedi json")
+        local_json = skyjedi_model.LocalJson()
 
-    print("++++ Processing batch")
-    card_datas = process_mv_card_batch(card_batch)
+        # Historically haven't added menagerie.
+        skipfiles = ["722.json"]
+        [
+            local_json.add_file(f"skyjedi/{skyjedi_file}")
+            for skyjedi_file in os.listdir("skyjedi")
+            if skyjedi_file.endswith(".json")
+            and skyjedi_file not in skipfiles
+        ]
+
+        card_batch = local_json.get_cards()
+        print("++++ Processing batch")
+        card_datas = process_skyjedi_card_batch(card_batch)
+    else:
+        print("++++ Getting card batch from postgresql")
+        scope = mv_model.UpdateScope()
+        card_batch = scope.get_cards()
+        print("++++ Processing batch")
+        card_datas = process_mv_card_batch(card_batch)
+
     print("++++ Adding cards")
     with Bar("Adding Cards", max=len(card_datas)) as bar:
         [add_card(card_data, cards, bar) for card_data in card_datas]
@@ -458,7 +654,7 @@ def get_restricted_dict(source, restricted, pre=""):
     return rd
 
 CARD_FIELDS_FOR_LOCALE = ["EnglishName", "Name", "Image", "Text", "SearchText", "FlavorText", "SearchFlavorText"]
-def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
+def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None, prevent_spoilers=False):
     table = "CardData"
     if not ct:
         from wikibase import CargoTable
@@ -502,7 +698,7 @@ def get_cargo(card, ct=None, restricted=[], only_sets=False, locale=None):
             "Meta":"Debut" if set_num == earliest_set else ""
         }, restricted, "SetData")
         # FIXME - this is hacky, but if the set is in spoilers, rewrite the meta
-        if shared.set_data.is_spoiler(settable["SetName"]):
+        if not prevent_spoilers and shared.set_data.is_spoiler(settable["SetName"]):
             settable["Meta"] = "SpoilerNew" if settable["Meta"] == "Debut" else "SpoilerReprint"
         ct.update_or_create("SetData", set_name, settable)
     return ct
