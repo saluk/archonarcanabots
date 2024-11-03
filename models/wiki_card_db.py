@@ -399,9 +399,6 @@ def bifurcate_data(card_datas):
     if not card_datas:
         return []
 
-    if card_datas[0]["card_title"] == "Dark Æmber Vault":
-        import pdb; pdb.set_trace()
-
     if len(card_datas) == 1:
         return card_datas
 
@@ -439,13 +436,6 @@ def bifurcate_data(card_datas):
         raise Exception(f"Unknown type mismatch {card_title} {types}")
 
     # Otherwise the batch doesn't need bifurcation.
-    # TODO: what does it make here? Same card name from
-    # different sets? We build set data differently elsewhere?
-    #print("########################################")
-    #print("no bifurcate but multiples, by set?:")
-    #pprint.pp(card_datas)
-    #print("########################################")
-
     return card_datas
 
 

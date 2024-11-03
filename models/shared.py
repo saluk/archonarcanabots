@@ -100,7 +100,7 @@ def get_set_number_by_name(name):
             return set_num
     return 100000
 
-NEXT_SET = "More Mutation"
+NEXT_SET = "Discovery"
 SPOILER_SETS = ["Discovery", "Prophetic Visions"]
 
 

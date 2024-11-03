@@ -16,16 +16,9 @@ def force(text):
     )
 
 def force_fancy_apostrophe(text):
-    if "'" in text:
-        print('Force fancy apostrophe')
-        print(text)
     return re.sub(r"'", r"’", text)
-    
-def force_fancy_quotes(text):
-    if '"' in text:
-        print('Force fancy quotes')
-        print(text)
 
+def force_fancy_quotes(text):
     # Look for a simple quote that has whitespace
     # or beginning of line on the left. Also if
     # there is a right fancy on the left, switch
