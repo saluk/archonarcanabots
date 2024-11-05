@@ -53,6 +53,16 @@ class WikiCardDbTests(unittest.TestCase):
             "f74a8d23-d941-4aaa-8030-8eff3dc0dd64"
         )
 
+        self.chuff_cota = self.find(
+            "2948a6fc-f7fa-45f2-b73d-fdf5f4216e46"
+        )
+        self.chuff_mcw = self.find(
+            "ed4f373a-512b-4dbc-8e99-7771fdd61ed0"
+        )
+        self.taengoo_mcw = self.find(
+            "0051e976-e65e-48e1-9f1e-b025e281528b"
+        )
+
         # a real example that becomes multi house
         # via JSON data? I think this case might come
         # from processing decks? I messed around with this
@@ -164,6 +174,44 @@ class WikiCardDbTests(unittest.TestCase):
         self.assertEqual(expected, actual)
 
 
+    def test_bifurcate_martian_faction(self):
+        # Returns (has_martian_faction, faction, other)
+        expected = (
+            False,
+            [],
+            [self.dew_cota]
+        )
+        actual = wiki_card_db.bifurcate_martian_faction(
+            [self.dew_cota]
+        )
+        self.assertEqual(expected, actual)
+
+        chuff_mcw_updated = copy.deepcopy(self.chuff_mcw)
+        chuff_mcw_updated["card_title"] = "Chuff Ape (Elders)"
+        expected = (
+            True,
+            [chuff_mcw_updated],
+            [self.chuff_cota]
+        )
+        actual = wiki_card_db.bifurcate_martian_faction(
+            [self.chuff_cota, self.chuff_mcw]
+        )
+        self.assertEqual(expected, actual)
+
+        taengoo_mcw_updated = copy.deepcopy(self.taengoo_mcw)
+        taengoo_mcw_updated["card_title"] = \
+            "Agent Taengoo (Ironyx Rebels)"
+        expected = (
+            True,
+            [taengoo_mcw_updated],
+            []
+        )
+        actual = wiki_card_db.bifurcate_martian_faction(
+            [self.taengoo_mcw]
+        )
+        self.assertEqual(expected, actual)
+
+
     def test_bifurcate_multi_house(self):
         # Returns (multi_house, merged)
         pass
@@ -200,6 +248,15 @@ class WikiCardDbTests(unittest.TestCase):
         grim_gr_updated = copy.deepcopy(self.grim_gr)
         grim_gr_updated["power"] = 4
 
+        chuff_cota_updated = copy.deepcopy(self.chuff_cota)
+        chuff_cota_updated["power"] = 11
+        chuff_mcw_updated = copy.deepcopy(self.chuff_mcw)
+        chuff_mcw_updated["card_title"] = "Chuff Ape (Elders)"
+        chuff_mcw_updated["power"] = 11
+        taengoo_mcw_updated = copy.deepcopy(self.taengoo_mcw)
+        taengoo_mcw_updated["card_title"] = \
+            "Agent Taengoo (Ironyx Rebels)"
+        taengoo_mcw_updated["power"] = 1
 
         expected = [
             # Some single no-bifurcate cards.
@@ -209,7 +266,12 @@ class WikiCardDbTests(unittest.TestCase):
             # Anomalies do not combine into one card.
             grim_anomaly_updated, grim_gr_updated,
             # Redemption variant becomes a new card.
-            johnny_toc_redem_updated, johnny_mm_updated
+            johnny_toc_redem_updated, johnny_mm_updated,
+            # Original card stays the same, while MCW
+            # variants become a new card. A debut MCW
+            # card also starts with the suffix.
+            chuff_cota_updated,
+            chuff_mcw_updated, taengoo_mcw_updated,
         ]
 
         actual = wiki_card_db.process_skyjedi_card_batch(
@@ -218,7 +280,9 @@ class WikiCardDbTests(unittest.TestCase):
                 self.ultra1_mm, self.ultra2_mm,
                 self.ultra1_momu, self.ultra2_momu,
                 self.grim_anomaly, self.grim_gr,
-                self.johnny_mm, self.johnny_toc_redem
+                self.johnny_mm, self.johnny_toc_redem,
+                self.chuff_cota,
+                self.chuff_mcw, self.taengoo_mcw,
             ]
         )
 

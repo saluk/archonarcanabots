@@ -399,6 +399,21 @@ def bifurcate_data(card_datas):
     if not card_datas:
         return []
 
+    # Special house variants should happen even when
+    # it is the only card_data, like Agent Taengoo
+    # debut in MCW.
+    (
+        has_redemption, redemption, other
+    ) = bifurcate_redemption(card_datas)
+    if has_redemption:
+        return redemption + bifurcate_data(other)
+
+    (
+        has_martian_faction, faction, other
+    ) = bifurcate_martian_faction(card_datas)
+    if has_martian_faction:
+        return faction + bifurcate_data(other)
+
     if len(card_datas) == 1:
         return card_datas
 
@@ -414,13 +429,10 @@ def bifurcate_data(card_datas):
     if has_anomaly:
         return anomalies + bifurcate_data(other)
 
-    (
-        has_redemption, redemption, other
-    ) = bifurcate_redemption(card_datas)
-    if has_redemption:
-        return redemption + bifurcate_data(other)
-
     # Do special multi-house cases before this, like Redemption.
+    # We may never get to this case if we're not doing high
+    # MV API QPS and building card data from scanned decks of
+    # a yet unknown set list.
     (
         multi_house, merged
     ) = bifurcate_multi_house(card_datas)
@@ -547,6 +559,32 @@ def bifurcate_redemption(card_datas):
             other.append(data)
 
     return (has_redemption, redemp, other)
+
+
+def bifurcate_martian_faction(card_datas):
+    """Returns (has_martian_faction, faction, other)"""
+
+    houses = set([card["house"] for card in card_datas])
+    has_faction = "Elders" in houses or \
+        "Ironyx Rebels" in houses
+    faction = []
+    other = []
+
+    for data in card_datas:
+        if data.get("house", None) == "Elders" or \
+           data.get("house", None) == "Ironyx Rebels":
+            # The same card being in a Martian faction
+            # in a different set becomes a different
+            # wiki page.
+            new_data = {}
+            new_data.update(data)
+            new_data["card_title"] += \
+                " (" + data.get("house", None) + ")"
+            faction.append(new_data)
+        else:
+            other.append(data)
+
+    return (has_faction, faction, other)
 
 
 def bifurcate_multi_house(card_datas):
