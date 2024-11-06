@@ -12,10 +12,6 @@ class WikiCardDbTests(unittest.TestCase):
         # were too long.
         self.maxDiff = None
 
-        self.setUp_bifurcate()
-
-
-    def setUp_bifurcate(self):
         local_json = skyjedi_model.LocalJson()
         local_json.add_file(
             "data/test_data/wiki_card_db_examples.json"
@@ -77,17 +73,6 @@ class WikiCardDbTests(unittest.TestCase):
         )
         self.fear_cota = self.find(
             "10715fd2-031a-47ca-9119-9b7b2ec1d2c0"
-        )
-
-        # For AA card data processing like X power.
-        self.wave = self.find(
-            "ac3a1d32-f21d-4336-b263-ac55817c59f6"
-        )
-        self.picaroon = self.find(
-            "a9479b8e-710e-420f-aac4-de1d2d10aeb5"
-        )
-        self.archivist = self.find(
-            "9a21e4ec-bedd-4494-a7d0-5bf047587ea4"
         )
 
     def find(self, card_id):
@@ -222,55 +207,39 @@ class WikiCardDbTests(unittest.TestCase):
         # the expectations. Together run the whole shebang
         # here so the interactions between bifurcate functions
         # comes out correctly.
+        # NOTE this test seems verbose and duplicative with the
+        # tests above, but it keeps catching bugs where the
+        # sequence of bifurcates has an issue. Worth it!
 
         ultra_mm_merged = copy.deepcopy(self.ultra1_mm)
         ultra_mm_merged["card_type"] = "Creature"
-        ultra_mm_merged["power"] = 10
         ultra_momu_merged = copy.deepcopy(self.ultra2_momu)
         ultra_momu_merged["rarity"] = "Rare"
-        ultra_momu_merged["power"] = 10
-
-        johnny_mm_updated = \
-            copy.deepcopy(self.johnny_mm)
-        johnny_mm_updated["power"] = 4
 
         johnny_toc_redem_updated = \
             copy.deepcopy(self.johnny_toc_redem)
         johnny_toc_redem_updated["card_title"] = \
             "Johnny Longfingers (Redemption)"
-        johnny_toc_redem_updated["power"] = 4
 
-        dew_updated = copy.deepcopy(self.dew_cota)
-        dew_updated["power"] = 2
-
-        grim_anomaly_updated = copy.deepcopy(self.grim_anomaly)
-        grim_anomaly_updated["power"] = 4
-        grim_gr_updated = copy.deepcopy(self.grim_gr)
-        grim_gr_updated["power"] = 4
-
-        chuff_cota_updated = copy.deepcopy(self.chuff_cota)
-        chuff_cota_updated["power"] = 11
         chuff_mcw_updated = copy.deepcopy(self.chuff_mcw)
         chuff_mcw_updated["card_title"] = "Chuff Ape (Elders)"
-        chuff_mcw_updated["power"] = 11
         taengoo_mcw_updated = copy.deepcopy(self.taengoo_mcw)
         taengoo_mcw_updated["card_title"] = \
             "Agent Taengoo (Ironyx Rebels)"
-        taengoo_mcw_updated["power"] = 1
 
         expected = [
             # Some single no-bifurcate cards.
-            dew_updated, self.fear_cota,
+            self.dew_cota, self.fear_cota,
             # Giants per-set merge.
             ultra_mm_merged, ultra_momu_merged,
             # Anomalies do not combine into one card.
-            grim_anomaly_updated, grim_gr_updated,
+            self.grim_anomaly, self.grim_gr,
             # Redemption variant becomes a new card.
-            johnny_toc_redem_updated, johnny_mm_updated,
+            self.johnny_mm, johnny_toc_redem_updated,
             # Original card stays the same, while MCW
             # variants become a new card. A debut MCW
             # card also starts with the suffix.
-            chuff_cota_updated,
+            self.chuff_cota,
             chuff_mcw_updated, taengoo_mcw_updated,
         ]
 
@@ -288,30 +257,3 @@ class WikiCardDbTests(unittest.TestCase):
 
         # Ignores order of lists.
         self.assertCountEqual(expected, actual)
-
-
-    def test_process_aa_card_data(self):
-
-        # Cards without power left alone.
-        wave = {
-            "card_title": "Cleansing Wave",
-            "power": None,
-        }
-        wiki_card_db.process_aa_card_data(wave)
-        self.assertEqual(wave["power"], None)
-
-        # Cards with integer power get integer.
-        archivist = {
-            "card_title": "The Archivist",
-            "power": "3",
-        }
-        wiki_card_db.process_aa_card_data(archivist)
-        self.assertEqual(archivist["power"], 3)
-
-        # X-power gets turned into integer zero.
-        picaroon = {
-            "card_title": "Picaroon",
-            "power": "X",
-        }
-        wiki_card_db.process_aa_card_data(picaroon)
-        self.assertEqual(picaroon["power"], 0)

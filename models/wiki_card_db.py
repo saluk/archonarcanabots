@@ -357,26 +357,7 @@ def process_card_batch(same_title_cards: dict) -> list:
         card_datas.extend(bifurcate_data(_card_datas))
     logging.debug([card["card_title"] for card in card_datas])
 
-    for data in card_datas:
-        process_aa_card_data(data)
-
     return card_datas
-
-
-def process_aa_card_data(card_data):
-    """This card data has gone through bifurcation, so we expect it to
-    represent an AA card page. Here we can apply simple single-card
-    processing, like for X power to integer 0 to prevent schema type failures
-    on the site."""
-
-    # Skip null power like for actions.
-    if card_data["power"]:
-        # Motivating case is "X" power creatures, but AA schema
-        # needs an integer value.
-        try:
-            card_data["power"] = int(card_data["power"])
-        except ValueError:
-            card_data["power"] = 0
 
 
 def bifurcate_data(card_datas):
@@ -635,6 +616,7 @@ def build_json(only=None, build_locales=False, from_skyjedi=False):
         print("++++ Processing batch")
         card_datas = process_mv_card_batch(card_batch)
 
+    # add_card() leads to more card/text processing in wiki_model.
     print("++++ Adding cards")
     with Bar("Adding Cards", max=len(card_datas)) as bar:
         [add_card(card_data, cards, bar) for card_data in card_datas]

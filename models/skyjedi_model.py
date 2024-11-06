@@ -28,9 +28,9 @@ class LocalJson(object):
                     )
 
                 c["house"] = modify_house.as_needed(c)
-            
+
             self.cards.extend(cards)
-            
+
     def get_cards(self):
         print("done")
         sys.stdout.flush()
