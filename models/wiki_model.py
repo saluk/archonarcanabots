@@ -377,11 +377,7 @@ def card_data(card, locale=None):
     if card["card_type"] == "Creature":
         card["assault"] = get_keywordvalue_text(card["card_text"], "assault") or 0
         card["hazardous"] = get_keywordvalue_text(card["card_text"], "hazardous") or 0
-        # TODO handle gigantics above and regular creatures here where
-        # there is the X power/armor case and sometimes the MV has the
-        # value as a string, so force it if possible.
-        #card["power"] = card["power"] or 0
-        #card["armor"] = card["armor"] or 0
+
         if card["power"]:
             # Motivating case is "X" power creatures, but AA schema
             # needs an integer value.
