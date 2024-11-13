@@ -40,7 +40,6 @@ parser.add_argument("--restrict_expansion", type=int, help="Expansion number to 
 parser.add_argument("--build_locales", type=bool, help="Whether or not to build locales when building the wiki db", default=False)
 parser.add_argument("--prevent_spoilers", action="store_true", help="When prepping a spoilered set to become main, force card pages to non-spoiler values", default=False)
 parser.add_argument("--change_comment", type=str, help="To annotate wiki updates.", default="bot update")
-parser.add_argument("--wiki_dry_run", action="store_true", help="Run write_changes but do not publish to wiki or alert Discord.", default=False)
 args = parser.parse_args()
 args.pause = not args.batch
 print(vars(args))
@@ -85,8 +84,7 @@ if __name__ == "__main__":
         tool_change_cards_json.write_changes(
             wp,
             f'data/changed_cards_{args.restrict_expansion}.json',
-            change_comment=args.change_comment,
-            wiki_dry_run=args.wiki_dry_run
+            change_comment=args.change_comment
         )
     if args.command == "import_cards_locale":
         import tool_update_cards

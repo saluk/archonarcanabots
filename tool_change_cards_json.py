@@ -109,7 +109,7 @@ def read_changes(wp, search_name=None,
     f.write(json.dumps(found_changes, indent=2, sort_keys=True))
     f.close()
 
-def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_dry_run=False):
+def write_changes(wp, filename, locale=None, change_comment="bot update"):
     f = open(filename)
     requested_changes = json.loads(f.read())
     f.close()
@@ -196,12 +196,11 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
             if ot == text:
                 continue
             #print(text)
-            update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
-            if not wiki_dry_run:
-                import alerts
-                # FIXME move this to wikibase or somewhere
-                alerts.discord_alert(
-                    f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
+            update_page(card_name, page, text, change_comment, ot)
+            import alerts
+            # FIXME move this to wikibase or somewhere
+            alerts.discord_alert(
+                f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
         elif change_requested["reason"] == "addset":
             page = wp.page("CardData:" + card_name)
             try:
@@ -214,11 +213,10 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
             if ot == text:
                 continue
             #print(text)
-            update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
-            if not wiki_dry_run:
-                import alerts
-                alerts.discord_alert(
-                    f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
+            update_page(card_name, page, text, change_comment, ot)
+            import alerts
+            alerts.discord_alert(
+                f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
         elif change_requested["reason"] == "revision":
             page = wp.page("CardData:" + card_name)
             try:
@@ -232,11 +230,10 @@ def write_changes(wp, filename, locale=None, change_comment="bot update", wiki_d
                 continue
             #print(text)
 
-            update_page(card_name, page, text, change_comment, ot, wiki_dry_run=wiki_dry_run)
-            if not wiki_dry_run:
-                import alerts
-                alerts.discord_alert(
-                    f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
+            update_page(card_name, page, text, change_comment, ot)
+            import alerts
+            alerts.discord_alert(
+                f"Updated card https://archonarcana.com/{card_name.replace(' ', '_')} with fields {fields}")
         else:
             print(f"Unknown change reason: {change_requested['reason']}")
             crash
