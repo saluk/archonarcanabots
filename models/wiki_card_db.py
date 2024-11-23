@@ -357,26 +357,7 @@ def process_card_batch(same_title_cards: dict) -> list:
         card_datas.extend(bifurcate_data(_card_datas))
     logging.debug([card["card_title"] for card in card_datas])
 
-    for data in card_datas:
-        process_aa_card_data(data)
-
     return card_datas
-
-
-def process_aa_card_data(card_data):
-    """This card data has gone through bifurcation, so we expect it to
-    represent an AA card page. Here we can apply simple single-card
-    processing, like for X power to integer 0 to prevent schema type failures
-    on the site."""
-
-    # Skip null power like for actions.
-    if card_data["power"]:
-        # Motivating case is "X" power creatures, but AA schema
-        # needs an integer value.
-        try:
-            card_data["power"] = int(card_data["power"])
-        except ValueError:
-            card_data["power"] = 0
 
 
 def bifurcate_data(card_datas):
@@ -399,6 +380,21 @@ def bifurcate_data(card_datas):
     if not card_datas:
         return []
 
+    # Special house variants should happen even when
+    # it is the only card_data, like Agent Taengoo
+    # debut in MCW.
+    (
+        has_redemption, redemption, other
+    ) = bifurcate_redemption(card_datas)
+    if has_redemption:
+        return redemption + bifurcate_data(other)
+
+    (
+        has_martian_faction, faction, other
+    ) = bifurcate_martian_faction(card_datas)
+    if has_martian_faction:
+        return faction + bifurcate_data(other)
+
     if len(card_datas) == 1:
         return card_datas
 
@@ -414,13 +410,10 @@ def bifurcate_data(card_datas):
     if has_anomaly:
         return anomalies + bifurcate_data(other)
 
-    (
-        has_redemption, redemption, other
-    ) = bifurcate_redemption(card_datas)
-    if has_redemption:
-        return redemption + bifurcate_data(other)
-
     # Do special multi-house cases before this, like Redemption.
+    # We may never get to this case if we're not doing high
+    # MV API QPS and building card data from scanned decks of
+    # a yet unknown set list.
     (
         multi_house, merged
     ) = bifurcate_multi_house(card_datas)
@@ -549,6 +542,32 @@ def bifurcate_redemption(card_datas):
     return (has_redemption, redemp, other)
 
 
+def bifurcate_martian_faction(card_datas):
+    """Returns (has_martian_faction, faction, other)"""
+
+    houses = set([card["house"] for card in card_datas])
+    has_faction = "Elders" in houses or \
+        "Ironyx Rebels" in houses
+    faction = []
+    other = []
+
+    for data in card_datas:
+        if data.get("house", None) == "Elders" or \
+           data.get("house", None) == "Ironyx Rebels":
+            # The same card being in a Martian faction
+            # in a different set becomes a different
+            # wiki page.
+            new_data = {}
+            new_data.update(data)
+            new_data["card_title"] += \
+                " (" + data.get("house", None) + ")"
+            faction.append(new_data)
+        else:
+            other.append(data)
+
+    return (has_faction, faction, other)
+
+
 def bifurcate_multi_house(card_datas):
     """Returns (multi_house, merged)"""
 
@@ -597,6 +616,7 @@ def build_json(only=None, build_locales=False, from_skyjedi=False):
         print("++++ Processing batch")
         card_datas = process_mv_card_batch(card_batch)
 
+    # add_card() leads to more card/text processing in wiki_model.
     print("++++ Adding cards")
     with Bar("Adding Cards", max=len(card_datas)) as bar:
         [add_card(card_data, cards, bar) for card_data in card_datas]

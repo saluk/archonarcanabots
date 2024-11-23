@@ -377,8 +377,25 @@ def card_data(card, locale=None):
     if card["card_type"] == "Creature":
         card["assault"] = get_keywordvalue_text(card["card_text"], "assault") or 0
         card["hazardous"] = get_keywordvalue_text(card["card_text"], "hazardous") or 0
-        card["power"] = card["power"] or 0
-        card["armor"] = card["armor"] or 0
+
+        if card["power"]:
+            # Motivating case is "X" power creatures, but AA schema
+            # needs an integer value.
+            try:
+                card["power"] = int(card["power"])
+            except ValueError:
+                card["power"] = 0
+        else:
+            card["power"] = 0
+
+        if card["armor"]:
+            try:
+                card["armor"] = int(card["armor"])
+            except ValueError:
+                card["armor"] = 0
+        else:
+            card["armor"] = 0
+
     else:
         if card["power"] and not int(card["power"]):
             card["power"] = ""

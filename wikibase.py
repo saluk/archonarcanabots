@@ -17,8 +17,7 @@ def add_skip(name):
 
 
 def update_page(title, page, text, reason, ot,
-                pause=False, read=False, only_new_edits=False,
-                wiki_dry_run=False):
+                pause=False, read=False, only_new_edits=False):
     if title in skip_status:
         print("skipping", title)
         return
@@ -41,14 +40,10 @@ def update_page(title, page, text, reason, ot,
             return
     if text == ot:
         return None
-
-    if wiki_dry_run:
-        print("WIKI DRY RUN, skipping page.edit()")
-        return text
-    else:
-        update = page.edit(text, reason).get("edit", {"nochange": ""})
-        if "nochange" in update:
-            return None
+    update = page.edit(text, reason).get("edit", {"nochange": ""})
+    if "nochange" in update:
+        return None
+    return text
 
 
 def to_cat_str(cat):
