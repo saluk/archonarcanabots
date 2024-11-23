@@ -40,10 +40,10 @@ def update_page(title, page, text, reason, ot,
             return
     if text == ot:
         return None
-
     update = page.edit(text, reason).get("edit", {"nochange": ""})
     if "nochange" in update:
         return None
+    return text
 
 
 def to_cat_str(cat):
