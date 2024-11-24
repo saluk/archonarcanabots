@@ -1,0 +1,3656 @@
+{
+  "Aberrant Warp Event (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Aberrant Warp Event (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-043.png",
+              "Keywords": "",
+              "Name": "Aberrant Warp Event (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Discard cards from the top of your deck until you discard a creature or run out of cards. If you discard a creature this way, put it into play and destroy one of its neighbors. Repeat the preceding effect on your opponent.",
+              "Text": "'''Play:''' Discard cards from the top of your deck until you discard a creature or run out of cards. If you discard a creature this way, put it into play and destroy one of its neighbors. [[Preceding|Repeat the preceding effect]] on your opponent.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "043",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Agent Taengoo (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Agent Taengoo (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "The Elder\u2019s mainframe security was surprisingly lax.",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-058.png",
+              "Keywords": "",
+              "Name": "Agent Taengoo (Ironyx Rebels)",
+              "Power": 1,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "The Elder\u2019s mainframe security was surprisingly lax.",
+              "SearchText": "Play: Choose a house. Return each creature of that house to its owner\u2019s hand.",
+              "Text": "'''Play:''' Choose a house. Return each creature of that house to its owner\u2019s hand.",
+              "Traits": "Martian \u2022 Agent",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "058",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Big Magnet (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Big Magnet (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-044.png",
+              "Keywords": "",
+              "Name": "Big Magnet (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Choose a friendly creature. Take control of each upgrade in play and move it to that creature.",
+              "Text": "'''Play:''' Choose a friendly creature. [[Control|Take control]] of each upgrade in play and [[Move|move]] it to that creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "044",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Blypyp (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Blypyp (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cSoooon\u2026\u201d",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-017.png",
+              "Keywords": "",
+              "Name": "Blypyp (Elders)",
+              "Power": 2,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "\u201cSoooon\u2026\u201d",
+              "SearchText": "After Reap: The next Mars creature you play this turn enters play ready.",
+              "Text": "'''After Reap:''' The next Mars creature you play this turn enters play ready.",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "017",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Borka Rikk (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Borka Rikk (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cJoin me, and the Revolution will never die.\u201d",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-045.png",
+              "Keywords": "",
+              "Name": "Borka Rikk (Ironyx Rebels)",
+              "Power": 4,
+              "Rarity": "Rare",
+              "SearchFlavorText": "\u201cJoin me, and the Revolution will never die.\u201d",
+              "SearchText": "Each time a Mars card is discarded from your hand, make a token creature.",
+              "Text": "Each time a Mars card is discarded from your hand, make a [[Token Creatures|token creature]].",
+              "Traits": "Martian \u2022 Ironyx",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "045",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Brash Grabber (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Brash Grabber (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-029.png",
+              "Keywords": "",
+              "Name": "Brash Grabber (Elders)",
+              "Power": 3,
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "If you are not haunted, Brash Grabber enters play enraged. <p> Omni: Move 1A from an enemy creature to your pool.",
+              "Text": "If you are not [[Haunted|haunted]], [[Brash Grabber|Brash Grabber]] enters play enraged. <p> '''Omni:''' [[Move|Move]] 1{{Aember}} from an enemy creature to your pool.",
+              "Traits": "Scientist \u2022 Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "029",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Chuff Ape (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Chuff Ape (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-002.png",
+              "Keywords": "Taunt",
+              "Name": "Chuff Ape (Elders)",
+              "Power": 11,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Taunt. <p> Chuff Ape enters play stunned. <p> After Fight/After Reap: You may destroy another friendly creature. If you do, fully heal Chuff Ape.",
+              "Text": "[[Taunt|Taunt]]. <p> [[Chuff Ape|Chuff Ape]] enters play stunned. <p> '''After Fight/After Reap:''' You may destroy another friendly creature. [[if you do|If you do]], fully [[Heal|heal]] Chuff Ape.",
+              "Traits": "Beast",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "002",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Clone Home (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Clone Home (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-001.png",
+              "Keywords": "",
+              "Name": "Clone Home (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Make a token creature. If there are more friendly creatures than enemy creatures, archive Clone Home.",
+              "Text": "'''Play:''' Make a [[Token Creatures|token creature]]. If there are more friendly creatures than enemy creatures, archive [[Clone Home|Clone Home]].",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "001",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Compliance (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Compliance (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cThe demonstrations will continue until morale improves.\u201d",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-030.png",
+              "Keywords": "",
+              "Name": "Compliance (Elders)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cThe demonstrations will continue until morale improves.\u201d",
+              "SearchText": "Play: A creature captures 1A from its own side. For each A on that creature, make a token creature.",
+              "Text": "'''Play:''' A creature captures 1{{Aember}} from its own side. [[For each|For each]] {{Aember}} on that creature, make a [[Token Creatures|token creature]].",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "030",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Crystal Hive (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Crystal Hive (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Behold the glory of Nova Hellas!",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-018.png",
+              "Keywords": "",
+              "Name": "Crystal Hive (Elders)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "Behold the glory of Nova Hellas!",
+              "SearchText": "Action: For the remainder of the turn, gain 1A after a creature reaps.",
+              "Text": "'''Action:''' For the remainder of the turn, gain 1{{Aember}} after a creature reaps.",
+              "Traits": "Location",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "018",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Curse of Disappearances (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Curse of Disappearances (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-003.png",
+              "Keywords": "Treachery",
+              "Name": "Curse of Disappearances (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Treachery. (This card enters play under your opponent\u2019s control.) <p> At the end of your turn, put a friendly creature into your opponent\u2019s archives. If that card leaves their archives, put it into its owner\u2019s hand instead.",
+              "Text": "[[Treachery|Treachery]]. (This card enters play under your opponent\u2019s [[Control|control]].) <p> At the end of your turn, put a friendly creature into your opponent\u2019s archives. If that card leaves their archives, put it into its owner\u2019s hand [[Replacement Effects|instead]].",
+              "Traits": "Curse",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "003",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Deep Probe (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Deep Probe (Elders)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-019.png",
+              "Keywords": "",
+              "Name": "Deep Probe (Elders)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Choose a house. Reveal your opponent\u2019s hand. Discard each creature of that house revealed this way.",
+              "Text": "'''Play:''' Choose a house. Reveal your opponent\u2019s hand. Discard each creature of that house revealed this way.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "019",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Destroy Them All! (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Destroy Them All! (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-059.png",
+              "Keywords": "",
+              "Name": "Destroy Them All! (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Destroy an artifact, a creature, and an upgrade.",
+              "Text": "'''Play:''' Destroy an artifact, a creature, and an upgrade.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "059",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Destructive Analysis (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Destructive Analysis (Elders)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-004.png",
+              "Keywords": "",
+              "Name": "Destructive Analysis (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Deal 2D to a creature. You may purge any number of cards from your archives. Deal an additional 2D to the same creature for each card purged this way.",
+              "Text": "'''Play:''' Deal 2{{Damage}} to a creature. You may [[Purge|purge]] any number of cards from your archives. Deal an additional 2{{Damage}} to the same creature [[For each|for each]] card [[Purge|purged]] this way.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "004",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Dr. Xyloxxzlphrex (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Dr. Xyloxxzlphrex (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-031.png",
+              "Keywords": "Elusive",
+              "Name": "Dr. Xyloxxzlphrex (Elders)",
+              "Power": 2,
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "Elusive. <p> After Reap: Play a Mars creature from your discard pile and ready it.",
+              "Text": "[[Elusive|Elusive]]. <p> '''After Reap:''' Play a Mars creature from your discard pile and ready it.",
+              "Traits": "Scientist \u2022 Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "031",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Elite Disruptzord (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Elite Disruptzord (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-005.png",
+              "Keywords": "",
+              "Name": "Elite Disruptzord (Elders)",
+              "Power": 6,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Creatures more powerful than Elite Disruptzord cannot be played.",
+              "Text": "Creatures more powerful than [[Elite Disruptzord|Elite Disruptzord]] [[Cannot_vs_Must|cannot]] be played.",
+              "Traits": "Robot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "005",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Entropic Manipulator (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Entropic Manipulator (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-046.png",
+              "Keywords": "",
+              "Name": "Entropic Manipulator (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Choose a player. You may redistribute the damage on the creatures that player controls among that player\u2019s creatures. (You may cause more damage to a creature than it has power.)",
+              "Text": "'''Play:''' Choose a player. You may redistribute the damage on the creatures that player controls among that player\u2019s creatures. (You may cause more damage to a creature than it has power.)",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "046",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Ether Spider (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Ether Spider (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-020.png",
+              "Keywords": "",
+              "Name": "Ether Spider (Elders)",
+              "Power": 7,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Ether Spider deals no damage when fighting. <p> Each A that would be added to your opponent\u2019s pool is captured by Ether Spider instead.",
+              "Text": "[[Ether Spider|Ether Spider]] deals no damage when fighting. <p> Each {{Aember}} that would be added to your opponent\u2019s pool is captured by Ether Spider [[Replacement Effects|instead]].",
+              "Traits": "Beast",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "020",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Exo Vanguard (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Exo Vanguard (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 2,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cWe were pressed into this nightmarish war. We are dedicated to freeing our kind from Elder rule.\u201d",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-070.png",
+              "Keywords": "",
+              "Name": "Exo Vanguard (Ironyx Rebels)",
+              "Power": 2,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cWe were pressed into this nightmarish war. We are dedicated to freeing our kind from Elder rule.\u201d",
+              "SearchText": "After Fight: Capture 1A.",
+              "Text": "'''After Fight:''' Capture 1{{Aember}}.",
+              "Traits": "Martian \u2022 Pilot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "070",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Exterminate! Exterminate! (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Exterminate! Exterminate! (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-060.png",
+              "Keywords": "",
+              "Name": "Exterminate! Exterminate! (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Play: For each friendly Mars creature, destroy a non-Mars creature with lower power.",
+              "Text": "'''Play:''' [[For each|For each]] friendly Mars creature, destroy a non-Mars creature with lower power.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "060",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Extinction (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Extinction (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-006.png",
+              "Keywords": "",
+              "Name": "Extinction (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Destroy a creature and each creature that shares a trait with it. Gain 1 chain.",
+              "Text": "'''Play:''' Destroy a creature and each creature that shares a trait with it. Gain 1 chain.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "006",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "For the Revolution! (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "For the Revolution! (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "The Elders have their strategy and tactics, but we have the numbers!",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-071.png",
+              "Keywords": "",
+              "Name": "For the Revolution! (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "The Elders have their strategy and tactics, but we have the numbers!",
+              "SearchText": "Play: You may destroy a friendly non-Mars creature. If you do, make a token creature and ready that token creature.",
+              "Text": "'''Play:''' You may destroy a friendly non-Mars creature. [[if you do|If you do]], make a [[Token Creatures|token creature]] and ready that token creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "071",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Genetic Vault (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Genetic Vault (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-021.png",
+              "Keywords": "",
+              "Name": "Genetic Vault (Elders)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "At the end of your turn, you may put a card from your hand facedown under Genetic Vault. <p> Omni: Put each card under Genetic Vault into play as a token creature.",
+              "Text": "At the end of your turn, you may put a card from your hand facedown under [[Genetic Vault|Genetic Vault]]. <p> '''Omni:''' Put each card under Genetic Vault into play as a [[Token Creatures|token creature]].",
+              "Traits": "Location",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "021",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Green Aeronaut (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Green Aeronaut (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-082.png",
+              "Keywords": "",
+              "Name": "Green Aeronaut (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "Action: A friendly Nautilixian gains Splash-attack 3 for the remainder of the turn.",
+              "Text": "'''Action:''' A friendly [[Nautilixian|Nautilixian]] gains [[Splash-Attack_(X)|Splash-attack]] 3 for the remainder of the turn.",
+              "Traits": "Martian \u2022 Pilot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "082",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Grommid (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Grommid (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-007.png",
+              "Keywords": "",
+              "Name": "Grommid (Elders)",
+              "Power": 10,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "While Grommid is in play, you cannot play creatures. <p> After an enemy creature is destroyed fighting Grommid, your opponent <p> loses 1A.",
+              "Text": "While [[Grommid|Grommid]] is in play, you [[Cannot_vs_Must|cannot]] play creatures. <p> After an enemy creature is destroyed fighting Grommid, your opponent <p> loses 1{{Aember}}.",
+              "Traits": "Beast",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "007",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Grondal (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Grondal (Elders)": {
+              "Amber": 0,
+              "Armor": 2,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "The average career of a [[Grondal|Grondal]] [[Wrangler|Wrangler]] is only eight seconds.",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-008.png",
+              "Keywords": "",
+              "Name": "Grondal (Elders)",
+              "Power": 9,
+              "Rarity": "Rare",
+              "SearchFlavorText": "The average career of a Grondal Wrangler is only eight seconds.",
+              "SearchText": "At the start of your turn, destroy the least powerful creature. <p> Play: Make 2 token creatures.",
+              "Text": "At the start of your turn, destroy the least powerful creature. <p> '''Play:''' Make 2 [[Token Creatures|token creatures]].",
+              "Traits": "Beast",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "008",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Hypnotic Command (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Hypnotic Command (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-009.png",
+              "Keywords": "",
+              "Name": "Hypnotic Command (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: For each friendly Mars creature, choose an enemy creature to capture 1A from its own side.",
+              "Text": "'''Play:''' [[For each|For each]] friendly Mars creature, choose an enemy creature to capture 1{{Aember}} from its own side.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "009",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Ilxid Avenger (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Ilxid Avenger (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-047.png",
+              "Keywords": "",
+              "Name": "Ilxid Avenger (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play/After Fight: Give Ilxid Avenger a +1 power counter for each Mars card in your discard pile. <p> Scrap: Give a friendly creature a +1 power counter for each Mars card in your discard pile.",
+              "Text": "'''Play/After Fight:''' Give [[Ilxid Avenger|Ilxid Avenger]] a +1 power counter [[For each|for each]] Mars card in your discard pile. <p> '''Scrap:''' Give a friendly creature a +1 power counter for each Mars card in your discard pile.",
+              "Traits": "Martian \u2022 Soldier",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "047",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Incubation Chamber (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Incubation Chamber (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Most Martians on the Crucible came out of one of these tanks.",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-048.png",
+              "Keywords": "",
+              "Name": "Incubation Chamber (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "Most Martians on the Crucible came out of one of these tanks.",
+              "SearchText": "Omni: You may reveal a Mars creature from your hand. If you do, archive it.",
+              "Text": "'''Omni:''' You may reveal a Mars creature from your hand. [[if you do|If you do]], archive it.",
+              "Traits": "Location",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "048",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Invasion Portal (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Invasion Portal (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-010.png",
+              "Keywords": "",
+              "Name": "Invasion Portal (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Action: Discard cards from the top of your deck until you discard a Mars creature or run out of cards. If you discard a Mars creature this way, put it into your hand.",
+              "Text": "'''Action:''' Discard cards from the top of your deck until you discard a Mars creature or run out of cards. If you discard a Mars creature this way, put it into your hand.",
+              "Traits": "Location",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "010",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Ironyx Banner (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Ironyx Banner (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "For the short shall be made tall and the tall shall be brought low.",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-061.png",
+              "Keywords": "",
+              "Name": "Ironyx Banner (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "For the short shall be made tall and the tall shall be brought low.",
+              "SearchText": "Each friendly Ironyx creature gets +1 power and +1 armor. <p> Play: Make a token creature.",
+              "Text": "Each friendly [http://archonarcana.com/Card_Gallery?traits=Ironyx Ironyx] creature gets +1 power and +1 armor. <p> '''Play:''' Make a [[Token Creatures|token creature]].",
+              "Traits": "Item",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "061",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Ironyx Propaganda (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Ironyx Propaganda (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Soldiers of Mars, unite! You have nothing to lose but your brain-chem conditioning!",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-072.png",
+              "Keywords": "",
+              "Name": "Ironyx Propaganda (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "Soldiers of Mars, unite! You have nothing to lose but your brain-chem conditioning!",
+              "SearchText": "This creature gains, \u201cAfter Fight/After Reap: Make a token creature.\u201d",
+              "Text": "This creature gains, \u201c'''After Fight/After Reap:''' Make a [[Token Creatures|token creature]].\u201d",
+              "Traits": null,
+              "Type": "Upgrade"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "072",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Ironyx Rebel (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Ironyx Rebel (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201c[[For the Revolution!|For the Revolution!]]\u201d",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-073.png",
+              "Keywords": "Deploy",
+              "Name": "Ironyx Rebel (Ironyx Rebels)",
+              "Power": 2,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cFor the Revolution!\u201d",
+              "SearchText": "Deploy. (This creature can enter play anywhere in your battleline.) <p> Play: Ready each of Ironyx Rebel\u2019s Mars neighbors.",
+              "Text": "[[Deploy|Deploy]]. (This creature can enter play anywhere in your battleline.) <p> '''Play:''' Ready each of [[Ironyx [[Rebel|Rebel]]|[http://archonarcana.com/Card_Gallery?traits=Ironyx Ironyx] Rebel]]\u2019s Mars neighbors.",
+              "Traits": "Martian \u2022 Ironyx",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "073",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Ironyx Vatminder (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Ironyx Vatminder (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 1,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cWe don\u2019t need the Elders anymore! We can make our own society!\u201d",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-074.png",
+              "Keywords": "",
+              "Name": "Ironyx Vatminder (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cWe don\u2019t need the Elders anymore! We can make our own society!\u201d",
+              "SearchText": "Play/Destroyed: Make a token creature.",
+              "Text": "'''Play/Destroyed:''' Make a [[Token Creatures|token creature]].",
+              "Traits": "Martian \u2022 Ironyx",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "074",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Iyxrenu the Clever (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Iyxrenu the Clever (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-062.png",
+              "Keywords": "Elusive",
+              "Name": "Iyxrenu the Clever (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Elusive. Enhance PTPTPT. <p> Action: Lose 1A. If you do, move all A from a creature to your pool.",
+              "Text": "[[Elusive|Elusive]]. Enhance \uf36f\uf560\uf36f\uf560\uf36f\uf560. <p> '''Action:''' Lose 1{{Aember}}. [[if you do|If you do]], [[Move|move]] all {{Aember}} from a creature to your pool.",
+              "Traits": "Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "062",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Jynnux Boom (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Jynnux Boom (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 1,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Explosions are in their genetic plan and their name.",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-075.png",
+              "Keywords": "",
+              "Name": "Jynnux Boom (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Common",
+              "SearchFlavorText": "Explosions are in their genetic plan and their name.",
+              "SearchText": "After Fight: You may discard a non-Mars creature. If you do, deal damage to an enemy creature equal to the discarded creature\u2019s power.",
+              "Text": "'''After Fight:''' You may discard a non-Mars creature. [[if you do|If you do]], deal damage to an enemy creature equal to the discarded creature\u2019s power.",
+              "Traits": "Martian \u2022 Soldier",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "075",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Mars First (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mars First (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cMars second, third, and fourth, too, if you ask me.\u201d -[[Ulyq Megamouth|Ulyq Megamouth]]",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-076.png",
+              "Keywords": "",
+              "Name": "Mars First (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cMars second, third, and fourth, too, if you ask me.\u201d -Ulyq Megamouth",
+              "SearchText": "Play: Ready and use a friendly Mars creature.",
+              "Text": "'''Play:''' Ready and use a friendly Mars creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "076",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Martian Hounds (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Martian Hounds (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Who let the... dogs?... out?",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-011.png",
+              "Keywords": "",
+              "Name": "Martian Hounds (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "Who let the... dogs?... out?",
+              "SearchText": "Play: Choose a creature. For each damaged creature, give the chosen creature two +1 power counters.",
+              "Text": "'''Play:''' Choose a creature. [[For each|For each]] damaged creature, give the chosen creature two +1 power counters.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "011",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Martian Revolution (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Martian Revolution (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cHah! Stupid Soldiers. Good thing there\u2019s none of those around, eh, fellow Elders?\u201d",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-049.png",
+              "Keywords": "",
+              "Name": "Martian Revolution (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "\u201cHah! Stupid Soldiers. Good thing there\u2019s none of those around, eh, fellow Elders?\u201d",
+              "SearchText": "Play: Destroy each friendly creature. For each creature destroyed this way, make a token creature.",
+              "Text": "'''Play:''' Destroy each friendly creature. [[For each|For each]] creature destroyed this way, make a [[Token Creatures|token creature]].",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "049",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Martians Make Bad Allies (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Martians Make Bad Allies (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-050.png",
+              "Keywords": "",
+              "Name": "Martians Make Bad Allies (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Reveal your hand. Purge each revealed non-Mars creature and gain 1A for each card purged this way.",
+              "Text": "'''Play:''' Reveal your hand. [[Purge|Purge]] each revealed non-Mars creature and gain 1{{Aember}} [[For each|for each]] card [[Purge|purged]] this way.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "050",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Mass Abduction (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mass Abduction (Elders)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-012.png",
+              "Keywords": "",
+              "Name": "Mass Abduction (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Put up to 3 damaged enemy creatures into your archives. If any of these creatures leave your archives, they are put into their owner\u2019s hand instead.",
+              "Text": "'''Play:''' Put up to 3 damaged enemy creatures into your archives. If any of these creatures leave your archives, they are put into their owner\u2019s hand [[Replacement Effects|instead]].",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "012",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Mating Season (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mating Season (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-051.png",
+              "Keywords": "",
+              "Name": "Mating Season (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Shuffle each Mars creature into its owner\u2019s deck. Each player gains 1A for each creature shuffled into their deck this way.",
+              "Text": "'''Play:''' Shuffle each Mars creature into its owner\u2019s deck. Each player gains 1{{Aember}} [[For each|for each]] creature shuffled into their deck this way.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "051",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Memrox the Red (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Memrox the Red (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "The rebels\u2019 impatience will be their undoing.",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-022.png",
+              "Keywords": "",
+              "Name": "Memrox the Red (Elders)",
+              "Power": 5,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "The rebels\u2019 impatience will be their undoing.",
+              "SearchText": "Your opponent\u2019s cards cannot leave your archives. <p> Action: Gain 1A for each card in your archives.",
+              "Text": "Your opponent\u2019s cards [[Cannot_vs_Must|cannot]] leave your archives. <p> '''Action:''' Gain 1{{Aember}} [[For each|for each]] card in your archives.",
+              "Traits": "Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "022",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Mind Your Elders (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mind Your Elders (Elders)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cEnjoy your survival bonus of an extra quarter portion.\u201d",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-032.png",
+              "Keywords": "",
+              "Name": "Mind Your Elders (Elders)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cEnjoy your survival bonus of an extra quarter portion.\u201d",
+              "SearchText": "Play: If there are more friendly Mars creatures than enemy Mars creatures, a friendly creature captures 3A.",
+              "Text": "'''Play:''' If there are more friendly Mars creatures than enemy Mars creatures, a friendly creature captures 3{{Aember}}.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "032",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Mindwarper (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mindwarper (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-033.png",
+              "Keywords": "Elusive",
+              "Name": "Mindwarper (Elders)",
+              "Power": 2,
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> Action: An enemy creature captures 1A from its own side.",
+              "Text": "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Action:''' An enemy creature captures 1{{Aember}} from its own side.",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "033",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Minutemartian (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Minutemartian (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": "2",
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "The plan is to fight until Mars wins!",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-086.png",
+              "Keywords": "",
+              "Name": "Minutemartian (Ironyx Rebels)",
+              "Power": "2",
+              "Rarity": "Token",
+              "SearchFlavorText": "The plan is to fight until Mars wins!",
+              "SearchText": "After Fight: Make a token creature.",
+              "Text": "'''After Fight:''' Make a [[Token Creatures|token creature]].",
+              "Traits": "Martian \u2022 Ironyx",
+              "Type": "Token Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "086",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Mk.2 Generator (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mk.2 Generator (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cThe Soldiers are revolting! Quick, make more Soldiers!\u201d",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-034.png",
+              "Keywords": "",
+              "Name": "Mk.2 Generator (Elders)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cThe Soldiers are revolting! Quick, make more Soldiers!\u201d",
+              "SearchText": "Mk.2 Generator enters play ready. <p> Action: Make a token creature.",
+              "Text": "[[Mk.2 Generator|Mk.2 Generator]] enters play ready. <p> '''Action:''' Make a [[Token Creatures|token creature]].",
+              "Traits": "Item",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "034",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Mk.3 \u201cRookie\u201d (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mk.3 \u201cRookie\u201d (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 1,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "The product of the greatest minds of Martians. Their model was liberated from the archives by the Ironyx Rebels to be the future of Mars.",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-077.png",
+              "Keywords": "",
+              "Name": "Mk.3 \u201cRookie\u201d (Ironyx Rebels)",
+              "Power": 2,
+              "Rarity": "Common",
+              "SearchFlavorText": "The product of the greatest minds of Martians. Their model was liberated from the archives by the Ironyx Rebels to be the future of Mars.",
+              "SearchText": "After Fight/After Reap: Ready and enrage a neighboring Mars creature.",
+              "Text": "'''After Fight/After Reap:''' Ready and [[Enrage|enrage]] a neighboring Mars creature.",
+              "Traits": "Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "077",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Myx, the Tallminded (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Myx, the Tallminded (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cTogether, we are as tall as any Elder!\u201d",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-078.png",
+              "Keywords": "",
+              "Name": "Myx, the Tallminded (Ironyx Rebels)",
+              "Power": 5,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cTogether, we are as tall as any Elder!\u201d",
+              "SearchText": "Your opponent\u2019s keys cost +1A for each friendly Mars creature in play.",
+              "Text": "Your opponent\u2019s keys [[Cost|cost]] +1{{Aember}} [[For each|for each]] friendly Mars creature in play.",
+              "Traits": "Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "078",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Nautilixian (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Nautilixian (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 4,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-052.png",
+              "Keywords": "",
+              "Name": "Nautilixian (Ironyx Rebels)",
+              "Power": 6,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Nautilixian cannot be used unless you have used 1 or more friendly Mars creatures this turn. <p> Each friendly Pilot creature cannot be dealt damage or destroyed.",
+              "Text": "[[Nautilixian|Nautilixian]] [[Cannot_vs_Must|cannot]] be used unless you have used 1 or more friendly Mars creatures this turn. <p> Each friendly [http://archonarcana.com/Card_Gallery?traits=Pilot Pilot] creature cannot be dealt damage or destroyed.",
+              "Traits": "Robot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "052",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Nyyon Outpost (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Nyyon Outpost (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-063.png",
+              "Keywords": "",
+              "Name": "Nyyon Outpost (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Action: Put a friendly creature on the bottom of its owner\u2019s deck. If you do, make 2 token creatures.",
+              "Text": "'''Action:''' Put a friendly creature on the bottom of its owner\u2019s deck. [[if you do|If you do]], make 2 [[Token Creatures|token creatures]].",
+              "Traits": "Location",
+              "Type": "Artifact"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "063",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Nyzyk Resonator (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Nyzyk Resonator (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 1,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-064.png",
+              "Keywords": "",
+              "Name": "Nyzyk Resonator (Ironyx Rebels)",
+              "Power": 2,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "For each neighbor Nyzyk Resonator has, your opponent\u2019s keys cost +2A.",
+              "Text": "[[For each|For each]] neighbor [[Nyzyk Resonator|Nyzyk Resonator]] has, your opponent\u2019s keys [[Cost|cost]] +2{{Aember}}.",
+              "Traits": "Soldier \u2022 Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "064",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Phlox \u2019em All! (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Phlox \u2019em All! (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "If you can\u2019t beat\u2019em, use more firepower.",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-079.png",
+              "Keywords": "",
+              "Name": "Phlox \u2019em All! (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "If you can\u2019t beat\u2019em, use more firepower.",
+              "SearchText": "Play: For each friendly Mars creature, deal 3D to a creature.",
+              "Text": "'''Play:''' [[For each|For each]] friendly Mars creature, deal 3{{Damage}} to a creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "079",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Phylyx the Disintegrator (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Phylyx the Disintegrator (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-053.png",
+              "Keywords": "Elusive",
+              "Name": "Phylyx the Disintegrator (Ironyx Rebels)",
+              "Power": 1,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> Action: Your opponent loses 1A for each other friendly Mars creature.",
+              "Text": "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Action:''' Your opponent loses 1{{Aember}} [[For each|for each]] other friendly Mars creature.",
+              "Traits": "Soldier \u2022 Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "053",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Psychic Network (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Psychic Network (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-023.png",
+              "Keywords": "",
+              "Name": "Psychic Network (Elders)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Steal 1A for each friendly ready Mars creature.",
+              "Text": "'''Play:''' Steal 1{{Aember}} [[For each|for each]] friendly ready Mars creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "023",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Purple Aeronaut (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Purple Aeronaut (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-083.png",
+              "Keywords": "",
+              "Name": "Purple Aeronaut (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "After 4 friendly Pilot creatures are used in the same turn, a friendly Nautilixian gains \u201cAfter Fight: Destroy each enemy creature\u201d for the remainder of that turn.",
+              "Text": "After 4 friendly [http://archonarcana.com/Card_Gallery?traits=Pilot Pilot] creatures are used in the same turn, a friendly [[Nautilixian|Nautilixian]] gains \u201c'''After Fight:''' Destroy each enemy creature\u201d for the remainder of that turn.",
+              "Traits": "Martian \u2022 Pilot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "083",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Pyloyx Strr (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Pyloyx Strr (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cAll your base are belong to Mars!\u201d",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-035.png",
+              "Keywords": "",
+              "Name": "Pyloyx Strr (Elders)",
+              "Power": 3,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cAll your base are belong to Mars!\u201d",
+              "SearchText": "Play/After Reap: Choose a player.  Gain 1A for each card in that player\u2018s archive. That player discards each of their archived cards.",
+              "Text": "'''Play/After Reap:''' Choose a player.  Gain 1{{Aember}} [[For each|for each]] card in that player\u2018s archive. That player discards each of their archived cards.",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "035",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "R-Evolution (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "R-Evolution (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-054.png",
+              "Keywords": "",
+              "Name": "R-Evolution (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "This creature and each creature with the same name as it gain, \u201cAfter Reap: Deal 2D to an enemy creature.\u201d",
+              "Text": "This creature and each creature with the same name as it gain, \u201c'''After Reap:''' Deal 2{{Damage}} to an enemy creature.\u201d",
+              "Traits": null,
+              "Type": "Upgrade"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "054",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Rebel (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Rebel (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": "",
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-087.png",
+              "Keywords": "",
+              "Name": "Rebel (Ironyx Rebels)",
+              "Power": "1",
+              "Rarity": "Token",
+              "SearchFlavorText": "",
+              "SearchText": "After Reap: Deal 1D to a creature.",
+              "Text": "'''After Reap:''' Deal 1{{Damage}} to a creature.",
+              "Traits": "Martian \u2022 Ironyx",
+              "Type": "Token Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "087",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Red Aeronaut (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Red Aeronaut (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-084.png",
+              "Keywords": "",
+              "Name": "Red Aeronaut (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Search your deck and discard pile for a Nautilixian and put it into play, then shuffle your deck. <p> Action: A friendly Nautilixian gets +5 power for the remainder of the turn.",
+              "Text": "'''Play:''' [[Search|Search]] your deck and discard pile for a [[Nautilixian|Nautilixian]] and put it into play, then shuffle your deck. <p> '''Action:''' A friendly Nautilixian gets +5 power for the remainder of the turn.",
+              "Traits": "Martian \u2022 Pilot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "084",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Red Planet Ray Gun (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Red Planet Ray Gun (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-065.png",
+              "Keywords": "",
+              "Name": "Red Planet Ray Gun (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "This creature gains, \u201cAfter Reap: Choose a creature. Deal 1D to that creature for each Mars creature in play.\u201d",
+              "Text": "This creature gains, \u201c'''After Reap:''' Choose a creature. Deal 1{{Damage}} to that creature [[For each|for each]] Mars creature in play.\u201d",
+              "Traits": null,
+              "Type": "Upgrade"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "065",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Researcher (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Researcher (Elders)": {
+              "Amber": 0,
+              "Armor": "",
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-041.png",
+              "Keywords": "",
+              "Name": "Researcher (Elders)",
+              "Power": "1",
+              "Rarity": "Token",
+              "SearchFlavorText": "",
+              "SearchText": "Omni: Reveal a Mars card from your hand and archive it.",
+              "Text": "'''Omni:''' Reveal a Mars card from your hand and archive it.",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Token Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "041",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Revo Hooligans (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Revo Hooligans (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-055.png",
+              "Keywords": "Elusive",
+              "Name": "Revo Hooligans (Ironyx Rebels)",
+              "Power": 4,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Elusive. <p> After Reap: Put a paint counter on an artifact. While that artifact has a paint counter, it belongs to house Mars (instead of its other houses).",
+              "Text": "[[Elusive|Elusive]]. <p> '''After Reap:''' Put a paint counter on an artifact. While that artifact has a paint counter, it belongs to house Mars ([[Replacement Effects|instead]] of its other houses).",
+              "Traits": "Martian \u2022 Ironyx",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "055",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Scoop Up (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Scoop Up (Elders)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-036.png",
+              "Keywords": "",
+              "Name": "Scoop Up (Elders)",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Put a friendly non-Mars creature and an enemy non-Mars creature into your archives. If either card leaves your archives and you are not the owner of it, put it into its owner\u2019s hand instead.",
+              "Text": "'''Play:''' Put a friendly non-Mars creature and an enemy non-Mars creature into your archives. If either card leaves your archives and you are not the owner of it, put it into its owner\u2019s hand [[Replacement Effects|instead]].",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "036",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Shark Bait (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Shark Bait (Ironyx Rebels)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cOoh Ha Ha!\u201d",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-066.png",
+              "Keywords": "",
+              "Name": "Shark Bait (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "\u201cOoh Ha Ha!\u201d",
+              "SearchText": "Play: Deal 2D to a friendly non-Mars creature. If it is not destroyed, it captures 2A.",
+              "Text": "'''Play:''' Deal 2{{Damage}} to a friendly non-Mars creature. If it is not destroyed, it captures 2{{Aember}}.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "066",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Shatter Storm (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Shatter Storm (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cIt\u2019s working!\u201d",
+              "Hazardous": "",
+              "House": "Ironyx Rebels",
+              "Image": "892-056.png",
+              "Keywords": "",
+              "Name": "Shatter Storm (Ironyx Rebels)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "\u201cIt\u2019s working!\u201d",
+              "SearchText": "Play: Lose all your A. Then, your opponent loses triple the amount of A you lost this way.",
+              "Text": "'''Play:''' Lose all your {{Aember}}. Then, your opponent loses triple the amount of {{Aember}} you lost this way.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "056",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Space Invaders (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Space Invaders (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-024.png",
+              "Keywords": "",
+              "Name": "Space Invaders (Elders)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Reveal any number of creatures from your hand. Make each creature revealed this way a token creature as if the card was on top of your deck.",
+              "Text": "'''Play:''' Reveal any number of creatures from your hand. Make each creature revealed this way a [[Token Creatures|token creature]] as if the card was on top of your deck.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "024",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Storm Crawler (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Storm Crawler (Elders)": {
+              "Amber": 0,
+              "Armor": 1,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-025.png",
+              "Keywords": "",
+              "Name": "Storm Crawler (Elders)",
+              "Power": 6,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Storm Crawler only deals 1D when fighting. <p> After an enemy creature reaps, stun it.",
+              "Text": "[[Storm Crawler|Storm Crawler]] only deals 1{{Damage}} when fighting. <p> After an enemy creature reaps, [[Stun|stun]] it.",
+              "Traits": "Robot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "025",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "The Body Snatchers (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "The Body Snatchers (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "They\u2019re here already!",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-013.png",
+              "Keywords": "",
+              "Name": "The Body Snatchers (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "They\u2019re here already!",
+              "SearchText": "Play: For the remainder of the turn, each enemy creature gains, \u201cDestroyed: Fully heal this creature and give control of it to your opponent instead.\u201d",
+              "Text": "'''Play:''' For the remainder of the turn, each enemy creature gains, \u201c'''Destroyed:''' Fully [[Heal|heal]] this creature and give [[Control|control]] of it to your opponent [[Replacement Effects|instead]].\u201d",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "013",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Total Recall (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Total Recall (Elders)": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-014.png",
+              "Keywords": "",
+              "Name": "Total Recall (Elders)",
+              "Power": null,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: For each friendly ready creature, gain 1A. Return each friendly creature to your hand.",
+              "Text": "'''Play:''' [[For each|For each]] friendly ready creature, gain 1{{Aember}}. Return each friendly creature to your hand.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "014",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Tyyryxn Delv (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Tyyryxn Delv (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-037.png",
+              "Keywords": "Elusive",
+              "Name": "Tyyryxn Delv (Elders)",
+              "Power": 3,
+              "Rarity": "Common",
+              "SearchFlavorText": "",
+              "SearchText": "Elusive. <p> At the end of your turn, you may put a creature from play facedown under Tyyryxn Delv. <p> After Reap: For each card under Tyyryxn Delv, make a token creature.",
+              "Text": "[[Elusive|Elusive]]. <p> At the end of your turn, you may put a creature from play facedown under [[Tyyryxn Delv|Tyyryxn Delv]]. <p> '''After Reap:''' [[For each|For each]] card under Tyyryxn Delv, make a [[Token Creatures|token creature]].",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "037",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Ulyq Megamouth (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Ulyq Megamouth (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cGLORY BE TO MARS!\u201d",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-080.png",
+              "Keywords": "",
+              "Name": "Ulyq Megamouth (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cGLORY BE TO MARS!\u201d",
+              "SearchText": "After Fight/After Reap: Use a friendly non-Mars creature.",
+              "Text": "'''After Fight/After Reap:''' Use a friendly non-Mars creature.",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "080",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Urxym the \u201cDiplomat\u201d (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Urxym the \u201cDiplomat\u201d (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Aggressive negotiations are their speciality.",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-015.png",
+              "Keywords": "Elusive",
+              "Name": "Urxym the \u201cDiplomat\u201d (Elders)",
+              "Power": 2,
+              "Rarity": "Rare",
+              "SearchFlavorText": "Aggressive negotiations are their speciality.",
+              "SearchText": "Elusive. <p> After Reap: Lose all your A. Destroy an enemy non-Mars creature for each A lost this way.",
+              "Text": "[[Elusive|Elusive]]. <p> '''After Reap:''' Lose all your {{Aember}}. Destroy an enemy non-Mars creature [[For each|for each]] {{Aember}} lost this way.",
+              "Traits": "Politician \u2022 Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "015",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Uxlyx the Zookeeper (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Uxlyx the Zookeeper (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-026.png",
+              "Keywords": "Elusive",
+              "Name": "Uxlyx the Zookeeper (Elders)",
+              "Power": 2,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> After Reap: Put an enemy creature into your archives. If that creature leaves your archives, it is put into its owner\u2019s hand instead.",
+              "Text": "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''After Reap:''' Put an enemy creature into your archives. If that creature leaves your archives, it is put into its owner\u2019s hand [[Replacement Effects|instead]].",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "026",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Vezyma Thinkdrone (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Vezyma Thinkdrone (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Nothing helps me think like wanton destruction.",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-038.png",
+              "Keywords": "",
+              "Name": "Vezyma Thinkdrone (Elders)",
+              "Power": 3,
+              "Rarity": "Common",
+              "SearchFlavorText": "Nothing helps me think like wanton destruction.",
+              "SearchText": "After Reap: You may archive a friendly creature or artifact from play.",
+              "Text": "'''After Reap:''' You may archive a friendly creature or artifact from play.",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "038",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "War of the Worlds (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "War of the Worlds (Elders)": {
+              "Amber": 0,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "I was no longer a master, but an animal among the animals, under the Martian heel\u2026",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-027.png",
+              "Keywords": "",
+              "Name": "War of the Worlds (Elders)",
+              "Power": null,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "I was no longer a master, but an animal among the animals, under the Martian heel\u2026",
+              "SearchText": "Play: Destroy all non-Mars creatures. Deal 2D to each Mars creature.",
+              "Text": "'''Play:''' Destroy all non-Mars creatures. Deal 2{{Damage}} to each Mars creature.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "027",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "White Aeronaut (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "White Aeronaut (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-085.png",
+              "Keywords": "",
+              "Name": "White Aeronaut (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Special",
+              "SearchFlavorText": "",
+              "SearchText": "Action: Ward and fully heal a friendly Nautilixian.",
+              "Text": "'''Action:''' [[Ward|Ward]] and fully [[Heal|heal]] a friendly [[Nautilixian|Nautilixian]].",
+              "Traits": "Martian \u2022 Pilot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "085",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Xanotys Ploxx (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Xanotys Ploxx (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "The might of the Elders is in their creations.",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-039.png",
+              "Keywords": "",
+              "Name": "Xanotys Ploxx (Elders)",
+              "Power": 3,
+              "Rarity": "Common",
+              "SearchFlavorText": "The might of the Elders is in their creations.",
+              "SearchText": "After Reap: You may discard a non-Mars card from your hand. If you do, resolve the discarded card\u2019s bonus icons as if you had played it.",
+              "Text": "'''After Reap:''' You may discard a non-Mars card from your hand. [[if you do|If you do]], resolve the discarded card\u2019s bonus icons as if you had played it.",
+              "Traits": "Martian \u2022 Pilot",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "039",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Xarn Trax (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Xarn Trax (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cWhy earn it, when you can take it.\u201d",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-040.png",
+              "Keywords": "Elusive",
+              "Name": "Xarn Trax (Elders)",
+              "Power": 2,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cWhy earn it, when you can take it.\u201d",
+              "SearchText": "Elusive. <p> After Reap: Move 1A from a creature to your pool. If you do, deal 2D that creature.",
+              "Text": "[[Elusive|Elusive]]. <p> '''After Reap:''' [[Move|Move]] 1{{Aember}} from a creature to your pool. [[if you do|If you do]], deal 2{{Damage}} that creature.",
+              "Traits": "Martian \u2022 Agent",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "040",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Yipyax Abductor (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Yipyax Abductor (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-067.png",
+              "Keywords": "",
+              "Name": "Yipyax Abductor (Ironyx Rebels)",
+              "Power": 4,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Play/After Fight: Put an upgrade from play into your archives. If you are not the owner of that card and it leaves your archives, put it into its owner\u2019s hand instead.",
+              "Text": "'''Play/After Fight:''' Put an upgrade from play into your archives. If you are not the owner of that card and it leaves your archives, put it into its owner\u2019s hand [[Replacement Effects|instead]].",
+              "Traits": "Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "067",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Yxl the Iron Captain (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Yxl the Iron Captain (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 1,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cDown with the Elders!\u201d",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-068.png",
+              "Keywords": "",
+              "Name": "Yxl the Iron Captain (Ironyx Rebels)",
+              "Power": 4,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "\u201cDown with the Elders!\u201d",
+              "SearchText": "Play: Each friendly Ironyx creature captures 2A.",
+              "Text": "'''Play:''' Each friendly [http://archonarcana.com/Card_Gallery?traits=Ironyx Ironyx] creature captures 2{{Aember}}.",
+              "Traits": "Martian \u2022 Ironyx",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "068",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Yxlyx Stimrager (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Yxlyx Stimrager (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 2,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-057.png",
+              "Keywords": "",
+              "Name": "Yxlyx Stimrager (Ironyx Rebels)",
+              "Power": 4,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "After Fight: Deal 2D to a creature and move it to either flank of its controller\u2019s battleline.",
+              "Text": "'''After Fight:''' Deal 2{{Damage}} to a creature and [[Move|move]] it to either [[Flank|flank]] of its controller\u2019s battleline.",
+              "Traits": "Soldier \u2022 Martian",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "057",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Yzphyz Knowdrone (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Yzphyz Knowdrone (Elders)": {
+              "Amber": 0,
+              "Armor": 1,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-016.png",
+              "Keywords": "",
+              "Name": "Yzphyz Knowdrone (Elders)",
+              "Power": 3,
+              "Rarity": "Rare",
+              "SearchFlavorText": "",
+              "SearchText": "Play: Archive a card. You may purge an archived card. If you do, stun a creature.",
+              "Text": "'''Play:''' Archive a card. You may [[Purge|purge]] an archived card. [[if you do|If you do]], [[Stun|stun]] a creature.",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "016",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Zizok (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Zizok (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-069.png",
+              "Keywords": "Skirmish \u2022 Splash-attack",
+              "Name": "Zizok (Ironyx Rebels)",
+              "Power": 3,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Skirmish. Splash-attack 1. <p> After an enemy creature is destroyed by Zizok\u2019s splash-attack damage, ready Zizok.",
+              "Text": "[[Skirmish|Skirmish]]. [[Splash-Attack_(X)|Splash-attack]] 1. <p> After an enemy creature is destroyed by [[Zizok|Zizok]]\u2019s [[Splash-attack|splash-attack]] damage, ready Zizok.",
+              "Traits": "Martian \u2022 Soldier",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "069",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Zorg (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Zorg (Elders)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "",
+              "Hazardous": 0,
+              "House": "Elders",
+              "Image": "892-028.png",
+              "Keywords": "",
+              "Name": "Zorg (Elders)",
+              "Power": 7,
+              "Rarity": "Uncommon",
+              "SearchFlavorText": "",
+              "SearchText": "Zorg enters play stunned.  <p> Before Fight: Stun the creature Zorg fights and each of that creature\u2019s neighbors.",
+              "Text": "[[Zorg|Zorg]] enters play stunned.  <p> '''Before Fight:''' [[Stun|Stun]] the creature Zorg fights and each of that creature\u2019s neighbors.",
+              "Traits": "Beast",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "028",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Zutrinyx, the Innovator (Ironyx Rebels)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Zutrinyx, the Innovator (Ironyx Rebels)": {
+              "Amber": 0,
+              "Armor": 0,
+              "Assault": 0,
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cHalf the ammo, thrice the spread.\u201d",
+              "Hazardous": 0,
+              "House": "Ironyx Rebels",
+              "Image": "892-081.png",
+              "Keywords": "",
+              "Name": "Zutrinyx, the Innovator (Ironyx Rebels)",
+              "Power": 2,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cHalf the ammo, thrice the spread.\u201d",
+              "SearchText": "Each friendly Mars creature gains splash-attack 2.",
+              "Text": "Each friendly Mars creature gains [[Splash-Attack_(X)|splash-attack]] 2.",
+              "Traits": "Martian \u2022 Scientist",
+              "Type": "Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "081",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "\u00c6mber Munch (Elders)": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "\u00c6mber Munch (Elders)": {
+              "Amber": 0,
+              "Armor": "1",
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "Its name\u2019s [[\u00c6mber Munch|\u00c6mber Munch]]. It eats everything.",
+              "Hazardous": "",
+              "House": "Elders",
+              "Image": "892-042.png",
+              "Keywords": "",
+              "Name": "\u00c6mber Munch (Elders)",
+              "Power": "3",
+              "Rarity": "Token",
+              "SearchFlavorText": "Its name\u2019s \u00c6mber Munch. It eats everything.",
+              "SearchText": "After Fight: Your opponent loses 1A.",
+              "Text": "'''After Fight:''' Your opponent loses 1{{Aember}}.",
+              "Traits": "Beast",
+              "Type": "Token Creature"
+            }
+          },
+          "SetData": {
+            "Martian Civil War": {
+              "CardNumber": "042",
+              "Meta": "Debut",
+              "SetName": "Martian Civil War"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  }
+}
