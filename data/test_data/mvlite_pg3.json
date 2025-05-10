@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "name": "Deck 4",
+      "expansion": 907,
+      "id": "321",
+      "cards": [
+        "aa",
+        "bb",
+        "cc",
+        "cc",
+        "ee",
+      ],
+      "set_era_cards": {
+        "Legacy": [],
+        "Anomaly": [],
+        "Mixed Set": []
+      },
+      "_links": {
+        "houses": [
+          "Dis",
+          "Logos",
+          "Mars"
+        ],
+        "accolades": []
+      }
+    },
+  ],
+  "_linked": {
+    "houses": [
+      {
+        "id": "Logos",
+        "name": "Logos",
+        "image": "Logos_2mOY1dH.png",
+        "in_filters": true
+      },
+    ],
+    "accolades": []
+  },
+  "count": 3428515
+}
