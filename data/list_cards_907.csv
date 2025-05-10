@@ -1,0 +1,384 @@
+Set Number, Card Name
+001, Barehanded
+002, Belcher
+003, Bilgum Avalanche
+004, Brothers in Battle
+005, Champion’s Challenge
+006, Eruption
+007, Forgemaster Og
+008, Grumpus Tamer
+009, Guji Dinosaur Hunter
+010, Harmal Atoon
+011, Lava Ball
+012, Looter Goblin
+013, Nogi Smartfist
+014, On the Mark
+015, Signal Fire
+016, The Big One
+017, Tireless Crocag
+018, War Grumpus
+019, Yo Mama Mastery
+020, Blood Money
+021, Blood of Titans
+022, Burn the Stockpile
+023, Cannon
+024, Culf the Quiet
+025, Earthshaker
+026, Flamewake Shaman
+027, Follow the Leader
+028, Grenade Snib
+029, Hebe the Huge
+030, Mighty Javelin
+031, Power of Fire
+032, Screechbomb
+033, Smith
+034, Unguarded Camp
+035, Vow of Blood
+036, Alaka
+037, Anger
+038, Berserker Slam
+039, Bosch the Unyielding
+040, Brammo
+041, Bumpsy
+042, Ganger Chieftain
+043, Groke
+044, Headhunter
+045, Memorialize the Fallen
+046, Mogghunter
+047, Pelf
+048, Pound
+049, Rant and Rive
+050, Rowdy Skald
+051, Troll
+052, Armored Spikes
+053, Bigger Guns for Everyone
+054, Shard of Strength
+055, Collar of Subordination
+056, Creeping Oblivion
+057, Dance of Doom
+058, Delta P
+059, Greater Oxtet
+060, Guilty Hearts
+061, Harvest Time
+062, Hecatomb
+063, Key to Dis
+064, Lesser Oxtet
+065, Noname
+066, Onyx Knight
+067, Ortannu the Chained
+068, Restringuntus
+069, Ritual of Tognath
+070, Screaming Cave
+071, Tolas
+072, Truebaru
+073, Wretched Doll
+074, Double Doom
+075, Drumble
+076, Essence Scale
+077, Flame-Wreathed
+078, Gleeful Mayhem
+079, Gongoozle
+080, Hysteria
+081, Hystricog
+082, Library of the Damned
+083, Picaroon
+084, Poltergeist
+085, Skullion
+086, Snudge
+087, Spyyyder
+088, Three Fates
+089, Wail of the Damned
+090, Brabble
+091, Charette
+092, Cull the Weak
+093, Dendrix
+094, Dust Imp
+095, Fear
+096, Imp-losion
+097, Lash of Broken Dreams
+098, Lilithal
+099, Misery Exploit
+100, Pit Demon
+101, Rotgrub
+102, Sinder
+103, Stirring Grave
+104, The Terror
+105, Tocsin
+106, Dexus
+107, Master of 1
+108, Master of 2
+109, Master of 3
+110, Sinestra
+111, Ortannu’s Binding
+112, Shard of Pain
+113, Chaos Portal
+114, Crazy Killing Machine
+115, Dysania
+116, Entropic Swirl
+117, Hyde
+118, Knowledge is Power
+119, Mind Over Matter
+120, Project Z.Y.X.
+121, Psychic Bug
+122, Random Access Archives
+123, Replicator
+124, Reverse Time
+125, Skippy Timehog
+126, Strange Gizmo
+127, The Howling Pit
+128, Timetraveller
+129, Universal Keylock
+130, Vespilon Theorist
+131, Zenzizenzizenzic
+132, Anomaly Exploiter
+133, Backup Copy
+134, Bouncing Deathquark
+135, Causal Loop
+136, De-Doss
+137, Director of Z.Y.X.
+138, Fila the Researcher
+139, Neuro Syphon
+140, Novu Archaeologist
+141, Positron Bolt
+142, Prof. Garwynne
+143, Quantum Fingertrap
+144, Remote Access
+145, Research Smoko
+146, Seismo-entangler
+147, Sloppy Labwork
+148, Armadrone
+149, Babbling Bibliophile
+150, Cutthroat Research
+151, Daughter
+152, Diametric Charge
+153, Effervescent Principle
+154, Eyegor
+155, Ganymede Archivist
+156, Helper Bot
+157, Infomorph
+158, Q-Mechs
+159, Tautau Vapors
+160, Titan Engineer
+161, Twin Bolt Emission
+162, Wild Wormhole
+163, Z.Y.X. Researcher
+164, Help from Future Self
+165, Velum
+166, Shard of Knowledge
+167, Anahita the Trader
+168, Begone!
+169, Call to Action
+170, Charge!
+171, Duma the Martyr
+172, Epic Quest
+173, Eye of Judgment
+174, Horseman of Pestilence
+175, Lord Golgotha
+176, Martyr’s End
+177, Mighty Lance
+178, Mother Northelle
+179, Numquid the Fair
+180, Oath of Poverty
+181, One Stood Against Many
+182, Opal Knight
+183, Orb of Wonder
+184, Seraphic Armor
+185, The Corpulent Collector
+186, Veemos Lightbringer
+187, Angry Mob
+188, Bring Low
+189, Champion Tabris
+190, Doorstep to Heaven
+191, Free Markets
+192, Gatekeeper
+193, Glorious Few
+194, Gorm of Omm
+195, Honor or Glory
+196, Lightbringer Outpost
+197, Prince Derric, Unifier
+198, Rothais the Fierce
+199, Shoulder Armor
+200, The Harder They Come
+201, The Spirit’s Way
+202, Virtuous Works
+203, Aubade the Grim
+204, Bordan the Redeemed
+205, Champion Anaphiel
+206, Cleansing Wave
+207, General Xalvador
+208, Inspiration
+209, Knightapult
+210, Ostentatious Mount
+211, Raiding Knight
+212, Retribution
+213, Seeker of Truth
+214, Shifting Battlefield
+215, Sir Bevor
+216, Terms of Redress
+217, The Grey Rider
+218, “Lion” Bautrem
+219, Horseman of Death
+220, Horseman of Famine
+221, Horseman of War
+222, Shard of Hope
+223, Bulleteye
+224, Captain No-Beard
+225, Customs Office
+226, Deipno Spymaster
+227, Easy Marks
+228, Finch Cloak
+229, Finishing Blow
+230, Guard Disguise
+231, Longfused Mines
+232, Mack the Knife
+233, Manchego
+234, Plague Rat
+235, Rigged Lottery
+236, Ring of Invisibility
+237, Routine Job
+238, Sack of Coins
+239, Selwyn the Fence
+240, Smiling Ruth
+241, The Quiet Anvil
+242, Boss Zarek
+243, Brend the Fanatic
+244, Chain Gang
+245, Hidden Stash
+246, Lights Out
+247, Miasma Bomb
+248, Murkens
+249, Old Bruno
+250, Oubliette
+251, Ransack
+252, Safe House
+253, Skeleton Key
+254, Subtle Chain
+255, Too Much to Protect
+256, Whisper
+257, “Borrow”
+258, Bo Nithing
+259, Dodger
+260, Francis the “Economist”
+261, Hugger-Mugger
+262, Kerwollop
+263, Kymoor Eclipse
+264, Life for a Life
+265, Look Over There!
+266, Mutant Cutpurse
+267, Nexus
+268, Opportunist
+269, Rad Penny
+270, Seeker Needle
+271, Silvertooth
+272, Subtle Otto
+273, Umbra
+274, Shard of Greed
+275, Captain Val Jericho
+276, Ceaseforge
+277, Cultural Exchange
+278, Doctor Driscoll
+279, Ensign El-Samra
+280, Forging an Alliance
+281, Galactic Census
+282, Hapless Cadet
+283, Hold the Line
+284, Jackpot Greene
+285, Kartanoo
+286, Operations Officer Yshi
+287, Peace Accord
+288, Plasma Nozzle
+289, Psionic Officer Lang
+290, Special Agent “Fingers”
+291, Tachyon Pulse
+292, Uncharted Lands
+293, We Can ALL Win
+294, Æmbertracker
+295, ANT1-10NY
+296, Away Team
+297, Badge of Unity
+298, CALV-1N
+299, Camaraderie
+300, Detention Coil
+301, Ganymede Outpost
+302, Helmsman Spears
+303, Information Officer Gray
+304, Lay of the Land
+305, Mutagenesis Researcher
+306, New Frontiers
+307, Particle Sweep
+308, Quintrino Flux
+309, Universal Translator
+310, Xenotraining
+311, Access Denied
+312, CPO Zytar
+313, Com. Officer Kirby
+314, Commander Chan
+315, Explo-rover
+316, First Officer Frane
+317, Observ-u-Max
+318, Rogue Operation
+319, Scout Pete
+320, Securi-Droid
+321, Shield-U-Later
+322, Survey
+323, Teleporter Chief Tink
+324, Unity or Discord
+325, Zap
+326, Dino-Alien
+327, Dæmo-Alien
+328, Lyco-Alien
+329, Sacro-Alien
+330, Techno-Alien
+331, Umbra-Alien
+332, Chonkers
+333, Dark Queen Gloriana
+334, Fertility Chant
+335, Fuzzy Gruen
+336, Kindrith Longshot
+337, Lupo the Scarred
+338, Mighty Tiger
+339, Moor Wolf
+340, Perilous Wild
+341, Piranha Monkeys
+342, Punctuated Equilibrium
+343, Quicksand
+344, Ritual of Life
+345, Scout
+346, Stampede
+347, Teliga
+348, The Mysticeti
+349, Word of Returning
+350, Æmberfin Shark
+351, Flaxia
+352, Genetic Drift
+353, Grasping Vines
+354, Growth Surge
+355, Instrument of Silence
+356, Mab the Mad
+357, Panpaca, Anga
+358, Panpaca, Jaga
+359, Ritual of Balance
+360, Soldiers to Flowers
+361, Sporegorger
+362, Thin the Herd
+363, Waste Not
+364, Way of the Wolf
+365, Æmbermancy
+366, Æmberspine Mongrel
+367, Bramble Lynx
+368, Dark Faerie
+369, Floomf
+370, Gloriana’s Attendant
+371, Keyfrog
+372, Knoxx
+373, Lost in the Woods
+374, Mollymawk
+375, Musthic Murmook
+376, Nocturnal Maneuver
+377, Rapid Evolution
+378, Reap or Sow
+379, Savage Clash
+380, Snufflegator
+381, Way of the Pixie
+382, Witch of the Eye
+383, Shard of Life
