@@ -1,0 +1,52 @@
+[
+  {
+    "id": "aa",
+    "card_title": "AA",
+    "card_number": "001",
+    "expansion": 907,
+    "is_maverick": false,
+    "is_anomaly": false,
+    "is_enhanced": false,
+    "is_non_deck": false
+  },
+  {
+    "id": "bb",
+    "card_title": "BB",
+    "card_number": "002",
+    "expansion": 907,
+    "is_maverick": false,
+    "is_anomaly": false,
+    "is_enhanced": false,
+    "is_non_deck": false
+  },
+  {
+    "id": "cc",
+    "card_title": "CC",
+    "card_number": "003",
+    "expansion": 907,
+    "is_maverick": false,
+    "is_anomaly": false,
+    "is_enhanced": false,
+    "is_non_deck": false
+  },
+  {
+    "id": "dd",
+    "card_title": "DD",
+    "card_number": "004",
+    "expansion": 907,
+    "is_maverick": false,
+    "is_anomaly": false,
+    "is_enhanced": false,
+    "is_non_deck": false
+  },
+  {
+    "id": "ee",
+    "card_title": "EE",
+    "card_number": "005",
+    "expansion": 907,
+    "is_maverick": false,
+    "is_anomaly": false,
+    "is_enhanced": false,
+    "is_non_deck": false
+  }
+]

@@ -7,39 +7,128 @@
 # we're looking to find 'aa' through 'ee', but
 # skip 'xx' and 'jj' which are legacies.
 # Pages 1 and 2 have new cards to find.
-# Page 3 has only cards we've seen.
+# Page 3 has only cards we've already seen.
 
 import unittest
+import json5
 
 from mastervault import mvlite
 
 
 class MVLiteTests(unittest.TestCase):
 
-    def test_mvlite(self):
-        expectedFinalProgress = loads('data/test_data/mvlite_expected_progress_907.json')
-        expectedFinalCards = loads('data/test_data/mvlite_expected_cards_907.json')
+    def open_json(self, json_file):
+        with open(json_file, 'r') as f:
+            return json5.load(f)
 
+    def setupCheckConsistency(self, progFile, cardFile):
+        mvl = mvlite.MVLite('907')
+        mvl.loadProgress('data/test_data/'+progFile)
+        mvl.loadCards('data/test_data/'+cardFile)
+        mvl.checkConsistency()
 
-        mvl = mvlite.MVLite()
+    def test_inconsistencies(self):
+        # The valid progress and card files should
+        # pass consistency checks.
+        self.setupCheckConsistency(
+            'mvlite_progress.json',
+            'mvlite_cards.json'
+        )
+
+        with self.assertRaises(Exception):
+            self.setupCheckConsistency(
+                'mvlite_invalid_progress_duplicate.json',
+                'mvlite_cards.json'
+            )
+
+        with self.assertRaises(Exception):
+            self.setupCheckConsistency(
+                'mvlite_invalid_progress_extra.json',
+                'mvlite_cards.json'
+            )
+        with self.assertRaises(Exception):
+            self.setupCheckConsistency(
+                'mvlite_invalid_cards_duplicate.json',
+                'mvlite_cards.json'
+            )
+        with self.assertRaises(Exception):
+            self.setupCheckConsistency(
+                'mvlite_invalid_cards_missing.json',
+                'mvlite_cards.json'
+            )
+
+    def test_successful_three_pages(self):
+        expectedFinalProgress = self.open_json(
+            'data/test_data/mvlite_expected_progress.json')
+        expectedFinalCards = self.open_json(
+            'data/test_data/mvlite_expected_cards.json')
+
+        mvl = mvlite.MVLite(907)
 
         # Load starting points
-        mvl.loadProgress('data/test_data/mvlite_progress_907.json')
-        mvl.loadCards('data/test_data/mvlite_cards_907.json')
+        mvl.loadProgress('data/test_data/mvlite_progress.json')
+        mvl.loadCards('data/test_data/mvlite_cards.json')
+
+        mvl.checkConsistency()
 
         # Page 1 has some new cards.
-        pg1Resp = loads('data/test_data/mvlite_pg1.json')
-        pg1wCardsResp = loads('data/test_data/mvlite_pg1_w_cards.json')
+        print('Page 1')
+        print(mvl.progress)
+        pg1Resp = self.open_json(
+            'data/test_data/mvlite_pg1.json')
+        sawNewCard = mvl.processDecklistPage(pg1Resp)
+        self.assertEqual(sawNewCard, True)
+
+        pg1wCardsResp = self.open_json(
+            'data/test_data/mvlite_pg1_w_cards.json')
+        mvl.processDecklistPageWithCards(pg1wCardsResp)
 
         # Page 2 has some new cards.
-        pg2Resp = loads('data/test_data/mvlite_pg2.json')
-        pg2wCardsResp = loads('data/test_data/mvlite_pg2_w_cards.json')
+        print('Page 2')
+        print(mvl.progress)
+        pg2Resp = self.open_json(
+            'data/test_data/mvlite_pg2.json')
+        sawNewCard = mvl.processDecklistPage(pg2Resp)
+        self.assertEqual(sawNewCard, True)
+
+        pg2wCardsResp = self.open_json(
+            'data/test_data/mvlite_pg2_w_cards.json')
+        mvl.processDecklistPageWithCards(pg2wCardsResp)
 
         # No new cards in page 3.
-        pg3Resp = loads('data/test_data/mvlite_pg3.json')
+        print('Page 3')
+        print(mvl.progress)
+        pg3Resp = self.open_json(
+            'data/test_data/mvlite_pg3.json')
+        sawNewCard = mvl.processDecklistPage(pg3Resp)
+        self.assertEqual(sawNewCard, False)
 
 
         # Final JSON should be sorted. Have mvlite save it and
         # then reload to compare.
-        self.assertEqual(mvl.saveProgress(), expectedFinalProgress)
-        self.assertEqual(mvl.saveCards(), expectedFinalCards)
+
+        from pprint import pprint
+        
+        print('FINAL in mem')
+        pprint(mvl.progress)
+        pprint(mvl.cards)
+
+        
+        mvl.saveProgress('/tmp/p.json')
+        mvl.saveCards('/tmp/c.json')
+
+        actualFinalProgress = self.open_json('/tmp/p.json')
+        actualFinalCards = self.open_json('/tmp/c.json')
+
+        print('FINAL after load')
+        pprint(actualFinalProgress)
+        pprint(actualFinalCards)
+
+        print('FINAL expected')
+        pprint(expectedFinalProgress)
+        pprint(expectedFinalCards)
+
+        self.assertDictEqual(
+            actualFinalProgress, expectedFinalProgress)
+        self.assertEqual(
+            actualFinalCards, expectedFinalCards)
