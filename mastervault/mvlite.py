@@ -19,81 +19,99 @@
 # is a partial page and we don't want to process it until
 # those next 10 are scanned.
 #
+# NOTE! We track both card number and card ID, because
+# cards with enhancements have distinct IDs. But it's still
+# useful because we can skip requesting the full card data
+# when we've already seen every ID in a batch.
 #
-# Tool param: Picking up from where we've left off, how many
-# pages to try next?
+# Usage
+# python -m mastervault.mvlite --expansion=907 --pages=2
 
+import argparse
 import requests
 import json5
+import json
+import time
 
-# TODO if less than 10, don't process
 
-# TODO: a main with arg parsing that makes the call and passing JSON along
-
-# TODO: a final thing that persists the seen card ids and the page number
-# we've used so far.
-
-# the first call doesn't include cards, so its just working off the card IDs.
-# skip mavericks and legacies
-# keep a 
+parser = argparse.ArgumentParser(
+    description='A MasterVault "lite" scraper that gathers '
+    + 'cards for a set and minimizes server load.')
+parser.add_argument(
+    '--expansion',
+    required=True,
+    type=int,
+    help='Set to build card data for.')
+parser.add_argument(
+    '--pages',
+    type=int,
+    default=1,
+    help='How many API deck pages to attempt in this run.')
 
 
 class MVLite(object):
     def __init__(self, expansion):
         self.expansion = expansion
 
-
     # Over sessions of looking for a set's cards, how many
     # pages have we checked, and what card IDs have we found?
     def loadProgress(self, json_file):
-        with open(json_file, 'r') as f:
-            self.progress = json5.load(f)
-
+        try:
+            with open(json_file, 'r') as f:
+                self.progress = json5.load(f)
+        except FileNotFoundError:
+            self.progress = {
+                'card_ids_found': [],
+                'card_numbers_found': [],
+                'highest_page_number': 0
+            }
 
     # Full card data for the set so far.
     def loadCards(self, json_file):
-        with open(json_file, 'r') as f:
-            self.cards = json5.load(f)
-
+        try:
+            with open(json_file, 'r') as f:
+                self.cards = json5.load(f)
+        except FileNotFoundError:
+            self.cards = []
 
     def saveProgress(self, json_file):
-        self.progress['cards_found'].sort()
-        with open(json_file, 'w') as f:
-            f.write(json5.dumps(self.progress))
-
+        self.progress['card_ids_found'].sort()
+        self.progress['card_numbers_found'].sort()
+        with open(json_file, 'w+') as f:
+            json.dump(self.progress, f, indent=2)
 
     def saveCards(self, json_file):
-        self.cards.sort(key=lambda c: c['id'])
-        with open(json_file, 'w') as f:
-            f.write(json5.dumps(self.cards))
+        self.cards.sort(key=lambda c: c['card_number'])
+        with open(json_file, 'w+') as f:
+            json.dump(self.cards, f, indent=2)
 
-
-    # Does the list of cards in progress match the full card
-    # card data IDs?
+    # Does the list of card numbers in progress match the full card
+    # card data?
     def checkConsistency(self):
-        progIdsList = self.progress['cards_found']
-        progIdsSet = set(progIdsList)
+        progNumList = self.progress['card_numbers_found']
+        progNumSet = set(progNumList)
 
-        cardIdsList = [c['id'] for c in self.cards]
-        cardIdsSet = set(cardIdsList)
+        cardNumList = [
+            '%d-%s' % (c['expansion'], c['card_number'])
+            for c in self.cards
+        ]
+        cardNumSet = set(cardNumList)
 
-        if len(progIdsList) != len(progIdsSet):
+        if len(progNumList) != len(progNumSet):
             raise Exception('Duplicates in progress file')
 
-        if len(cardIdsList) != len(cardIdsSet):
+        if len(cardNumList) != len(cardNumSet):
             raise Exception('Duplicates in card file')
 
-        if progIdsSet != cardIdsSet:
+        if progNumSet != cardNumSet:
             raise Exception(
                 'Different IDs between progress and card file')
 
 
     # There are no fully linked cards in the first
     # request for a page of decklists. Return true
-    # if a new card is seen.
+    # if a new card ID is seen.
     def processDecklistPage(self, apiResp):
-        p = self.progress['highest_page_number']
-        self.progress['highest_page_number'] = p+1
         for d in apiResp['data']:
             for c in d['cards']:
                 # Legacies are from a prior set, skip.
@@ -102,14 +120,13 @@ class MVLite(object):
                 # Anomalies are in their own set, 453, skip.
                 if c in d['set_era_cards']['Anomaly']:
                     continue
-                if c not in self.progress['cards_found']:
-                    print('New card '+c)
+                if c not in self.progress['card_ids_found']:
+                    print('  Found new cards')
                     return True
         return False
 
     def processDecklistPageWithCards(self, apiResp):
         for c in apiResp['_linked']['cards']:
-            print('   considering '+c['id'])
             # Anomalies are in their own set.
             if c['expansion'] != self.expansion:
                 continue
@@ -118,27 +135,77 @@ class MVLite(object):
             # We don't want maverick version in set data.
             if c['is_maverick']:
                 continue
-            if c['id'] not in self.progress['cards_found']:
-                print('     inserting '+c['id'])
-                self.progress['cards_found'].append(c['id'])
+            # Record every ID including enhancement variations.
+            # We can skip decks where we've seen them all.
+            if c['id'] not in self.progress['card_ids_found']:
+                self.progress['card_ids_found'].append(c['id'])
+            # And then only add a card to our set if we find
+            # a new unenhanced one.
+            cno = '%d-%s' % (c['expansion'], c['card_number'])
+            if not c['is_enhanced'] and \
+               cno not in self.progress['card_numbers_found']:
+                self.progress['card_numbers_found'].append(cno)
                 self.cards.append(c)
 
+    def completePage(self):
+        p = self.progress['highest_page_number']
+        self.progress['highest_page_number'] = p+1
+        return self.progress['highest_page_number']
 
-def find_card_ids():
-    url = 'https://www.keyforgegame.com/api/decks'
-    params = {
-        'page': 1,
-        'page_size': 10,  # 10 is apparent max
-        'ordering': 'date',
-        'expansion': 907,
-    }
-    resp = requests.get(url, params=params)
-    if resp.status_code != 200:
-        print('Non-OK response %d' % resp.status_code)
-        return
-    decks = json5.loads(resp.text)
-    print('Found %d decks' % len(decks['data']))
+    def makeNextRequest(self, withCards=False):
+        if not withCards:
+            print(
+                'Fetching page %d' %
+                (self.progress['highest_page_number']+1)
+            )
+
+        url = 'https://www.keyforgegame.com/api/decks'
+        params = {
+            'page': self.progress['highest_page_number']+1,
+            'page_size': 10,  # 10 is apparent max
+            'ordering': 'date', # Start from oldest
+            'expansion': self.expansion,
+        }
+        if withCards:
+            params['links'] = 'cards'
+
+        resp = requests.get(url, params=params)
+        if resp.status_code != 200:
+            raise Exception(
+                'Non-OK response %d' % resp.status_code
+            )
+        return json5.loads(resp.text)
 
 
 if __name__ == "__main__":
-    find_card_ids()
+    args = parser.parse_args()
+
+    progressFile = \
+        'data/mvlite_progress_%s.json' % args.expansion
+    cardFile = 'data/mvlite_cards_%s.json' % args.expansion
+
+    mvl = MVLite(args.expansion)
+    mvl.loadProgress(progressFile)
+    mvl.loadCards(cardFile)
+    mvl.checkConsistency()
+
+    for i in range(args.pages):
+        resp = mvl.makeNextRequest(withCards=False)
+        if len(resp['data']) < 10:
+            print('Latest page is still partial.')
+            break
+
+        # Any new non-anomaly, etc cards in this page?
+        if(mvl.processDecklistPage(resp)):
+            time.sleep(6)
+            resp = mvl.makeNextRequest(withCards=True)
+            mvl.processDecklistPageWithCards(resp)
+
+        print('Page %d complete.' % mvl.completePage())
+
+        time.sleep(6)
+
+    print('Overall, %d cards found.' % len(mvl.cards))
+    mvl.checkConsistency()
+    mvl.saveProgress(progressFile)
+    mvl.saveCards(cardFile)

@@ -8,7 +8,7 @@
         "ee",
         "aa",
         "cc",
-        "ee",
+        "dd-enhanced",
         "ee",
       ],
       "set_era_cards": {
@@ -55,6 +55,16 @@
         "is_maverick": false,
         "is_anomaly": false,
         "is_enhanced": false,
+        "is_non_deck": false
+      },
+      {
+        "id": "dd-enhanced",
+        "card_title": "DD",
+        "card_number": "004",
+        "expansion": 907,
+        "is_maverick": false,
+        "is_anomaly": false,
+        "is_enhanced": true,
         "is_non_deck": false
       },
       {

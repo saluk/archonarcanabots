@@ -22,7 +22,7 @@ class MVLiteTests(unittest.TestCase):
             return json5.load(f)
 
     def setupCheckConsistency(self, progFile, cardFile):
-        mvl = mvlite.MVLite('907')
+        mvl = mvlite.MVLite(907)
         mvl.loadProgress('data/test_data/'+progFile)
         mvl.loadCards('data/test_data/'+cardFile)
         mvl.checkConsistency()
@@ -82,6 +82,7 @@ class MVLiteTests(unittest.TestCase):
         pg1wCardsResp = self.open_json(
             'data/test_data/mvlite_pg1_w_cards.json')
         mvl.processDecklistPageWithCards(pg1wCardsResp)
+        mvl.completePage()
 
         # Page 2 has some new cards.
         print('Page 2')
@@ -94,6 +95,7 @@ class MVLiteTests(unittest.TestCase):
         pg2wCardsResp = self.open_json(
             'data/test_data/mvlite_pg2_w_cards.json')
         mvl.processDecklistPageWithCards(pg2wCardsResp)
+        mvl.completePage()
 
         # No new cards in page 3.
         print('Page 3')
@@ -102,31 +104,15 @@ class MVLiteTests(unittest.TestCase):
             'data/test_data/mvlite_pg3.json')
         sawNewCard = mvl.processDecklistPage(pg3Resp)
         self.assertEqual(sawNewCard, False)
-
+        mvl.completePage()
 
         # Final JSON should be sorted. Have mvlite save it and
         # then reload to compare.
-
-        from pprint import pprint
-        
-        print('FINAL in mem')
-        pprint(mvl.progress)
-        pprint(mvl.cards)
-
-        
         mvl.saveProgress('/tmp/p.json')
         mvl.saveCards('/tmp/c.json')
 
         actualFinalProgress = self.open_json('/tmp/p.json')
         actualFinalCards = self.open_json('/tmp/c.json')
-
-        print('FINAL after load')
-        pprint(actualFinalProgress)
-        pprint(actualFinalCards)
-
-        print('FINAL expected')
-        pprint(expectedFinalProgress)
-        pprint(expectedFinalCards)
 
         self.assertDictEqual(
             actualFinalProgress, expectedFinalProgress)

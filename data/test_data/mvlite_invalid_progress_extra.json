@@ -1,11 +1,19 @@
 {
-    "cards_found": [
+    "card_ids_found": [
 	"aa",
 	"bb",
-	"an-extra-card-id-not-in-data-file",
 	"cc",
 	"dd",
+	"dd-enhanced",
 	"ee"
+    ],
+    "card_numbers_found": [
+	"907-001",
+	"907-002",
+	"an-extra-card-not-in-data-file",
+	"907-003",
+	"907-004",
+	"907-005"
     ],
     "highest_page_number": 3,
 }
