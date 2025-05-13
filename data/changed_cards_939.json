@@ -1,0 +1,5284 @@
+{
+  "A Strong Feeling": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "040",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['A Strong Feeling']['Image']": {
+        "new_value": "939-040.png",
+        "old_value": "855-044.png"
+      }
+    }
+  },
+  "A. Vinda": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['A. Vinda']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "237",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['A. Vinda']['FlavorText']": {
+        "new_value": "\u201cMy sister and I have a job lined up. You in, Penny?\u201d",
+        "old_value": "\u201c[[J. Vinda|My sister]] and I have a job lined up. You in, [[Bad Penny|Penny]]?\u201d"
+      },
+      "root.data_types['CardData']['A. Vinda']['Image']": {
+        "new_value": "939-237.png",
+        "old_value": "452-235.png"
+      },
+      "root.data_types['CardData']['A. Vinda']['SearchText']": {
+        "new_value": "After Reap: Deal 1D to a creature. If this damage destroys that creature, your opponent discards a random card from their hand.",
+        "old_value": "Reap: Deal 1D to a creature. If this damage destroys that creature, your opponent discards a random card from their hand."
+      },
+      "root.data_types['CardData']['A. Vinda']['Text']": {
+        "new_value": "'''After Reap:''' Deal 1{{Damage}} to a creature. If this damage destroys that creature, your opponent discards a random card from their hand.",
+        "old_value": "'''Reap:''' Deal 1{{Damage}} to a creature. If this damage destroys that creature, your opponent discards a random card from their hand."
+      },
+      "root.data_types['CardData']['A. Vinda']['Traits']": {
+        "new_value": "Thief \u2022 Elf",
+        "old_value": "Elf \u2022 Thief"
+      }
+    }
+  },
+  "Abyssal Sight": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Abyssal Sight']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "276",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Abyssal Sight']['FlavorText']": {
+        "new_value": "\u201c[[Cadet|Cadet]] Byron, cancel the undersea walk.\u201d",
+        "old_value": "\u201dCadet Byron, cancel the undersea walk.\u201d"
+      },
+      "root.data_types['CardData']['Abyssal Sight']['Image']": {
+        "new_value": "939-276.png",
+        "old_value": "600-384.png"
+      },
+      "root.data_types['CardData']['Abyssal Sight']['SearchFlavorText']": {
+        "new_value": "\u201cCadet Byron, cancel the undersea walk.\u201d",
+        "old_value": "\u201dCadet Byron, cancel the undersea walk.\u201d"
+      }
+    }
+  },
+  "Adult Swim": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Adult Swim']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "277",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Adult Swim']['Image']": {
+        "new_value": "939-277.png",
+        "old_value": "600-385.png"
+      }
+    }
+  },
+  "Airlock": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "142",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Airlock']['FlavorText']": {
+        "new_value": "\u201cFlush \u2018em.\u201d",
+        "old_value": "\u201dFlush \u2018em.\u201d"
+      },
+      "root.data_types['CardData']['Airlock']['Image']": {
+        "new_value": "939-142.png",
+        "old_value": "700-186.png"
+      },
+      "root.data_types['CardData']['Airlock']['SearchFlavorText']": {
+        "new_value": "\u201cFlush \u2018em.\u201d",
+        "old_value": "\u201dFlush \u2018em.\u201d"
+      }
+    }
+  },
+  "All Hands on Deck": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "067",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['All Hands on Deck']['Image']": {
+        "new_value": "939-067.png",
+        "old_value": "800-154.png"
+      }
+    }
+  },
+  "Allusions of Grandeur": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Allusions of Grandeur']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "264",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Allusions of Grandeur']['Image']": {
+        "new_value": "939-264.png",
+        "old_value": "600-367.png"
+      }
+    }
+  },
+  "Amphora Captura": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "171",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Amphora Captura']['Image']": {
+        "new_value": "939-171.png",
+        "old_value": "874-193.png"
+      },
+      "root.data_types['CardData']['Amphora Captura']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,6 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}\n-{{Damage}}\n-{{Damage}}\n-{{Draw}}\n-{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a {{Capture}} bonus icon [[Replacement Effects|instead]].\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Damage}}{{Damage}}{{Draw}}{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a {{Capture}} bonus icon [[Replacement Effects|instead]].",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Damage}}{{Damage}}{{Draw}}{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a {{Capture}} bonus icon [[Replacement Effects|instead]].",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}\n{{Damage}}\n{{Damage}}\n{{Draw}}\n{{Draw}}.  <p> When resolving a bonus icon, you may choose to resolve it as a {{Capture}} bonus icon [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Animating Force": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "041",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Animating Force']['Image']": {
+        "new_value": "939-041.png",
+        "old_value": "855-045.png"
+      }
+    }
+  },
+  "Archimedes": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "110",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Archimedes']['Image']": {
+        "new_value": "939-110.png",
+        "old_value": "855-116.png"
+      }
+    }
+  },
+  "Archon\u2019s Callback": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Archon\u2019s Callback']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "098",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Archon\u2019s Callback']['Image']": {
+        "new_value": "939-098.png",
+        "old_value": "496-033.png"
+      }
+    }
+  },
+  "Art Project": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "001",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Art Project']['Image']": {
+        "new_value": "939-001.png",
+        "old_value": "722-131.png"
+      }
+    }
+  },
+  "Articulated Ren": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "111",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Articulated Ren']['Image']": {
+        "new_value": "939-111.png",
+        "old_value": "800-200.png"
+      }
+    }
+  },
+  "Atomic Destabilizer": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "055",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Atomic Destabilizer']['Image']": {
+        "new_value": "939-055.png",
+        "old_value": "800-143.png"
+      }
+    }
+  },
+  "Auction Off": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Auction Off']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "028",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Auction Off']['FlavorText']": {
+        "new_value": "\u201c10 ration packs! Do I hear one memory of pure bliss and a legal name?\u201d",
+        "old_value": "\u201d10 ration packs! Do I hear one memory of pure bliss and a legal name?\u201d"
+      },
+      "root.data_types['CardData']['Auction Off']['Image']": {
+        "new_value": "939-028.png",
+        "old_value": "600-090.png"
+      },
+      "root.data_types['CardData']['Auction Off']['SearchFlavorText']": {
+        "new_value": "\u201c10 ration packs! Do I hear one memory of pure bliss and a legal name?\u201d",
+        "old_value": "\u201d10 ration packs! Do I hear one memory of pure bliss and a legal name?\u201d"
+      }
+    }
+  },
+  "Awful Atoll": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "249",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Awful Atoll']['Image']": {
+        "new_value": "939-249.png",
+        "old_value": "700-275.png"
+      }
+    }
+  },
+  "Azuretooth": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "002",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Azuretooth']['Image']": {
+        "new_value": "939-002.png",
+        "old_value": "800-086.png"
+      },
+      "root.data_types['CardData']['Azuretooth']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}\n-{{Discard}}. <p> '''After Fight/After Reap:''' [[Move|Move]] each {{Aember}} from a friendly creature to your pool. Give [[Control|control]] of that creature to your opponent.\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}{{Discard}}. <p> '''After Fight/After Reap:''' [[Move|Move]] each {{Aember}} from a friendly creature to your pool. Give [[Control|control]] of that creature to your opponent.",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}{{Discard}}. <p> '''After Fight/After Reap:''' [[Move|Move]] each {{Aember}} from a friendly creature to your pool. Give [[Control|control]] of that creature to your opponent.",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}\n{{Discard}}. <p> '''After Fight/After Reap:''' [[Move|Move]] each {{Aember}} from a friendly creature to your pool. Give [[Control|control]] of that creature to your opponent."
+      }
+    }
+  },
+  "Banshee Suit": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "079",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Banshee Suit']['Image']": {
+        "new_value": "939-079.png",
+        "old_value": "800-166.png"
+      }
+    }
+  },
+  "Batdrone": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Batdrone']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "112",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Batdrone']['Image']": {
+        "new_value": "939-112.png",
+        "old_value": "341-136.png"
+      },
+      "root.data_types['CardData']['Batdrone']['SearchText']": {
+        "new_value": "Skirmish. (When you use this creature to fight, it is dealt no damage in return.) <p> After Fight: Steal 1A.",
+        "old_value": "Skirmish. (When you use this creature to fight, it is dealt no damage in return.) <p> Fight: Steal 1<A>."
+      },
+      "root.data_types['CardData']['Batdrone']['Text']": {
+        "new_value": "[[Skirmish|Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.) <p> '''After Fight:''' Steal 1{{Aember}}.",
+        "old_value": "[[Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.) <p> '''Fight:''' Steal 1{{Aember}}."
+      }
+    }
+  },
+  "Battle Fleet": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Battle Fleet']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "143",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Battle Fleet']['Image']": {
+        "new_value": "939-143.png",
+        "old_value": "341-161.png"
+      }
+    }
+  },
+  "Be Our Geist": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "068",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Be Our Geist']['Image']": {
+        "new_value": "939-068.png",
+        "old_value": "722-221.png"
+      },
+      "root.data_types['CardData']['Be Our Geist']['SearchText']": {
+        "new_value": "Play: Choose a creature in any haunted player\u2019s discard pile. Play that creature as if it were in your hand.",
+        "old_value": "Play: Choose a creature in any haunted player's discard pile. Play that creature as if it were in your hand."
+      },
+      "root.data_types['CardData']['Be Our Geist']['Text']": {
+        "new_value": "'''Play:''' Choose a creature in any [[Haunted|haunted]] player\u2019s discard pile. Play that creature as if it were in your hand.",
+        "old_value": "'''Play:''' Choose a creature in any [[Haunted|haunted]] player's discard pile. Play that creature as if it were in your hand."
+      }
+    }
+  },
+  "Binate Rupture": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Binate Rupture']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "113",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Binate Rupture']['Image']": {
+        "new_value": "939-113.png",
+        "old_value": "435-109.png"
+      },
+      "root.data_types['CardData']['Binate Rupture']['SearchText']": {
+        "new_value": "Alpha. (You can only play this card before doing anything else this step.) <p> Play: Each player gains A equal to the amount of A they have.",
+        "old_value": "Alpha. (You can only play this card before doing anything else this step.) <p> Play: Each player gains A equal to <p> the A in their pool."
+      },
+      "root.data_types['CardData']['Binate Rupture']['Text']": {
+        "new_value": "[[Alpha|Alpha]]. (You can only play this card before doing anything else this step.) <p> '''Play:''' Each player gains {{Aember}} equal to the amount of {{Aember}} they have.",
+        "old_value": "[[Alpha]]. (You can only play this card before doing anything else this step.) <p> '''Play:''' Each player gains {{Aember}} equal to the {{Aember}} in their pool."
+      }
+    }
+  },
+  "Bo Nithing": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "238",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Bo Nithing']['Image']": {
+        "new_value": "939-238.png",
+        "old_value": "907-258.png"
+      }
+    }
+  },
+  "Boiler": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "056",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Boiler']['Image']": {
+        "new_value": "939-056.png",
+        "old_value": "855-058.png"
+      }
+    }
+  },
+  "Bonded Auctioneer": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "016",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Bonded Auctioneer']['Image']": {
+        "new_value": "939-016.png",
+        "old_value": "722-150.png"
+      }
+    }
+  },
+  "Boo!": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "069",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Boo!']['Image']": {
+        "new_value": "939-069.png",
+        "old_value": "722-222.png"
+      }
+    }
+  },
+  "Bouncing Deathquark": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "099",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Bouncing Deathquark']['Image']": {
+        "new_value": "939-099.png",
+        "old_value": "907-134.png"
+      }
+    }
+  },
+  "Brachiaditus": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Brachiaditus']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "172",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Brachiaditus']['Image']": {
+        "new_value": "939-172.png",
+        "old_value": "496-134.png"
+      },
+      "root.data_types['CardData']['Brachiaditus']['SearchText']": {
+        "new_value": "Deploy. <p> Play: Stun each of Brachiaditus\u2019s neighbors and move 1A from each of them to the common supply.",
+        "old_value": "Deploy. <p> Play: Stun each of Brachiaditus's neighbors and move 1\uf360 from each of them to the common supply."
+      },
+      "root.data_types['CardData']['Brachiaditus']['Text']": {
+        "new_value": "[[Deploy|Deploy]]. <p> '''Play:''' [[Stun|Stun]] each of Brachiaditus\u2019s neighbors and [[Move|move]] 1{{Aember}} from each of them to the common supply.",
+        "old_value": "[[Deploy|Deploy]]. <p> '''Play:''' [[Stun|Stun]] each of Brachiaditus's neighbors and [[Move|move]] 1{{Aember}} from each of them to the common supply."
+      }
+    }
+  },
+  "Brain Drain": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Brain Drain']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "278",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Brain Drain']['Image']": {
+        "new_value": "939-278.png",
+        "old_value": "496-352.png"
+      },
+      "root.data_types['CardData']['Brain Drain']['SearchText']": {
+        "new_value": "Play: Look at your opponent\u2019s hand. Choose a card from it and put it on top of their deck.",
+        "old_value": "Play: Look at your opponent's hand. Choose a card from it and put it on top of their deck."
+      },
+      "root.data_types['CardData']['Brain Drain']['Text']": {
+        "new_value": "'''Play:''' Look at your opponent\u2019s hand. Choose a card from it and put it on top of their deck.",
+        "old_value": "'''Play:''' Look at your opponent's hand. Choose a card from it and put it on top of their deck."
+      }
+    }
+  },
+  "Brain Stem Antenna": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "127",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Brain Stem Antenna']['Image']": {
+        "new_value": "939-127.png",
+        "old_value": "800-220.png"
+      }
+    }
+  },
+  "Brend the Fanatic": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "225",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Brend the Fanatic']['Image']": {
+        "new_value": "939-225.png",
+        "old_value": "907-243.png"
+      },
+      "root.data_types['CardData']['Brend the Fanatic']['SearchText']": {
+        "new_value": "Skirmish. <p> Play: Your opponent gains 1A. <p> Destroyed: Steal 3A.",
+        "old_value": "Skirmish. (When you use this creature to fight, it is dealt no damage in return.) <p> Play: Your opponent gains 1A. <p> Destroyed: Steal 3A."
+      },
+      "root.data_types['CardData']['Brend the Fanatic']['Text']": {
+        "new_value": "[[Skirmish|Skirmish]]. <p> '''Play:''' Your opponent gains 1{{Aember}}. <p> '''Destroyed:''' Steal 3{{Aember}}.",
+        "old_value": "[[Skirmish|Skirmish]]. (When you use this creature to fight, it is dealt no damage in return.) <p> '''Play:''' Your opponent gains 1{{Aember}}. <p> '''Destroyed:''' Steal 3{{Aember}}."
+      }
+    }
+  },
+  "Bulleteye": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "210",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Bulleteye']['Image']": {
+        "new_value": "939-210.png",
+        "old_value": "907-223.png"
+      }
+    }
+  },
+  "C.\u00c6.N.D.L.E. Unit": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "100",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['C.\u00c6.N.D.L.E. Unit']['Image']": {
+        "new_value": "939-100.png",
+        "old_value": "800-188.png"
+      }
+    }
+  },
+  "Call of Need": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "042",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Call of Need']['Image']": {
+        "new_value": "939-042.png",
+        "old_value": "855-046.png"
+      }
+    }
+  },
+  "Catch and Release": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "265",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Catch and Release']['Image']": {
+        "new_value": "939-265.png",
+        "old_value": "722-692.png"
+      }
+    }
+  },
+  "Chain Gang": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "226",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Chain Gang']['Image']": {
+        "new_value": "939-226.png",
+        "old_value": "907-244.png"
+      }
+    }
+  },
+  "Chaosodon": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Chaosodon']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "186",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Chaosodon']['Image']": {
+        "new_value": "939-186.png",
+        "old_value": "600-256.png"
+      }
+    }
+  },
+  "Chronus": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "101",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Chronus']['Image']": {
+        "new_value": "939-101.png",
+        "old_value": "874-095.png"
+      },
+      "root.data_types['CardData']['Chronus']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Draw}}\n-{{Draw}}. (These icons have already been added to cards in your deck.) <p> After you resolve a {{Draw}} bonus icon, you may archive a card.\n+[[Enhance|Enhance]] {{Draw}}{{Draw}}. (These icons have already been added to cards in your deck.) <p> After you resolve a {{Draw}} bonus icon, you may archive a card.",
+        "new_value": "[[Enhance|Enhance]] {{Draw}}{{Draw}}. (These icons have already been added to cards in your deck.) <p> After you resolve a {{Draw}} bonus icon, you may archive a card.",
+        "old_value": "[[Enhance|Enhance]] {{Draw}}\n{{Draw}}. (These icons have already been added to cards in your deck.) <p> After you resolve a {{Draw}} bonus icon, you may archive a card."
+      }
+    }
+  },
+  "Cincinnatus Rex": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Cincinnatus Rex']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "173",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Cincinnatus Rex']['Image']": {
+        "new_value": "939-173.png",
+        "old_value": "452-215.png"
+      },
+      "root.data_types['CardData']['Cincinnatus Rex']['SearchText']": {
+        "new_value": "If there are no enemy creatures, destroy Cincinnatus Rex. <p> After Fight: You may exalt Cincinnatus Rex. If you do, ready each other friendly card.",
+        "old_value": "If there are no enemy creatures, destroy Cincinnatus Rex. <p> Fight: You may exalt Cincinnatus Rex. If you do, ready each other friendly card."
+      },
+      "root.data_types['CardData']['Cincinnatus Rex']['Text']": {
+        "new_value": "If there are no enemy creatures, destroy Cincinnatus Rex. <p> '''After Fight:''' You may [[Exalt|exalt]] Cincinnatus Rex. [[if you do|If you do]], ready each other friendly card.",
+        "old_value": "If there are no enemy creatures, destroy Cincinnatus Rex. <p> '''Fight:''' You may [[Exalt|exalt]] Cincinnatus Rex. [[if you do|If you do]], ready each other friendly card."
+      }
+    }
+  },
+  "Citizen Shrix": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "198",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Citizen Shrix']['Image']": {
+        "new_value": "939-198.png",
+        "old_value": "874-234.png"
+      }
+    }
+  },
+  "Closed-Door Negotiation": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Closed-Door Negotiation']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "029",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Closed-Door Negotiation']['Image']": {
+        "new_value": "939-029.png",
+        "old_value": "600-092.png"
+      }
+    }
+  },
+  "Code Monkey": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "102",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Code Monkey']['Image']": {
+        "new_value": "939-102.png",
+        "old_value": "855-106.png"
+      }
+    }
+  },
+  "Collector Worm": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Collector Worm']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "154",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Collector Worm']['Image']": {
+        "new_value": "939-154.png",
+        "old_value": "435-162.png"
+      },
+      "root.data_types['CardData']['Collector Worm']['SearchText']": {
+        "new_value": "After Fight: Put the creature Collector Worm fights into your archives. (Both creatures must survive the fight.) If that creature leaves your archives, put it in its owner\u2019s hand instead.",
+        "old_value": "Fight: Archive the creature Collector Worm fights. If that creature leaves your archives, put it in its owner\u2019s hand instead."
+      },
+      "root.data_types['CardData']['Collector Worm']['Text']": {
+        "new_value": "'''After Fight:''' Put the creature Collector Worm fights into your archives. (Both creatures must survive the fight.) If that creature leaves your archives, put it in its owner\u2019s hand [[Replacement Effects|instead]].",
+        "old_value": "'''Fight:''' Archive the creature Collector Worm fights. If that creature leaves your archives, put it in its owner\u2019s hand [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Commpod": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Commpod']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "128",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Commpod']['Image']": {
+        "new_value": "939-128.png",
+        "old_value": "600-117.png"
+      }
+    }
+  },
+  "Cornicen Octavia": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "199",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Cornicen Octavia']['Image']": {
+        "new_value": "939-199.png",
+        "old_value": "874-236.png"
+      }
+    }
+  },
+  "Corrode": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "250",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Corrode']['Image']": {
+        "new_value": "939-250.png",
+        "old_value": "700-278.png"
+      }
+    }
+  },
+  "Covetous Hema": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "279",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Covetous Hema']['Image']": {
+        "new_value": "939-279.png",
+        "old_value": "722-709.png"
+      }
+    }
+  },
+  "Crassosaurus": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Crassosaurus']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "174",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Crassosaurus']['Image']": {
+        "new_value": "939-174.png",
+        "old_value": "496-135.png"
+      },
+      "root.data_types['CardData']['Crassosaurus']['Text']": {
+        "new_value": "[[Elusive|Elusive]]. <p> '''Play:''' Capture 10{{Aember}} from any combination of players. Then, if Crassosaurus has fewer than 10{{Aember}} on it, [[Purge|purge]] Crassosaurus.",
+        "old_value": "[[Elusive]]. <p> '''Play:''' Capture 10{{Aember}} from any combination of players. Then, if Crassosaurus has fewer than 10{{Aember}} on it, [[Purge|purge]] Crassosaurus."
+      }
+    }
+  },
+  "Crimson Dax": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "155",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Crimson Dax']['Image']": {
+        "new_value": "939-155.png",
+        "old_value": "800-247.png"
+      }
+    }
+  },
+  "Curse of Spontaneity": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "003",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Curse of Spontaneity']['Image']": {
+        "new_value": "939-003.png",
+        "old_value": "700-056.png"
+      },
+      "root.data_types['CardData']['Curse of Spontaneity']['SearchText']": {
+        "new_value": "Treachery. (This card enters play under your opponent\u2019s control.) <p> At the start of your \u201cdraw cards\u201d step, discard your hand.",
+        "old_value": "Treachery. (This card enters play under your opponent\u2019s control.) <p> At the start of your \"draw cards\" step, discard your hand."
+      },
+      "root.data_types['CardData']['Curse of Spontaneity']['Text']": {
+        "new_value": "[[Treachery|Treachery]]. (This card enters play under your opponent\u2019s [[Control|control]].) <p> At the start of your \u201cdraw cards\u201d step, discard your hand.",
+        "old_value": "[[Treachery|Treachery]]. (This card enters play under your opponent\u2019s [[Control|control]].) <p> At the start of your \"draw cards\" step, discard your hand."
+      }
+    }
+  },
+  "Cursed Relic": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "004",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Cursed Relic']['Image']": {
+        "new_value": "939-004.png",
+        "old_value": "800-089.png"
+      },
+      "root.data_types['CardData']['Cursed Relic']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,6 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}\n-{{Aember}}\n-{{Aember}}\n-{{Aember}}\n-{{Aember}}.  <p> You [[Cannot_vs_Must|cannot]] play Cursed Relic. <p> Cursed Relic cannot be discarded from your hand except through card abilities.\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Aember}}{{Aember}}{{Aember}}{{Aember}}.  <p> You [[Cannot_vs_Must|cannot]] play Cursed Relic. <p> Cursed Relic cannot be discarded from your hand except through card abilities.",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Aember}}{{Aember}}{{Aember}}{{Aember}}.  <p> You [[Cannot_vs_Must|cannot]] play Cursed Relic. <p> Cursed Relic cannot be discarded from your hand except through card abilities.",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}\n{{Aember}}\n{{Aember}}\n{{Aember}}\n{{Aember}}.  <p> You [[Cannot_vs_Must|cannot]] play Cursed Relic. <p> Cursed Relic cannot be discarded from your hand except through card abilities."
+      }
+    }
+  },
+  "Dark Centurion": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "187",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dark Centurion']['Image']": {
+        "new_value": "939-187.png",
+        "old_value": "874-218.png"
+      },
+      "root.data_types['CardData']['Dark Centurion']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature.\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature.",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature.",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}.  <p> '''Action:''' [[Move|Move]] 1{{Aember}} from a creature to the common supply. [[if you do|If you do]], [[Ward|ward]] that creature."
+      }
+    }
+  },
+  "Dark Discovery": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "289",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dark Discovery']['Image']": {
+        "new_value": "939-289.png",
+        "old_value": "722-725.png"
+      }
+    }
+  },
+  "De-escalation": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "030",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['De-escalation']['Image']": {
+        "new_value": "939-030.png",
+        "old_value": "800-116.png"
+      }
+    }
+  },
+  "Deep Probe": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "144",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Deep Probe']['Image']": {
+        "new_value": "939-144.png",
+        "old_value": "700-189.png"
+      }
+    }
+  },
+  "Destroy Them All!": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "145",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Destroy Them All!']['Image']": {
+        "new_value": "939-145.png",
+        "old_value": "800-235.png"
+      }
+    }
+  },
+  "Dimo, Elderghast": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "057",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dimo, Elderghast']['Image']": {
+        "new_value": "939-057.png",
+        "old_value": "855-059.png"
+      },
+      "root.data_types['CardData']['Dimo, Elderghast']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' If you are [[Haunted|haunted]], gain 1{{Aember}} [[For each|for each]] {{Aember}} on this creature.\u201d\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' If you are [[Haunted|haunted]], gain 1{{Aember}} [[For each|for each]] {{Aember}} on this creature.\u201d",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' If you are [[Haunted|haunted]], gain 1{{Aember}} [[For each|for each]] {{Aember}} on this creature.\u201d",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' If you are [[Haunted|haunted]], gain 1{{Aember}} [[For each|for each]] {{Aember}} on this creature.\u201d"
+      }
+    }
+  },
+  "Dirge of the Deep": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "266",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dirge of the Deep']['Image']": {
+        "new_value": "939-266.png",
+        "old_value": "722-693.png"
+      },
+      "root.data_types['CardData']['Dirge of the Deep']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Discard}}\n-{{Discard}}. <p> '''Play:''' Discard the bottom card of your opponent\u2019s deck. Exhaust each creature that shares a house with that card.\n+[[Enhance|Enhance]] {{Capture}}{{Discard}}{{Discard}}. <p> '''Play:''' Discard the bottom card of your opponent\u2019s deck. Exhaust each creature that shares a house with that card.",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Discard}}{{Discard}}. <p> '''Play:''' Discard the bottom card of your opponent\u2019s deck. Exhaust each creature that shares a house with that card.",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Discard}}\n{{Discard}}. <p> '''Play:''' Discard the bottom card of your opponent\u2019s deck. Exhaust each creature that shares a house with that card."
+      }
+    }
+  },
+  "Dive Deep": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "290",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dive Deep']['Image']": {
+        "new_value": "939-290.png",
+        "old_value": "722-726.png"
+      }
+    }
+  },
+  "Doppelganger": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "058",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Doppelganger']['Image']": {
+        "new_value": "939-058.png",
+        "old_value": "800-145.png"
+      }
+    }
+  },
+  "Drawn Down": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "251",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Drawn Down']['Image']": {
+        "new_value": "939-251.png",
+        "old_value": "722-673.png"
+      }
+    }
+  },
+  "Dysania": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "083",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Dysania']['Image']": {
+        "new_value": "939-083.png",
+        "old_value": "907-115.png"
+      }
+    }
+  },
+  "EDAI \u201cEdie\u201d 4x4": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "114",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['EDAI \u201cEdie\u201d 4x4']['Image']": {
+        "new_value": "939-114.png",
+        "old_value": "855-118.png"
+      }
+    }
+  },
+  "Echofly": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "059",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Echofly']['Image']": {
+        "new_value": "939-059.png",
+        "old_value": "855-060.png"
+      }
+    }
+  },
+  "Echoing Deathknell": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "280",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Echoing Deathknell']['Image']": {
+        "new_value": "939-280.png",
+        "old_value": "700-319.png"
+      }
+    }
+  },
+  "Ecto-Charge": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "070",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ecto-Charge']['Image']": {
+        "new_value": "939-070.png",
+        "old_value": "722-224.png"
+      },
+      "root.data_types['CardData']['Ecto-Charge']['SearchText']": {
+        "new_value": "Play: Forge a key at +20A current cost, reduced by 1A for each card in your discard pile (to a minimum of 6). If you do, purge Ecto-Charge.",
+        "old_value": "Play: Forge a key at +20A current cost, reduced by 1A for each card in your discard pile. If you do, purge Ecto-Charge."
+      },
+      "root.data_types['CardData']['Ecto-Charge']['Text']": {
+        "new_value": "'''Play:''' [[Timing_Chart#Forge_a_Key|Forge a key]] at +20{{Aember}} [[Cost|current cost]], reduced by 1{{Aember}} [[For each|for each]] card in your discard pile (to a minimum of 6). [[if you do|If you do]], [[Purge|purge]] Ecto-Charge.",
+        "old_value": "'''Play:''' [[Timing_Chart#Forge_a_Key|Forge a key]] at +20{{Aember}} [[Cost|current cost]], reduced by 1{{Aember}} [[For each|for each]] card in your discard pile. [[if you do|If you do]], [[Purge|purge]] Ecto-Charge."
+      }
+    }
+  },
+  "Effervescent Principle": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "115",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Effervescent Principle']['Image']": {
+        "new_value": "939-115.png",
+        "old_value": "907-153.png"
+      }
+    }
+  },
+  "Elenya the Charming": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "005",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Elenya the Charming']['Image']": {
+        "new_value": "939-005.png",
+        "old_value": "800-090.png"
+      }
+    }
+  },
+  "Empathic Malice": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "043",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Empathic Malice']['Image']": {
+        "new_value": "939-043.png",
+        "old_value": "855-049.png"
+      },
+      "root.data_types['CardData']['Empathic Malice']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. <p> '''Play:''' A friendly creature captures 3{{Aember}}. If you are [[Haunted|haunted]], put Empathic Malice on the bottom of your deck.\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> '''Play:''' A friendly creature captures 3{{Aember}}. If you are [[Haunted|haunted]], put Empathic Malice on the bottom of your deck.",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> '''Play:''' A friendly creature captures 3{{Aember}}. If you are [[Haunted|haunted]], put Empathic Malice on the bottom of your deck.",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. <p> '''Play:''' A friendly creature captures 3{{Aember}}. If you are [[Haunted|haunted]], put Empathic Malice on the bottom of your deck."
+      }
+    }
+  },
+  "Enlist Numeri": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Enlist Numeri']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "175",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Enlist Numeri']['Image']": {
+        "new_value": "939-175.png",
+        "old_value": "600-239.png"
+      }
+    }
+  },
+  "Entropic Manipulator": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "129",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Entropic Manipulator']['Image']": {
+        "new_value": "939-129.png",
+        "old_value": "800-224.png"
+      }
+    }
+  },
+  "Entropic Swirl": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "084",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Entropic Swirl']['Image']": {
+        "new_value": "939-084.png",
+        "old_value": "907-116.png"
+      }
+    }
+  },
+  "Envoy of Ekwirr\u0115": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "006",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Envoy of Ekwirr\u0115']['Image']": {
+        "new_value": "939-006.png",
+        "old_value": "700-059.png"
+      }
+    }
+  },
+  "Epic Poem": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Epic Poem']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "200",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Epic Poem']['Image']": {
+        "new_value": "939-200.png",
+        "old_value": "600-275.png"
+      }
+    }
+  },
+  "Ether Spider": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Ether Spider']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "146",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ether Spider']['Image']": {
+        "new_value": "939-146.png",
+        "old_value": "600-138.png"
+      }
+    }
+  },
+  "Ethereal Adaptor": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "080",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ethereal Adaptor']['Image']": {
+        "new_value": "939-080.png",
+        "old_value": "800-167.png"
+      }
+    }
+  },
+  "Eureka!": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "103",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Eureka!']['Image']": {
+        "new_value": "939-103.png",
+        "old_value": "800-193.png"
+      }
+    }
+  },
+  "Exchange Program": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Exchange Program']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "017",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Exchange Program']['Image']": {
+        "new_value": "939-017.png",
+        "old_value": "600-074.png"
+      }
+    }
+  },
+  "Exile": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "188",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Exile']['Image']": {
+        "new_value": "939-188.png",
+        "old_value": "874-220.png"
+      }
+    }
+  },
+  "Extinction": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "130",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Extinction']['Image']": {
+        "new_value": "939-130.png",
+        "old_value": "700-171.png"
+      }
+    }
+  },
+  "Eyegor": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "116",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Eyegor']['Image']": {
+        "new_value": "939-116.png",
+        "old_value": "907-154.png"
+      }
+    }
+  },
+  "Faust the Great": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "201",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Faust the Great']['Image']": {
+        "new_value": "939-201.png",
+        "old_value": "874-239.png"
+      }
+    }
+  },
+  "Favor of Rex": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Favor of Rex']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "176",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Favor of Rex']['FlavorText']": {
+        "new_value": "Hail to the [[Saurus Rex|Saurus Rex]], first among equals.",
+        "old_value": "Hail to the [[Saurus Rex]], first among equals."
+      },
+      "root.data_types['CardData']['Favor of Rex']['Image']": {
+        "new_value": "939-176.png",
+        "old_value": "452-219.png"
+      },
+      "root.data_types['CardData']['Favor of Rex']['SearchText']": {
+        "new_value": "Play: Resolve the play effect of a creature as if you had just played it.",
+        "old_value": "Play: Trigger the play effect of a creature as if you had just played it."
+      },
+      "root.data_types['CardData']['Favor of Rex']['Text']": {
+        "new_value": "'''Play:''' Resolve the play effect of a creature as if you had just played it.",
+        "old_value": "'''Play:''' Trigger the play effect of a creature as if you had just played it."
+      }
+    }
+  },
+  "Finch Cloak": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "211",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Finch Cloak']['Image']": {
+        "new_value": "939-211.png",
+        "old_value": "907-228.png"
+      }
+    }
+  },
+  "Finishing Blow": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "212",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Finishing Blow']['Image']": {
+        "new_value": "939-212.png",
+        "old_value": "907-229.png"
+      }
+    }
+  },
+  "Flash Freeze": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Flash Freeze']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "252",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Flash Freeze']['Image']": {
+        "new_value": "939-252.png",
+        "old_value": "496-322.png"
+      }
+    }
+  },
+  "Flea Market": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "007",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Flea Market']['Image']": {
+        "new_value": "939-007.png",
+        "old_value": "700-060.png"
+      }
+    }
+  },
+  "Fortune Reverser": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "018",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Fortune Reverser']['Image']": {
+        "new_value": "939-018.png",
+        "old_value": "800-103.png"
+      }
+    }
+  },
+  "Freelancer": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "008",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Freelancer']['Image']": {
+        "new_value": "939-008.png",
+        "old_value": "722-138.png"
+      }
+    }
+  },
+  "Fuguru": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Fuguru']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "267",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Fuguru']['Image']": {
+        "new_value": "939-267.png",
+        "old_value": "600-371.png"
+      }
+    }
+  },
+  "Future is Past": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "044",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Future is Past']['Image']": {
+        "new_value": "939-044.png",
+        "old_value": "855-050.png"
+      }
+    }
+  },
+  "Gambling Den": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "213",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Gambling Den']['Image']": {
+        "new_value": "939-213.png",
+        "old_value": "874-262.png"
+      }
+    }
+  },
+  "Ganymede Archivist": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "117",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ganymede Archivist']['Image']": {
+        "new_value": "939-117.png",
+        "old_value": "907-155.png"
+      }
+    }
+  },
+  "Gargantodon": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Gargantodon']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "189",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Gargantodon']['Image']": {
+        "new_value": "939-189.png",
+        "old_value": "452-203.png"
+      },
+      "root.data_types['CardData']['Gargantodon']['Text']": {
+        "new_value": "Gargantodon enters play stunned. <p> Gargantodon only deals 4{{Damage}} when fighting. <p> Each {{Aember}} that would be stolen is captured by a creature controlled by the active player [[Replacement Effects|instead]].",
+        "old_value": "Gargantodon enters play [[Stun|stun]]ned. <p> Gargantodon only deals 4{{Damage}} when fighting. <p> Each {{Aember}} that would be stolen is captured by a creature controlled by the active player [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Gatewatcher": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "268",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Gatewatcher']['Image']": {
+        "new_value": "939-268.png",
+        "old_value": "722-695.png"
+      }
+    }
+  },
+  "Gegrr\u014fk\u016d\u016d Sapper": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "019",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Gegrr\u014fk\u016d\u016d Sapper']['Image']": {
+        "new_value": "939-019.png",
+        "old_value": "700-077.png"
+      }
+    }
+  },
+  "Gemcoat Vendor": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "031",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Gemcoat Vendor']['Image']": {
+        "new_value": "939-031.png",
+        "old_value": "800-118.png"
+      }
+    }
+  },
+  "General Sherman": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['General Sherman']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "253",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['General Sherman']['Image']": {
+        "new_value": "939-253.png",
+        "old_value": "496-323.png"
+      }
+    }
+  },
+  "Giltspine Mesmerist": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "254",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Giltspine Mesmerist']['Image']": {
+        "new_value": "939-254.png",
+        "old_value": "700-283.png"
+      },
+      "root.data_types['CardData']['Giltspine Mesmerist']['SearchText']": {
+        "new_value": "After a player readies a card, discard the top card of their deck. <p> Scrap: Discard the top 3 cards of a player\u2019s deck.",
+        "old_value": "After a player readies a card, discard the top card of their deck. <p> Scrap: Discard the top 3 cards of a player's deck."
+      },
+      "root.data_types['CardData']['Giltspine Mesmerist']['Text']": {
+        "new_value": "After a player readies a card, discard the top card of their deck. <p> '''Scrap:''' Discard the top 3 cards of a player\u2019s deck.",
+        "old_value": "After a player readies a card, discard the top card of their deck. <p> '''Scrap:''' Discard the top 3 cards of a player's deck."
+      }
+    }
+  },
+  "Green Aeronaut": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Green Aeronaut']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "167",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Green Aeronaut']['Image']": {
+        "new_value": "939-167.png",
+        "old_value": "600-168.png"
+      }
+    }
+  },
+  "Grimlocus Dux": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "177",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Grimlocus Dux']['Image']": {
+        "new_value": "939-177.png",
+        "old_value": "874-201.png"
+      }
+    }
+  },
+  "Grisly Exchange": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "009",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Grisly Exchange']['Image']": {
+        "new_value": "939-009.png",
+        "old_value": "800-092.png"
+      }
+    }
+  },
+  "Hallowed Eve Festival": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "071",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Hallowed Eve Festival']['Image']": {
+        "new_value": "939-071.png",
+        "old_value": "855-073.png"
+      }
+    }
+  },
+  "Helichopper": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "045",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Helichopper']['Image']": {
+        "new_value": "939-045.png",
+        "old_value": "800-135.png"
+      }
+    }
+  },
+  "Help from Future Self": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "125",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Help from Future Self']['Image']": {
+        "new_value": "939-125.png",
+        "old_value": "907-164.png"
+      }
+    }
+  },
+  "Historian Li-Darkin": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "032",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Historian Li-Darkin']['Image']": {
+        "new_value": "939-032.png",
+        "old_value": "700-096.png"
+      }
+    }
+  },
+  "Hit and Run": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "239",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Hit and Run']['Image']": {
+        "new_value": "939-239.png",
+        "old_value": "855-217.png"
+      }
+    }
+  },
+  "Holo-Camo": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "122",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Holo-Camo']['Image']": {
+        "new_value": "939-122.png",
+        "old_value": "855-128.png"
+      }
+    }
+  },
+  "Honors Keysis": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Honors Keysis']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "085",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Honors Keysis']['Image']": {
+        "new_value": "939-085.png",
+        "old_value": "496-018.png"
+      },
+      "root.data_types['CardData']['Honors Keysis']['SearchText']": {
+        "new_value": "Play: Forge a key at +7A current cost, reduced by 1A for each card you have played this turn (including this one). If you do, purge Honors Keysis.",
+        "old_value": "Play: Forge a key at +7\uf360 current cost, reduced by 1\uf360 for each card you have played this turn (including this one). If you do, purge Honors Keysis."
+      }
+    }
+  },
+  "Hugger-Mugger": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "240",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Hugger-Mugger']['Image']": {
+        "new_value": "939-240.png",
+        "old_value": "907-261.png"
+      }
+    }
+  },
+  "Hukaru Icefin": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "269",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Hukaru Icefin']['Image']": {
+        "new_value": "939-269.png",
+        "old_value": "722-696.png"
+      }
+    }
+  },
+  "Hyde": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "086",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Hyde']['Image']": {
+        "new_value": "939-086.png",
+        "old_value": "907-117.png"
+      }
+    }
+  },
+  "Hypnotic Command": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "131",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Hypnotic Command']['Image']": {
+        "new_value": "939-131.png",
+        "old_value": "700-173.png"
+      }
+    }
+  },
+  "Imperial Forge": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Imperial Forge']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "178",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Imperial Forge']['Image']": {
+        "new_value": "939-178.png",
+        "old_value": "496-143.png"
+      }
+    }
+  },
+  "Imperial Road": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "179",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Imperial Road']['Image']": {
+        "new_value": "939-179.png",
+        "old_value": "874-203.png"
+      }
+    }
+  },
+  "Infiltrator": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "060",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Infiltrator']['Image']": {
+        "new_value": "939-060.png",
+        "old_value": "722-210.png"
+      }
+    }
+  },
+  "Interdimensional Graft": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Interdimensional Graft']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "104",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Interdimensional Graft']['Image']": {
+        "new_value": "939-104.png",
+        "old_value": "452-152.png"
+      },
+      "root.data_types['CardData']['Interdimensional Graft']['SearchText']": {
+        "new_value": "Play: After your opponent forges a key during their next turn, they must pay you their remaining A.",
+        "old_value": "Play: If an opponent forges a key on their next turn, they must give you their remaining A."
+      },
+      "root.data_types['CardData']['Interdimensional Graft']['Text']": {
+        "new_value": "'''Play:''' After your opponent forges a key during their next turn, they must [[Pay|pay]] you their remaining {{Aember}}.",
+        "old_value": "'''Play:''' If an opponent forges a key on their next turn, they must give you their remaining {{Aember}}."
+      }
+    }
+  },
+  "Invasion Portal": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Invasion Portal']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "132",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Invasion Portal']['Image']": {
+        "new_value": "939-132.png",
+        "old_value": "435-200.png"
+      }
+    }
+  },
+  "Iron Heidy": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "033",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Iron Heidy']['Image']": {
+        "new_value": "939-033.png",
+        "old_value": "722-174.png"
+      },
+      "root.data_types['CardData']['Iron Heidy']['SearchText']": {
+        "new_value": "While you are haunted, Iron Heidy and each of Iron Heidy\u2019s neighbors get +2 armor.",
+        "old_value": "While you are haunted, Iron Heidy and each of Iron Heidy's neighbors get +2 armor."
+      },
+      "root.data_types['CardData']['Iron Heidy']['Text']": {
+        "new_value": "While you are [[Haunted|haunted]], Iron Heidy and each of Iron Heidy\u2019s neighbors get +2 armor.",
+        "old_value": "While you are [[Haunted|haunted]], Iron Heidy and each of Iron Heidy's neighbors get +2 armor."
+      }
+    }
+  },
+  "Irradiated \u00c6mber": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Irradiated \u00c6mber']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "133",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Irradiated \u00c6mber']['FlavorText']": {
+        "new_value": "\u201cThey poisoned Mars. We must not let them do the same here.\u201d -[[Eldest Bear|Eldest Bear]]",
+        "old_value": "\u201cThey poisoned Mars. We must not let them do the same here.\u201d \u2013[[Eldest Bear]]"
+      },
+      "root.data_types['CardData']['Irradiated \u00c6mber']['Image']": {
+        "new_value": "939-133.png",
+        "old_value": "341-165.png"
+      },
+      "root.data_types['CardData']['Irradiated \u00c6mber']['SearchFlavorText']": {
+        "new_value": "\u201cThey poisoned Mars. We must not let them do the same here.\u201d -Eldest Bear",
+        "old_value": "\u201cThey poisoned Mars. We must not let them do the same here.\u201d \u2013Eldest Bear"
+      },
+      "root.data_types['CardData']['Irradiated \u00c6mber']['SearchText']": {
+        "new_value": "Play: If your opponent has 6A or more, deal 3D to each enemy creature.",
+        "old_value": "Play: If your opponent has 6<A> or more, deal 3<D> to each enemy creature."
+      }
+    }
+  },
+  "J. Vinda": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['J. Vinda']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "241",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['J. Vinda']['FlavorText']": {
+        "new_value": "\u201cYou mess with my sister, you mess with me.\u201d",
+        "old_value": "\u201cYou mess with [[A. Vinda|my sister]], you mess with me.\u201d"
+      },
+      "root.data_types['CardData']['J. Vinda']['Image']": {
+        "new_value": "939-241.png",
+        "old_value": "452-242.png"
+      },
+      "root.data_types['CardData']['J. Vinda']['SearchText']": {
+        "new_value": "Elusive. <p> After Reap: Deal 1D to a creature. If this damage destroys that creature, steal 1A.",
+        "old_value": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> Reap: Deal 1D to a creature. If this damage destroys that creature, steal 1A."
+      },
+      "root.data_types['CardData']['J. Vinda']['Text']": {
+        "new_value": "[[Elusive|Elusive]]. <p> '''After Reap:''' Deal 1{{Damage}} to a creature. If this damage destroys that creature, steal 1{{Aember}}.",
+        "old_value": "[[Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Reap:''' Deal 1{{Damage}} to a creature. If this damage destroys that creature, steal 1{{Aember}}."
+      },
+      "root.data_types['CardData']['J. Vinda']['Traits']": {
+        "new_value": "Thief \u2022 Elf",
+        "old_value": "Elf \u2022 Thief"
+      }
+    }
+  },
+  "Jahneerie": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "046",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Jahneerie']['Image']": {
+        "new_value": "939-046.png",
+        "old_value": "800-136.png"
+      },
+      "root.data_types['CardData']['Jahneerie']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''After Reap:''' [[Move|Move]] 1{{Aember}} from this creature to your pool.\u201d\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''After Reap:''' [[Move|Move]] 1{{Aember}} from this creature to your pool.\u201d",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''After Reap:''' [[Move|Move]] 1{{Aember}} from this creature to your pool.\u201d",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''After Reap:''' [[Move|Move]] 1{{Aember}} from this creature to your pool.\u201d"
+      }
+    }
+  },
+  "Junkyard Cemetery": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "047",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Junkyard Cemetery']['Image']": {
+        "new_value": "939-047.png",
+        "old_value": "855-051.png"
+      }
+    }
+  },
+  "Kaboom!": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "156",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Kaboom!']['Image']": {
+        "new_value": "939-156.png",
+        "old_value": "800-252.png"
+      }
+    }
+  },
+  "Kaspara": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "048",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Kaspara']['Image']": {
+        "new_value": "939-048.png",
+        "old_value": "800-137.png"
+      },
+      "root.data_types['CardData']['Kaspara']['SearchText']": {
+        "new_value": "X is the combined total of A between each player\u2019s pools. <p> Each friendly Geistoid creature gains, \u201cPlay/Destroyed: Each player gains 1A.\u201d",
+        "old_value": "X is the combined total of A between each player\u2019s pools. Each friendly Geistoid creature gains, \u201cPlay/Destroyed: Each player gains 1A.\u201d"
+      },
+      "root.data_types['CardData']['Kaspara']['Text']": {
+        "new_value": "X is the combined total of {{Aember}} between each player\u2019s pools. <p> Each friendly Geistoid creature gains, \u201c'''Play/Destroyed:''' Each player gains 1{{Aember}}.\u201d",
+        "old_value": "X is the combined total of {{Aember}} between each player\u2019s pools. <p> Each friendly Geistoid creature gains, \u201c'''Play/Destroyed:''' Each player gains 1{{Aember}}.\u201d</p>"
+      }
+    }
+  },
+  "Kaupe": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "270",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Kaupe']['Image']": {
+        "new_value": "939-270.png",
+        "old_value": "722-697.png"
+      }
+    }
+  },
+  "Kelping Hands": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "271",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Kelping Hands']['Image']": {
+        "new_value": "939-271.png",
+        "old_value": "722-698.png"
+      }
+    }
+  },
+  "Key Abduction": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "147",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Key Abduction']['Image']": {
+        "new_value": "939-147.png",
+        "old_value": "722-365.png"
+      }
+    }
+  },
+  "Knowledge is Power": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "087",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Knowledge is Power']['Image']": {
+        "new_value": "939-087.png",
+        "old_value": "907-118.png"
+      }
+    }
+  },
+  "Koriki Germinator": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "281",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Koriki Germinator']['Image']": {
+        "new_value": "939-281.png",
+        "old_value": "722-715.png"
+      },
+      "root.data_types['CardData']['Koriki Germinator']['SearchText']": {
+        "new_value": "Play/After Reap: Put a card from a player\u2019s discard pile on the bottom of their deck.",
+        "old_value": "Play/After Reap: Put a card from a player's discard pile on the bottom of their deck."
+      },
+      "root.data_types['CardData']['Koriki Germinator']['Text']": {
+        "new_value": "'''Play/After Reap:''' Put a card from a player\u2019s discard pile on the bottom of their deck.",
+        "old_value": "'''Play/After Reap:''' Put a card from a player's discard pile on the bottom of their deck."
+      }
+    }
+  },
+  "Kyypax Encapsulator": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "148",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Kyypax Encapsulator']['Image']": {
+        "new_value": "939-148.png",
+        "old_value": "800-238.png"
+      }
+    }
+  },
+  "Lapisaurus": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Lapisaurus']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "202",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Lapisaurus']['Image']": {
+        "new_value": "939-202.png",
+        "old_value": "496-176.png"
+      },
+      "root.data_types['CardData']['Lapisaurus']['Text']": {
+        "new_value": "[[Taunt|Taunt]]. (This creature\u2019s neighbors [[Cannot_vs_Must|cannot]] be attacked unless they have [[Taunt|taunt]].) <p> While attacking Lapisaurus, enemy creatures gain, \u201c'''Before Fight:''' [[Exalt|Exalt]] this creature.\u201d",
+        "old_value": "[[Taunt|Taunt]]. (This creature\u2019s neighbors cannot be attacked unless they have taunt.) <p> While attacking Lapisaurus, enemy creatures gain, \u201c'''Before Fight:''' [[Exalt|Exalt]] this creature.\u201d"
+      }
+    }
+  },
+  "Legerdemain": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "034",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Legerdemain']['Image']": {
+        "new_value": "939-034.png",
+        "old_value": "722-175.png"
+      },
+      "root.data_types['CardData']['Legerdemain']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Draw}}\n-{{Discard}}\n-{{Discard}}. <p> '''Play:''' Return a damaged creature to its owner\u2019s hand. [[if you do|If you do]], its controller gains 1{{Aember}}.\n+[[Enhance|Enhance]] {{Draw}}{{Discard}}{{Discard}}. <p> '''Play:''' Return a damaged creature to its owner\u2019s hand. [[if you do|If you do]], its controller gains 1{{Aember}}.",
+        "new_value": "[[Enhance|Enhance]] {{Draw}}{{Discard}}{{Discard}}. <p> '''Play:''' Return a damaged creature to its owner\u2019s hand. [[if you do|If you do]], its controller gains 1{{Aember}}.",
+        "old_value": "[[Enhance|Enhance]] {{Draw}}\n{{Discard}}\n{{Discard}}. <p> '''Play:''' Return a damaged creature to its owner\u2019s hand. [[if you do|If you do]], its controller gains 1{{Aember}}."
+      }
+    }
+  },
+  "Lethologica": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "118",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Lethologica']['Image']": {
+        "new_value": "939-118.png",
+        "old_value": "874-117.png"
+      }
+    }
+  },
+  "Library Card": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "088",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Library Card']['Image']": {
+        "new_value": "939-088.png",
+        "old_value": "874-080.png"
+      }
+    }
+  },
+  "Life for a Life": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "242",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Life for a Life']['Image']": {
+        "new_value": "939-242.png",
+        "old_value": "907-264.png"
+      }
+    }
+  },
+  "Lights Out": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "227",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Lights Out']['Image']": {
+        "new_value": "939-227.png",
+        "old_value": "907-246.png"
+      }
+    }
+  },
+  "Llack Gaboon": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Llack Gaboon']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "255",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Llack Gaboon']['Image']": {
+        "new_value": "939-255.png",
+        "old_value": "600-354.png"
+      }
+    }
+  },
+  "Macis Asp": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "228",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Macis Asp']['Image']": {
+        "new_value": "939-228.png",
+        "old_value": "874-285.png"
+      }
+    }
+  },
+  "Mack the Knife": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "214",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Mack the Knife']['Image']": {
+        "new_value": "939-214.png",
+        "old_value": "907-232.png"
+      }
+    }
+  },
+  "Magda the Rat": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Magda the Rat']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "229",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Magda the Rat']['Image']": {
+        "new_value": "939-229.png",
+        "old_value": "341-303.png"
+      },
+      "root.data_types['CardData']['Magda the Rat']['SearchText']": {
+        "new_value": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> Play: Steal 2A. If Magda the Rat leaves play, your opponent steals 2A.",
+        "old_value": "Elusive.<p> Play: Steal 2 A. If Magda the Rat leaves play, your opponent steals 2 A."
+      },
+      "root.data_types['CardData']['Magda the Rat']['Text']": {
+        "new_value": "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Play:''' Steal 2{{Aember}}. If Magda the Rat leaves play, your opponent steals 2{{Aember}}.",
+        "old_value": "[[Elusive]].<p>'''Play:''' Steal 2 {{Aember}}. If Magda the Rat leaves play, your opponent steals 2 {{Aember}}."
+      },
+      "root.data_types['CardData']['Magda the Rat']['Traits']": {
+        "new_value": "Thief \u2022 Elf",
+        "old_value": "Elf \u2022 Thief"
+      }
+    }
+  },
+  "Magistrate Crispus": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Magistrate Crispus']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "180",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Magistrate Crispus']['Image']": {
+        "new_value": "939-180.png",
+        "old_value": "600-244.png"
+      },
+      "root.data_types['CardData']['Magistrate Crispus']['Traits']": {
+        "new_value": "Dinosaur \u2022 Politician",
+        "old_value": "Politician \u2022 Dinosaur"
+      }
+    }
+  },
+  "Manchego": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "215",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Manchego']['Image']": {
+        "new_value": "939-215.png",
+        "old_value": "907-233.png"
+      }
+    }
+  },
+  "Market Fluctuation": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "020",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Market Fluctuation']['Image']": {
+        "new_value": "939-020.png",
+        "old_value": "700-078.png"
+      }
+    }
+  },
+  "Mars First": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "157",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Mars First']['Image']": {
+        "new_value": "939-157.png",
+        "old_value": "700-211.png"
+      }
+    }
+  },
+  "Martians Make Bad Allies": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Martians Make Bad Allies']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "134",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Martians Make Bad Allies']['Image']": {
+        "new_value": "939-134.png",
+        "old_value": "600-125.png"
+      }
+    }
+  },
+  "Master the Theory": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "089",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Master the Theory']['Image']": {
+        "new_value": "939-089.png",
+        "old_value": "874-081.png"
+      }
+    }
+  },
+  "Masterplan": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "216",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Masterplan']['Image']": {
+        "new_value": "939-216.png",
+        "old_value": "874-268.png"
+      }
+    }
+  },
+  "Memette": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "072",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Memette']['Image']": {
+        "new_value": "939-072.png",
+        "old_value": "855-077.png"
+      }
+    }
+  },
+  "Memrox the Red": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "149",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Memrox the Red']['Image']": {
+        "new_value": "939-149.png",
+        "old_value": "722-366.png"
+      }
+    }
+  },
+  "Miasma": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Miasma']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "243",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Miasma']['Image']": {
+        "new_value": "939-243.png",
+        "old_value": "435-274.png"
+      },
+      "root.data_types['CardData']['Miasma']['SearchText']": {
+        "new_value": "Play: Your opponent skips the \u201cforge a key\u201d step during their next turn.",
+        "old_value": "Play: Your opponent skips the \u201cforge a key\u201d step on their next turn."
+      },
+      "root.data_types['CardData']['Miasma']['Text']": {
+        "new_value": "'''Play:''' Your opponent skips the \u201c[[Timing_Chart#Forge_a_Key|forge a key]]\u201d step during their next turn.",
+        "old_value": "'''Play:''' Your opponent skips the \u201c[[Timing_Chart#Forge_a_Key|forge a key]]\u201d step on their next turn."
+      }
+    }
+  },
+  "Mind Your Elders": {
+    "reason": "update",
+    "values_changed": {
+      "root.data_types": {
+        "new_value": {
+          "CardData": {
+            "Mind Your Elders": {
+              "Amber": 1,
+              "Armor": null,
+              "Assault": "",
+              "EnhanceAmber": 0,
+              "EnhanceCapture": 0,
+              "EnhanceDamage": 0,
+              "EnhanceDiscard": 0,
+              "EnhanceDraw": 0,
+              "FlavorText": "\u201cEnjoy your survival bonus of an extra quarter portion.\u201d",
+              "Hazardous": "",
+              "House": "Mars",
+              "Image": "939-158.png",
+              "Keywords": "",
+              "Name": "Mind Your Elders",
+              "Power": null,
+              "Rarity": "Common",
+              "SearchFlavorText": "\u201cEnjoy your survival bonus of an extra quarter portion.\u201d",
+              "SearchText": "Play: If there are more friendly Mars creatures than enemy Mars creatures, a friendly creature captures 3A.",
+              "Text": "'''Play:''' If there are more friendly Mars creatures than enemy Mars creatures, a friendly creature captures 3{{Aember}}.",
+              "Traits": null,
+              "Type": "Action"
+            }
+          },
+          "SetData": {
+            "Vault Masters 2025": {
+              "CardNumber": "158",
+              "Meta": "Debut",
+              "SetName": "Vault Masters 2025"
+            }
+          }
+        },
+        "old_value": {}
+      }
+    }
+  },
+  "Minerva\u2019s Wings": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "090",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Minerva\u2019s Wings']['Image']": {
+        "new_value": "939-090.png",
+        "old_value": "800-180.png"
+      }
+    }
+  },
+  "Miss Chievous": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "049",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Miss Chievous']['Image']": {
+        "new_value": "939-049.png",
+        "old_value": "855-052.png"
+      }
+    }
+  },
+  "Mnemoleech": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "282",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Mnemoleech']['Image']": {
+        "new_value": "939-282.png",
+        "old_value": "722-716.png"
+      }
+    }
+  },
+  "Mole": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "217",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Mole']['Image']": {
+        "new_value": "939-217.png",
+        "old_value": "874-269.png"
+      }
+    }
+  },
+  "Mooncurser": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Mooncurser']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "230",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Mooncurser']['Image']": {
+        "new_value": "939-230.png",
+        "old_value": "341-304.png"
+      },
+      "root.data_types['CardData']['Mooncurser']['SearchText']": {
+        "new_value": "Skirmish. Poison. <p> After Fight: Steal 1A.",
+        "old_value": "Skirmish. Poison. <p> Fight: Steal 1<A>."
+      },
+      "root.data_types['CardData']['Mooncurser']['Text']": {
+        "new_value": "[[Skirmish|Skirmish]]. [[Poison|Poison]]. <p> '''After Fight:''' Steal 1{{Aember}}.",
+        "old_value": "[[Skirmish]]. [[Poison]]. <p> '''Fight:''' Steal 1{{Aember}}."
+      },
+      "root.data_types['CardData']['Mooncurser']['Traits']": {
+        "new_value": "Thief \u2022 Elf",
+        "old_value": "Elf \u2022 Thief"
+      }
+    }
+  },
+  "Mothergun": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Mothergun']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "159",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Mothergun']['Image']": {
+        "new_value": "939-159.png",
+        "old_value": "435-169.png"
+      }
+    }
+  },
+  "Murkens": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "231",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Murkens']['Image']": {
+        "new_value": "939-231.png",
+        "old_value": "907-248.png"
+      }
+    }
+  },
+  "Myx, the Tallminded": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Myx, the Tallminded']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "160",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Myx, the Tallminded']['FlavorText']": {
+        "new_value": "\u201cTogether, we are as tall as any Elder!\u201d",
+        "old_value": "\u201dTogether, we are as tall as any Elder!\u201d"
+      },
+      "root.data_types['CardData']['Myx, the Tallminded']['Image']": {
+        "new_value": "939-160.png",
+        "old_value": "600-162.png"
+      },
+      "root.data_types['CardData']['Myx, the Tallminded']['SearchFlavorText']": {
+        "new_value": "\u201cTogether, we are as tall as any Elder!\u201d",
+        "old_value": "\u201dTogether, we are as tall as any Elder!\u201d"
+      }
+    }
+  },
+  "M\u00e6lstrom": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['M\u00e6lstrom']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "283",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['M\u00e6lstrom']['Image']": {
+        "new_value": "939-283.png",
+        "old_value": "600-395.png"
+      }
+    }
+  },
+  "Nautilixian": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Nautilixian']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "135",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Nautilixian']['Image']": {
+        "new_value": "939-135.png",
+        "old_value": "600-126.png"
+      }
+    }
+  },
+  "Nautilus": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "091",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Nautilus']['Image']": {
+        "new_value": "939-091.png",
+        "old_value": "855-098.png"
+      }
+    }
+  },
+  "Nerve Blast": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Nerve Blast']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "244",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Nerve Blast']['Image']": {
+        "new_value": "939-244.png",
+        "old_value": "435-275.png"
+      }
+    }
+  },
+  "Novu Dynamo": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "105",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Novu Dynamo']['Image']": {
+        "new_value": "939-105.png",
+        "old_value": "874-104.png"
+      }
+    }
+  },
+  "Nyzyk Resonator": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Nyzyk Resonator']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "150",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Nyzyk Resonator']['Image']": {
+        "new_value": "939-150.png",
+        "old_value": "600-144.png"
+      },
+      "root.data_types['CardData']['Nyzyk Resonator']['Traits']": {
+        "new_value": "Soldier \u2022 Martian",
+        "old_value": "Martian \u2022 Soldier"
+      }
+    }
+  },
+  "Odoac the Patrician": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Odoac the Patrician']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "203",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Odoac the Patrician']['Image']": {
+        "new_value": "939-203.png",
+        "old_value": "452-188.png"
+      },
+      "root.data_types['CardData']['Odoac the Patrician']['SearchText']": {
+        "new_value": "While Odoac the Patrician has A on it, your A cannot be stolen. <p> Play: Capture 1A.",
+        "old_value": "Play: Capture 1A.  <p> While Odoac the Patrician has A on it, your A cannot be stolen."
+      },
+      "root.data_types['CardData']['Odoac the Patrician']['Text']": {
+        "new_value": "While Odoac the Patrician has {{Aember}} on it, your {{Aember}} [[Cannot_vs_Must|cannot]] be stolen. <p> '''Play:''' Capture 1{{Aember}}.",
+        "old_value": "'''Play:''' Capture 1{{Aember}}.  <p> While Odoac the Patrician has {{Aember}} on it, your {{Aember}} cannot be stolen."
+      }
+    }
+  },
+  "Omnipus": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "256",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Omnipus']['Image']": {
+        "new_value": "939-256.png",
+        "old_value": "722-680.png"
+      }
+    }
+  },
+  "One Last Job": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "218",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['One Last Job']['Image']": {
+        "new_value": "939-218.png",
+        "old_value": "874-270.png"
+      }
+    }
+  },
+  "Open the Seal": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "288",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Open the Seal']['Image']": {
+        "new_value": "939-288.png",
+        "old_value": "722-723.png"
+      },
+      "root.data_types['CardData']['Open the Seal']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,4 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Discard}}\n-{{Discard}}\n-{{Discard}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Aember}}{{Discard}}{{Discard}}{{Discard}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Discard}}{{Discard}}{{Discard}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Discard}}\n{{Discard}}\n{{Discard}}. (These icons have already been added to cards in your deck.)"
+      }
+    }
+  },
+  "Optio Gorkus": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "181",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Optio Gorkus']['Image']": {
+        "new_value": "939-181.png",
+        "old_value": "874-206.png"
+      }
+    }
+  },
+  "Orator Hissaro": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Orator Hissaro']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "190",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Orator Hissaro']['Image']": {
+        "new_value": "939-190.png",
+        "old_value": "600-262.png"
+      },
+      "root.data_types['CardData']['Orator Hissaro']['Traits']": {
+        "new_value": "Dinosaur \u2022 Politician",
+        "old_value": "Politician \u2022 Dinosaur"
+      }
+    }
+  },
+  "Orbital Bombardment": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Orbital Bombardment']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "151",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Orbital Bombardment']['Image']": {
+        "new_value": "939-151.png",
+        "old_value": "435-185.png"
+      }
+    }
+  },
+  "Ostracize": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Ostracize']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "204",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ostracize']['Image']": {
+        "new_value": "939-204.png",
+        "old_value": "496-179.png"
+      },
+      "root.data_types['CardData']['Ostracize']['SearchText']": {
+        "new_value": "Play: Lose 1A. If you do, purge a creature.",
+        "old_value": "Play: Lose 1\uf360. If you do, purge a creature."
+      }
+    }
+  },
+  "Oubliette": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "232",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Oubliette']['Image']": {
+        "new_value": "939-232.png",
+        "old_value": "907-250.png"
+      }
+    }
+  },
+  "Pale Into Insignificance": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Pale Into Insignificance']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "205",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Pale Into Insignificance']['FlavorText']": {
+        "new_value": "\u201cThe history books will remember my name!\u201d -Unknown",
+        "old_value": "\u201dThe history books will remember my name!\u201d -Unknown"
+      },
+      "root.data_types['CardData']['Pale Into Insignificance']['Image']": {
+        "new_value": "939-205.png",
+        "old_value": "600-280.png"
+      },
+      "root.data_types['CardData']['Pale Into Insignificance']['SearchFlavorText']": {
+        "new_value": "\u201cThe history books will remember my name!\u201d -Unknown",
+        "old_value": "\u201dThe history books will remember my name!\u201d -Unknown"
+      }
+    }
+  },
+  "Parabyte": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "073",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Parabyte']['Image']": {
+        "new_value": "939-073.png",
+        "old_value": "800-161.png"
+      }
+    }
+  },
+  "Patronage": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "182",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Patronage']['Image']": {
+        "new_value": "939-182.png",
+        "old_value": "874-207.png"
+      }
+    }
+  },
+  "Pax Sauriana": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Pax Sauriana']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "191",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Pax Sauriana']['Image']": {
+        "new_value": "939-191.png",
+        "old_value": "600-264.png"
+      }
+    }
+  },
+  "Pen Pal": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "021",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Pen Pal']['FlavorText']": {
+        "new_value": "I didn\u2019t have time to write you a short letter, so I wrote you a long one instead.",
+        "old_value": "I didn't have time to write you a short letter, so I wrote you a long one instead."
+      },
+      "root.data_types['CardData']['Pen Pal']['Image']": {
+        "new_value": "939-021.png",
+        "old_value": "700-080.png"
+      },
+      "root.data_types['CardData']['Pen Pal']['SearchFlavorText']": {
+        "new_value": "I didn\u2019t have time to write you a short letter, so I wrote you a long one instead.",
+        "old_value": "I didn't have time to write you a short letter, so I wrote you a long one instead."
+      }
+    }
+  },
+  "Phantasmal Visit": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "061",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Phantasmal Visit']['Image']": {
+        "new_value": "939-061.png",
+        "old_value": "722-211.png"
+      },
+      "root.data_types['CardData']['Phantasmal Visit']['SearchFlavorText']": {
+        "new_value": "",
+        "old_value": "<ref></ref>"
+      }
+    }
+  },
+  "Phase Shift": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Phase Shift']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "119",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Phase Shift']['Image']": {
+        "new_value": "939-119.png",
+        "old_value": "496-057.png"
+      }
+    }
+  },
+  "Philophosaurus": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Philophosaurus']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "192",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Philophosaurus']['Image']": {
+        "new_value": "939-192.png",
+        "old_value": "452-207.png"
+      },
+      "root.data_types['CardData']['Philophosaurus']['SearchText']": {
+        "new_value": "After Reap: You may look at the top 3 cards of your deck. Archive 1, add 1 to your hand, and discard 1.",
+        "old_value": "Reap: You may look at the top 3 cards of your deck. Archive 1, add 1 to your hand, and discard 1."
+      },
+      "root.data_types['CardData']['Philophosaurus']['Text']": {
+        "new_value": "'''After Reap:''' You may look at the top 3 cards of your deck. Archive 1, add 1 to your hand, and discard 1.",
+        "old_value": "'''Reap:''' You may look at the top 3 cards of your deck. Archive 1, add 1 to your hand, and discard 1."
+      }
+    }
+  },
+  "Phylyx the Disintegrator": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "136",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Phylyx the Disintegrator']['Image']": {
+        "new_value": "939-136.png",
+        "old_value": "722-353.png"
+      }
+    }
+  },
+  "Physaloha": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Physaloha']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "272",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Physaloha']['Image']": {
+        "new_value": "939-272.png",
+        "old_value": "600-374.png"
+      },
+      "root.data_types['CardData']['Physaloha']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Damage}}\n-{{Damage}}. (These icons have already been added to cards in your deck.) <p> Damaged creatures do not ready during the \u201cready cards\u201d step.\n+[[Enhance|Enhance]] {{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.) <p> Damaged creatures do not ready during the \u201cready cards\u201d step.",
+        "new_value": "[[Enhance|Enhance]] {{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.) <p> Damaged creatures do not ready during the \u201cready cards\u201d step.",
+        "old_value": "[[Enhance|Enhance]] {{Damage}}\n{{Damage}}. (These icons have already been added to cards in your deck.) <p> Damaged creatures do not ready during the \u201cready cards\u201d step."
+      }
+    }
+  },
+  "Poltergeistoids": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "050",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Poltergeistoids']['Image']": {
+        "new_value": "939-050.png",
+        "old_value": "722-197.png"
+      }
+    }
+  },
+  "Portal Guardian": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "074",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Portal Guardian']['Image']": {
+        "new_value": "939-074.png",
+        "old_value": "800-162.png"
+      }
+    }
+  },
+  "Praefectus Ludo": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "206",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Praefectus Ludo']['Image']": {
+        "new_value": "939-206.png",
+        "old_value": "874-241.png"
+      }
+    }
+  },
+  "Precocious Fragment": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "081",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Precocious Fragment']['Image']": {
+        "new_value": "939-081.png",
+        "old_value": "800-168.png"
+      }
+    }
+  },
+  "Professor Sutterkin": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Professor Sutterkin']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "120",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Professor Sutterkin']['Image']": {
+        "new_value": "939-120.png",
+        "old_value": "435-118.png"
+      },
+      "root.data_types['CardData']['Professor Sutterkin']['SearchText']": {
+        "new_value": "After Reap: Draw a card for each friendly Logos creature.",
+        "old_value": "Reap: Draw a card for each friendly Logos creature."
+      },
+      "root.data_types['CardData']['Professor Sutterkin']['Text']": {
+        "new_value": "'''After Reap:''' Draw a card [[For each|for each]] friendly Logos creature.",
+        "old_value": "'''Reap:''' Draw a card [[For each|for each]] friendly Logos creature."
+      }
+    }
+  },
+  "Protective Playmate": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "051",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Protective Playmate']['Image']": {
+        "new_value": "939-051.png",
+        "old_value": "855-053.png"
+      }
+    }
+  },
+  "Psychic Bug": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "092",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Psychic Bug']['Image']": {
+        "new_value": "939-092.png",
+        "old_value": "907-121.png"
+      }
+    }
+  },
+  "Purple Aeronaut": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Purple Aeronaut']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "168",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Purple Aeronaut']['Image']": {
+        "new_value": "939-168.png",
+        "old_value": "600-169.png"
+      }
+    }
+  },
+  "Purse-a-phone": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "082",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Purse-a-phone']['Image']": {
+        "new_value": "939-082.png",
+        "old_value": "855-082.png"
+      }
+    }
+  },
+  "Put in a Spin": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "010",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Put in a Spin']['Image']": {
+        "new_value": "939-010.png",
+        "old_value": "700-065.png"
+      }
+    }
+  },
+  "Puzzling Trinket": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Puzzling Trinket']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "022",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Puzzling Trinket']['Image']": {
+        "new_value": "939-022.png",
+        "old_value": "600-083.png"
+      },
+      "root.data_types['CardData']['Puzzling Trinket']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}. (These icons have already been added to cards in your deck.) <p> When you resolve an {{Aember}} bonus icon, you may choose to resolve it as a {{Capture}}, {{Damage}}, or {{Draw}} icon [[Replacement Effects|instead]].\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}. (These icons have already been added to cards in your deck.) <p> When you resolve an {{Aember}} bonus icon, you may choose to resolve it as a {{Capture}}, {{Damage}}, or {{Draw}} icon [[Replacement Effects|instead]].",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}. (These icons have already been added to cards in your deck.) <p> When you resolve an {{Aember}} bonus icon, you may choose to resolve it as a {{Capture}}, {{Damage}}, or {{Draw}} icon [[Replacement Effects|instead]].",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}. (These icons have already been added to cards in your deck.) <p> When you resolve an {{Aember}} bonus icon, you may choose to resolve it as a {{Capture}}, {{Damage}}, or {{Draw}} icon [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Quantum Compass": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "106",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Quantum Compass']['Image']": {
+        "new_value": "939-106.png",
+        "old_value": "800-194.png"
+      }
+    }
+  },
+  "Ravening Morphazoid": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "023",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ravening Morphazoid']['Image']": {
+        "new_value": "939-023.png",
+        "old_value": "700-083.png"
+      }
+    }
+  },
+  "Reallocation Accessory": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "123",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Reallocation Accessory']['Image']": {
+        "new_value": "939-123.png",
+        "old_value": "855-129.png"
+      }
+    }
+  },
+  "Reaver": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "075",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Reaver']['Image']": {
+        "new_value": "939-075.png",
+        "old_value": "722-231.png"
+      },
+      "root.data_types['CardData']['Reaver']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Discard}}\n-{{Discard}}. <p> '''After Reap:''' [[Move|Move]] 1{{Aember}} from a friendly creature to your pool. [[if you do|If you do]], discard a card.\n+[[Enhance|Enhance]] {{Capture}}{{Discard}}{{Discard}}. <p> '''After Reap:''' [[Move|Move]] 1{{Aember}} from a friendly creature to your pool. [[if you do|If you do]], discard a card.",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Discard}}{{Discard}}. <p> '''After Reap:''' [[Move|Move]] 1{{Aember}} from a friendly creature to your pool. [[if you do|If you do]], discard a card.",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Discard}}\n{{Discard}}. <p> '''After Reap:''' [[Move|Move]] 1{{Aember}} from a friendly creature to your pool. [[if you do|If you do]], discard a card."
+      }
+    }
+  },
+  "Red Aeronaut": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Red Aeronaut']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "169",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Red Aeronaut']['Image']": {
+        "new_value": "939-169.png",
+        "old_value": "600-170.png"
+      }
+    }
+  },
+  "Regrettable Meteor": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Regrettable Meteor']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "193",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Regrettable Meteor']['Image']": {
+        "new_value": "939-193.png",
+        "old_value": "600-266.png"
+      }
+    }
+  },
+  "Replay Pod": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "137",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Replay Pod']['Image']": {
+        "new_value": "939-137.png",
+        "old_value": "700-181.png"
+      }
+    }
+  },
+  "Replicator": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "093",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Replicator']['Image']": {
+        "new_value": "939-093.png",
+        "old_value": "907-123.png"
+      }
+    }
+  },
+  "Return to Rubble": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "062",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Return to Rubble']['Image']": {
+        "new_value": "939-062.png",
+        "old_value": "855-064.png"
+      }
+    }
+  },
+  "Reverse Time": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "094",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Reverse Time']['Image']": {
+        "new_value": "939-094.png",
+        "old_value": "907-124.png"
+      }
+    }
+  },
+  "Rigged Lottery": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "219",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Rigged Lottery']['Image']": {
+        "new_value": "939-219.png",
+        "old_value": "907-235.png"
+      }
+    }
+  },
+  "Rm-Foler": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "107",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Rm-Foler']['Image']": {
+        "new_value": "939-107.png",
+        "old_value": "800-197.png"
+      }
+    }
+  },
+  "Rocket Boots": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "108",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Rocket Boots']['Image']": {
+        "new_value": "939-108.png",
+        "old_value": "855-114.png"
+      }
+    }
+  },
+  "Ronnie Wristclocks": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Ronnie Wristclocks']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "245",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ronnie Wristclocks']['Image']": {
+        "new_value": "939-245.png",
+        "old_value": "452-246.png"
+      },
+      "root.data_types['CardData']['Ronnie Wristclocks']['Traits']": {
+        "new_value": "Thief \u2022 Elf",
+        "old_value": "Elf \u2022 Thief"
+      }
+    }
+  },
+  "Root Access": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "109",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Root Access']['Image']": {
+        "new_value": "939-109.png",
+        "old_value": "800-198.png"
+      }
+    }
+  },
+  "Rumor-sower": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "035",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Rumor-sower']['Image']": {
+        "new_value": "939-035.png",
+        "old_value": "722-176.png"
+      }
+    }
+  },
+  "Sack of Coins": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "220",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Sack of Coins']['Image']": {
+        "new_value": "939-220.png",
+        "old_value": "907-238.png"
+      }
+    }
+  },
+  "Sandwyrm": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "024",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Sandwyrm']['Image']": {
+        "new_value": "939-024.png",
+        "old_value": "800-109.png"
+      }
+    }
+  },
+  "Saurus Rex": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "183",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Saurus Rex']['Image']": {
+        "new_value": "939-183.png",
+        "old_value": "874-208.png"
+      }
+    }
+  },
+  "Scoop Up": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "161",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Scoop Up']['Image']": {
+        "new_value": "939-161.png",
+        "old_value": "722-385.png"
+      },
+      "root.data_types['CardData']['Scoop Up']['SearchText']": {
+        "new_value": "Play: Put a friendly non-Mars creature and an enemy non-Mars creature into your archives. If either card leaves your archives and you are not the owner of it, put it into its owner\u2019s hand instead.",
+        "old_value": "Play: Put a friendly non-Mars creature and an enemy non-Mars creature into your archives. If that enemy creature would leave your archives, return it to its owner\u2019s hand instead."
+      },
+      "root.data_types['CardData']['Scoop Up']['Text']": {
+        "new_value": "'''Play:''' Put a friendly non-Mars creature and an enemy non-Mars creature into your archives. If either card leaves your archives and you are not the owner of it, put it into its owner\u2019s hand [[Replacement Effects|instead]].",
+        "old_value": "'''Play:''' Put a friendly non-Mars creature and an enemy non-Mars creature into your archives. If that enemy creature would leave your archives, return it to its owner\u2019s hand [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Scowly Caper": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "221",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Scowly Caper']['Image']": {
+        "new_value": "939-221.png",
+        "old_value": "855-196.png"
+      }
+    }
+  },
+  "Scrapscrounger": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "025",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Scrapscrounger']['Image']": {
+        "new_value": "939-025.png",
+        "old_value": "800-110.png"
+      }
+    }
+  },
+  "Security Detail": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "036",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Security Detail']['Image']": {
+        "new_value": "939-036.png",
+        "old_value": "800-120.png"
+      }
+    }
+  },
+  "Seeker Needle": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "246",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Seeker Needle']['Image']": {
+        "new_value": "939-246.png",
+        "old_value": "907-270.png"
+      }
+    }
+  },
+  "Senator Bracchus": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "184",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Senator Bracchus']['Image']": {
+        "new_value": "939-184.png",
+        "old_value": "874-211.png"
+      }
+    }
+  },
+  "Shadys": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "052",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Shadys']['Image']": {
+        "new_value": "939-052.png",
+        "old_value": "855-055.png"
+      }
+    }
+  },
+  "Shatter Storm": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Shatter Storm']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "138",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Shatter Storm']['Image']": {
+        "new_value": "939-138.png",
+        "old_value": "435-206.png"
+      },
+      "root.data_types['CardData']['Shatter Storm']['SearchText']": {
+        "new_value": "Play: Lose all your A. Then, your opponent loses triple the amount of A you lost this way.",
+        "old_value": "Play: Lose all your A. Then, your opponent loses triple the amount <p> of A you lost this way."
+      }
+    }
+  },
+  "Shell of a Ghost": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "053",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Shell of a Ghost']['Image']": {
+        "new_value": "939-053.png",
+        "old_value": "800-140.png"
+      }
+    }
+  },
+  "Shopping Spree": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "026",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Shopping Spree']['Image']": {
+        "new_value": "939-026.png",
+        "old_value": "722-160.png"
+      }
+    }
+  },
+  "Shoulder Id": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "247",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Shoulder Id']['Image']": {
+        "new_value": "939-247.png",
+        "old_value": "874-306.png"
+      }
+    }
+  },
+  "Shrewd Investor": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Shrewd Investor']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "037",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Shrewd Investor']['Image']": {
+        "new_value": "939-037.png",
+        "old_value": "600-102.png"
+      },
+      "root.data_types['CardData']['Shrewd Investor']['Traits']": {
+        "new_value": "Getrookya \u2022 Merchant",
+        "old_value": "Merchant \u2022 Getrookya"
+      }
+    }
+  },
+  "Sibyl Waimare": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "257",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Sibyl Waimare']['Image']": {
+        "new_value": "939-257.png",
+        "old_value": "722-681.png"
+      }
+    }
+  },
+  "Sic Semper Tyrannosaurus": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Sic Semper Tyrannosaurus']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "194",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Sic Semper Tyrannosaurus']['FlavorText']": {
+        "new_value": "\u201cEt tu, Brutodon?\u201d",
+        "old_value": "\u201cEt tu, [[Brutodon Auxiliary|Brutodon]]?\u201d"
+      },
+      "root.data_types['CardData']['Sic Semper Tyrannosaurus']['Image']": {
+        "new_value": "939-194.png",
+        "old_value": "452-209.png"
+      }
+    }
+  },
+  "Skreel Swarm": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "011",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Skreel Swarm']['Image']": {
+        "new_value": "939-011.png",
+        "old_value": "800-094.png"
+      }
+    }
+  },
+  "Skullback Crab": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Skullback Crab']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "284",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Skullback Crab']['Image']": {
+        "new_value": "939-284.png",
+        "old_value": "600-396.png"
+      }
+    }
+  },
+  "Sk\u014fll\u0115nb\u016dzzz": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "012",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Sk\u014fll\u0115nb\u016dzzz']['Image']": {
+        "new_value": "939-012.png",
+        "old_value": "800-095.png"
+      }
+    }
+  },
+  "Sleep with the Fishes": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Sleep with the Fishes']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "273",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Sleep with the Fishes']['Image']": {
+        "new_value": "939-273.png",
+        "old_value": "600-375.png"
+      }
+    }
+  },
+  "Snippy": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "076",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Snippy']['Image']": {
+        "new_value": "939-076.png",
+        "old_value": "855-079.png"
+      }
+    }
+  },
+  "Soul Exchange": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "013",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Soul Exchange']['Image']": {
+        "new_value": "939-013.png",
+        "old_value": "800-096.png"
+      }
+    }
+  },
+  "Speed Sigil": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Speed Sigil']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "233",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Speed Sigil']['Image']": {
+        "new_value": "939-233.png",
+        "old_value": "341-293.png"
+      }
+    }
+  },
+  "Splinter": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "222",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Splinter']['Image']": {
+        "new_value": "939-222.png",
+        "old_value": "874-276.png"
+      },
+      "root.data_types['CardData']['Splinter']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,6 +1 @@\n-[[Enhance|Enhance]] {{Damage}}\n-{{Damage}}\n-{{Damage}}\n-{{Damage}}\n-{{Damage}}\n-{{Damage}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}{{Damage}}{{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Damage}}{{Damage}}{{Damage}}{{Damage}}{{Damage}}{{Damage}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Damage}}\n{{Damage}}\n{{Damage}}\n{{Damage}}\n{{Damage}}\n{{Damage}}. (These icons have already been added to cards in your deck.)"
+      }
+    }
+  },
+  "Spontaneous Awakening": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "063",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Spontaneous Awakening']['Image']": {
+        "new_value": "939-063.png",
+        "old_value": "855-067.png"
+      }
+    }
+  },
+  "Steward Su-Uzyan\u0115": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Steward Su-Uzyan\u0115']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "038",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Steward Su-Uzyan\u0115']['Image']": {
+        "new_value": "939-038.png",
+        "old_value": "600-103.png"
+      },
+      "root.data_types['CardData']['Steward Su-Uzyan\u0115']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,3 +1 @@\n-[[Enhance|Enhance]] {{Aember}}\n-{{Aember}}\n-{{Draw}}. (These icons have already been added to cards in your deck.)\n+[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Draw}}. (These icons have already been added to cards in your deck.)",
+        "new_value": "[[Enhance|Enhance]] {{Aember}}{{Aember}}{{Draw}}. (These icons have already been added to cards in your deck.)",
+        "old_value": "[[Enhance|Enhance]] {{Aember}}\n{{Aember}}\n{{Draw}}. (These icons have already been added to cards in your deck.)"
+      },
+      "root.data_types['CardData']['Steward Su-Uzyan\u0115']['Traits']": {
+        "new_value": "Human \u2022 Artisan",
+        "old_value": "Artisan \u2022 Human"
+      }
+    }
+  },
+  "Stomp": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "195",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Stomp']['Image']": {
+        "new_value": "939-195.png",
+        "old_value": "874-228.png"
+      }
+    }
+  },
+  "Strange Gizmo": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "095",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Strange Gizmo']['Image']": {
+        "new_value": "939-095.png",
+        "old_value": "907-126.png"
+      }
+    }
+  },
+  "Subtle Chain": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "234",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Subtle Chain']['Image']": {
+        "new_value": "939-234.png",
+        "old_value": "907-254.png"
+      }
+    }
+  },
+  "Swap Widget": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "139",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Swap Widget']['Image']": {
+        "new_value": "939-139.png",
+        "old_value": "800-228.png"
+      }
+    }
+  },
+  "Synwyx the Bold": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "162",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Synwyx the Bold']['Image']": {
+        "new_value": "939-162.png",
+        "old_value": "800-254.png"
+      }
+    }
+  },
+  "Talent Scout": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "014",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Talent Scout']['Image']": {
+        "new_value": "939-014.png",
+        "old_value": "800-097.png"
+      }
+    }
+  },
+  "Tangimangi": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "285",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Tangimangi']['Image']": {
+        "new_value": "939-285.png",
+        "old_value": "700-324.png"
+      }
+    }
+  },
+  "Tangler": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "064",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Tangler']['Image']": {
+        "new_value": "939-064.png",
+        "old_value": "722-217.png"
+      }
+    }
+  },
+  "Tangrant": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "140",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Tangrant']['Image']": {
+        "new_value": "939-140.png",
+        "old_value": "800-229.png"
+      }
+    }
+  },
+  "Taniwha": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Taniwha']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "258",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Taniwha']['FlavorText']": {
+        "new_value": "\u201cThe first time I hooked it, I struggled with it on the end of my line for hours before it finally got away.\u201d -[[Ol\u2019 Paddy|Ol\u2019 Paddy]]",
+        "old_value": "\u201cThe first time I hooked it, I struggled with it on the end of my line for hours before it finally got away.\u201d  <p> \u2014[[Ol\u2019 Paddy|Ol\u2019 Paddy]]"
+      },
+      "root.data_types['CardData']['Taniwha']['Image']": {
+        "new_value": "939-258.png",
+        "old_value": "496-329.png"
+      },
+      "root.data_types['CardData']['Taniwha']['SearchFlavorText']": {
+        "new_value": "\u201cThe first time I hooked it, I struggled with it on the end of my line for hours before it finally got away.\u201d -Ol\u2019 Paddy",
+        "old_value": "\u201cThe first time I hooked it, I struggled with it on the end of my line for hours before it finally got away.\u201d  <p> \u2014Ol\u2019 Paddy"
+      },
+      "root.data_types['CardData']['Taniwha']['SearchText']": {
+        "new_value": "After Fight/After Reap: Destroy a friendly creature and gain 1A.",
+        "old_value": "Fight/Reap: Destroy a friendly creature and gain 1\uf360."
+      },
+      "root.data_types['CardData']['Taniwha']['Text']": {
+        "new_value": "'''After Fight/After Reap:''' Destroy a friendly creature and gain 1{{Aember}}.",
+        "old_value": "'''Fight/Reap:''' Destroy a friendly creature and gain 1{{Aember}}."
+      }
+    }
+  },
+  "Tentaclid": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "291",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Tentaclid']['Image']": {
+        "new_value": "939-291.png",
+        "old_value": "722-727.png"
+      }
+    }
+  },
+  "Tertiate": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "185",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Tertiate']['Image']": {
+        "new_value": "939-185.png",
+        "old_value": "874-213.png"
+      }
+    }
+  },
+  "Thalassophobia": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "259",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Thalassophobia']['Image']": {
+        "new_value": "939-259.png",
+        "old_value": "700-291.png"
+      }
+    }
+  },
+  "The Callipygian Ideal": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['The Callipygian Ideal']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "196",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['The Callipygian Ideal']['Image']": {
+        "new_value": "939-196.png",
+        "old_value": "452-212.png"
+      },
+      "root.data_types['CardData']['The Callipygian Ideal']['SearchText']": {
+        "new_value": "This creature gains, \u201cYou may spend A on this creature as if it were in your pool.\u201d <p> Play: Exalt this creature.",
+        "old_value": "Play: Exalt this creature. <p> This creature gains, \u201cYou may spend A on this creature as if it were in your pool.\u201d"
+      },
+      "root.data_types['CardData']['The Callipygian Ideal']['Text']": {
+        "new_value": "This creature gains, \u201cYou may [[Forge|spend]] {{Aember}} on this creature as if it were in your pool.\u201d <p> '''Play:''' [[Exalt|Exalt]] this creature.",
+        "old_value": "'''Play:''' [[Exalt|Exalt]] this creature. <p> This creature gains, \u201cYou may [[Forge|spend]] {{Aember}} on this creature as if it were in your pool.\u201d"
+      }
+    }
+  },
+  "The Chosen One": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['The Chosen One']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "260",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['The Chosen One']['Image']": {
+        "new_value": "939-260.png",
+        "old_value": "600-364.png"
+      }
+    }
+  },
+  "The Golden Spiral": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['The Golden Spiral']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "207",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['The Golden Spiral']['FlavorText']": {
+        "new_value": "\u201cSemper pergimus intrepidi\u201d -Inscription on the tower of the Golden Spiral",
+        "old_value": "\u201cSemper pergimus intrepidi\u201d \u2013 Inscription on the tower of the Golden Spiral"
+      },
+      "root.data_types['CardData']['The Golden Spiral']['Image']": {
+        "new_value": "939-207.png",
+        "old_value": "452-194.png"
+      },
+      "root.data_types['CardData']['The Golden Spiral']['SearchFlavorText']": {
+        "new_value": "\u201cSemper pergimus intrepidi\u201d -Inscription on the tower of the Golden Spiral",
+        "old_value": "\u201cSemper pergimus intrepidi\u201d \u2013 Inscription on the tower of the Golden Spiral"
+      }
+    }
+  },
+  "The Grim Reaper": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "077",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['The Grim Reaper']['Image']": {
+        "new_value": "939-077.png",
+        "old_value": "700-155.png"
+      }
+    }
+  },
+  "The Old Tinker": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "039",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['The Old Tinker']['Image']": {
+        "new_value": "939-039.png",
+        "old_value": "722-180.png"
+      }
+    }
+  },
+  "The Quiet Anvil": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "223",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['The Quiet Anvil']['Image']": {
+        "new_value": "939-223.png",
+        "old_value": "907-241.png"
+      }
+    }
+  },
+  "The Shadow Council": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "224",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['The Shadow Council']['Image']": {
+        "new_value": "939-224.png",
+        "old_value": "874-277.png"
+      }
+    }
+  },
+  "Thing from the Deep": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "261",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Thing from the Deep']['Image']": {
+        "new_value": "939-261.png",
+        "old_value": "722-686.png"
+      }
+    }
+  },
+  "Thoughtcatcher": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "065",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Thoughtcatcher']['FlavorText']": {
+        "new_value": "They feed upon \u00e6mber.",
+        "old_value": "They feed upon \u00c6mber."
+      },
+      "root.data_types['CardData']['Thoughtcatcher']['Image']": {
+        "new_value": "939-065.png",
+        "old_value": "855-068.png"
+      },
+      "root.data_types['CardData']['Thoughtcatcher']['SearchFlavorText']": {
+        "new_value": "They feed upon \u00e6mber.",
+        "old_value": "They feed upon \u00c6mber."
+      },
+      "root.data_types['CardData']['Thoughtcatcher']['Text']": {
+        "diff": "--- \n+++ \n@@ -1,2 +1 @@\n-[[Enhance|Enhance]] {{Capture}}\n-{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' Draw 1 card.\u201d\n+[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' Draw 1 card.\u201d",
+        "new_value": "[[Enhance|Enhance]] {{Capture}}{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' Draw 1 card.\u201d",
+        "old_value": "[[Enhance|Enhance]] {{Capture}}\n{{Capture}}. <p> Each friendly creature with {{Aember}} on it gains, \u201c'''Destroyed:''' Draw 1 card.\u201d"
+      }
+    }
+  },
+  "Thundertow": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Thundertow']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "274",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Thundertow']['Image']": {
+        "new_value": "939-274.png",
+        "old_value": "600-378.png"
+      }
+    }
+  },
+  "Timetraveller": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "096",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Timetraveller']['Image']": {
+        "new_value": "939-096.png",
+        "old_value": "907-128.png"
+      }
+    }
+  },
+  "Too Much to Protect": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "235",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Too Much to Protect']['Image']": {
+        "new_value": "939-235.png",
+        "old_value": "907-255.png"
+      }
+    }
+  },
+  "Trade Secrets": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "027",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Trade Secrets']['Image']": {
+        "new_value": "939-027.png",
+        "old_value": "800-112.png"
+      }
+    }
+  },
+  "Trawler": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "286",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Trawler']['Image']": {
+        "new_value": "939-286.png",
+        "old_value": "722-720.png"
+      }
+    }
+  },
+  "Tribute": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Tribute']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "208",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Tribute']['Image']": {
+        "new_value": "939-208.png",
+        "old_value": "452-196.png"
+      }
+    }
+  },
+  "Tricerian Legionary": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Tricerian Legionary']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "209",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Tricerian Legionary']['Image']": {
+        "new_value": "939-209.png",
+        "old_value": "452-197.png"
+      },
+      "root.data_types['CardData']['Tricerian Legionary']['Text']": {
+        "new_value": "[[Taunt|Taunt]]. (This creature\u2019s neighbors [[Cannot_vs_Must|cannot]] be attacked unless they have [[Taunt|taunt]].) <p> '''Play:''' [[Ward|Ward]] a friendly creature.",
+        "old_value": "[[Taunt]]. (This creature\u2019s neighbors cannot be attacked unless they have [[Taunt|taunt]].) <p> '''Play:''' [[Ward|Ward]] a friendly creature."
+      }
+    }
+  },
+  "Ulyq Megamouth": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Ulyq Megamouth']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "163",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Ulyq Megamouth']['Image']": {
+        "new_value": "939-163.png",
+        "old_value": "341-200.png"
+      },
+      "root.data_types['CardData']['Ulyq Megamouth']['SearchText']": {
+        "new_value": "After Fight/After Reap: Use a friendly non-Mars creature.",
+        "old_value": "Fight/Reap: Use a friendly non-Mars creature."
+      },
+      "root.data_types['CardData']['Ulyq Megamouth']['Text']": {
+        "new_value": "'''After Fight/After Reap:''' Use a friendly non-Mars creature.",
+        "old_value": "'''Fight/Reap:''' Use a friendly non-Mars creature."
+      }
+    }
+  },
+  "Under Pressure": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "275",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Under Pressure']['Image']": {
+        "new_value": "939-275.png",
+        "old_value": "722-704.png"
+      }
+    }
+  },
+  "Unsettling Ancestry": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "262",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Unsettling Ancestry']['Image']": {
+        "new_value": "939-262.png",
+        "old_value": "722-687.png"
+      }
+    }
+  },
+  "Uxlyx the Zookeeper": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Uxlyx the Zookeeper']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "152",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Uxlyx the Zookeeper']['Image']": {
+        "new_value": "939-152.png",
+        "old_value": "435-190.png"
+      },
+      "root.data_types['CardData']['Uxlyx the Zookeeper']['SearchText']": {
+        "new_value": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> After Reap: Put an enemy creature into your archives. If that creature leaves your archives, it is put into its owner\u2019s hand instead.",
+        "old_value": "Elusive. (The first time this creature is attacked each turn, no damage is dealt.) <p> Reap: Put an enemy creature into your archives. If that creature leaves your archives, it is put into its owner\u2019s hand instead."
+      },
+      "root.data_types['CardData']['Uxlyx the Zookeeper']['Text']": {
+        "new_value": "[[Elusive|Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''After Reap:''' Put an enemy creature into your archives. If that creature leaves your archives, it is put into its owner\u2019s hand [[Replacement Effects|instead]].",
+        "old_value": "[[Elusive]]. (The first time this creature is attacked each turn, no damage is dealt.) <p> '''Reap:''' Put an enemy creature into your archives. If that creature leaves your archives, it is put into its owner\u2019s hand [[Replacement Effects|instead]]."
+      }
+    }
+  },
+  "Vandalize": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "248",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Vandalize']['Image']": {
+        "new_value": "939-248.png",
+        "old_value": "874-310.png"
+      }
+    }
+  },
+  "Veil of Ectoplasm": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "066",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Veil of Ectoplasm']['Image']": {
+        "new_value": "939-066.png",
+        "old_value": "800-153.png"
+      }
+    }
+  },
+  "Velum": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "126",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Velum']['Image']": {
+        "new_value": "939-126.png",
+        "old_value": "907-165.png"
+      }
+    }
+  },
+  "Void Shields": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "124",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Void Shields']['Image']": {
+        "new_value": "939-124.png",
+        "old_value": "855-130.png"
+      }
+    }
+  },
+  "Webstur": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "078",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Webstur']['Image']": {
+        "new_value": "939-078.png",
+        "old_value": "855-080.png"
+      }
+    }
+  },
+  "Well of Memory": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "054",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Well of Memory']['Image']": {
+        "new_value": "939-054.png",
+        "old_value": "722-204.png"
+      }
+    }
+  },
+  "Whirlpool": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Whirlpool']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "263",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Whirlpool']['Image']": {
+        "new_value": "939-263.png",
+        "old_value": "600-366.png"
+      }
+    }
+  },
+  "White Aeronaut": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['White Aeronaut']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "170",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['White Aeronaut']['Image']": {
+        "new_value": "939-170.png",
+        "old_value": "600-171.png"
+      }
+    }
+  },
+  "Wild Wormhole": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "121",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Wild Wormhole']['Image']": {
+        "new_value": "939-121.png",
+        "old_value": "907-162.png"
+      }
+    }
+  },
+  "Yandylinx": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "164",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Yandylinx']['Image']": {
+        "new_value": "939-164.png",
+        "old_value": "800-256.png"
+      }
+    }
+  },
+  "Yxilo Bolter": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Yxilo Bolter']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "165",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Yxilo Bolter']['Image']": {
+        "new_value": "939-165.png",
+        "old_value": "341-204.png"
+      },
+      "root.data_types['CardData']['Yxilo Bolter']['SearchText']": {
+        "new_value": "After Fight/After Reap: Deal 2D to a creature. If this damage destroys that creature, purge it.",
+        "old_value": "Fight/Reap: Deal 2<D> to a creature. If this damage destroys that creature, purge it."
+      },
+      "root.data_types['CardData']['Yxilo Bolter']['Text']": {
+        "new_value": "'''After Fight/After Reap:''' Deal 2{{Damage}} to a creature. If this damage destroys that creature, [[Purge|purge]] it.",
+        "old_value": "'''Fight/Reap:''' Deal 2{{Damage}} to a creature. If this damage destroys that creature, [[Purge|purge]] it."
+      },
+      "root.data_types['CardData']['Yxilo Bolter']['Traits']": {
+        "new_value": "Soldier \u2022 Martian",
+        "old_value": "Martian \u2022 Soldier"
+      }
+    }
+  },
+  "Yxilx Dominator": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['Yxilx Dominator']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "166",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Yxilx Dominator']['Image']": {
+        "new_value": "939-166.png",
+        "old_value": "435-174.png"
+      },
+      "root.data_types['CardData']['Yxilx Dominator']['Text']": {
+        "new_value": "[[Taunt|Taunt]]. (This creature\u2019s neighbors [[Cannot_vs_Must|cannot]] be attacked unless they have [[Taunt|taunt]].) <p> Yxilx Dominator enters play stunned.",
+        "old_value": "[[Taunt]]. (This creature\u2019s neighbors cannot be attacked unless they have [[Taunt|taunt]].) <p> Yxilx Dominator enters play stunned."
+      }
+    }
+  },
+  "Yxlyx Stimrager": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "141",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Yxlyx Stimrager']['Image']": {
+        "new_value": "939-141.png",
+        "old_value": "800-232.png"
+      }
+    }
+  },
+  "Zavel, \u201cArchaeologist\u201d": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "015",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Zavel, \u201cArchaeologist\u201d']['FlavorText']": {
+        "new_value": "Macis asps? Why did it have to be Macis asps?",
+        "old_value": "[[Macis Asp|Macis asps]]? Why did it have to be Macis asps?"
+      },
+      "root.data_types['CardData']['Zavel, \u201cArchaeologist\u201d']['Image']": {
+        "new_value": "939-015.png",
+        "old_value": "722-149.png"
+      }
+    }
+  },
+  "Zenzizenzizenzic": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "097",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Zenzizenzizenzic']['Image']": {
+        "new_value": "939-097.png",
+        "old_value": "907-131.png"
+      }
+    }
+  },
+  "Zizok": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "153",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['Zizok']['Image']": {
+        "new_value": "939-153.png",
+        "old_value": "800-244.png"
+      }
+    }
+  },
+  "\u00c6mbrosia Outpost": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['\u00c6mbrosia Outpost']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "197",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['\u00c6mbrosia Outpost']['Image']": {
+        "new_value": "939-197.png",
+        "old_value": "600-254.png"
+      }
+    }
+  },
+  "\u201cBorrow\u201d": {
+    "dictionary_item_added": {
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "236",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['\u201cBorrow\u201d']['Image']": {
+        "new_value": "939-236.png",
+        "old_value": "907-257.png"
+      }
+    }
+  },
+  "\u201cBubbles\u201d": {
+    "dictionary_item_added": {
+      "root.data_types['CardData']['\u201cBubbles\u201d']['EnhanceDiscard']": 0,
+      "root.data_types['SetData']['Vault Masters 2025']": {
+        "CardNumber": "287",
+        "Meta": "",
+        "SetName": "Vault Masters 2025"
+      }
+    },
+    "reason": "revision",
+    "values_changed": {
+      "root.data_types['CardData']['\u201cBubbles\u201d']['FlavorText']": {
+        "new_value": "\u201cWhy do they call him...never mind.\u201d -[[Quixo the \u201cAdventurer\u201d|Quixo the \u201cAdventurer\u201d]]",
+        "old_value": "\u201cWhy do they call him...never mind.\u201d -[[Quixo the \u201cAdventurer\u201d|Quixo the \u201dAdventurer\u201d]]"
+      },
+      "root.data_types['CardData']['\u201cBubbles\u201d']['Image']": {
+        "new_value": "939-287.png",
+        "old_value": "600-383.png"
+      },
+      "root.data_types['CardData']['\u201cBubbles\u201d']['SearchFlavorText']": {
+        "new_value": "\u201cWhy do they call him...never mind.\u201d -Quixo the \u201cAdventurer\u201d",
+        "old_value": "\u201cWhy do they call him...never mind.\u201d -Quixo the \u201dAdventurer\u201d"
+      }
+    }
+  }
+}
