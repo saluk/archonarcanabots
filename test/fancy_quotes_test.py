@@ -18,7 +18,7 @@ class FancyQuoteTests(unittest.TestCase):
           '"Cloudkicker" Shea')
       e = '“Cloudkicker” Shea'
       self.assertEqual(a, e)
-      
+
       # Turn simple apostrophe into fancy.
       a = fancy_quotes.force(
           "Flint's Stash")
@@ -36,7 +36,7 @@ class FancyQuoteTests(unittest.TestCase):
           "”It's only theoretical until it occurs.”\n")
       e = "“It’s only theoretical until it occurs.”\n"
       self.assertEqual(a, e)
-      
+
       # Fix two left fancy quotes and an apostrophe.
       a = fancy_quotes.force(
           "“It's only theoretical until it occurs.“\n")
