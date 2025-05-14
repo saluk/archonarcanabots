@@ -1,0 +1,19 @@
+{
+    "card_ids_found": [
+	"aa",
+	"bb",
+	"cc",
+	"dd",
+	"dd-enhanced",
+	"ee"
+    ],
+    "card_numbers_found": [
+	"907-001",
+	"907-002",
+	"907-003",
+	"907-004",
+	"907-004",
+	"907-005"
+    ],
+    "highest_page_number": 3,
+}

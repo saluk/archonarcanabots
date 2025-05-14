@@ -1,0 +1,72 @@
+{
+  "data": [
+    {
+      "name": "Deck 1",
+      "expansion": 907,
+      "id": "123",
+      "cards": [
+        "aa",
+        "aa",
+        "cc",
+        "jj",
+        "xx",
+      ],
+      "set_era_cards": {
+        "Legacy": [
+          "xx",
+          "jj"
+        ],
+        "Anomaly": [],
+        "Mixed Set": []
+      },
+      "_links": {
+        "houses": [
+          "Dis",
+          "Logos",
+          "Mars"
+        ],
+        "accolades": []
+      }
+    },
+    {
+      "name": "Deck 2",
+      "expansion": 907,
+      "id": "456",
+      "cards": [
+        "bb",
+        "aa",
+        "cc",
+        "jj",
+        "dd",
+        "cc",
+      ],
+      "set_era_cards": {
+        "Legacy": [
+          "jj"
+        ],
+        "Anomaly": [],
+        "Mixed Set": []
+      },
+      "_links": {
+        "houses": [
+          "Dis",
+          "Logos",
+          "Mars"
+        ],
+        "accolades": []
+      }
+    },
+  ],
+  "_linked": {
+    "houses": [
+      {
+        "id": "Logos",
+        "name": "Logos",
+        "image": "Logos_2mOY1dH.png",
+        "in_filters": true
+      },
+    ],
+    "accolades": []
+  },
+  "count": 3428515
+}
