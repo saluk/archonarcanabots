@@ -1,0 +1,134 @@
+{
+  "data": [
+    {
+      "name": "Deck 1",
+      "expansion": 907,
+      "id": "123",
+      "cards": [
+        "aa",
+        "aa",
+        "cc",
+        "jj",
+        "xx",
+      ],
+      "set_era_cards": {
+        "Legacy": [
+          "xx",
+          "jj"
+        ],
+        "Anomaly": [],
+        "Mixed Set": []
+      },
+      "_links": {
+        "houses": [
+          "Dis",
+          "Logos",
+          "Mars"
+        ],
+        "accolades": []
+      }
+    },
+    {
+      "name": "Deck 2",
+      "expansion": 907,
+      "id": "456",
+      "cards": [
+        "bb",
+        "aa",
+        "cc",
+        "jj",
+        "dd",
+        "cc",
+      ],
+      "set_era_cards": {
+        "Legacy": [
+          "jj"
+        ],
+        "Anomaly": [],
+        "Mixed Set": []
+      },
+      "_links": {
+        "houses": [
+          "Dis",
+          "Logos",
+          "Mars"
+        ],
+        "accolades": []
+      }
+    },
+  ],
+  "_linked": {
+    "houses": [
+      {
+        "id": "Logos",
+        "name": "Logos",
+        "image": "Logos_2mOY1dH.png",
+        "in_filters": true
+      },
+    ],
+    "accolades": [],
+    "cards": [
+      {
+        "id": "aa",
+        "card_title": "AA",
+        "card_number": "001",
+        "expansion": 907,
+        "is_maverick": false,
+        "is_anomaly": false,
+        "is_enhanced": false,
+        "is_non_deck": false
+      },
+      {
+        "id": "bb",
+        "card_title": "BB",
+        "card_number": "002",
+        "expansion": 907,
+        "is_maverick": false,
+        "is_anomaly": false,
+        "is_enhanced": false,
+        "is_non_deck": false
+      },
+      {
+        "id": "cc",
+        "card_title": "CC",
+        "card_number": "003",
+        "expansion": 907,
+        "is_maverick": false,
+        "is_anomaly": false,
+        "is_enhanced": false,
+        "is_non_deck": false
+      },
+      {
+        "id": "dd",
+        "card_title": "DD",
+        "card_number": "004",
+        "expansion": 907,
+        "is_maverick": false,
+        "is_anomaly": false,
+        "is_enhanced": false,
+        "is_non_deck": false
+      },
+      {
+        "id": "jj",
+        "card_title": "JJ",
+        "card_number": "050",
+        "expansion": 341,
+        "is_maverick": false,
+        "is_anomaly": false,
+        "is_enhanced": false,
+        "is_non_deck": false
+      },
+      {
+        "id": "xx",
+        "card_title": "XX",
+        "card_number": "051",
+        "expansion": 341,
+        "is_maverick": false,
+        "is_anomaly": false,
+        "is_enhanced": false,
+        "is_non_deck": false
+      },
+    ]
+  },
+  "count": 3428515
+}
