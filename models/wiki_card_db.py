@@ -338,7 +338,8 @@ def process_mv_card_batch(card_batch: list) -> list:
 
 
 def process_skyjedi_card_batch(card_batch: list) -> list:
-    """Prepare a batch of raw MV JSON cards."""
+    """Prepare a batch of raw MV JSON cards. This prefers SkeyJedi
+       but will also look for MVlite scraped card sets."""
 
     same_title_cards = defaultdict(lambda: [])
     for card in card_batch:
@@ -585,7 +586,7 @@ def bifurcate_multi_house(card_datas):
 
 
 
-def build_json(only=None, build_locales=False, from_skyjedi=False):
+def build_json(only=None, build_locales=False, from_skyjedi=False, from_mvlite=False):
     print("++++ Clear memory")
     cards.clear()
 
@@ -598,13 +599,22 @@ def build_json(only=None, build_locales=False, from_skyjedi=False):
         local_json = skyjedi_model.LocalJson()
 
         # Historically haven't added menagerie.
-        skipfiles = ["722.json"]
-        [
-            local_json.add_file(f"skyjedi/{skyjedi_file}")
-            for skyjedi_file in os.listdir("skyjedi")
-            if skyjedi_file.endswith(".json")
-            and skyjedi_file not in skipfiles
-        ]
+        skipsets = [601, 722]
+
+        # Prefer skyjedi file, then if enabled mvlite files.
+        print("JSON files to include:")
+        for set_code in shared.SETS.keys():
+            if set_code in skipsets:
+                continue
+
+            if os.path.exists(f"skyjedi/{set_code}.json"):
+                print(f"  skyjedi/{set_code}.json")
+                local_json.add_file(f"skyjedi/{set_code}.json")
+
+            elif from_mvlite:
+                if os.path.exists(f"data/mvlite_cards_{set_code}.json"):
+                    print(f"  data/mvlite_cards_{set_code}.json")
+                    local_json.add_file(f"data/mvlite_cards_{set_code}.json")
 
         card_batch = local_json.get_cards()
         print("++++ Processing batch")
@@ -621,7 +631,7 @@ def build_json(only=None, build_locales=False, from_skyjedi=False):
     with Bar("Adding Cards", max=len(card_datas)) as bar:
         [add_card(card_data, cards, bar) for card_data in card_datas]
     print(f"++++ Cards initialized: {len(cards.keys())}")
-    
+
     if build_locales:
         print("++++  Building localization")
         build_localization(scope, cards, locales)

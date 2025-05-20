@@ -67,6 +67,7 @@ SETS = {452: "WC",
         874: "MoMu",
         892: "MCW",
         907: "Disc",
+        939: "VM25",
         }
 SET_NAMES = {
     452: "Worlds Collide",
@@ -86,6 +87,7 @@ SET_NAMES = {
     874: "More Mutation",
     892: "Martian Civil War",
     907: "Discovery",
+    939: "Vault Masters 2025",
 }
 # TODO turn set data into a row with 3 data points, maybe pull it out of the wiki database
 NEW_SETS = []
