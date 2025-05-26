@@ -52,7 +52,7 @@ if __name__ == "__main__":
         wiki_card_db.build_json(build_locales=args.build_locales)
     if args.command == "build_wiki_db_skyjedi":
         from models import wiki_card_db
-        wiki_card_db.build_json(build_locales=args.build_locales, from_skyjedi=True)
+        wiki_card_db.build_json(build_locales=args.build_locales, from_skyjedi=True, from_mvlite=True)
     # STEP 2 Upload the new images
     if args.command == "upload_images":
         import tool_update_cards
