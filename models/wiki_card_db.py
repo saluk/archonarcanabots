@@ -381,15 +381,25 @@ def bifurcate_data(card_datas):
     if not card_datas:
         return []
 
+    # Prophecies and Archon Powers just get some
+    # schema manipulation.
+    (has38s, the38s, other) = bifurcate_38s(card_datas)
+    if has38s:
+        return the38s + bifurcate_data(other)
+
+    # Cards that are new and only in Redemption are
+    # fine to leave alone. When a card has been in
+    # another house and then house-shifted into Redemption,
+    # it needs a variant title.
+    (
+        has_mixed_redemption, redemption, other
+    ) = bifurcate_redemption(card_datas)
+    if has_mixed_redemption:
+        return redemption + bifurcate_data(other)
+
     # Special house variants should happen even when
     # it is the only card_data, like Agent Taengoo
     # debut in MCW.
-    (
-        has_redemption, redemption, other
-    ) = bifurcate_redemption(card_datas)
-    if has_redemption:
-        return redemption + bifurcate_data(other)
-
     (
         has_martian_faction, faction, other
     ) = bifurcate_martian_faction(card_datas)
@@ -431,6 +441,28 @@ def bifurcate_data(card_datas):
 
     # Otherwise the batch doesn't need bifurcation.
     return card_datas
+
+
+def bifurcate_38s(card_datas):
+    """Returns (has38s, the38s, other)"""
+
+    variable38s = ["Prophecy", "Archon Power"]
+
+    has38s = False
+    the38s = []
+    other = []
+    for data in card_datas:
+        if data["house"] in variable38s:
+            has38s = True
+            new_data = {}
+            new_data.update(data)
+            new_data["house"] = None
+            new_data["card_type"] = "38th Card"
+            the38s.append(new_data)
+        else:
+            other.append(data)
+
+    return (has38s, the38s, other)
 
 
 def bifurcate_giants(card_datas):
@@ -521,15 +553,17 @@ def bifurcate_anomalies(card_datas):
 
 
 def bifurcate_redemption(card_datas):
-    """Returns (has_redemption, redemption, other)"""
+    """Returns (has_mixed_redemption, redemption, other)"""
 
     houses = set([card["house"] for card in card_datas])
     has_redemption = "Redemption" in houses
+    has_mixed_redemption = has_redemption and len(houses) > 1
     redemp = []
     other = []
 
     for data in card_datas:
-        if data.get("house", None) == "Redemption":
+        if data.get("house", None) == "Redemption" \
+           and has_mixed_redemption:
             # The same card moving houses to Redemption
             # in a different set becomes a different
             # wiki page.
@@ -540,7 +574,7 @@ def bifurcate_redemption(card_datas):
         else:
             other.append(data)
 
-    return (has_redemption, redemp, other)
+    return (has_mixed_redemption, redemp, other)
 
 
 def bifurcate_martian_faction(card_datas):
@@ -583,7 +617,6 @@ def bifurcate_multi_house(card_datas):
         merged = [new_data]
 
     return (multi_house, merged)
-
 
 
 def build_json(only=None, build_locales=False, from_skyjedi=False, from_mvlite=False):

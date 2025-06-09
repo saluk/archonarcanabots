@@ -31,13 +31,24 @@ class SetData:
     def find_set(self, query):
         # TODO faster find if query is the SetNumber
         for kfset in self.sets.values():
-            if str(query).lower() in [n.lower() for n in [kfset["SetName"], kfset["ShortName"]]] or str(query).lower() == str(kfset["SetNumber"]).lower():
+            if str(query).lower() in [
+                    n.lower() for n in [
+                        kfset["SetName"], kfset["ShortName"]
+                    ]] or str(query).lower() == str(kfset["SetNumber"]).lower():
                 return kfset
     def assigned_set_name(self, set_query, card_num=None):
         if str(set_query) == "453":
             icard_num = int(card_num[1:])
             return self.anomaly_sets[icard_num]["SetName"]
-        set_num = self.find_set(set_query)["SetNumber"]
+        set_info = self.find_set(set_query)
+        if not set_info:
+            print(
+                '\n*** Set code %s not found. Check %s.' % (
+                    str(set_query),
+                    'https://archonarcana.com/Special:CargoQuery?title=Special%3ACargoQuery&tables=SetInfo'
+                )
+            )
+        set_num = set_info["SetNumber"]
         return self.sets[str(set_num)]["SetName"]
     def is_spoiler(self, query):
         return self.find_set(query)["IsSpoiler"]
@@ -65,8 +76,10 @@ SETS = {452: "WC",
         800: "ÆS",
         855: "ToC",
         874: "MoMu",
+        886: "PV",
         892: "MCW",
         907: "Disc",
+        918: "CC",
         939: "VM25",
         }
 SET_NAMES = {
@@ -85,8 +98,10 @@ SET_NAMES = {
     800: "Æmber Skies",
     855: "Tokens of Change",
     874: "More Mutation",
+    886: "Prophetic Visions",
     892: "Martian Civil War",
     907: "Discovery",
+    918: "Crucible Clash",
     939: "Vault Masters 2025",
 }
 # TODO turn set data into a row with 3 data points, maybe pull it out of the wiki database
@@ -104,8 +119,8 @@ def get_set_number_by_name(name):
             return set_num
     return 100000
 
-NEXT_SET = "Prophetic Visions"
-SPOILER_SETS = ["Prophetic Visions", "Crucible Clash"]
+NEXT_SET = "Draconian Measures"
+SPOILER_SETS = ["Draconian Measures"]
 
 
 def get_set_numbers():
