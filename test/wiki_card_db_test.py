@@ -59,6 +59,22 @@ class WikiCardDbTests(unittest.TestCase):
             "0051e976-e65e-48e1-9f1e-b025e281528b"
         )
 
+        # Prophecies and Archon Powers just get some
+        # schema manipulation.
+        self.heads = self.find(
+            "55c0bed1-320e-4024-811b-b3f1005e385a"
+        )
+        self.chari = self.find(
+            "70bd430f-6bd4-46bf-a041-c54647886c3c"
+        )
+
+        # Agamignus is a Redemption card that is new
+        # and debuts in Redemption. It should not have
+        # the "Agamignus (Redemption)" title modification.
+        self.agami = self.find(
+            "e0e33161-59f5-407c-83c9-e90f2efee752"
+        )
+
         # a real example that becomes multi house
         # via JSON data? I think this case might come
         # from processing decks? I messed around with this
@@ -74,6 +90,7 @@ class WikiCardDbTests(unittest.TestCase):
         self.fear_cota = self.find(
             "10715fd2-031a-47ca-9119-9b7b2ec1d2c0"
         )
+
 
     def find(self, card_id):
         for card in self.cards:
@@ -133,7 +150,7 @@ class WikiCardDbTests(unittest.TestCase):
 
 
     def test_bifurcate_redemption(self):
-        # Returns (has_redemption, redemption, other)
+        # Returns (has_mixed_redemption, redemption, other)
         expected = (
             False,
             [],
@@ -155,6 +172,16 @@ class WikiCardDbTests(unittest.TestCase):
         )
         actual = wiki_card_db.bifurcate_redemption(
             [self.johnny_mm, self.johnny_toc_redem]
+        )
+        self.assertEqual(expected, actual)
+
+        expected = (
+            False,
+            [],
+            [copy.deepcopy(self.agami)]
+        )
+        actual = wiki_card_db.bifurcate_redemption(
+            [self.agami]
         )
         self.assertEqual(expected, actual)
 
@@ -202,6 +229,49 @@ class WikiCardDbTests(unittest.TestCase):
         pass
 
 
+    def test_bifurcate_38s(self):
+        # Returns (has_38s, the38s, other)
+
+        # First a card left untouched.
+        expected = (
+            False,
+            [],
+            [self.dew_cota]
+        )
+        actual = wiki_card_db.bifurcate_38s(
+            [self.dew_cota]
+        )
+        self.assertEqual(expected, actual)
+
+        # Next a prophecy.
+        heads_updated = copy.deepcopy(self.heads)
+        heads_updated["house"] = None
+        heads_updated["card_type"] = "38th Card"
+        expected = (
+            True,
+            [heads_updated],
+            []
+        )
+        actual = wiki_card_db.bifurcate_38s(
+            [self.heads]
+        )
+        self.assertEqual(expected, actual)
+
+        # And an Archon Power.
+        chari_updated = copy.deepcopy(self.chari)
+        chari_updated["house"] = None
+        chari_updated["card_type"] = "38th Card"
+        expected = (
+            True,
+            [chari_updated],
+            []
+        )
+        actual = wiki_card_db.bifurcate_38s(
+            [self.chari]
+        )
+        self.assertEqual(expected, actual)
+
+
     def test_process_skyjedi_card_batch(self):
         # From other tests above, get all the inputs and all
         # the expectations. Together run the whole shebang
@@ -227,6 +297,15 @@ class WikiCardDbTests(unittest.TestCase):
         taengoo_mcw_updated["card_title"] = \
             "Agent Taengoo (Ironyx Rebels)"
 
+        # Prophecies and Archon Powers just get some
+        # schema manipulation.
+        heads_updated = copy.deepcopy(self.heads)
+        heads_updated["house"] = None
+        heads_updated["card_type"] = "38th Card"
+        chari_updated = copy.deepcopy(self.chari)
+        chari_updated["house"] = None
+        chari_updated["card_type"] = "38th Card"
+
         expected = [
             # Some single no-bifurcate cards.
             self.dew_cota, self.fear_cota,
@@ -241,6 +320,9 @@ class WikiCardDbTests(unittest.TestCase):
             # card also starts with the suffix.
             self.chuff_cota,
             chuff_mcw_updated, taengoo_mcw_updated,
+            # Prophecies and Archon Powers just get some
+            # schema manipulation.
+            heads_updated, chari_updated,
         ]
 
         actual = wiki_card_db.process_skyjedi_card_batch(
@@ -252,8 +334,11 @@ class WikiCardDbTests(unittest.TestCase):
                 self.johnny_mm, self.johnny_toc_redem,
                 self.chuff_cota,
                 self.chuff_mcw, self.taengoo_mcw,
+                self.heads, self.chari,
             ]
         )
 
         # Ignores order of lists.
         self.assertCountEqual(expected, actual)
+
+
